@@ -13,9 +13,11 @@ Som et eksempel på en applikasjon skal vi lage et web-API med tilhørende enhet
 
 For å unngå å være spesifikk for en gitt IDE eller plattform bruker workshopen .NET CLI som er et kommandolinjeverktøy som gir deg muligheten til å utvikle, bygge, kjøre og publisere .NET-applikasjoner. Du kan lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
 
+## Kom i gang
+
 For å komme i gang kan du lese [forutsetningene](#Forutsetninger) under, og utføre [steg 0](#steg-0---last-ned-koden).
 
-## Forutsetninger
+### Forutsetninger
 
 Det forutsettes at du har noen verktøy installert på maskinen din for å kunne gjennomføre stegene i workshopen. Verktøyene er oppsummert i listen under, og du finner et lite avsnitt om hvordan du kan installere hver av dem i de følgende seksjonene.
 
@@ -27,17 +29,17 @@ Det forutsettes at du har noen verktøy installert på maskinen din for å kunne
   - [Visual Studio](https://visualstudio.microsoft.com/vs/community)
   - [Visual Studio Code](https://code.visualstudio.com/download)
 
-### Git
+#### Git
 
 For å klone dette repoet til din egen maskin trenger du Git installert. Git er også nyttig for å f.eks. kunne se andre versjoner av dette repoet, og lage din egen branch.
 
 Git kan lastes ned for alle plattformer her: [https://git-scm.com/downloads](https://git-scm.com/downloads).
 
-### GitHub-bruker
+#### GitHub-bruker
 
 Du er også avhengig av å ha en bruker på GitHub for å kunne laste ned dette repoet. Dersom du ikke har bruker på GitHub kan du følge denne guiden på Confluence: [https://confluence.nrk.no/display/PLAT/Tilgang+til+Github](https://confluence.nrk.no/display/PLAT/Tilgang+til+Github)
 
-### .NET SDK
+#### .NET SDK
 
 Ettersom du skal kjøre .NET-applikasjoner og bruke .NET CLI for å opprette prosjektene som inngår i løsningen trenger du .NET SDK installert på maskinen din. Workshopen er laget med .NET 5, men de fleste kommandoene fungerer nok med lavere versjoner av .NET også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
 
@@ -49,7 +51,7 @@ $ dotnet --version
 
 Dersom du ikke har .NET installert på maskinen din, kan du laste det ned her: [https://dotnet.microsoft.com/download/dotnet/5.0](https://dotnet.microsoft.com/download/dotnet/5.0)
 
-### IDE
+#### IDE
 
 For å få syntax highlighting, autocomplete, og kodenaviering er det kjekt å ha en IDE. De mest brukte IDE-ene for .NET er oppsummert i tabellen under.
 
@@ -63,9 +65,9 @@ Velg den IDE-en som passer dine behov.
 
 > Merk at et vanlig use case for IDE-er er at de også blir brukt til å kompilere og kjøre kode. Denne workshopen kommer imidlertid til å benytte .NET CLI til dette.
 
-## Steg 0 - Gjøre klart for koding
+### Steg 0 - Gjøre klart for koding
 
-### Klone repo
+#### Klone repo
 
 Klon dette repoet med følgende kommando
 
@@ -90,7 +92,7 @@ $ git branch # List ut alle brancher du har sjekket ut lokalt
 * main
 ```
 
-### Sjekke ut egen branch
+#### Sjekke ut egen branch
 
 Før du begynner å kode kan du gjerne lage din egen branch med `git checkout -b <branchnavn>`. På denne måten kan du holde dine endringer adskilt fra koden som ligger i repoet fra før.
 
@@ -100,7 +102,7 @@ $ git checkout -b my-branch
 Switched to a new branch 'my-branch'
 ```
 
-### Sette opp .gitignore
+#### Sette opp .gitignore
 
 Vanligvis er det en del filer man ikke ønsker å ha inkludert i Git. Dette er noe man fort merker ved etablering av et nytt system. For å fortelle Git hvilke filer man vil ignorere, oppretter man en `.gitignore`-fil i roten av repoet. GitHub har et eget repo som inneholder `.gitignore`-filer for ulike typer prosjekter: [https://github.com/github/gitignore](https://github.com/github/gitignore). `.gitignore`-filene GitHub har utarbeidet inneholder de vanligste filene man ønsker å ignorere. Ettersom denne workshopen gjelder .NET kan vi bruke `VisualStudio.gitignore` fra repoet deres.
 
