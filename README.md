@@ -1,2 +1,626 @@
-# dotnetskolen
-Workshop for oppsett av .NET-prosjekter fra bunn
+# Dotnetskolen
+
+Velkommen til Dotnetskolen!
+
+Dette er en workshop hvor du blir tatt gjennom prosessen av å sette opp et .NET-prosjekt fra bunnen av, steg for steg. Målet er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
+
+- Opprette prosjekter og mappestruktur
+- Sette opp pakkehåndtering
+- Sette opp tester
+- Sette opp bygg og deploy
+
+Som en eksempel-applikasjon skal vi lage et web-API med tilhørende enhets- og integrasjonstester.
+
+For at workshopen skal kunne gjennomføres uavhengig av plattform og IDE skal vi bruke .NET CLI som er et kommandolinjeverktøy som gir oss muligheten til å utvikle, bygge, kjøre og publisere .NET-applikasjoner. Du kan lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
+
+## Innholdsfortegnelse
+
+- [Hva er .NET?](#hva-er-net)
+- [Hvordan komme i gang](#hvordan-komme-i-gang)
+  - [Nødvendige verktøy](#verktøy)
+  - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden)
+- [Workshop](#workshop)
+  - [Se fasit](#se-fasit)
+  - [Steg 1 - Opprette API](#steg-1---opprette-api)
+  - [Steg 2 - Opprette testprosjekter](#steg-2---opprette-testprosjekter)
+  - [Steg 3 - Opprette solution](#steg-3---opprette-solution)
+
+## Hva er .NET?
+
+.NET er en plattform for å utvikle og kjøre applikasjoner, og består av flere ting:
+
+- Programmeringsspråk - som f.eks. C# og F#
+- Kompilatorer - kompilerer kode skrevet i et .NET-programmeringsspråk til CIL ("common intermediate language")
+- CIL ("common intermediate language") - et felles språk som alle .NET-programmer blir kompilert til
+- CLR ("common language runtime") - kjøretidsmiljø for .NET-programmer som oversetter instruksjonene definert i CIL til maskinkode, og kjører maskinkoden
+- BCL ("base class library") - en stor samling biblioteker skrevet av Microsoft som tilbyr standard funksjonalitet som f.eks. datastrukturer (lister, datoer etc.), IO (lesing og skriving av filer, nettverkshåndtering) og sikkerhet (kryptering, sertifikater).
+
+<div align="center">
+  <img src="./illustrasjoner/dotnet-arkitektur.drawio.svg"></img>
+</div>
+
+### Versjoner av .NET
+
+Opprinnelig var .NET kun tilgjengelig på Windows. Denne versjonen av .NET omtales som .NET Framework. Etter hvert kom implementasjoner av kjøretidsmiljøet til andre plattformer også, som Mono til Linux og Mac, og Xamarin til Android og iOS. Både Mono og Xamarin var opprinnelig drevet av andre selskaper enn Microsoft. I 2016 lanserte Microsoft en ny versjon av .NET, .NET Core, som er en implementasjon av .NET for alle plattformer (Windows, Mac og Linux). .NET Core gikk gjennom tre hovedversjoner, i parallell med .NET Framework som nådde sin siste versjon, 4.8, i 2019. .NET Framework blir ikke videreutviklet, og i 2020 lanserte Microsoft .NET 5 som er den nyeste versjon av .NET Core. .NET 5 er den versjonen Microsoft vil fortsette å utvikle fremover.
+
+#### Kilder
+
+- [https://en.wikipedia.org/wiki/Common_Intermediate_Language](https://en.wikipedia.org/wiki/Common_Intermediate_Language)
+- [https://docs.microsoft.com/en-us/dotnet/standard/clr](https://docs.microsoft.com/en-us/dotnet/standard/clr)
+- [https://www.mono-project.com/](https://www.mono-project.com/)
+- [https://dotnet.microsoft.com/apps/xamarin](https://dotnet.microsoft.com/apps/xamarin)
+- [https://en.wikipedia.org/wiki/.NET_Framework](https://en.wikipedia.org/wiki/.NET_Framework)
+- [https://en.wikipedia.org/wiki/.NET_Core](https://en.wikipedia.org/wiki/.NET_Core)
+
+## Hvordan komme i gang
+
+Påse at du har de [verktøyene](#verktøy) som kreves for å gjennomføre workshopen. Deretter kan du [sette opp koden lokalt](#lokalt-oppsett-av-koden), og gå i gang med [første steg](#steg-1---opprette-api).
+
+### Verktøy
+
+For å gjennomføre workshopen må du ha satt opp følgende:
+
+- [Git](#Git)
+- [GitHub-bruker](#GitHub-bruker)
+- [.NET SDK](#NET-SDK)
+- [En IDE](#IDE)
+  - [Rider](https://www.jetbrains.com/rider/download)
+  - [Visual Studio](https://visualstudio.microsoft.com/vs/community)
+  - [Visual Studio Code](https://code.visualstudio.com/download)
+
+#### Git
+
+Git er et gratis versjonshåndteringssystem som finnes til alle plattformer. Dersom du ønsker å ha instruksjonene til workshopen (dokumentet du leser nå), eller se forventet resultat etter å ha gjennomført hvert av de ulike stegene, på din egen maskin trenger du Git installert. Med Git kan du også lage din egen versjon av dette repoet slik som forklart [her](#sjekke-ut-egen-branch). 
+
+Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/downloads).
+
+#### .NET SDK
+
+Ettersom du skal kjøre .NET-applikasjoner og bruke .NET CLI for å opprette prosjektene som inngår i løsningen trenger du .NET SDK installert på maskinen din. Workshopen er laget med .NET 5, men de fleste kommandoene fungerer nok med lavere versjoner av .NET, og vil trolig være tilgjengelig i fremtidige versjoner. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
+
+``` bash
+$ dotnet --version
+
+5.0.103
+```
+
+Dersom du ikke har .NET installert på maskinen din, kan du laste det ned her: [https://dotnet.microsoft.com/download/dotnet](https://dotnet.microsoft.com/download/dotnet)
+
+#### IDE
+
+For å få syntax highlighting, autocomplete, og kodenavigering er det kjekt å ha en IDE. De mest brukte IDE-ene for .NET er oppsummert i tabellen under.
+
+| Navn | Plattform | Lisens | Download |
+| - | - | - | - |
+| Visual Studio|Windows | Community-versjon er gratis. Øvrige versjoner krever lisens. |[https://visualstudio.microsoft.com/vs/community](https://visualstudio.microsoft.com/vs/community)|
+| Visual Studio Code | Kryssplattform | Gratis | [https://code.visualstudio.com/download](https://code.visualstudio.com/download) |
+| Rider | Kryssplattform | Gratis i 30 dager. Deretter kreves lisens. | [https://www.jetbrains.com/rider/download](https://www.jetbrains.com/rider/download) |
+
+Velg den IDE-en som passer dine behov.
+
+> Merk at et vanlig use case for IDE-er er at de også blir brukt til å kompilere og kjøre kode. Instruksjonene i workshopen kommer imidlertid til å benytte .NET CLI til dette. Du står selvfølgelig fritt frem til å bygge og kjøre koden ved hjelp av din IDE hvis du ønsker det.
+
+### Lokalt oppsett av koden
+
+#### Klone repo
+
+Dersom du ønsker dette repoet lokalt på din maskin, kan du gjøre det med følgende kommando
+
+``` bash
+$ git clone git@github.com:nrkno/dotnetskolen.git # Last ned repo fra GitHub til din maskin
+
+Cloning into 'dotnetskolen'...
+remote: Enumerating objects: 9, done.
+remote: Counting objects: 100% (9/9), done.
+remote: Compressing objects: 100% (5/5), done.
+remote: Total 9 (delta 2), reused 4 (delta 1), pack-reused 0
+Receiving objects: 100% (9/9), done.
+Resolving deltas: 100% (2/2), done.
+```
+
+Da skal nå ha `main`-branchen sjekket ut lokalt på din maskin. Det kan du verifisere ved å kjøre følgende kommandoer
+
+``` bash
+$ cd dotnetskolen # Gå inn i mappen som repoet ligger i lokalt
+$ git branch # List ut alle brancher du har sjekket ut lokalt
+
+* main
+```
+
+#### Sjekke ut egen branch
+
+Før du begynner å kode kan du gjerne lage din egen branch med `git checkout -b <branchnavn>`. På denne måten kan du holde dine endringer adskilt fra koden som ligger i repoet fra før.
+
+``` bash
+$ git checkout -b my-branch
+
+Switched to a new branch 'my-branch'
+```
+
+#### Sette opp .gitignore
+
+Vanligvis er det en del filer man ikke ønsker å ha inkludert i Git. Dette er noe man fort merker ved etablering av et nytt system. For å fortelle Git hvilke filer man vil ignorere, oppretter man en `.gitignore`-fil i roten av repoet.
+
+GitHub har et eget repo som inneholder `.gitignore`-filer for ulike typer prosjekter: [https://github.com/github/gitignore](https://github.com/github/gitignore). `.gitignore`-filene GitHub har utarbeidet inneholder filtypene det er vanligst å utelate fra Git for de ulike prosjekttypene. Ettersom denne workshopen omhandler .NET kan vi bruke `VisualStudio.gitignore` fra repoet deres.
+
+For å sette opp `.gitignore` i ditt lokale repo: opprett en tekstfil med navn `.gitignore` i roten av repoet, og lim inn innholdet i denne filen: [https://github.com/github/gitignore/blob/master/VisualStudio.gitignore](https://github.com/github/gitignore/blob/master/VisualStudio.gitignore) Husk å lagre og commite `.gitignore`-filen etterpå.
+
+## Workshop
+
+Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt, er du klar til å begynne på selve workshopen!
+
+### Se "fasit"
+
+Dersom du ønsker å se den forventede tilstanden til repoet etter å ha utført de ulike stegene i workshopen, kan du sjekke ut branchen med korresponderende navn som seksjonen du ønsker å se på. F.eks. hvis du vil se hvordan repoet ser ut etter "Steg 1 - Opprette API", kan du sjekke ut branchen `steg-1` slik:
+
+``` bash
+$ git checkout steg-1
+
+Switched to branch 'steg-1'
+```
+
+### Steg 1 - Opprette API
+
+I dette steget starter vi med et repo helt uten kode, og bruker .NET CLI til å opprette vårt første prosjekt `NRK.Dotnetskolen.Api`.
+
+#### Dotnet new
+
+Som nevnt i [innledningen](#dotnetskolen) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange kommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet)
+
+```bash
+$ dotnet --help
+
+.NET SDK (5.0.103)
+Usage: dotnet [runtime-options] [path-to-application] [arguments]
+
+Execute a .NET application.
+
+runtime-options:
+  --additionalprobingpath <path>   Path containing probing policy and assemblies to probe for.
+  --additional-deps <path>         Path to additional deps.json file.
+  --depsfile                       Path to <application>.deps.json file.
+  --fx-version <version>           Version of the installed Shared Framework to use to run the application.
+  --roll-forward <setting>         Roll forward to framework version  (LatestPatch, Minor, LatestMinor, Major, LatestMajor, Disable).
+  --runtimeconfig                  Path to <application>.runtimeconfig.json file.
+
+path-to-application:
+  The path to an application .dll file to execute.
+
+Usage: dotnet [sdk-options] [command] [command-options] [arguments]
+
+Execute a .NET SDK command.
+
+sdk-options:
+  -d|--diagnostics  Enable diagnostic output.
+  -h|--help         Show command line help.
+  --info            Display .NET information.
+  --list-runtimes   Display the installed runtimes.
+  --list-sdks       Display the installed SDKs.
+  --version         Display .NET SDK version in use.
+
+SDK commands:
+  add               Add a package or reference to a .NET project.
+  build             Build a .NET project.
+  build-server      Interact with servers started by a build.
+  clean             Clean build outputs of a .NET project.
+  help              Show command line help.
+  list              List project references of a .NET project.
+  msbuild           Run Microsoft Build Engine (MSBuild) commands.
+  new               Create a new .NET project or file.
+  nuget             Provides additional NuGet commands.
+  pack              Create a NuGet package.
+  publish           Publish a .NET project for deployment.
+  remove            Remove a package or reference from a .NET project.
+  restore           Restore dependencies specified in a .NET project.
+  run               Build and run a .NET project output.
+  sln               Modify Visual Studio solution files.
+  store             Store the specified assemblies in the runtime package store.
+  test              Run unit tests using the test runner specified in a .NET project.
+  tool              Install or manage tools that extend the .NET experience.
+  vstest            Run Microsoft Test Engine (VSTest) commands.
+
+Additional commands from bundled tools:
+  dev-certs         Create and manage development certificates.
+  fsi               Start F# Interactive / execute F# scripts.
+  sql-cache         SQL Server cache command-line tools.
+  user-secrets      Manage development user secrets.
+  watch             Start a file watcher that runs a command when files change.
+
+Run 'dotnet [command] --help' for more information on a command.
+```
+
+#### Maler
+
+For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. Som første parameter tar `new`-kommandoen inn hva slags type prosjekt som skal opprettes. Når man installerer .NET SDK får man nemlig med et sett med forhåndsdefinerte prosjektmaler for vanlige typer prosjekter. For å se malene som er installert på din maskin kan du kjøre følgende kommando
+
+```bash
+$ dotnet new
+
+Templates                                         Short Name               Language          Tags
+--------------------------------------------      -------------------      ------------      ----------------------
+Console Application                               console                  [C#], F#, VB      Common/Console        
+Class library                                     classlib                 [C#], F#, VB      Common/Library        
+WPF Application                                   wpf                      [C#], VB          Common/WPF
+WPF Class library                                 wpflib                   [C#], VB          Common/WPF
+WPF Custom Control Library                        wpfcustomcontrollib      [C#], VB          Common/WPF
+WPF User Control Library                          wpfusercontrollib        [C#], VB          Common/WPF
+Windows Forms App                                 winforms                 [C#], VB          Common/WinForms       
+Windows Forms Control Library                     winformscontrollib       [C#], VB          Common/WinForms       
+Windows Forms Class Library                       winformslib              [C#], VB          Common/WinForms       
+Worker Service                                    worker                   [C#], F#          Common/Worker/Web     
+Unit Test Project                                 mstest                   [C#], F#, VB      Test/MSTest
+NUnit 3 Test Project                              nunit                    [C#], F#, VB      Test/NUnit
+NUnit 3 Test Item                                 nunit-test               [C#], F#, VB      Test/NUnit
+xUnit Test Project                                xunit                    [C#], F#, VB      Test/xUnit
+Razor Component                                   razorcomponent           [C#]              Web/ASP.NET
+Razor Page                                        page                     [C#]              Web/ASP.NET
+MVC ViewImports                                   viewimports              [C#]              Web/ASP.NET
+MVC ViewStart                                     viewstart                [C#]              Web/ASP.NET
+Blazor Server App                                 blazorserver             [C#]              Web/Blazor
+Blazor WebAssembly App                            blazorwasm               [C#]              Web/Blazor/WebAssembly
+ASP.NET Core Empty                                web                      [C#], F#          Web/Empty
+ASP.NET Core Web App (Model-View-Controller)      mvc                      [C#], F#          Web/MVC
+ASP.NET Core Web App                              webapp                   [C#]              Web/MVC/Razor Pages
+ASP.NET Core with Angular                         angular                  [C#]              Web/MVC/SPA
+ASP.NET Core with React.js                        react                    [C#]              Web/MVC/SPA
+ASP.NET Core with React.js and Redux              reactredux               [C#]              Web/MVC/SPA
+Razor Class Library                               razorclasslib            [C#]              Web/Razor/Library
+ASP.NET Core Web API                              webapi                   [C#], F#          Web/WebAPI
+ASP.NET Core gRPC Service                         grpc                     [C#]              Web/gRPC
+dotnet gitignore file                             gitignore                                  Config
+global.json file                                  globaljson                                 Config
+NuGet Config                                      nugetconfig                                Config
+Dotnet local tool manifest file                   tool-manifest                              Config
+Web Config                                        webconfig                                  Config
+Solution File                                     sln                                        Solution
+Protocol Buffer File                              proto                                      Web/gRPC
+
+Examples:
+    dotnet new mvc --auth Individual
+    dotnet new mstest
+    dotnet new --help
+    dotnet new nunit --help
+```
+
+I tillegg til å styre hva slags type prosjekt man vil opprette med `new`-kommandoen, har man mulighet til å styre ting som hvilket språk man ønsker prosjektet skal opprettes for, og i hvilken mappe prosjektet opprettes i. For å se alle valgene man har i `dotnet new` kan du kjøre følgende kommando
+
+```bash
+$ dotnet new
+
+Usage: new [options]
+
+Options:
+  -h, --help          Displays help for this command.
+  -l, --list          Lists templates containing the specified name. If no name is specified, lists all templates.
+  -n, --name          The name for the output being created. If no name is specified, the name of the current directory is used.
+  -o, --output        Location to place the generated output.
+  -i, --install       Installs a source or a template pack.
+  -u, --uninstall     Uninstalls a source or a template pack.
+  --interactive       Allows the internal dotnet restore command to stop and wait for user input or action (for example to complete authentication).
+  --nuget-source      Specifies a NuGet source to use during install.
+  --type              Filters templates based on available types. Predefined values are "project", "item" or "other".
+  --dry-run           Displays a summary of what would happen if the given command line were run if it would result in a template creation.
+  --force             Forces content to be generated even if it would change existing files.
+  -lang, --language   Filters templates based on language and specifies the language of the template to create.
+  --update-check      Check the currently installed template packs for updates.
+  --update-apply      Check the currently installed template packs for update, and install the updates.
+```
+
+#### Opprette API-prosjektet
+
+Som du ser av malene som er listet ut over, er det en innebygget mal for web-API som heter `webapi`. Vi kommer imidlertid til å opprette API-et vårt ved å bruke malen `console` for å lære mest mulig om å sette opp prosjektet helt fra bunnen av.
+
+Forutsatt at du står i roten av repoet, kan du kjøre følgende kommando for å opprette API-prosjektet
+
+```bash
+$ dotnet new console --language F# --output src/api --name NRK.Dotnetskolen.Api
+
+The template "Console Application" was created successfully.
+
+Processing post-creation actions...
+Running 'dotnet restore' on src/api\NRK.Dotnetskolen.Api.fsproj...
+  Determining projects to restore...
+  Restored C:\Dev\nrkno@github.com\dotnetskolen\src\api\NRK.Dotnetskolen.Api.fsproj (in 101 ms).
+Restore succeeded.
+```
+
+I kommandoen over brukte vi `--language`-argumentet for å oppgi at vi ønsket et F#-prosjekt. I tillegg brukte vi `--output` for å oppgi hvor vi ønsket at prosjektet skulle ligge relativt til der vi kjører kommandoen fra, og `--name` til å styre navnet på prosjektet.
+
+> Merk at istedenfor `--language`, `--output` og `--name`, kunne vi brukt forkortelsene `-lang`, `-o` og `-n`.
+
+Du skal nå ha en filstruktur som ser slik ut
+
+```
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Program.fs
+```
+
+Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med `NRK.Dotnetskolen.Api.fsproj` og `Program.fs` i `src/api`.
+
+Navnet til prosjektet `NRK.Dotnetskolen.Api.fsproj` følger Microsoft sin navnekonvensjon for programmer og biblioteker i .NET. For å lese mer om denne, og andre navnekonvensjoner, i .NET kan du se her: [https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls)
+
+> Mappestrukturen over er ment som et forslag, og de videre stegene i workshopen bygger på denne. Hvis du bruker workshopen som inspirasjon eller veiledning til å opprette ditt eget prosjekt, trenger du ikke følge denne mappestrukturen. Hvordan du strukturerer mappene i ditt system er opp til deg, og er avhengig aspekter som størrelse på systemet, antall prosjekter, og personlige preferanser.
+
+#### Kjøre API-prosjektet
+
+For å kjøre prosjektet som ble opprettet over kan du kjøre følgende kommando
+
+```bash
+$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
+
+Hello world from F#
+```
+
+Alternativt kan du gå til mappen hvor prosjektet ligger, og kjøre `dotnet run` derfra, slik som vist under
+
+```bash
+$ cd src/api
+$ dotnet run
+
+Hello world from F#
+```
+
+### Steg 2 - Opprette testprosjekter
+
+I dette steget skal vi opprette to testprosjekter
+
+- Ett for enhetstester - `NRK.Dotnetskolen.UnitTests`
+- Ett for integrasjonstester - `NRK.Dotnetskolen.IntegrationTests`
+
+For å gjøre dette bruker vi fortsatt `dotnet new`-kommandoen, men denne gangen velger vi en annen [mal](#maler) enn da vi opprettet API-prosjektet. Når man installerer .NET SDK følger det med flere maler for testprosjekter som korresponderer til ulike rammeverk som finnes for å detektere og kjøre tester:
+
+- xUnit
+- nUnit
+- MSTest
+
+I denne workshopen kommer vi til å bruke xUnit. Dette valget er litt vilkårlig ettersom alle rammeverkene over vil være tilstrekkelig til formålet vårt, som er å vise hvordan man kan sette opp testprosjekter og komme i gang med å skrive tester. Dersom du ønsker å vite mer om de ulike testrammeverkene, kan du lese mer om dem her: [https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools](https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools)
+
+#### Opprette enhetstestprosjekt
+
+Forutsatt at du er i rotmappen til repoet, kan du kjøre følgende kommando for å opprette enhetstestprosjektet
+
+```bash
+$ dotnet new xunit -lang F# -o test/unit -n NRK.Dotnetskolen.UnitTests
+
+The template "xUnit Test Project" was created successfully.
+
+Processing post-creation actions...
+Running 'dotnet restore' on test/unit\NRK.Dotnetskolen.UnitTests.fsproj...
+  Determining projects to restore...
+  Restored C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj (in 1.31 sec).
+Restore succeeded.
+```
+
+Du skal nå ha følgende mappestruktur
+
+```
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Program.fs
+test
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+```
+
+For å kjøre testene i enhetstestprosjektet kan du kjøre følgende kommando
+
+```bash
+$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Unit -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
+Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.9.1
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 2 ms - Unit.dll (net5.0)
+```
+
+#### Opprette integrasjonstestprosjekt
+
+For å opprette integrasjonstestprosjektet, kan du kjøre samme kommando som da du [opprettet enhetstestprosjektet](#opprette-enhetstestprosjekt), men bytt ut `Unit` med `Integration`, som vist under
+
+```bash
+$ dotnet new xunit -lang F# -o test/integration -n NRK.Dotnetskolen.IntegrationTests
+
+The template "xUnit Test Project" was created successfully.
+
+Processing post-creation actions...
+Running 'dotnet restore' on test/integration\NRK.Dotnetskolen.IntegrationTests.fsproj...
+  Determining projects to restore...
+  Restored C:\Dev\nrkno@github.com\dotnetskolen\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj (in 580 ms).
+Restore succeeded.
+```
+
+Du skal nå ha følgende mappestruktur
+
+```
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Program.fs
+test
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── integration
+    └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+```
+
+For å kjøre testene i integrasjonstestprosjektet kan du kjøre følgende kommando
+
+```bash
+$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Integration -> C:\Dev\nrkno@github.com\dotnetskolen\test\integration\bin\Debug\net5.0\NRK.Dotnetskolen.IntegrationTests.dll
+Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\integration\bin\Debug\net5.0\NRK.Dotnetskolen.IntegrationTests.dll (.NETCoreApp,Version=v5.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.9.1
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 2 ms - Integration.dll (net5.0)
+```
+
+### Steg 3 - Opprette solution
+
+Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme repo, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker og kjøre alle testene kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
+
+For å opprette en solution med `dotnet` kan du kjøre følgende kommando i roten av repoet
+
+```bash
+$ dotnet new sln -n Dotnetskolen
+
+The template "Solution File" was created successfully.
+```
+
+Du skal nå ha fått filen `Dotnetskolen.sln` slik som vist under
+
+```
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Program.fs
+test
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── integration
+    └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── Dotnetskolen.sln
+```
+
+Hvis vi ser på innholdet i `Dotnetskolen.sln` ser vi at det ikke er noen referanser til prosjektene våre enda
+
+```txt
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.6.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
+
+```
+
+For å legge til referanser til prosjektene du har opprettet kan du kjøre følgende kommandoer
+
+```bash
+$ dotnet sln add src/api/NRK.Dotnetskolen.Api.fsproj
+
+Project `src\api\NRK.Dotnetskolen.Api.fsproj` added to the solution.
+
+$ dotnet sln add test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+
+Project `test\unit\NRK.Dotnetskolen.UnitTests.fsproj` added to the solution.
+
+$ dotnet sln add test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+
+Project `test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj` added to the solution.
+```
+
+Nå ser vi at `Dotnetskolen.sln` inneholder referanser til prosjektene våre
+
+```txt
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.6.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{85408E80-C00B-4181-B373-74A405F33698}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.Api", "src\api\NRK.Dotnetskolen.Api.fsproj", "{DF2C7094-8E44-41BD-9E60-8216E0E8D208}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F02B667A-C215-450E-8D1F-5C7D3CABEC8E}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.UnitTests", "test\unit\NRK.Dotnetskolen.UnitTests.fsproj", "{14EC2373-1275-4832-9846-B123FDD2EF85}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.IntegrationTests", "test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj", "{CDDC8C7D-A935-4376-9112-4866A960C885}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Debug|x64.Build.0 = Debug|Any CPU
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Debug|x86.Build.0 = Debug|Any CPU
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Release|x64.ActiveCfg = Release|Any CPU
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Release|x64.Build.0 = Release|Any CPU
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Release|x86.ActiveCfg = Release|Any CPU
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208}.Release|x86.Build.0 = Release|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Debug|x64.Build.0 = Debug|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Debug|x86.Build.0 = Debug|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Release|x64.ActiveCfg = Release|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Release|x64.Build.0 = Release|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Release|x86.ActiveCfg = Release|Any CPU
+		{14EC2373-1275-4832-9846-B123FDD2EF85}.Release|x86.Build.0 = Release|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Debug|x64.Build.0 = Debug|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Debug|x86.Build.0 = Debug|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Release|x64.ActiveCfg = Release|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Release|x64.Build.0 = Release|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Release|x86.ActiveCfg = Release|Any CPU
+		{CDDC8C7D-A935-4376-9112-4866A960C885}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DF2C7094-8E44-41BD-9E60-8216E0E8D208} = {85408E80-C00B-4181-B373-74A405F33698}
+		{14EC2373-1275-4832-9846-B123FDD2EF85} = {F02B667A-C215-450E-8D1F-5C7D3CABEC8E}
+		{CDDC8C7D-A935-4376-9112-4866A960C885} = {F02B667A-C215-450E-8D1F-5C7D3CABEC8E}
+	EndGlobalSection
+EndGlobal
+
+```
