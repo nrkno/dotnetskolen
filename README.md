@@ -11,7 +11,7 @@ Dette er en workshop hvor du blir tatt gjennom prosessen av å sette opp et .NET
 
 Som et eksempel på en applikasjon skal vi lage et web-API med tilhørende enhets- og integrasjonstester.
 
-For å unngå å være spesifikk for en gitt IDE eller plattform bruker workshopen .NET CLI. .NET CLI er et kommandolinjeverktøy som gir deg muligheten til å utvikle, bygge, kjøre og publisere .NET-applikasjoner. Du kan lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
+For å unngå å være spesifikk for en gitt IDE eller plattform bruker workshopen .NET CLI som er et kommandolinjeverktøy som gir deg muligheten til å utvikle, bygge, kjøre og publisere .NET-applikasjoner. Du kan lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
 
 For å komme i gang kan du lese [forutsetningene](#Forutsetninger) under, og utføre [steg 0](#steg-0---last-ned-koden).
 
