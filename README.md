@@ -15,7 +15,7 @@ For å unngå å være spesifikk for en gitt IDE eller plattform bruker workshop
 
 ## Kom i gang
 
-For å komme i gang kan du lese [forutsetningene](#Forutsetninger) under, og utføre [steg 0](#steg-0---last-ned-koden).
+For å komme i gang kan du lese [forutsetningene](#Forutsetninger) under, og utføre [steg 0](#steg-0---gjøre-klart-for-koding).
 
 ### Forutsetninger
 
