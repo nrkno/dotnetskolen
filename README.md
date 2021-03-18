@@ -31,13 +31,13 @@ Det forutsettes at du har noen verktøy installert på maskinen din for å kunne
 
 #### Git
 
-For å klone dette repoet til din egen maskin trenger du Git installert. Git er også nyttig for å f.eks. kunne se andre versjoner av dette repoet, og lage din egen branch.
+For å laste ned dette repoet til din egen maskin trenger du Git installert. Git er også nyttig for å f.eks. kunne se andre versjoner av dette repoet, og lage din egen branch.
 
 Git kan lastes ned for alle plattformer her: [https://git-scm.com/downloads](https://git-scm.com/downloads).
 
 #### GitHub-bruker
 
-Du er også avhengig av å ha en bruker på GitHub for å kunne laste ned dette repoet. Dersom du ikke har bruker på GitHub kan du følge denne guiden på Confluence: [https://confluence.nrk.no/display/PLAT/Tilgang+til+Github](https://confluence.nrk.no/display/PLAT/Tilgang+til+Github)
+Du er også avhengig av å ha en bruker på GitHub med tilgang til NRK sin GitHub-organisasjon for å kunne laste ned dette repoet. Dersom du ikke har bruker på GitHub, eller ikke har tilgang til NRK sin GitHub-organisasjon, kan du følge denne guiden på Confluence: [https://confluence.nrk.no/display/PLAT/Tilgang+til+Github](https://confluence.nrk.no/display/PLAT/Tilgang+til+Github)
 
 #### .NET SDK
 
