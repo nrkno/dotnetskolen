@@ -24,6 +24,7 @@ For at workshopen skal kunne gjennomføres uavhengig av plattform og IDE skal vi
   - [Steg 1 - Opprette API](#steg-1---opprette-api)
   - [Steg 2 - Opprette testprosjekter](#steg-2---opprette-testprosjekter)
   - [Steg 3 - Opprette solution](#steg-3---opprette-solution)
+  - [Steg 4 - Pakkehåndtering](#steg-4---pakkehåndtering)
 
 ## Hva er .NET?
 
@@ -643,3 +644,139 @@ Global
 EndGlobal
 
 ```
+
+### Steg 4 - Pakkehåndtering
+
+Siden vi har behov for å installere NuGet-pakker senere i workshopen, setter vi opp Paket for løsningen nå. [Første avsnitt](#nuget-og-paket) under introduserer konseptene NuGet og Paket, og [andre avsnitt](#sette-opp-paket) forklarer hvordan man setter opp Paket i en .NET-løsning.
+
+#### NuGet og Paket
+
+Basebiblioteket i .NET inneholder mye grunnleggende funksjonalitet, men det inneholder ikke alt. Derfor er det et behov for at utviklere over hele verden kan dele koden sin med hverandre. De facto måte å dele kode i .NET på er via "NuGet". NuGet er både et offentlig repo for tredjepartsbiblioteker, som er tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/), og et verktøy for å laste opp og ned "NuGet-pakker" fra dette repoet.
+
+Nuget som verktøy for å håndtere pakker i et prosjekt har imidlertid noen utfordringer. 
+
+- Transitive avhengigheter - Dersom et prosjekt har en avhengighet til `SomeNuGetPackage`, og `SomeNuGetPackage` har en avhengighet til `SomeOtherNuGetPackage`, er `SomeOtherNuGetPackage` en transitiv avhengighet i prosjektet ditt. NuGet skiller ikke transitive avhengigheter fra direkte avhengigheter i `packages.config`. Dermed har man ikke kontroll på hvilke avhengigheter i `packages.config` som er direkte, og hvilke som er transitive.
+- En annen utfordring med NuGet er at dersom to pakker refererer ulike versjoner av en annen pakke, vil NuGet velge den siste versjonen av pakken. 
+- I tillegg må hvert prosjekt i en solution definere hvilke avhengigheter det har, og hvilken versjon. Dermed kan prosjekter i samme solution ha ulike versjoner av samme pakke. Dette kan skape problemer.
+
+Verktøyet "Paket" forsøker å løse utfordringene nevnt over, og er mye brukt i NRK. Derfor blir Paket brukt i denne workshopen.
+
+> Merk at selv om man bruker Paket som verktøy for å håndtere tredjepartsavhengigheter i en .NET-løsning, benytter man fortsatt NuGet sitt offentlige repo for å laste opp og ned avhengighetene.
+
+##### Kilder
+
+- [https://fsprojects.github.io/Paket/faq.html#I-do-not-understand-why-I-need-Paket-to-manage-my-packages-Why-can-t-I-just-use-NuGet-exe-and-packages-config](https://fsprojects.github.io/Paket/faq.html#I-do-not-understand-why-I-need-Paket-to-manage-my-packages-Why-can-t-I-just-use-NuGet-exe-and-packages-config)
+
+#### Sette opp Paket
+
+Paket finnes som en utvidelse (også kalt "tool") til .NET CLI. Utvidelser i .NET CLI kan enten installeres som globale (tilgjengelig for alle .NET-løsninger på maskinen), eller lokale (kun for prosjektet utvidelsen blir installert i). I denne workshopen installerer vi Paket lokalt for vår løsning. TODO: skrive hvorfor vi installerer lokalt.
+
+Lokale utvidelser av .NET CLI defineres i en egen fil `dotnet-tools.json` som ligger i en mappe `.config`. Ettersom denne filen ikke finnes enda, oppretter vi den ved å kjøre følgende kommando
+
+```bash
+$ dotnet new tool-manifest
+
+The template "Dotnet local tool manifest file" was created successfully.
+```
+
+Du skal nå ha fått `dotnet-tools.json`-filen i `.config`-mappen slik som vist under.
+
+```
+└── .config
+    └── dotnet-tools.json
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Program.fs
+test
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── integration
+    └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── Dotnetskolen.sln
+```
+
+`dotnet-tools.json` inneholder imidlertid ingen tools enda
+
+```json
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {}
+}
+```
+
+For å legge til Paket i listen over tools løsningen skal ha kan du kjøre følgende kommando
+
+```bash
+$ dotnet tool install paket
+
+You can invoke the tool from this directory using the following commands: 'dotnet tool run paket' or 'dotnet paket'.
+Tool 'paket' (version '5.257.0') was successfully installed. Entry is added to the manifest file C:\Dev\nrkno@github.com\dotnetskolen\.config\dotnet-tools.json. 
+```
+
+Nå ser vi at Paket er lagt til i listen over tools i `dotnet-tools.json`
+
+```txt
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "paket": {
+      "version": "5.257.0",
+      "commands": [
+        "paket"
+      ]
+    }
+  }
+}
+```
+
+For å installere Paket på maskinen din kan du kjøre følgende kommando
+
+```bash
+$ dotnet tool restore
+
+Tool 'paket' (version '5.257.0') was restored. Available commands: paket
+
+Restore was successful.
+```
+
+Paket bruker filen `paket.dependencies` til å holde oversikt over hvilken avhengigheter løsningen har. For å opprette denne kan du kjøre følgende kommando
+
+```bash
+$ dotnet paket init
+
+Paket version 5.257.0
+Saving file C:\Dev\nrkno@github.com\dotnetskolen\paket.dependencies
+Performance:
+ - Runtime: 500 milliseconds
+```
+
+Du skal nå ha følgende filer i repoet ditt
+
+```
+└── .config
+    └── dotnet-tools.json
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Program.fs
+test
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── integration
+    └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── Dotnetskolen.sln
+└── paket.dependencies
+```
+
+Nå er du klar til å legge til avhengigheter i prosjektet ditt.
