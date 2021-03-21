@@ -1,3 +1,3 @@
-# Steg 1 - Opprette API
+# Steg 2 - Opprette testprosjekter
 
-Fasit for [steg 1](https://github.com/nrkno/dotnetskolen/tree/main#steg-1---opprette-api).
+Fasit for [steg 2](https://github.com/nrkno/dotnetskolen/tree/main#steg-2---opprette-testprosjekter).
