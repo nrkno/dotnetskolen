@@ -651,7 +651,7 @@ Siden vi har behov for å installere NuGet-pakker senere i workshopen, setter vi
 
 #### NuGet og Paket
 
-Basebiblioteket i .NET inneholder mye grunnleggende funksjonalitet, men det inneholder ikke alt. Derfor er det et behov for at utviklere over hele verden kan dele koden sin med hverandre. De facto måte å dele kode i .NET på er via "NuGet". NuGet er både et offentlig repo for tredjepartsbiblioteker, som er tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/), og et verktøy for å laste opp og ned "NuGet-pakker" fra dette repoet.
+Basebiblioteket i .NET inneholder mye grunnleggende funksjonalitet, men det inneholder ikke alt. Derfor er det et behov for at utviklere over hele verden skal kunne dele koden sin med hverandre. De facto måte å dele kode i .NET på er via "NuGet". NuGet er både et offentlig repo for tredjepartsbiblioteker, som er tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/), og et verktøy for å laste opp og ned "NuGet-pakker" fra dette repoet.
 
 Nuget som verktøy for å håndtere pakker i et prosjekt har imidlertid noen utfordringer. 
 
