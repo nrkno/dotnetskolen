@@ -1,5 +1,12 @@
 # Dotnetskolen
 
+## TODO
+
+- Fjerne NuGet-referanser i prosjektene og gjøre om til Paket-referanser
+- Rename "workshop" -> "kurs"
+
+## Innledning
+
 Velkommen til Dotnetskolen!
 
 Dette er en workshop hvor du blir tatt gjennom prosessen av å sette opp et .NET-prosjekt fra bunnen av, steg for steg. Målet er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
