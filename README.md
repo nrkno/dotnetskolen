@@ -36,9 +36,7 @@ For at workshopen skal kunne gjennomføres uavhengig av plattform og IDE skal vi
 - CLR ("common language runtime") - kjøretidsmiljø for .NET-programmer som oversetter instruksjonene definert i CIL til maskinkode, og kjører maskinkoden
 - BCL ("base class library") - en stor samling biblioteker skrevet av Microsoft som tilbyr standard funksjonalitet som f.eks. datastrukturer (lister, datoer etc.), IO (lesing og skriving av filer, nettverkshåndtering) og sikkerhet (kryptering, sertifikater).
 
-<div align="center">
-  <img src="./illustrasjoner/dotnet-arkitektur.drawio.svg"></img>
-</div>
+![dotnet-arkitektur](./illustrasjoner/dotnet-arkitektur.drawio.svg)
 
 ### Versjoner av .NET
 
@@ -644,6 +642,10 @@ Global
 EndGlobal
 
 ```
+
+Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
+
+![Solution explorer i Visual Studio](./illustrasjoner/solution-explorer.png)
 
 ### Steg 4 - Pakkehåndtering
 
