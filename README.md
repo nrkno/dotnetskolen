@@ -62,7 +62,6 @@ Påse at du har de [verktøyene](#verktøy) som kreves for å gjennomføre works
 For å gjennomføre workshopen må du ha satt opp følgende:
 
 - [Git](#Git)
-- [GitHub-bruker](#GitHub-bruker)
 - [.NET SDK](#NET-SDK)
 - [En IDE](#IDE)
   - [Rider](https://www.jetbrains.com/rider/download)
