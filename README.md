@@ -924,6 +924,6 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 
 ```
 
-Nå er du klar til å legge til avhengigheter i prosjektet ditt.
+Nå er du klar til å legge til avhengigheter i prosjektet ditt!
 
 > Merk at vi kunne ha latt være å opprette testprosjektene med malen `xunit`, og heller satt opp testprosjektene fra bunnen av ved å bruke `console`-malen. Da hadde vi unngått å måtte migrere NuGet-pakkene til Paket. Kurset er imidlertid lagt opp på denne måten for å illustrere bruken av ulike maler i .NET SDK.
