@@ -59,7 +59,7 @@ For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Micros
 - [https://docs.microsoft.com/en-us/dotnet/standard/clr](https://docs.microsoft.com/en-us/dotnet/standard/clr)
 - [https://dotnet.microsoft.com/apps/xamarin](https://dotnet.microsoft.com/apps/xamarin)
 
-## Hvordan komme i gang
+## Hvordan komme i gang med kurset
 
 Påse at du har de [verktøyene](#verktøy) som kreves for å gjennomføre kurset. Deretter kan du [sette opp koden lokalt](#lokalt-oppsett-av-koden), og gå i gang med [første steg](#steg-1---opprette-api).
 
@@ -82,7 +82,7 @@ Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/do
 
 #### .NET SDK
 
-Ettersom du skal kjøre .NET-applikasjoner og bruke .NET CLI for å opprette prosjektene som inngår i løsningen trenger du .NET SDK installert på maskinen din. kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med lavere versjoner av .NET, og vil trolig være tilgjengelig i fremtidige versjoner. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
+Ettersom du skal kjøre .NET-applikasjoner og bruke .NET CLI for å opprette prosjektene som inngår i løsningen trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med lavere versjoner av .NET, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
 
 ``` bash
 $ dotnet --version
@@ -94,7 +94,7 @@ Dersom du ikke har .NET installert på maskinen din, kan du laste det ned her: [
 
 #### IDE
 
-For å få syntax highlighting, autocomplete, og kodenavigering er det kjekt å ha en IDE. De mest brukte IDE-ene for .NET er oppsummert i tabellen under.
+For å kunne debugge kode, samt få syntax highlighting, autocomplete, og kodenavigering er det kjekt å ha en IDE. De mest brukte IDE-ene for .NET er oppsummert i tabellen under.
 
 | Navn | Plattform | Lisens | Download |
 | - | - | - | - |
@@ -150,7 +150,11 @@ Vanligvis er det en del filer man ikke ønsker å ha inkludert i Git. Dette er n
 
 GitHub har et eget repo som inneholder `.gitignore`-filer for ulike typer prosjekter: [https://github.com/github/gitignore](https://github.com/github/gitignore). `.gitignore`-filene GitHub har utarbeidet inneholder filtypene det er vanligst å utelate fra Git for de ulike prosjekttypene. Ettersom dette kurset omhandler .NET kan vi bruke `VisualStudio.gitignore` fra repoet deres.
 
-For å sette opp `.gitignore` i ditt lokale repo: opprett en tekstfil med navn `.gitignore` i roten av repoet, og lim inn innholdet i denne filen: [https://github.com/github/gitignore/blob/master/VisualStudio.gitignore](https://github.com/github/gitignore/blob/master/VisualStudio.gitignore) Husk å lagre og commite `.gitignore`-filen etterpå.
+For å sette opp `.gitignore` i ditt lokale repo:
+
+1. Opprett en tekstfil med navn `.gitignore` i roten av repoet
+2. Lim inn innholdet i denne filen: [https://github.com/github/gitignore/blob/master/VisualStudio.gitignore](https://github.com/github/gitignore/blob/master/VisualStudio.gitignore) 
+3. Lagre og commite `.gitignore`-filen.
 
 ## Oppgaver
 
