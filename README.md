@@ -15,7 +15,7 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp et .NET-pro
 - Sette opp tester
 - Sette opp bygg og deploy
 
-Som en eksempel-applikasjon skal vi lage et web-API med tilhørende enhets- og integrasjonstester.
+(Som en eksempel-applikasjon skal vi lage et web-API med tilhørende enhets- og integrasjonstester.)
 
 For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bruke .NET CLI som er et kommandolinjeverktøy som gir oss muligheten til å utvikle, bygge, kjøre og publisere .NET-applikasjoner. Du kan lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
 
@@ -37,7 +37,7 @@ For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bru
 .NET er en plattform for å utvikle og kjøre applikasjoner, og består av flere ting:
 
 - Programmeringsspråk - som f.eks. C# og F#
-- Kompilatorer - kompilerer kode skrevet i et .NET-programmeringsspråk til CIL ("common intermediate language")
+- Kompilatorer - programmer som kompilerer kode skrevet i et .NET-programmeringsspråk til CIL ("common intermediate language")
 - CIL ("common intermediate language") - et felles språk som alle .NET-programmer blir kompilert til
 - CLR ("common language runtime") - kjøretidsmiljø for .NET-programmer som oversetter instruksjonene definert i CIL til maskinkode, og kjører maskinkoden
 - BCL ("base class library") - en stor samling biblioteker skrevet av Microsoft som tilbyr standard funksjonalitet som f.eks. datastrukturer (lister, datoer etc.), IO (lesing og skriving av filer, nettverkshåndtering) og sikkerhet (kryptering, sertifikater).
@@ -46,7 +46,7 @@ For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bru
 
 ### Versjoner av .NET
 
-Opprinnelig var .NET kun tilgjengelig på Windows. Denne versjonen av .NET omtales som .NET Framework. Etter hvert kom implementasjoner av kjøretidsmiljøet til andre plattformer også, som Mono til Linux og Mac, og Xamarin til Android og iOS. Både Mono og Xamarin var opprinnelig drevet av andre selskaper enn Microsoft. I 2016 lanserte Microsoft en ny versjon av .NET, .NET Core, som er en implementasjon av .NET for alle plattformer (Windows, Mac og Linux). .NET Core gikk gjennom tre hovedversjoner, i parallell med .NET Framework som nådde sin siste versjon, 4.8, i 2019. .NET Framework blir ikke videreutviklet, og i 2020 lanserte Microsoft .NET 5 som er den nyeste versjon av .NET Core. .NET 5 er den versjonen Microsoft vil fortsette å utvikle fremover.
+Opprinnelig var .NET kun tilgjengelig på Windows. Denne versjonen av .NET omtales som .NET Framework. Etter hvert kom implementasjoner av kjøretidsmiljøet til andre plattformer også, som Mono til Linux og Mac, og Xamarin til Android og iOS. Både Mono og Xamarin var opprinnelig drevet av andre selskaper enn Microsoft. I 2016 lanserte Microsoft en ny versjon av .NET, .NET Core, som er en implementasjon av .NET for alle plattformer (Windows, Mac og Linux). .NET Core gikk gjennom tre hovedversjoner, i parallell med .NET Framework som nådde sin siste versjon, 4.8, i 2019. .NET Framework blir ikke videreutviklet, og i 2020 lanserte Microsoft .NET 5 som er den nyeste versjon av .NET Core. .NET 5 er den versjonen Microsoft vil fortsette å utvikle fremover. For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Microsoft laget en spesifikasjon, .NET Standard. .NET Standard har flere versjoner, og de ulike versjonene av .NET (.NET Framework, .NET Core, Mono etc.) oppfyller kravene i en gitt versjon av .NET Standard. Les mer om .NET Standard, og kompatibilitet på tvers av .NET-versjoner her: [https://docs.microsoft.com/en-us/dotnet/standard/net-standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
 
 #### Kilder
 
