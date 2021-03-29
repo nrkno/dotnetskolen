@@ -983,7 +983,7 @@ Domenemodellen vår inneholder følgende felter for en gitt sending:
 - Tittel - Tittelen som skal vises i programguiden. Må være mellom 5 og 100 tegn.
 - Kanal - Kanalen sendingen går på. I vårt tilfelle begrenses mulige kanaler til NRK1, NRK2, NRK3 og NRKSUPER.
 - Startdato- og tidspunkt - dato og tidspunkt for når sendingen starter.
-- Sluttdato- og tidspunkt - dato og tidspunkt for når sendingen slutter.
+- Sluttdato- og tidspunkt - dato og tidspunkt for når sendingen slutter. Må være etter startdato- og tidspunkt.
 
 #### Domenemodell i F#
 
@@ -1072,11 +1072,11 @@ Før vi begynner å implementere valideringsreglene i domenemodellen definerer v
   - NRK2
   - NRK3
   - NRKSUPER
-- Start- og sluttidspunkt skal følge ISO8601
+- Sluttidspunkt skal være etter starttidspunkt
 
 #### Testdrevet utvikling
 
-I dette steget drar vi inspirasjon fra testdrevet utvikling ("test driven development" - TDD) ved at vi definerer ønsket oppførsel i en feilende test før vi implementerer kode som får testen til å passere. Deretter gjentar vi forrige steg med stadig flere tester som reflekterer oppførselen vi ønsker. Til slutt sitter vi igjen med et sett med tester som reflekterer alle reglene vi har for domenet vårt. La oss begynne med å skrive en enhetstest for program-ID.
+I dette steget drar vi inspirasjon fra testdrevet utvikling ("test driven development" - TDD) ved at vi definerer ønsket oppførsel i en feilende test før vi implementerer kode som får testen til å passere. Deretter gjentar vi forrige steg med en ytterligere test som reflekterer oppførselen vi ønsker. Dersom man skal følge TDD etter boka går man frem og tilbake på denne måten med å definere feilende tester, og fikse implementasjonen til man ikke finner flere hull. Å følge TDD-metodikken på denne måden er utenfor scope av dette kurset, så vi skal ikke følge det fullt ut. Vi begynner imidlertid med å følge dette mønsteret for validering av program-ID for å illustrere konseptet. Deretter oppgis ferdig implementasjon for validering av programtittel med tilhørende enhetstester.
 
 ##### Første enhetstest for program-ID
 
@@ -1267,12 +1267,155 @@ Actual:   True
 Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 3 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
 ```
 
-Nå feiler den siste testen vi skrev. Dermed må vi fikse `IsProgramIdValid`-funksjonen vår igjen. Dersom man skal følge TDD etter boka går man frem og tilbake på denne måten med å definere feilende tester, og fikse implementasjonen til man ikke finner flere hull. Å følge TDD-metodikken på denne måden er utenfor scope av dette kurset, så vi skal ikke fortsette med det. La oss heller ferdigstille valideringsreglene våre med tilhørende tester, og gå videre til neste steg.
+Nå feiler den siste testen vi skrev. Dermed må vi fikse `IsProgramIdValid`-funksjonen vår igjen. Som nevnt i innledningen skal vi ikke fortsette å gå frem og tilbake med feilende tester, og forbedring av implementasjon. Under følger derfor en ferdig implementasjon av `IsProgramIdValid`, og tilhørende tester:
+
+```f#
+let IsProgramIdValid (programId: string) : bool =
+    let programIdRegex = Regex(@"^[a-zA-Z]{4}[0-9]{8}$")
+    programIdRegex.IsMatch(programId)
+```
+
+```f#
+[<Fact>]
+let ``IsProgramIdValid_ValidProgramId_ReturnsTrue`` () =
+    // Arrange
+    let validProgramId = "abcd12345678"
+
+    // Act
+    let isProgramIdValid = IsProgramIdValid(validProgramId)
+
+    // Assert
+    Assert.True(isProgramIdValid)
+
+[<Fact>]
+let ``IsProgramIdValid_LettersAndDigitsSwapped_ReturnsFalse`` () =
+    // Arrange
+    let validProgramId = "12345678abcd"
+
+    // Act
+    let isProgramIdValid = IsProgramIdValid(validProgramId)
+
+    // Assert
+    Assert.False(isProgramIdValid)
+
+[<Fact>]
+let ``IsProgramIdValid_InvalidProgramId_ReturnsFalse`` () =
+    // Arrange
+    let invalidProgramId = "-_.,;:"
+
+    // Act
+    let isProgramIdValid = IsProgramIdValid(invalidProgramId)
+
+    // Assert
+    Assert.False(isProgramIdValid)
+```
 
 ##### Implementasjon av alle valideringsregler
 
 For å ha en fullstendig implementasjon av alle valideringsreglene fra domenet vårt, lim inn implementasjonen av `Domain.fs` under:
 
 ```f#
+module NRK.Dotnetskolen.Domain
 
+open System
+open System.Text.RegularExpressions
+
+type Kanal =
+    | NRK1
+    | NRK2
+    | NRK3
+    | NRKSUPER
+
+type EpgInnslag = {
+    Id: string
+    Tittel: string
+    Kanal: Kanal
+    StartTidspunkt: DateTimeOffset
+    SluttTidspunkt: DateTimeOffset
+}
+
+type Epg = EpgInnslag list
+
+let IsProgramIdValid (programId: string) : bool =
+    let programIdRegex = Regex(@"^[a-zA-Z]{4}[0-9]{8}$")
+    programIdRegex.IsMatch(programId)
+
+let IsTitleValid (title: string) : bool =
+    let titleRegex = Regex(@"^.{5,100}$")
+    titleRegex.IsMatch(title)
+```
+
+Under følger `Tests.fs` med enhetstester for både `IsValidProgramId` og `IsTitleValid`:
+
+```f#
+module Tests
+
+open Xunit
+open NRK.Dotnetskolen.Domain
+
+[<Fact>]
+let ``IsProgramIdValid_ValidProgramId_ReturnsTrue`` () =
+    // Arrange
+    let validProgramId = "abcd12345678"
+
+    // Act
+    let isProgramIdValid = IsProgramIdValid(validProgramId)
+
+    // Assert
+    Assert.True(isProgramIdValid)
+
+[<Fact>]
+let ``IsProgramIdValid_LettersAndDigitsSwapped_ReturnsFalse`` () =
+    // Arrange
+    let validProgramId = "12345678abcd"
+
+    // Act
+    let isProgramIdValid = IsProgramIdValid(validProgramId)
+
+    // Assert
+    Assert.False(isProgramIdValid)
+
+[<Fact>]
+let ``IsProgramIdValid_InvalidProgramId_ReturnsFalse`` () =
+    // Arrange
+    let invalidProgramId = "-_.,;:"
+
+    // Act
+    let isProgramIdValid = IsProgramIdValid(invalidProgramId)
+
+    // Assert
+    Assert.False(isProgramIdValid)
+
+[<Fact>]
+let ``IsTitleValid_ValidTitle_ReturnsTrue`` () =
+    // Arrange
+    let validProgramId = "Eksempelprogram"
+
+    // Act
+    let isProgramIdValid = IsTitleValid(validProgramId)
+
+    // Assert
+    Assert.True(isProgramIdValid)
+
+[<Fact>]
+let ``IsTitleValid_TitleWithTwoCharacters_ReturnsFalse`` () =
+    // Arrange
+    let validProgramId = "ab"
+
+    // Act
+    let isProgramIdValid = IsTitleValid(validProgramId)
+
+    // Assert
+    Assert.False(isProgramIdValid)
+
+[<Fact>]
+let ``IsTitleValid_TitleWithOneHundredAndTwoCharacters_ReturnsFalse`` () =
+    // Arrange
+    let validProgramId = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901"
+
+    // Act
+    let isProgramIdValid = IsTitleValid(validProgramId)
+
+    // Assert
+    Assert.False(isProgramIdValid)
 ```
