@@ -76,6 +76,7 @@ For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bru
   - [Steg 3 - Opprette solution](#steg-3---opprette-solution)
   - [Steg 4 - Pakkehåndtering](#steg-4---pakkehåndtering)
   - [Steg 5 - Definere domenemodell](#steg-5---definere-domenemodell)
+  - [Steg 6 - Enhetstester for domenemodell](#steg6---enhetstester-for-domenemodell)
 
 ## Hva er .NET?
 
@@ -978,171 +979,15 @@ Vi skal lage et API for å hente ut forenklet elektronisk programguide (EPG) for
 
 Domenemodellen vår inneholder følgende felter for en gitt sending:
 
-- Id - ID for programmet. Må starte med fire bokstaver a-z, og slutte på åtte siffer.
+- Id - ID for programmet. Må starte med fire bokstaver a-z etterfulgt av åtte siffer.
 - Tittel - Tittelen som skal vises i programguiden. Må være mellom 5 og 100 tegn.
 - Kanal - Kanalen sendingen går på. I vårt tilfelle begrenses mulige kanaler til NRK1, NRK2, NRK3 og NRKSUPER.
-- Startdato- og tidspunkt - dato og tidspunkt for når sendingen starter. Formatet følger [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html)
-- Sluttdato- og tidspunkt - dato og tidspunkt for når sendingen slutter. Formatet følger [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html)
-
-Under vises et eksempel på et innslag i EPG-en i følge domenemodellen vår:
-
-```json
-{
-  "id": "abcd12345678",
-  "tittel": "Eksempelprogram",
-  "kanal": "NRK1",
-  "startTidspunkt": "2021-01-01T13:00:00+00:00",
-  "sluttTidspunkt": "2021-01-01T14:00:00+00:00"
-}
-```
-
-Videre modellerer vi EPG-en vår til å være en liste av innslag slik de er definert over:
-
-```json
-[
-  {
-    "id": "abcd12345678",
-    "tittel": "Eksempelprogram",
-    "kanal": "NRK1",
-    "startTidspunkt": "2021-01-01T13:00:00+00:00",
-    "sluttTidspunkt": "2021-01-01T14:00:00+00:00"
-  },
-  {
-    "id": "dcba87654321",
-    "tittel": "Eksempelprogram 2",
-    "kanal": "NRK2",
-    "startTidspunkt": "2021-01-01T20:00:00+00:00",
-    "sluttTidspunkt": "2021-01-01T20:30:00+00:00"
-  }
-]
-```
-
-#### JSON Schema
-
-For å definere domenemodellen vår mer formelt slik at vi kan dele den med andre bruker vi JSON Schema ([https://json-schema.org/](https://json-schema.org/)):
-
-```json
-
-{
-    "$schema": "https://json-schema.org/draft-07/schema",
-    "$id": "https://github.com/nrkno/dotnetskolen/blob/steg-5/docs/epg-schema.json",
-    "type": "array",
-    "title": "EPG",
-    "description": "JSON Schema for EPG i Dotnetskolen",
-    "default": [],
-    "examples": [
-        [
-            {
-                "id": "abcd12345678",
-                "tittel": "Eksempelprogram",
-                "kanal": "NRK1",
-                "startTidspunkt": "2021-01-01T13:00:00+00:00",
-                "sluttTidspunkt": "2021-01-01T14:00:00+00:00"
-            }
-        ]
-    ],
-    "additionalItems": true,
-    "items": {
-        "$id": "#/items",
-        "anyOf": [
-            {
-                "$id": "#/items/anyOf/0",
-                "type": "object",
-                "title": "Program",
-                "description": "JSON Schema for en sending i en EPG",
-                "default": {},
-                "examples": [
-                    {
-                        "id": "abcd12345678",
-                        "tittel": "Eksempelprogram",
-                        "kanal": "NRK1",
-                        "startTidspunkt": "2021-01-01T13:00:00+00:00",
-                        "sluttTidspunkt": "2021-01-01T14:00:00+00:00"
-                    }
-                ],
-                "required": [
-                    "id",
-                    "tittel",
-                    "kanal",
-                    "startTidspunkt",
-                    "sluttTidspunkt"
-                ],
-                "properties": {
-                    "id": {
-                        "$id": "#/properties/id",
-                        "default": "",
-                        "description": "ID for programmet.",
-                        "examples": [
-                            "ABCD12345678"
-                        ],
-                        "title": "id",
-                        "pattern": "[a-zA-Z]{4}[0-9]{8}",
-                        "type": "string"
-                    },
-                    "tittel": {
-                        "$id": "#/properties/tittel",
-                        "default": "",
-                        "description": "Programtittel.",
-                        "examples": [
-                            "Eksempelprogram"
-                        ],
-                        "minLength": 5,
-                        "title": "Programtittel",
-                        "maxLength": 100,
-                        "type": "string"
-                    },
-                    "kanal": {
-                        "$id": "#/properties/kanal",
-                        "default": "",
-                        "description": "Kanalen sendingen går på.",
-                        "examples": [
-                            "NRK1"
-                        ],
-                        "title": "Kanal",
-                        "enum": [
-                            "NRK1",
-                            "NRK2",
-                            "NRK3",
-                            "NRKSUPER"
-                        ],
-                        "type": "string"
-                    },
-                    "startTidspunkt": {
-                        "$id": "#/properties/startTidspunkt",
-                        "type": "string",
-                        "title": "Starttidspunkt",
-                        "description": "Starttidspunktet for sendingen.",
-                        "default": "",
-                        "examples": [
-                            "2021-01-01T13:00:00+00:00"
-                        ]
-                    },
-                    "sluttTidspunkt": {
-                        "$id": "#/properties/sluttTidspunkt",
-                        "type": "string",
-                        "title": "The sluttTidspunkt schema",
-                        "description": "Sluttidspunktet for sendingen.",
-                        "default": "",
-                        "examples": [
-                            "2021-01-01T14:00:00+00:00"
-                        ]
-                    }
-                },
-                "additionalProperties": true
-            }
-        ]
-    }
-}
-
-```
-
-JSON Schema-et over er tilgjengelig som `epg-schema.json` i mappen `docs` på branchen `steg-5`  ([https://github.com/nrkno/dotnetskolen/blob/steg-5/docs/epg-schema.json](https://github.com/nrkno/dotnetskolen/blob/steg-5/docs/epg-schema.json)).
-
-> JSON Schema-et over er laget med [https://jsonschema.net](https://jsonschema.net)
+- Startdato- og tidspunkt - dato og tidspunkt for når sendingen starter.
+- Sluttdato- og tidspunkt - dato og tidspunkt for når sendingen slutter.
 
 #### Domenemodell i F#
 
-Nå som vi har definert domenemodellen vår i et JSON Schema, kan vi opprette en kodeekvivalent i F#. Start med å opprett en ny fil `Domain.fs` under `src/api`:
+Nå som vi har definert domenemodellen vår, kan vi opprette en kodeekvivalent i F#. Start med å opprett en ny fil `Domain.fs` under `src/api`:
 
 ```txt
 └── .config
@@ -1207,4 +1052,227 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
   </ItemGroup>
 
 </Project>
+```
+
+### Steg 6 - Enhetstester for domenemodell
+
+Domenemodellen som ble innført i [forrige steg](#steg-5---definere-domenemodell) inneholder både strukturen til innslagene i EPG-en, og valideringsreglene knyttet til dem. I dette steget skal vi skrive enhetstester som hjelper oss med å verifisere at vi implementerer valideringsreglene riktig.
+
+#### Regler i domenet vårt
+
+Før vi begynner å implementere valideringsreglene i domenemodellen definerer vi enhetstestene som skal verifisere dem. Vi ønsker å verifisere følgende regler fra domenet vårt:
+
+- En program-ID skal
+  - Begynne med fire bokstaver a-z. Både store og små bokstaver er lov.
+  - Ha åtte siffer etter de fire bokstavene på starten.
+- En programtittel skal
+  - Bestå av 5-100 tegn (inklusiv)
+- En kanal skal være blant følgende verdier
+  - NRK1
+  - NRK2
+  - NRK3
+  - NRKSUPER
+- Start- og sluttidspunkt skal følge ISO8601
+
+#### Testdrevet utvikling
+
+I dette steget drar vi inspirasjon fra testdrevet utvikling ("test driven development" - TDD) ved at vi definerer ønsket oppførsel i en feilende test før vi implementerer kode som får testen til å passere. Deretter gjentar vi forrige steg med stadig flere tester som reflekterer oppførselen vi ønsker. Til slutt sitter vi igjen med et sett med tester som reflekterer alle reglene vi har for domenet vårt. La oss begynne med å skrive en enhetstest for program-ID.
+
+##### Første enhetstest for program-ID
+
+Erstatt innholdet i `Tests.fs` i enhetstestprosjektet med koden under.
+
+```f#
+module Tests
+
+open Xunit
+
+[<Fact>]
+let ``IsProgramIdValid_BeginsWithFourLetters_ReturnsTrue`` () =
+    Assert.True(false)
+```
+
+> Merk at navnet til enhetstesten over følger navnekonvensjonen til enhetstester slik den er definert her: [https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices#naming-your-tests](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices#naming-your-tests)
+
+Kjør testen med følgende kommando:
+
+```bash
+$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
+Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.9.1
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:01.28]     Tests.IsProgramIdValid_BeginsWithFourLetters_ReturnsTrue [FAIL]
+  Failed Tests.IsProgramIdValid_BeginsWithFourLetters_ReturnsTrue [2 ms]
+  Error Message:
+   Assert.True() Failure
+Expected: True
+Actual:   False
+  Stack Trace:
+     at Tests.IsProgramIdValid_BeginsWithFourLetters_ReturnsTrue() in C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs:line 7
+
+Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 2 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)     
+```
+
+Som du ser feiler testen, noe som er forventet ettersom den kun inneholder `Assert.True(false)` som aldri vil kunne bli sant. La oss endre testen til å reflektere ønsket oppførsel:
+
+```f#
+module Tests
+
+open Xunit
+
+[<Fact>]
+let ``IsProgramIdValid_ValidProgramId_ReturnsTrue`` () =
+    // Arrange
+    let validProgramId = "abcd12345678"
+
+    // Act
+    let isProgramIdValid = IsProgramIdValid(validProgramId)
+
+    // Assert
+    Assert.True(isProgramIdValid)
+```
+
+Testen over illustrerer de tre hovedfasene man ofte bruker for tester:
+
+- _Arrange_ - Oppsett av input for funksjonaliteten vi ønsker å teste
+- _Act_ - Utfør operasjonen vi ønsker
+- _Assert_ - Definer forventet utfall
+
+Hvis du forsøker å kjøre testen igjen, vil du se at testprosjektet ikke kompilerer. Det er fordi vi ikke har definert funksjonen `IsProgramIdValid` enda.
+
+```bash
+$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(11,28): error FS0039: The value or constructor 'IsProgramIdValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+```
+
+##### Implementere IsProgramIdValid
+
+Åpne filen `Domain.fs` i API-prosjektet, og lim inn følgende kode på slutten av filen:
+
+```f#
+let IsProgramIdValid (programId: string) : bool =
+    true
+```
+
+For at enhetstestprosjektet skal få tilgang til funksjonen vi nettopp definerte i `Domain.fs` må vi legge til en prosjektreferanse til API-prosjektet i enhetstestprosjektet. Det kan vi gjøre vha. .NET CLI med følgende kommando:
+
+```bash
+$ dotnet add .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj reference .\src\api\NRK.Dotnetskolen.Api.fsproj
+
+Reference `..\..\src\api\NRK.Dotnetskolen.Api.fsproj` added to the project.
+```
+
+Du kan se effekten av kommandoen over ved å åpne `test\unit\NRK.Dotnetskolen.UnitTests.fsproj`:
+
+```txt
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <GenerateProgramFile>false</GenerateProgramFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Tests.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\api\NRK.Dotnetskolen.Api.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>
+```
+
+I tillegg til å legge til en referanse til API-prosjektet i enhetstestprosjektet, må vi åpne `NRK.Dotnetskolen.Domain`-modulen i `Tests.fs`. Det kan du gjøre ved å legge til `open NRK.Dotnetskolen.Domain` under `open Xunit` i `Tests.fs`:
+
+```f#
+module Tests
+
+open Xunit
+open NRK.Dotnetskolen.Domain
+...
+```
+
+Kjør enhetstesten igjen:
+
+```bash
+$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
+  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
+Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.9.1
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 1 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
+```
+
+Nå passerer testen, men implementasjonen av `IsProgramIdValid` er åpenbart ikke riktig. La oss skrive en test til for å bevise det.
+
+##### Andre test for program-ID
+
+Legg til følgende test for å vise at implementasjonen av `IsProgramIdValid` ikke reflekterer alle reglene i domenet vårt enda:
+
+```f#
+[<Fact>]
+let ``IsProgramIdValid_InvalidProgramId_ReturnsFalse`` () =
+    // Arrange
+    let invalidProgramId = "-_.,;:"
+
+    // Act
+    let isProgramIdValid = IsProgramIdValid(invalidProgramId)
+
+    // Assert
+    Assert.False(isProgramIdValid)
+```
+
+Kjør enhetstestene på nytt:
+
+```bash
+$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
+  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
+Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.9.1
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.40]     Tests.IsProgramIdValid_DoesNotBeginWithFourLetters_ReturnsFalse [FAIL]
+  Failed Tests.IsProgramIdValid_DoesNotBeginWithFourLetters_ReturnsFalse [2 ms]
+  Error Message:
+   Assert.False() Failure
+Expected: False
+Actual:   True
+  Stack Trace:
+     at Tests.IsProgramIdValid_DoesNotBeginWithFourLetters_ReturnsFalse() in C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs:line 26
+
+Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 3 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
+```
+
+Nå feiler den siste testen vi skrev. Dermed må vi fikse `IsProgramIdValid`-funksjonen vår igjen. Dersom man skal følge TDD etter boka går man frem og tilbake på denne måten med å definere feilende tester, og fikse implementasjonen til man ikke finner flere hull. Å følge TDD-metodikken på denne måden er utenfor scope av dette kurset, så vi skal ikke fortsette med det. La oss heller ferdigstille valideringsreglene våre med tilhørende tester, og gå videre til neste steg.
+
+##### Implementasjon av alle valideringsregler
+
+For å ha en fullstendig implementasjon av alle valideringsreglene fra domenet vårt, lim inn implementasjonen av `Domain.fs` under:
+
+```f#
+
 ```
