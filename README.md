@@ -976,8 +976,6 @@ Vi skal lage et API for å hente ut forenklet elektronisk programguide (EPG) for
 
 > Modellen vi bruker for EPG i dette kurset er forenklet sammenliknet med [den som benyttes i PS API](http://psapi-granitt-prod-we.cloudapp.net/swagger/ui/index#/Epg), og er kun brukt som eksempel.
 
-#### JSON Schema
-
 Domenemodellen vår inneholder følgende felter for en gitt sending:
 
 - Id - ID for programmet. Må starte med fire bokstaver a-z, og slutte på åtte siffer.
@@ -1018,6 +1016,8 @@ Videre modellerer vi EPG-en vår til å være en liste av innslag slik de er def
   }
 ]
 ```
+
+#### JSON Schema
 
 For å definere domenemodellen vår mer formelt slik at vi kan dele den med andre bruker vi JSON Schema ([https://json-schema.org/](https://json-schema.org/)):
 
