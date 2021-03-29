@@ -3,13 +3,12 @@
 ## TODO
 
 - Fjerne NuGet-referanser i prosjektene og gjøre om til Paket-referanser
-- Rename "workshop" -> "kurs"
 
 ## Innledning
 
 Velkommen til Dotnetskolen!
 
-Dette er en workshop hvor du blir tatt gjennom prosessen av å sette opp et .NET-prosjekt fra bunnen av, steg for steg. Målet er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
+Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp et .NET-prosjekt fra bunnen av, steg for steg. Målet er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
 
 - Opprette prosjekter og mappestruktur
 - Sette opp pakkehåndtering
@@ -18,7 +17,7 @@ Dette er en workshop hvor du blir tatt gjennom prosessen av å sette opp et .NET
 
 Som en eksempel-applikasjon skal vi lage et web-API med tilhørende enhets- og integrasjonstester.
 
-For at workshopen skal kunne gjennomføres uavhengig av plattform og IDE skal vi bruke .NET CLI som er et kommandolinjeverktøy som gir oss muligheten til å utvikle, bygge, kjøre og publisere .NET-applikasjoner. Du kan lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
+For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bruke .NET CLI som er et kommandolinjeverktøy som gir oss muligheten til å utvikle, bygge, kjøre og publisere .NET-applikasjoner. Du kan lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
 
 ## Innholdsfortegnelse
 
@@ -26,7 +25,7 @@ For at workshopen skal kunne gjennomføres uavhengig av plattform og IDE skal vi
 - [Hvordan komme i gang](#hvordan-komme-i-gang)
   - [Nødvendige verktøy](#verktøy)
   - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden)
-- [Workshop](#workshop)
+- [Oppgaver](#oppgaver)
   - [Se fasit](#se-fasit)
   - [Steg 1 - Opprette API](#steg-1---opprette-api)
   - [Steg 2 - Opprette testprosjekter](#steg-2---opprette-testprosjekter)
@@ -60,11 +59,11 @@ Opprinnelig var .NET kun tilgjengelig på Windows. Denne versjonen av .NET omtal
 
 ## Hvordan komme i gang
 
-Påse at du har de [verktøyene](#verktøy) som kreves for å gjennomføre workshopen. Deretter kan du [sette opp koden lokalt](#lokalt-oppsett-av-koden), og gå i gang med [første steg](#steg-1---opprette-api).
+Påse at du har de [verktøyene](#verktøy) som kreves for å gjennomføre kurset. Deretter kan du [sette opp koden lokalt](#lokalt-oppsett-av-koden), og gå i gang med [første steg](#steg-1---opprette-api).
 
 ### Verktøy
 
-For å gjennomføre workshopen må du ha satt opp følgende:
+For å gjennomføre kurset må du ha satt opp følgende:
 
 - [Git](#Git)
 - [.NET SDK](#NET-SDK)
@@ -75,13 +74,13 @@ For å gjennomføre workshopen må du ha satt opp følgende:
 
 #### Git
 
-Git er et gratis versjonshåndteringssystem som finnes til alle plattformer. Dersom du ønsker å ha instruksjonene til workshopen (dokumentet du leser nå), eller se forventet resultat etter å ha gjennomført hvert av de ulike stegene, på din egen maskin trenger du Git installert. Med Git kan du også lage din egen versjon av dette repoet slik som forklart [her](#sjekke-ut-egen-branch). 
+Git er et gratis versjonshåndteringssystem som finnes til alle plattformer. Dersom du ønsker å ha instruksjonene til kurset (dokumentet du leser nå), eller se forventet resultat etter å ha gjennomført hvert av de ulike stegene, på din egen maskin trenger du Git installert. Med Git kan du også lage din egen versjon av dette repoet slik som forklart [her](#sjekke-ut-egen-branch).
 
 Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/downloads).
 
 #### .NET SDK
 
-Ettersom du skal kjøre .NET-applikasjoner og bruke .NET CLI for å opprette prosjektene som inngår i løsningen trenger du .NET SDK installert på maskinen din. Workshopen er laget med .NET 5, men de fleste kommandoene fungerer nok med lavere versjoner av .NET, og vil trolig være tilgjengelig i fremtidige versjoner. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
+Ettersom du skal kjøre .NET-applikasjoner og bruke .NET CLI for å opprette prosjektene som inngår i løsningen trenger du .NET SDK installert på maskinen din. kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med lavere versjoner av .NET, og vil trolig være tilgjengelig i fremtidige versjoner. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
 
 ``` bash
 $ dotnet --version
@@ -103,7 +102,7 @@ For å få syntax highlighting, autocomplete, og kodenavigering er det kjekt å 
 
 Velg den IDE-en som passer dine behov.
 
-> Merk at et vanlig use case for IDE-er er at de også blir brukt til å kompilere og kjøre kode. Instruksjonene i workshopen kommer imidlertid til å benytte .NET CLI til dette. Du står selvfølgelig fritt frem til å bygge og kjøre koden ved hjelp av din IDE hvis du ønsker det.
+> Merk at et vanlig use case for IDE-er er at de også blir brukt til å kompilere og kjøre kode. Instruksjonene i kurset kommer imidlertid til å benytte .NET CLI til dette. Du står selvfølgelig fritt frem til å bygge og kjøre koden ved hjelp av din IDE hvis du ønsker det.
 
 ### Lokalt oppsett av koden
 
@@ -147,17 +146,17 @@ Switched to a new branch 'my-branch'
 
 Vanligvis er det en del filer man ikke ønsker å ha inkludert i Git. Dette er noe man fort merker ved etablering av et nytt system. For å fortelle Git hvilke filer man vil ignorere, oppretter man en `.gitignore`-fil i roten av repoet.
 
-GitHub har et eget repo som inneholder `.gitignore`-filer for ulike typer prosjekter: [https://github.com/github/gitignore](https://github.com/github/gitignore). `.gitignore`-filene GitHub har utarbeidet inneholder filtypene det er vanligst å utelate fra Git for de ulike prosjekttypene. Ettersom denne workshopen omhandler .NET kan vi bruke `VisualStudio.gitignore` fra repoet deres.
+GitHub har et eget repo som inneholder `.gitignore`-filer for ulike typer prosjekter: [https://github.com/github/gitignore](https://github.com/github/gitignore). `.gitignore`-filene GitHub har utarbeidet inneholder filtypene det er vanligst å utelate fra Git for de ulike prosjekttypene. Ettersom dette kurset omhandler .NET kan vi bruke `VisualStudio.gitignore` fra repoet deres.
 
 For å sette opp `.gitignore` i ditt lokale repo: opprett en tekstfil med navn `.gitignore` i roten av repoet, og lim inn innholdet i denne filen: [https://github.com/github/gitignore/blob/master/VisualStudio.gitignore](https://github.com/github/gitignore/blob/master/VisualStudio.gitignore) Husk å lagre og commite `.gitignore`-filen etterpå.
 
-## Workshop
+## Oppgaver
 
-Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt, er du klar til å begynne på selve workshopen!
+Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt, er du klar til å begynne på selve kurset!
 
 ### Se "fasit"
 
-Dersom du ønsker å se den forventede tilstanden til repoet etter å ha utført de ulike stegene i workshopen, kan du sjekke ut branchen med korresponderende navn som seksjonen du ønsker å se på. F.eks. hvis du vil se hvordan repoet ser ut etter "Steg 1 - Opprette API", kan du sjekke ut branchen `steg-1` slik:
+Dersom du ønsker å se den forventede tilstanden til repoet etter å ha utført de ulike stegene i kurset, kan du sjekke ut branchen med korresponderende navn som seksjonen du ønsker å se på. F.eks. hvis du vil se hvordan repoet ser ut etter "Steg 1 - Opprette API", kan du sjekke ut branchen `steg-1` slik:
 
 ``` bash
 $ git checkout steg-1
@@ -347,7 +346,7 @@ Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med
 
 Navnet til prosjektet `NRK.Dotnetskolen.Api.fsproj` følger Microsoft sin navnekonvensjon for programmer og biblioteker i .NET. For å lese mer om denne, og andre navnekonvensjoner, i .NET kan du se her: [https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls)
 
-> Mappestrukturen over er ment som et forslag, og de videre stegene i workshopen bygger på denne. Hvis du bruker workshopen som inspirasjon eller veiledning til å opprette ditt eget prosjekt, trenger du ikke følge denne mappestrukturen. Hvordan du strukturerer mappene i ditt system er opp til deg, og er avhengig aspekter som størrelse på systemet, antall prosjekter, og personlige preferanser.
+> Mappestrukturen over er ment som et forslag, og de videre stegene i kurset bygger på denne. Hvis du bruker kurset som inspirasjon eller veiledning til å opprette ditt eget prosjekt, trenger du ikke følge denne mappestrukturen. Hvordan du strukturerer mappene i ditt system er opp til deg, og er avhengig aspekter som størrelse på systemet, antall prosjekter, og personlige preferanser.
 
 #### Kjøre API-prosjektet
 
@@ -381,7 +380,7 @@ For å gjøre dette bruker vi fortsatt `dotnet new`-kommandoen, men denne gangen
 - nUnit
 - MSTest
 
-I denne workshopen kommer vi til å bruke xUnit. Dette valget er litt vilkårlig ettersom alle rammeverkene over vil være tilstrekkelig til formålet vårt, som er å vise hvordan man kan sette opp testprosjekter og komme i gang med å skrive tester. Dersom du ønsker å vite mer om de ulike testrammeverkene, kan du lese mer om dem her: [https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools](https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools)
+I dette kurset kommer vi til å bruke xUnit. Dette valget er litt vilkårlig ettersom alle rammeverkene over vil være tilstrekkelig til formålet vårt, som er å vise hvordan man kan sette opp testprosjekter og komme i gang med å skrive tester. Dersom du ønsker å vite mer om de ulike testrammeverkene, kan du lese mer om dem her: [https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools](https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools)
 
 #### Opprette enhetstestprosjekt
 
@@ -656,7 +655,7 @@ Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
 
 ### Steg 4 - Pakkehåndtering
 
-Siden vi har behov for å installere NuGet-pakker senere i workshopen, setter vi opp Paket for løsningen nå. [Første avsnitt](#nuget-og-paket) under introduserer konseptene NuGet og Paket, og [andre avsnitt](#sette-opp-paket) forklarer hvordan man setter opp Paket i en .NET-løsning.
+Siden vi har behov for å installere NuGet-pakker senere i kurset, setter vi opp Paket for løsningen nå. [Første avsnitt](#nuget-og-paket) under introduserer konseptene NuGet og Paket, og [andre avsnitt](#sette-opp-paket) forklarer hvordan man setter opp Paket i en .NET-løsning.
 
 #### NuGet og Paket
 
@@ -668,7 +667,7 @@ Nuget som verktøy for å håndtere pakker i et prosjekt har imidlertid noen utf
 - En annen utfordring med NuGet er at dersom to pakker refererer ulike versjoner av en annen pakke, vil NuGet velge den siste versjonen av pakken. 
 - I tillegg må hvert prosjekt i en solution definere hvilke avhengigheter det har, og hvilken versjon. Dermed kan prosjekter i samme solution ha ulike versjoner av samme pakke. Dette kan skape problemer.
 
-Verktøyet "Paket" forsøker å løse utfordringene nevnt over, og er mye brukt i NRK. Derfor blir Paket brukt i denne workshopen.
+Verktøyet "Paket" forsøker å løse utfordringene nevnt over, og er mye brukt i NRK. Derfor blir Paket brukt i dette kurset.
 
 > Merk at selv om man bruker Paket som verktøy for å håndtere tredjepartsavhengigheter i en .NET-løsning, benytter man fortsatt NuGet sitt offentlige repo for å laste opp og ned avhengighetene.
 
@@ -678,7 +677,7 @@ Verktøyet "Paket" forsøker å løse utfordringene nevnt over, og er mye brukt 
 
 #### Sette opp Paket
 
-Paket finnes som en utvidelse (også kalt "tool") til .NET CLI. Utvidelser i .NET CLI kan enten installeres som globale (tilgjengelig for alle .NET-løsninger på maskinen), eller lokale (kun for prosjektet utvidelsen blir installert i). I denne workshopen installerer vi Paket lokalt for vår løsning. TODO: skrive hvorfor vi installerer lokalt.
+Paket finnes som en utvidelse (også kalt "tool") til .NET CLI. Utvidelser i .NET CLI kan enten installeres som globale (tilgjengelig for alle .NET-løsninger på maskinen), eller lokale (kun for prosjektet utvidelsen blir installert i). I dette kurset installerer vi Paket lokalt for vår løsning. TODO: skrive hvorfor vi installerer lokalt.
 
 Lokale utvidelser av .NET CLI defineres i en egen fil `dotnet-tools.json` som ligger i en mappe `.config`. Ettersom denne filen ikke finnes enda, oppretter vi den ved å kjøre følgende kommando
 
