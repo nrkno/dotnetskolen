@@ -1,5 +1,16 @@
 # Dotnetskolen
 
+## To do
+
+- Legge til valideringsregel for at sluttdato- og tidspunkt er etter startdato- og tidspunkt
+- Vurder å innføre pattern fra DDD med opprettelse av `EpgInnslag`
+- Rename `EpgInnslag` med `Sending`
+- Legg JSON Schema inn som kontrakt for modell i webapi
+- Definér operasjoner i webapi
+- Lag webapi med `Startup.fs`
+- Lag integrasjonstester for webapi
+- Fullfør implementasjon av webapi
+
 ## Idémyldring
 
 - Finne på domene/bruksområde
