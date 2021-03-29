@@ -922,6 +922,8 @@ A total of 1 test files matched the specified pattern.
 Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 1 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)       
 Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 1 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 
+```
+
 Nå er du klar til å legge til avhengigheter i prosjektet ditt.
 
 > Merk at vi kunne ha latt være å opprette testprosjektene med malen `xunit`, og heller satt opp testprosjektene fra bunnen av ved å heller bruke `console`-malen. Kurset er imidlertid lagt opp på denne måten for å illustrere bruken av ulike maler i .NET SDK.
