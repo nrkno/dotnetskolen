@@ -110,7 +110,7 @@ Velg den IDE-en som passer dine behov.
 
 #### Klone repo
 
-Dersom du ønsker dette repoet lokalt på din maskin, kan du gjøre det med følgende kommando
+Dersom du ønsker dette repoet lokalt på din maskin, kan du gjøre det slik:
 
 ``` bash
 $ git clone git@github.com:nrkno/dotnetskolen.git # Last ned repo fra GitHub til din maskin
@@ -124,7 +124,7 @@ Receiving objects: 100% (9/9), done.
 Resolving deltas: 100% (2/2), done.
 ```
 
-Da skal nå ha `main`-branchen sjekket ut lokalt på din maskin. Det kan du verifisere ved å kjøre følgende kommandoer
+Da skal nå ha `main`-branchen sjekket ut lokalt på din maskin. Det kan du verifisere ved å gå inn i mappen til repoet og liste ut branchene i Git:
 
 ``` bash
 $ cd dotnetskolen # Gå inn i mappen som repoet ligger i lokalt
@@ -176,7 +176,7 @@ I dette steget starter vi med et repo helt uten kode, og bruker .NET CLI til å 
 
 #### Dotnet new
 
-Som nevnt i [innledningen](#dotnetskolen) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange kommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet)
+Som nevnt i [innledningen](#dotnetskolen) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange underkommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet)
 
 ``` bash
 $ dotnet --help
@@ -242,7 +242,7 @@ Run 'dotnet [command] --help' for more information on a command.
 
 #### Maler
 
-For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. Som første parameter tar `new`-kommandoen inn hva slags type prosjekt som skal opprettes. Når man installerer .NET SDK får man nemlig med et sett med forhåndsdefinerte prosjektmaler for vanlige typer prosjekter. For å se malene som er installert på din maskin kan du kjøre følgende kommando
+For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. Som første parameter tar `new`-kommandoen inn hva slags type prosjekt som skal opprettes. Når man installerer .NET SDK får man med et sett med forhåndsdefinerte prosjektmaler for vanlige typer prosjekter. For å se malene som er installert på din maskin kan du kjøre `dotnet new` slik:
 
 ``` bash
 $ dotnet new
@@ -296,7 +296,7 @@ Examples:
 I tillegg til å styre hva slags type prosjekt man vil opprette med `new`-kommandoen, har man mulighet til å styre ting som hvilket språk man ønsker prosjektet skal opprettes for, og i hvilken mappe prosjektet opprettes i. For å se alle valgene man har i `dotnet new` kan du kjøre følgende kommando
 
 ``` bash
-$ dotnet new
+$ dotnet new --help
 
 Usage: new [options]
 
