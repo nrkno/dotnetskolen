@@ -2,6 +2,7 @@
 
 ## To do
 
+- Skriv om kapittel om enhetstester til å ikke være sentrert rundt TDD. Heller skriv noen tester først, og implementer etterpå. Ikke heng deg opp i "slik ville TDD gjort, men vi skal ikke det"
 - Legge til valideringsregel for at sluttdato- og tidspunkt er etter startdato- og tidspunkt
 - Vurder å innføre pattern fra DDD med opprettelse av `EpgInnslag`
 - Rename `EpgInnslag` med `Sending`
@@ -10,6 +11,7 @@
 - Lag webapi med `Startup.fs`
 - Lag integrasjonstester for webapi
 - Fullfør implementasjon av webapi
+- Legg til "steg x av y"
 
 ## Idémyldring
 
