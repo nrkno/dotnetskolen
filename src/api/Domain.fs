@@ -1,6 +1,7 @@
 module NRK.Dotnetskolen.Domain
 
 open System
+open System.Text.RegularExpressions
 
 type Kanal =
     | NRK1
@@ -17,3 +18,11 @@ type EpgInnslag = {
 }
 
 type Epg = EpgInnslag list
+
+let IsProgramIdValid (programId: string) : bool =
+    let programIdRegex = Regex(@"^[a-zA-Z]{4}[0-9]{8}$")
+    programIdRegex.IsMatch(programId)
+
+let IsTitleValid (title: string) : bool =
+    let titleRegex = Regex(@"^.{5,100}$")
+    titleRegex.IsMatch(title)

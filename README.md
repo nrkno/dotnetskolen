@@ -1,3 +1,3 @@
-# Steg 5 - Domenemodell
+# Steg 6 - Enhetstester for domenemodell
 
-Fasit for [steg 5](https://github.com/nrkno/dotnetskolen/tree/main#steg-5---definere-domenemodell).
+Fasit for [steg 6](https://github.com/nrkno/dotnetskolen/tree/main#steg6---enhetstester-for-domenemodell).
