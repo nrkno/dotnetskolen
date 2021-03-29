@@ -1,11 +1,52 @@
 # Dotnetskolen
 
-## TODO
+## Idémyldring
 
 - Finne på domene/bruksområde
+  - Trenger ikke være stort. Poenget med kurset er å illustrere oppsett, og kan ikke inneholde alle tenkelige scenarier.
+  - Hold det helt enkelt. Det minste som er nødvendig for å illustrere hovedkonseptene ved oppsett av et prosjekt.
+  - Kan utvide senere med avanserte caser som database, blob, service bus
+  - Ikke fokusér på at det skal følge DDD til punkt og prikke. Det er et helt eget tema.
+  - Trenger et domene hvor man har _noe_ domenelogikk slik at vi kan skrive enhetstester.
+  - Eksponér GET-operasjoner i webapi, og skriv integrasjonstester
 - Sette opp webapi fra bunnen
+  - Host
+    - Bruk Startup for å enklere kunne skrive integrasjonstester for webapi
+  - Configure app
+    - Giraffe
+  - Configure services
+    - Avhengigheter
+      - Database, blob, service bus etc.
+      - Ikke sikkert vi får dette i domenet i kurset
+  - Logging
 - Skrive enhetstester
+  - Tester for domenelogikk
 - Skrive integrasjonstester
+  - Vurder å skrive integrasjonstester for webapi: [https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0)
+
+## Domene
+
+- EPG
+  - Må være veldig forenklet med disclaimer om at det er kokt ned, og at det ikke gjenspeiler faktisk domenemodell eller - logikk
+  - GET /epg - alle kanaler, alle dager
+  - GET /epg?dato=2021-03-29 - alle kanaler, gitt dag
+  - GET /epg/<kanal> - gitt kanal, alle dager
+  - GET /epg/kanal?dato=2021-03-29 - gitt kanal, gitt dag
+  - Domenelogikk?
+    - Kun programmer med kanal, start- og sluttidspunkt blir inkludert i EPG
+    - Kun programmer innenfor gjeldende sendeskjemavindu blir inkludert
+  - Hva skal komme først?
+    - Domenemodell?
+    - Enhetstester for domenelogikk?
+    - Oppsett av apiprosjekt?
+      - Kan sette opp skall i alle fall
+        - Host
+          - Startup
+            - ConfigureApp og ConfigureServices
+    - Skall for integrasjonstester?
+      - Definere endepunktene våre
+        - Kommer til å feile
+    - Lage endepunkt for gitt kanal på gitt dag først. Ev. utvid med andre endepunkter senere.
 
 ## Innledning
 
@@ -18,7 +59,7 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp et .NET-pro
 - Sette opp tester
 - Sette opp bygg og deploy
 
-(Som en eksempel-applikasjon skal vi lage et web-API med tilhørende enhets- og integrasjonstester.)
+Som en eksempel-applikasjon skal vi lage et web-API med tilhørende enhets- og integrasjonstester.
 
 For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bruke .NET CLI som er et kommandolinjeverktøy som gir oss muligheten til å utvikle, bygge, kjøre og publisere .NET-applikasjoner. Du kan lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
 
@@ -34,6 +75,7 @@ For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bru
   - [Steg 2 - Opprette testprosjekter](#steg-2---opprette-testprosjekter)
   - [Steg 3 - Opprette solution](#steg-3---opprette-solution)
   - [Steg 4 - Pakkehåndtering](#steg-4---pakkehåndtering)
+  - [Steg 5 - Definere domenemodell](#steg-5---definere-domenemodell)
 
 ## Hva er .NET?
 
@@ -927,3 +969,242 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 Nå er du klar til å legge til avhengigheter i prosjektet ditt!
 
 > Merk at vi kunne ha latt være å opprette testprosjektene med malen `xunit`, og heller satt opp testprosjektene fra bunnen av ved å bruke `console`-malen. Da hadde vi unngått å måtte migrere NuGet-pakkene til Paket. Kurset er imidlertid lagt opp på denne måten for å illustrere bruken av ulike maler i .NET SDK.
+
+### Steg 5 - Definere domenemodell
+
+Vi skal lage et API for å hente ut forenklet elektronisk programguide (EPG) for ulike kanaler i NRK TV. Tanken er at dette API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://tv.nrk.no/guide/](https://tv.nrk.no/guide/)
+
+> Modellen vi bruker for EPG i dette kurset er forenklet sammenliknet med [den som benyttes i PS API](http://psapi-granitt-prod-we.cloudapp.net/swagger/ui/index#/Epg), og er kun brukt som eksempel.
+
+#### JSON Schema
+
+Domenemodellen vår inneholder følgende felter for en gitt sending:
+
+- Id - ID for programmet. Må starte med fire bokstaver a-z, og slutte på åtte siffer.
+- Tittel - Tittelen som skal vises i programguiden. Må være mellom 5 og 100 tegn.
+- Kanal - Kanalen sendingen går på. I vårt tilfelle begrenses mulige kanaler til NRK1, NRK2, NRK3 og NRKSUPER.
+- Startdato- og tidspunkt - dato og tidspunkt for når sendingen starter. Formatet følger [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html)
+- Sluttdato- og tidspunkt - dato og tidspunkt for når sendingen slutter. Formatet følger [ISO8601](https://www.iso.org/iso-8601-date-and-time-format.html)
+
+Under vises et eksempel på et innslag i EPG-en i følge domenemodellen vår:
+
+```json
+{
+  "id": "abcd12345678",
+  "tittel": "Eksempelprogram",
+  "kanal": "NRK1",
+  "startTidspunkt": "2021-01-01T13:00:00+00:00",
+  "sluttTidspunkt": "2021-01-01T14:00:00+00:00"
+}
+```
+
+Videre modellerer vi EPG-en vår til å være en liste av innslag slik de er definert over:
+
+```json
+[
+  {
+    "id": "abcd12345678",
+    "tittel": "Eksempelprogram",
+    "kanal": "NRK1",
+    "startTidspunkt": "2021-01-01T13:00:00+00:00",
+    "sluttTidspunkt": "2021-01-01T14:00:00+00:00"
+  },
+  {
+    "id": "dcba87654321",
+    "tittel": "Eksempelprogram 2",
+    "kanal": "NRK2",
+    "startTidspunkt": "2021-01-01T20:00:00+00:00",
+    "sluttTidspunkt": "2021-01-01T20:30:00+00:00"
+  }
+]
+```
+
+For å definere domenemodellen vår mer formelt slik at vi kan dele den med andre bruker vi JSON Schema ([https://json-schema.org/](https://json-schema.org/)):
+
+```json
+
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "$id": "https://github.com/nrkno/dotnetskolen/blob/steg-5/docs/epg-schema.json",
+    "type": "array",
+    "title": "EPG",
+    "description": "JSON Schema for EPG i Dotnetskolen",
+    "default": [],
+    "examples": [
+        [
+            {
+                "id": "abcd12345678",
+                "tittel": "Eksempelprogram",
+                "kanal": "NRK1",
+                "startTidspunkt": "2021-01-01T13:00:00+00:00",
+                "sluttTidspunkt": "2021-01-01T14:00:00+00:00"
+            }
+        ]
+    ],
+    "additionalItems": true,
+    "items": {
+        "$id": "#/items",
+        "anyOf": [
+            {
+                "$id": "#/items/anyOf/0",
+                "type": "object",
+                "title": "Program",
+                "description": "JSON Schema for en sending i en EPG",
+                "default": {},
+                "examples": [
+                    {
+                        "id": "abcd12345678",
+                        "tittel": "Eksempelprogram",
+                        "kanal": "NRK1",
+                        "startTidspunkt": "2021-01-01T13:00:00+00:00",
+                        "sluttTidspunkt": "2021-01-01T14:00:00+00:00"
+                    }
+                ],
+                "required": [
+                    "id",
+                    "tittel",
+                    "kanal",
+                    "startTidspunkt",
+                    "sluttTidspunkt"
+                ],
+                "properties": {
+                    "id": {
+                        "$id": "#/properties/id",
+                        "default": "",
+                        "description": "ID for programmet.",
+                        "examples": [
+                            "ABCD12345678"
+                        ],
+                        "title": "id",
+                        "pattern": "[a-zA-Z]{4}[0-9]{8}",
+                        "type": "string"
+                    },
+                    "tittel": {
+                        "$id": "#/properties/tittel",
+                        "default": "",
+                        "description": "Programtittel.",
+                        "examples": [
+                            "Eksempelprogram"
+                        ],
+                        "minLength": 5,
+                        "title": "Programtittel",
+                        "maxLength": 100,
+                        "type": "string"
+                    },
+                    "kanal": {
+                        "$id": "#/properties/kanal",
+                        "default": "",
+                        "description": "Kanalen sendingen går på.",
+                        "examples": [
+                            "NRK1"
+                        ],
+                        "title": "Kanal",
+                        "enum": [
+                            "NRK1",
+                            "NRK2",
+                            "NRK3",
+                            "NRKSUPER"
+                        ],
+                        "type": "string"
+                    },
+                    "startTidspunkt": {
+                        "$id": "#/properties/startTidspunkt",
+                        "type": "string",
+                        "title": "Starttidspunkt",
+                        "description": "Starttidspunktet for sendingen.",
+                        "default": "",
+                        "examples": [
+                            "2021-01-01T13:00:00+00:00"
+                        ]
+                    },
+                    "sluttTidspunkt": {
+                        "$id": "#/properties/sluttTidspunkt",
+                        "type": "string",
+                        "title": "The sluttTidspunkt schema",
+                        "description": "Sluttidspunktet for sendingen.",
+                        "default": "",
+                        "examples": [
+                            "2021-01-01T14:00:00+00:00"
+                        ]
+                    }
+                },
+                "additionalProperties": true
+            }
+        ]
+    }
+}
+
+```
+
+JSON Schema-et over er tilgjengelig som `epg-schema.json` i mappen `docs` på branchen `steg-5`  ([https://github.com/nrkno/dotnetskolen/blob/steg-5/docs/epg-schema.json](https://github.com/nrkno/dotnetskolen/blob/steg-5/docs/epg-schema.json)).
+
+> JSON Schema-et over er laget med [https://jsonschema.net](https://jsonschema.net)
+
+#### Domenemodell i F#
+
+Nå som vi har definert domenemodellen vår i et JSON Schema, kan vi opprette en kodeekvivalent i F#. Start med å opprett en ny fil `Domain.fs` under `src/api`:
+
+```txt
+└── .config
+    └── dotnet-tools.json
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Domain.fs
+    └── Program.fs
+test
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── integration
+    └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── Dotnetskolen.sln
+└── paket.dependencies
+```
+
+Lim inn innholdet under i `Domain.fs`:
+
+```f#
+
+module NRK.Dotnetskolen.Domain
+
+open System
+
+type Kanal =
+    | NRK1
+    | NRK2
+    | NRK3
+    | NRKSUPER
+
+type EpgInnslag = {
+    Id: string
+    Tittel: string
+    Kanal: Kanal
+    StartTidspunkt: DateTimeOffset
+    SluttTidspunkt: DateTimeOffset
+}
+
+type Epg = EpgInnslag list
+
+```
+
+Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain.fs" />` i `src\api\NRK.Dotnetskolen.Api.fsproj` slik som vist under:
+
+```txt
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Domain.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
+```
