@@ -1,3 +1,3 @@
-# Steg 4 - Pakkehåndtering
+# Steg 5 - Domenemodell
 
-Fasit for [steg 4](https://github.com/nrkno/dotnetskolen/tree/main#steg-4---pakkehåndtering).
+Fasit for [steg 5](https://github.com/nrkno/dotnetskolen/tree/main#steg-5---definere-domenemodell).
