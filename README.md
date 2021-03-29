@@ -2,7 +2,10 @@
 
 ## TODO
 
-- Fjerne NuGet-referanser i prosjektene og gjøre om til Paket-referanser
+- Finne på domene/bruksområde
+- Sette opp webapi fra bunnen
+- Skrive enhetstester
+- Skrive integrasjonstester
 
 ## Innledning
 
