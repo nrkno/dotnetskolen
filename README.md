@@ -319,7 +319,7 @@ Options:
 
 #### Opprette API-prosjektet
 
-Som du ser av malene som er listet ut over, er det en innebygget mal for web-API som heter `webapi`. Vi kommer imidlertid til å opprette API-et vårt ved å bruke malen `console` for å lære mest mulig om å sette opp prosjektet helt fra bunnen av.
+Som du ser av malene som er listet ut over, er det en innebygget mal for web-API som heter `webapi`. For å komme raskt i gang med et prosjekt, eller se hvordan ting er satt opp, kan man bruke `webapi` som mal. Vi kommer imidlertid til å opprette API-et vårt ved å bruke malen `console` for å lære mest mulig om å sette opp prosjektet helt fra bunnen av.
 
 Forutsatt at du står i roten av repoet, kan du kjøre følgende kommando for å opprette API-prosjektet
 
@@ -350,9 +350,9 @@ src
 
 Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med `NRK.Dotnetskolen.Api.fsproj` og `Program.fs` i `src/api`.
 
-Navnet til prosjektet `NRK.Dotnetskolen.Api.fsproj` følger Microsoft sin navnekonvensjon for programmer og biblioteker i .NET. For å lese mer om denne, og andre navnekonvensjoner, i .NET kan du se her: [https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls)
+Navnet til prosjektet `NRK.Dotnetskolen.Api.fsproj` følger Microsoft sin navnekonvensjon for programmer og biblioteker i .NET. For å lese mer om denne, og andre navnekonvensjoner i .NET, kan du se her: [https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls)
 
-> Mappestrukturen over er ment som et forslag, og de videre stegene i kurset bygger på denne. Hvis du bruker kurset som inspirasjon eller veiledning til å opprette ditt eget prosjekt, trenger du ikke følge denne mappestrukturen. Hvordan du strukturerer mappene i ditt system er opp til deg, og er avhengig aspekter som størrelse på systemet, antall prosjekter, og personlige preferanser.
+> Mappestrukturen over er ment som et forslag, og de videre stegene i kurset bygger på denne. Hvis du bruker kurset som inspirasjon eller veiledning til å opprette ditt eget prosjekt, trenger du ikke følge denne mappestrukturen. Hvordan du strukturerer mappene i ditt system er opp til deg, og er avhengig av aspekter som størrelse på systemet, antall prosjekter, og personlige preferanser.
 
 #### Kjøre API-prosjektet
 
@@ -457,7 +457,7 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 
 #### Opprette integrasjonstestprosjekt
 
-For å opprette integrasjonstestprosjektet, kan du kjøre samme kommando som da du [opprettet enhetstestprosjektet](#opprette-enhetstestprosjekt), men bytt ut `Unit` med `Integration`, som vist under
+For å opprette integrasjonstestprosjektet, kan du kjøre samme kommando som da du [opprettet enhetstestprosjektet](#opprette-enhetstestprosjekt), men bytt ut `Unit` med `Integration` i navnet på testprosjektet, som vist under:
 
 ``` bash
 $ dotnet new xunit -lang F# -o test/integration -n NRK.Dotnetskolen.IntegrationTests
@@ -509,7 +509,7 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 
 ### Steg 3 - Opprette solution
 
-Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme repo, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker og kjøre alle testene kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
+Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme repo, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker og kjøre alle testene for systemet vårt, kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
 
 For å opprette en solution med `dotnet` kan du kjøre følgende kommando i roten av repoet
 
@@ -665,7 +665,7 @@ Siden vi har behov for å installere NuGet-pakker senere i kurset, setter vi opp
 
 #### NuGet og Paket
 
-Basebiblioteket i .NET inneholder mye grunnleggende funksjonalitet, men det inneholder ikke alt. Derfor er det et behov for at utviklere over hele verden skal kunne dele koden sin med hverandre. De facto måte å dele kode i .NET på er via "NuGet". NuGet er både et offentlig repo for tredjepartsbiblioteker, som er tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/), og et verktøy for å laste opp og ned "NuGet-pakker" fra dette repoet.
+Basebiblioteket i .NET inneholder mye grunnleggende funksjonalitet, men det inneholder ikke alt. For å slippe å skrive kode for mye brukt funksjonalitet, er det derfor et behov at utviklere skal kunne dele kode med hverandre. De facto måte å dele kode i .NET på er via "NuGet". NuGet er både et offentlig repo for kode utviklet av tredjeparter, som er tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/), og et verktøy for å laste opp og ned "NuGet-pakker" fra dette repoet.
 
 Nuget som verktøy for å håndtere pakker i et prosjekt har imidlertid noen utfordringer:
 
