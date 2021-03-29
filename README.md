@@ -683,7 +683,7 @@ Verktøyet "Paket" forsøker å løse utfordringene nevnt over, og er mye brukt 
 
 #### Sette opp Paket
 
-Paket finnes som en utvidelse (også kalt "tool") til .NET CLI. Utvidelser i .NET CLI kan enten installeres som globale (tilgjengelig for alle .NET-løsninger på maskinen), eller lokale (kun for prosjektet utvidelsen blir installert i). I dette kurset installerer vi Paket lokalt for vår løsning. TODO: skrive hvorfor vi installerer lokalt.
+Paket finnes som en utvidelse (også kalt "tool") til .NET CLI. Utvidelser i .NET CLI kan enten installeres som globale (tilgjengelig for alle .NET-løsninger på maskinen), eller lokale (kun for prosjektet utvidelsen blir installert i). I dette kurset installerer vi Paket lokalt for vår løsning. Fordelen med dette er at versjonen av Paket vi installerer kun gjelder for dette repoet. Det gjør at andre repoer på samme maskin kan ha andre versjoner av Paket. I tillegg vil andre som kloner repoet kunne kjøre `dotnet tool restore`, og få installert alle verktøyene de trenger.
 
 Lokale utvidelser av .NET CLI defineres i en egen fil `dotnet-tools.json` som ligger i en mappe `.config`. Ettersom denne filen ikke finnes enda, oppretter vi den ved å kjøre følgende kommando
 
