@@ -1441,3 +1441,5 @@ A total of 1 test files matched the specified pattern.
 
 Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 12 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
 ```
+
+### Steg 7 - API-kontrakt
