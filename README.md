@@ -2,7 +2,6 @@
 
 ## To do
 
-- "Fasit" -> løsningsforslag
 - Legg JSON Schema inn som kontrakt for modell i webapi
 - Definér operasjoner i webapi
 - Lag webapi med `Startup.fs`
@@ -80,7 +79,7 @@ For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bru
   - [Nødvendige verktøy](#verktøy)
   - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden)
 - [Oppgaver](#oppgaver)
-  - [Se fasit](#se-fasit)
+  - [Se løsningsforslag](#se-løsningsforslag)
   - [Steg 1 - Opprette API](#steg-1---opprette-api)
   - [Steg 2 - Opprette testprosjekter](#steg-2---opprette-testprosjekter)
   - [Steg 3 - Opprette solution](#steg-3---opprette-solution)
@@ -216,7 +215,7 @@ For å sette opp `.gitignore` i ditt lokale repo:
 
 Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt, er du klar til å begynne på selve kurset!
 
-### Se "fasit"
+### Se løsningsforslag
 
 Dersom du ønsker å se den forventede tilstanden til repoet etter å ha utført de ulike stegene i kurset, kan du sjekke ut branchen med korresponderende navn som seksjonen du ønsker å se på. F.eks. hvis du vil se hvordan repoet ser ut etter "Steg 1 - Opprette API", kan du sjekke ut branchen `steg-1` slik:
 
