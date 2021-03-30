@@ -39,7 +39,6 @@ For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bru
   - [Steg 5 - Definere domenemodell](#steg-5---definere-domenemodell)
   - [Steg 6 - Enhetstester for domenemodell](#steg6---enhetstester-for-domenemodell)
   - [Steg 7 - API-kontrakt](#steg-7---api-kontrakt)
-  - [Steg 8 - Integrasjonstester for web-API](#steg-8---integrasjonstester-for-web-api)
 
 ## Hva er .NET?
 
