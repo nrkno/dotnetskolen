@@ -2,18 +2,13 @@ module NRK.Dotnetskolen.Domain
 
 open System
 
-type Kanal =
-    | NRK1
-    | NRK2
-    | NRK3
-    | NRKSUPER
-
-type EpgInnslag = {
+type Sending = {
     Id: string
     Tittel: string
-    Kanal: Kanal
+    Medium: string
+    Kanal: string
     StartTidspunkt: DateTimeOffset
     SluttTidspunkt: DateTimeOffset
 }
 
-type Epg = EpgInnslag list
+type Epg = Sending list
