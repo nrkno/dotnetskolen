@@ -1445,7 +1445,7 @@ Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration:
 
 ### Steg 7 - API-kontrakt
 
-For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK definerer API-kontrakter ved bruk av OpenAPI ([https://www.openapis.org/](https://www.openapis.org/))
+For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK definerer API-kontrakter ved bruk av OpenAPI ([https://www.openapis.org/](https://www.openapis.org/)).
 
 #### Operasjoner
 
