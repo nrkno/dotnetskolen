@@ -4,42 +4,9 @@ open Xunit
 open NRK.Dotnetskolen.Domain
 
 [<Fact>]
-let ``IsProgramIdValid_ValidProgramId_ReturnsTrue`` () =
+let ``IsTitleValid_TitleWithFiveCharacters_ReturnsTrue`` () =
     // Arrange
-    let validProgramId = "abcd12345678"
-
-    // Act
-    let isProgramIdValid = IsProgramIdValid(validProgramId)
-
-    // Assert
-    Assert.True(isProgramIdValid)
-
-[<Fact>]
-let ``IsProgramIdValid_LettersAndDigitsSwapped_ReturnsFalse`` () =
-    // Arrange
-    let validProgramId = "12345678abcd"
-
-    // Act
-    let isProgramIdValid = IsProgramIdValid(validProgramId)
-
-    // Assert
-    Assert.False(isProgramIdValid)
-
-[<Fact>]
-let ``IsProgramIdValid_InvalidProgramId_ReturnsFalse`` () =
-    // Arrange
-    let invalidProgramId = "-_.,;:"
-
-    // Act
-    let isProgramIdValid = IsProgramIdValid(invalidProgramId)
-
-    // Assert
-    Assert.False(isProgramIdValid)
-
-[<Fact>]
-let ``IsTitleValid_ValidTitle_ReturnsTrue`` () =
-    // Arrange
-    let validProgramId = "Eksempelprogram"
+    let validProgramId = "abcde"
 
     // Act
     let isProgramIdValid = IsTitleValid(validProgramId)
@@ -48,9 +15,20 @@ let ``IsTitleValid_ValidTitle_ReturnsTrue`` () =
     Assert.True(isProgramIdValid)
 
 [<Fact>]
-let ``IsTitleValid_TitleWithTwoCharacters_ReturnsFalse`` () =
+let ``IsTitleValid_TitleWithOneHundredCharacters_ReturnsTrue`` () =
     // Arrange
-    let validProgramId = "ab"
+    let validProgramId = "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij"
+
+    // Act
+    let isProgramIdValid = IsTitleValid(validProgramId)
+
+    // Assert
+    Assert.True(isProgramIdValid)
+
+[<Fact>]
+let ``IsTitleValid_TitleWithFourCharacters_ReturnsFalse`` () =
+    // Arrange
+    let validProgramId = "abcd"
 
     // Act
     let isProgramIdValid = IsTitleValid(validProgramId)
@@ -59,9 +37,9 @@ let ``IsTitleValid_TitleWithTwoCharacters_ReturnsFalse`` () =
     Assert.False(isProgramIdValid)
 
 [<Fact>]
-let ``IsTitleValid_TitleWithOneHundredAndTwoCharacters_ReturnsFalse`` () =
+let ``IsTitleValid_TitleWithOneHundredAndOneCharacters_ReturnsFalse`` () =
     // Arrange
-    let validProgramId = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901"
+    let validProgramId = "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija"
 
     // Act
     let isProgramIdValid = IsTitleValid(validProgramId)
