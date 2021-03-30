@@ -989,7 +989,7 @@ Vi skal lage et API for å hente ut en forenklet elektronisk programguide (EPG) 
 
 En EPG kan sees på som en liste med sendinger, og for vårt eksempel inneholder en sending følgende felter:
 
-- Tittel - Tittelen til programmet. Må være mellom 5 og 100 tegn (inklusiv), og kan kun bestå av store og små bokstaver, tall, og enkelte spesialtegn: ", . : - !"
+- Tittel - Tittelen til programmet. Må være mellom 5 og 100 tegn (inklusiv), og kan kun bestå av store og små bokstaver, tall, og enkelte spesialtegn: `, . : - !`
 - Kanal - Kanalen sendingen går på. I vårt tilfelle begrenses mulige kanaler til NRK1 og NRK2, og må skrives med store bokstaver.
 - Startdato- og tidspunkt - dato og tidspunkt for når sendingen starter.
 - Sluttdato- og tidspunkt - dato og tidspunkt for når sendingen slutter. Må være etter startdato- og tidspunkt.
@@ -1071,7 +1071,7 @@ Før vi begynner å implementere valideringsreglene i domenemodellen skal vi skr
 
 - Tittel
   - Må bestå av 5-100 tegn (inklusiv)
-  - Kan kun bestå av store og små bokstaver, tall, og følgende spesialtegn: ", . : - !"
+  - Kan kun bestå av store og små bokstaver, tall, og følgende spesialtegn: `, . : - !`
 - Kanal
   - NRK1 eller NRK2.
   - Kun store bokstaver er lov.
