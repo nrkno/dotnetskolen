@@ -80,6 +80,9 @@
                     "tittel": {
                         "$ref": "#/components/schemas/Tittel"
                     },
+                    "kanal": {
+                        "$ref": "#/components/schemas/Kanal"
+                    },
                     "startTidspunkt": {
                         "type": "string",
                         "format": "date-time",
