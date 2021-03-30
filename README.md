@@ -2,11 +2,31 @@
 
 ## To do
 
-- Legg JSON Schema inn som kontrakt for modell i webapi
-- Definér operasjoner i webapi
-- Lag webapi med `Startup.fs`
-- Lag integrasjonstester for webapi
-- Fullfør implementasjon av webapi
+- Steg 8 - Implementere kontraktstyper
+  - Lag DTO-er for OpenAPI-kontrakt i web-API
+  - Lag JSON-modul for serialisering og deserialisering
+    - Med enhetstester?
+- Steg 9 - Skall for web-API
+  - Sett opp host i web-API med skall for `Startup`
+    - Trenger dette for å kunne skrive integrasjonstester
+- Steg 10 - Integrasjonstester
+  - Lag integrasjonstester for webapi
+    - Definer routes og verifiser success/bad request
+    - Valider respons opp mot OpenAPI
+- Steg 11 - Fullføre API
+  - Fullfør implementasjon av webapi
+    - Sett opp workflow for route
+      - Ta inn avhengighet for å hente alle sendinger
+        - Registrer i `ConfigureServices` og overskriv i `CustomWebHostBuilder` i integrasjonstestprosjektet
+        - Avhengighet returnerer kanskje DTO?
+        - Deserialisere JSON til DTO?
+      - Map DTO til domenemodell
+        - Mest for å vise at man burde gjøre dette steget
+      - Gå gjennom alle sendinger
+        - Filtrer på kanal
+        - Filtrer på dato (startdato må være på oppgitt dato?)
+      - Map til dto
+      - Serialiser DTO til JSON
 - Legg til "steg x av y"
 
 ## Innledning
@@ -1583,5 +1603,3 @@ Under følger OpenAPI-kontrakt for web-API-et vårt:
 > OpenAPI-kontrakten over er sterkt inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
 >
 > I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
-
-### Steg 8 - Integrasjonstester for web-API
