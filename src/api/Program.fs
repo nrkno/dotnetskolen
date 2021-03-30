@@ -1,13 +1,17 @@
-// Learn more about F# at http://docs.microsoft.com/dotnet/fsharp
+open Microsoft.AspNetCore.Hosting
+open Microsoft.Extensions.Hosting
+open NRK.Dotnetskolen.Api.Startup
 
-open System
+let exitCode = 0
 
-// Define a function to construct a message to print
-let from whom =
-    sprintf "from %s" whom
+let CreateHostBuilder args =
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(fun webBuilder ->
+            webBuilder.UseStartup<Startup>() |> ignore
+        )
 
 [<EntryPoint>]
-let main argv =
-    let message = from "F#" // Call the function
-    printfn "Hello world %s" message
-    0 // return an integer exit code
+let main args =
+    CreateHostBuilder(args).Build().Run()
+
+    exitCode
