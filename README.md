@@ -3,9 +3,8 @@
 ## To do
 
 - Skriv om kapittel om enhetstester til å ikke være sentrert rundt TDD. Heller skriv noen tester først, og implementer etterpå. Ikke heng deg opp i "slik ville TDD gjort, men vi skal ikke det"
+- "Fasit" -> løsningsforslag
 - Legge til valideringsregel for at sluttdato- og tidspunkt er etter startdato- og tidspunkt
-- Vurder å innføre pattern fra DDD med opprettelse av `EpgInnslag`
-- Rename `EpgInnslag` med `Sending`
 - Legg JSON Schema inn som kontrakt for modell i webapi
 - Definér operasjoner i webapi
 - Lag webapi med `Startup.fs`
@@ -986,21 +985,20 @@ Nå er du klar til å legge til avhengigheter i prosjektet ditt!
 
 ### Steg 5 - Definere domenemodell
 
-Vi skal lage et API for å hente ut forenklet elektronisk programguide (EPG) for ulike kanaler i NRK TV. Tanken er at dette API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://tv.nrk.no/guide/](https://tv.nrk.no/guide/)
+Vi skal lage et API for å hente ut en forenklet elektronisk programguide (EPG) for ulike kanaler i NRK TV. Tanken er at dette API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://info.nrk.no/presse/tvguide/](https://info.nrk.no/presse/tvguide/)
 
 > Modellen vi bruker for EPG i dette kurset er forenklet sammenliknet med [den som benyttes i PS API](http://psapi-granitt-prod-we.cloudapp.net/swagger/ui/index#/Epg), og er kun brukt som eksempel.
 
-Domenemodellen vår inneholder følgende felter for en gitt sending:
+En EPG kan sees på som en liste med sendinger, og for vårt eksempel inneholder en sending følgende felter:
 
-- Id - ID for programmet. Må starte med fire bokstaver a-z etterfulgt av åtte siffer.
-- Tittel - Tittelen som skal vises i programguiden. Må være mellom 5 og 100 tegn.
-- Kanal - Kanalen sendingen går på. I vårt tilfelle begrenses mulige kanaler til NRK1, NRK2, NRK3 og NRKSUPER.
+- Tittel - Tittelen til programmet. Må være mellom 5 og 100 tegn (inklusiv), og kan kun bestå av store og små bokstaver, tall, og enkelte spesialtegn: ", . : - !"
+- Kanal - Kanalen sendingen går på. I vårt tilfelle begrenses mulige kanaler til NRK1 og NRK2, og må skrives med store bokstaver.
 - Startdato- og tidspunkt - dato og tidspunkt for når sendingen starter.
 - Sluttdato- og tidspunkt - dato og tidspunkt for når sendingen slutter. Må være etter startdato- og tidspunkt.
 
 #### Domenemodell i F#
 
-Nå som vi har definert domenemodellen vår, kan vi opprette en kodeekvivalent i F#. Start med å opprett en ny fil `Domain.fs` under `src/api`:
+Nå som vi har spesifisert domenet vårt, kan vi modellere det i F#. Start med å opprett en ny fil `Domain.fs` under `src/api`:
 
 ```txt
 └── .config
@@ -1031,21 +1029,14 @@ module NRK.Dotnetskolen.Domain
 
 open System
 
-type Kanal =
-    | NRK1
-    | NRK2
-    | NRK3
-    | NRKSUPER
-
-type EpgInnslag = {
-    Id: string
+type Sending = {
     Tittel: string
-    Kanal: Kanal
+    Kanal: string
     StartTidspunkt: DateTimeOffset
     SluttTidspunkt: DateTimeOffset
 }
 
-type Epg = EpgInnslag list
+type Epg = Sending list
 
 ```
 
@@ -1067,33 +1058,35 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
 </Project>
 ```
 
+Domenemodellen vår består av to typer:
+
+- `Sending` - modellerer et enkelt innslag i EPG-en, og inneholder feltene som ble definert i forrige seksjon
+- `Epg` - en liste med sendinger
+
 ### Steg 6 - Enhetstester for domenemodell
 
-Domenemodellen som ble innført i [forrige steg](#steg-5---definere-domenemodell) inneholder både strukturen til innslagene i EPG-en, og valideringsreglene knyttet til dem. I dette steget skal vi skrive enhetstester som hjelper oss med å verifisere at vi implementerer valideringsreglene riktig.
+Domenemodellen som ble innført i [forrige steg](#steg-5---definere-domenemodell) inneholder både strukturen til innslagene i EPG-en, og valideringsreglene knyttet til dem. Så langt har vi kun definert strukturen til EPG-en (at den består av en liste med sendinger, og hvilke felter hver sending inneholder). I dette steget skal vi implementere valideringsreglene i domenemodellen, og verifisere at vi har implementert dem riktig ved hjelp av enhetstester.
 
 #### Regler i domenet vårt
 
-Før vi begynner å implementere valideringsreglene i domenemodellen definerer vi enhetstestene som skal verifisere dem. Vi ønsker å verifisere følgende regler fra domenet vårt:
+Før vi begynner å implementere valideringsreglene i domenemodellen skal vi skrive enhetstestene som verifiserer dem. Vi ønsker å verifisere følgende regler fra domenet vårt:
 
-- En program-ID skal
-  - Begynne med fire bokstaver a-z. Både store og små bokstaver er lov.
-  - Ha åtte siffer etter de fire bokstavene på starten.
-- En programtittel skal
-  - Bestå av 5-100 tegn (inklusiv)
-- En kanal skal være blant følgende verdier
-  - NRK1
-  - NRK2
-  - NRK3
-  - NRKSUPER
-- Sluttidspunkt skal være etter starttidspunkt
+- Tittel
+  - Må bestå av 5-100 tegn (inklusiv)
+  - Kan kun bestå av store og små bokstaver, tall, og følgende spesialtegn: ", . : - !"
+- Kanal
+  - NRK1 eller NRK2.
+  - Kun store bokstaver er lov.
+- Sendetidspunkt
+  - Sluttidspunkt skal være etter starttidspunkt
 
-#### Testdrevet utvikling
+#### Tittel
 
-I dette steget drar vi inspirasjon fra testdrevet utvikling ("test driven development" - TDD) ved at vi definerer ønsket oppførsel i en feilende test før vi implementerer kode som får testen til å passere. Deretter gjentar vi forrige steg med en ytterligere test som reflekterer oppførselen vi ønsker. Dersom man skal følge TDD etter boka går man frem og tilbake på denne måten med å definere feilende tester, og fikse implementasjonen til man ikke finner flere hull. Å følge TDD-metodikken på denne måden er utenfor scope av dette kurset, så vi skal ikke følge det fullt ut. Vi begynner imidlertid med å følge dette mønsteret for validering av program-ID for å illustrere konseptet. Deretter oppgis ferdig implementasjon for validering av programtittel med tilhørende enhetstester.
+La oss begynne med å verifisere at vi implementerer valideringsreglene for tittel.
 
-##### Første enhetstest for program-ID
+##### Enhetstester
 
-Erstatt innholdet i `Tests.fs` i enhetstestprosjektet med koden under.
+Ettersom tittel har lengdebegrensninger er det viktig å teste grensetilfellene. I tillegg er det viktig å teste at kun gyldige tegn er lov. Enhetstestene under verifiserer at en tittel følger reglene definert over. Erstatt innholdet i `Tests.fs` i enhetstestprosjektet med koden under.
 
 ```f#
 module Tests
@@ -1101,80 +1094,96 @@ module Tests
 open Xunit
 
 [<Fact>]
-let ``IsProgramIdValid_BeginsWithFourLetters_ReturnsTrue`` () =
-    Assert.True(false)
-```
-
-> Merk at navnet til enhetstesten over følger navnekonvensjonen til enhetstester slik den er definert her: [https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices#naming-your-tests](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices#naming-your-tests)
-
-Kjør testen med følgende kommando:
-
-```bash
-$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
-
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.
-
-Starting test execution, please wait...
-A total of 1 test files matched the specified pattern.
-[xUnit.net 00:00:01.28]     Tests.IsProgramIdValid_BeginsWithFourLetters_ReturnsTrue [FAIL]
-  Failed Tests.IsProgramIdValid_BeginsWithFourLetters_ReturnsTrue [2 ms]
-  Error Message:
-   Assert.True() Failure
-Expected: True
-Actual:   False
-  Stack Trace:
-     at Tests.IsProgramIdValid_BeginsWithFourLetters_ReturnsTrue() in C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs:line 7
-
-Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 2 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)     
-```
-
-Som du ser feiler testen, noe som er forventet ettersom den kun inneholder `Assert.True(false)` som aldri vil kunne bli sant. La oss endre testen til å reflektere ønsket oppførsel:
-
-```f#
-module Tests
-
-open Xunit
-
-[<Fact>]
-let ``IsProgramIdValid_ValidProgramId_ReturnsTrue`` () =
+let ``IsTitleValid_TitleWithFiveLettersAndNumbers_ReturnsTrue`` () =
     // Arrange
-    let validProgramId = "abcd12345678"
+    let title = "abc12"
 
     // Act
-    let isProgramIdValid = IsProgramIdValid(validProgramId)
+    let isTitleValid = IsTitleValid title
 
     // Assert
-    Assert.True(isProgramIdValid)
+    Assert.True isTitleValid
+
+[<Fact>]
+let ``IsTitleValid_TitleWithOneHundredUpperCaseLetters_ReturnsTrue`` () =
+    // Arrange
+    let title = "ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ"
+
+    // Act
+    let isTitleValid = IsTitleValid title
+
+    // Assert
+    Assert.True isTitleValid
+
+[<Fact>]
+let ``IsTitleValid_TitleWithFourLetters_ReturnsFalse`` () =
+    // Arrange
+    let title = "abcd"
+
+    // Act
+    let isTitleValid = IsTitleValid title
+
+    // Assert
+    Assert.False isTitleValid
+
+[<Fact>]
+let ``IsTitleValid_TitleWithOneHundredAndOneLetters_ReturnsFalse`` () =
+    // Arrange
+    let title = "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija"
+
+    // Act
+    let isTitleValid = IsTitleValid title
+
+    // Assert
+    Assert.False isTitleValid
+
+[<Fact>]
+let ``IsTitleValid_TitleWithFiveSpecialCharacters_ReturnsTrue`` () =
+    // Arrange
+    let title = ".,-:!"
+
+    // Act
+    let isTitleValid = IsTitleValid title
+
+    // Assert
+    Assert.True isTitleValid
+
+[<Fact>]
+let ``IsTitleValid_TitleWithFiveIllegalCharacters_ReturnsFalse`` () =
+    // Arrange
+    let title = "@$%&/"
+
+    // Act
+    let isTitleValid = IsTitleValid title
+
+    // Assert
+    Assert.False isTitleValid
 ```
 
-Testen over illustrerer de tre hovedfasene man ofte bruker for tester:
-
-- _Arrange_ - Oppsett av input for funksjonaliteten vi ønsker å teste
-- _Act_ - Utfør operasjonen vi ønsker
-- _Assert_ - Definer forventet utfall
-
-Hvis du forsøker å kjøre testen igjen, vil du se at testprosjektet ikke kompilerer. Det er fordi vi ikke har definert funksjonen `IsProgramIdValid` enda.
+Hvis du forsøker å kjøre testene, vil du se at testprosjektet ikke kompilerer fordi vi verken har referanse til API-prosjektet (hvor domenet vårt er definert) eller har definert funksjonen `IsTitleValid` enda.
 
 ```bash
 $ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(11,28): error FS0039: The value or constructor 'IsProgramIdValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+  NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(11,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(22,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(33,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(44,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(55,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(66,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
 ```
 
-##### Implementere IsProgramIdValid
+##### Implementere IsTitleValid
 
-Åpne filen `Domain.fs` i API-prosjektet, og lim inn følgende kode på slutten av filen:
+For å validere en tittel bruker vi et regulært uttrykk som reflekterer reglene i domenet vårt. Åpne filen `Domain.fs` i API-prosjektet, og lim inn følgende kode på slutten av filen:
 
 ```f#
-let IsProgramIdValid (programId: string) : bool =
-    true
+let IsTitleValid (title: string) : bool =
+    let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+    titleRegex.IsMatch(title)
 ```
 
 For at enhetstestprosjektet skal få tilgang til funksjonen vi nettopp definerte i `Domain.fs` må vi legge til en prosjektreferanse til API-prosjektet i enhetstestprosjektet. Det kan vi gjøre vha. .NET CLI med følgende kommando:
@@ -1216,7 +1225,7 @@ open NRK.Dotnetskolen.Domain
 ...
 ```
 
-Kjør enhetstesten igjen:
+Nå skal testene kjøre vellykket:
 
 ```bash
 $ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
@@ -1232,32 +1241,76 @@ Copyright (c) Microsoft Corporation.  All rights reserved.
 Starting test execution, please wait...
 A total of 1 test files matched the specified pattern.
 
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 1 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
+Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 6 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
 ```
 
-Nå passerer testen, men implementasjonen av `IsProgramIdValid` er åpenbart ikke riktig. La oss skrive en test til for å bevise det.
+#### Kanal
 
-##### Andre test for program-ID
+##### Enhetstester
 
-Legg til følgende test for å vise at implementasjonen av `IsProgramIdValid` ikke reflekterer alle reglene i domenet vårt enda:
+Reglene for kanal er ganske enkle. Vi trenger imidlertid en positiv test per gyldige kanal, en negativ test for små bokstaver, og en negativ test for en ugyldig kanal. Utvid `Tests.fs` i enhettestprosjektet med følgende tester for kanal:
 
 ```f#
 [<Fact>]
-let ``IsProgramIdValid_InvalidProgramId_ReturnsFalse`` () =
+let ``IsChannelValid_NRK1UpperCase_ReturnsTrue`` () =
     // Arrange
-    let invalidProgramId = "-_.,;:"
+    let channel = "NRK1"
 
     // Act
-    let isProgramIdValid = IsProgramIdValid(invalidProgramId)
+    let isChannelValid = IsChannelValid channel
 
     // Assert
-    Assert.False(isProgramIdValid)
+    Assert.True isChannelValid
+
+[<Fact>]
+let ``IsChannelValid_NRK2UpperCase_ReturnsTrue`` () =
+    // Arrange
+    let channel = "NRK2"
+
+    // Act
+    let isChannelValid = IsChannelValid channel
+
+    // Assert
+    Assert.True isChannelValid
+
+[<Fact>]
+let ``IsChannelValid_NRK1LowerCase_ReturnsFalse`` () =
+    // Arrange
+    let channel = "nrk1"
+
+    // Act
+    let isChannelValid = IsChannelValid channel
+
+    // Assert
+    Assert.False isChannelValid
+
+[<Fact>]
+let ``IsChannelValid_NRK3UpperCase_ReturnsFalse`` () =
+    // Arrange
+    let channel = "NRK3"
+
+    // Act
+    let isChannelValid = IsChannelValid channel
+
+    // Assert
+    Assert.False isChannelValid
 ```
 
-Kjør enhetstestene på nytt:
+##### Implementasjon av IsChannelValid
+
+Før vi kjører testene igjen, legger vi til implementasjon av `IsChannelValid` i `Domain.fs`:
+
+```f#
+...
+let IsChannelValid (channel: string) : bool =
+    List.contains channel ["NRK1"; "NRK2"]
+```
+
+Nå kan vi kjøre testene igjen:
 
 ```bash
-$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+
   Determining projects to restore...
   All projects are up-to-date for restore.
   NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
@@ -1268,167 +1321,155 @@ Copyright (c) Microsoft Corporation.  All rights reserved.
 
 Starting test execution, please wait...
 A total of 1 test files matched the specified pattern.
-[xUnit.net 00:00:00.40]     Tests.IsProgramIdValid_DoesNotBeginWithFourLetters_ReturnsFalse [FAIL]
-  Failed Tests.IsProgramIdValid_DoesNotBeginWithFourLetters_ReturnsFalse [2 ms]
-  Error Message:
-   Assert.False() Failure
-Expected: False
-Actual:   True
-  Stack Trace:
-     at Tests.IsProgramIdValid_DoesNotBeginWithFourLetters_ReturnsFalse() in C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs:line 26
 
-Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 3 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
+Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 8 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
 ```
 
-Nå feiler den siste testen vi skrev. Dermed må vi fikse `IsProgramIdValid`-funksjonen vår igjen. Som nevnt i innledningen skal vi ikke fortsette å gå frem og tilbake med feilende tester, og forbedring av implementasjon. Under følger derfor en ferdig implementasjon av `IsProgramIdValid`, og tilhørende tester:
+#### Sendetidspunkter
 
-```f#
-let IsProgramIdValid (programId: string) : bool =
-    let programIdRegex = Regex(@"^[a-zA-Z]{4}[0-9]{8}$")
-    programIdRegex.IsMatch(programId)
-```
+Det siste vi skal validere i domenet vårt er at sluttidspunkt er etter starttidspunkt. 
+
+##### Enhetstester
+
+Lim inn følgende enhetstester for det i `Tests.fs` i enhetstestprosjektet:
 
 ```f#
 [<Fact>]
-let ``IsProgramIdValid_ValidProgramId_ReturnsTrue`` () =
+let ``AreStartAndEndTimesValid_StartBeforeEnd_ReturnsTrue`` () =
     // Arrange
-    let validProgramId = "abcd12345678"
+    let startTime = DateTimeOffset.Now
+    let endTime = startTime.AddMinutes 30.
 
     // Act
-    let isProgramIdValid = IsProgramIdValid(validProgramId)
+    let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
 
     // Assert
-    Assert.True(isProgramIdValid)
+    Assert.True areStartAndSluttTidspunktValid
 
 [<Fact>]
-let ``IsProgramIdValid_LettersAndDigitsSwapped_ReturnsFalse`` () =
+let ``AreStartAndEndTimesValid_StartAfterEnd_ReturnsFalse`` () =
     // Arrange
-    let validProgramId = "12345678abcd"
+    let startTime = DateTimeOffset.Now
+    let endTime = startTime.AddMinutes -30.
 
     // Act
-    let isProgramIdValid = IsProgramIdValid(validProgramId)
+    let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
 
     // Assert
-    Assert.False(isProgramIdValid)
+    Assert.False areStartAndSluttTidspunktValid
 
 [<Fact>]
-let ``IsProgramIdValid_InvalidProgramId_ReturnsFalse`` () =
+let ``AreStartAndEndTimesValid_StartEqualsEnd_ReturnsFalse`` () =
     // Arrange
-    let invalidProgramId = "-_.,;:"
+    let startTime = DateTimeOffset.Now
+    let endTime = startTime
 
     // Act
-    let isProgramIdValid = IsProgramIdValid(invalidProgramId)
+    let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
 
     // Assert
-    Assert.False(isProgramIdValid)
+    Assert.False areStartAndSluttTidspunktValid
 ```
 
-##### Implementasjon av alle valideringsregler
+##### Implementasjon av AreStartAndEndTimesValid
 
-For å ha en fullstendig implementasjon av alle valideringsreglene fra domenet vårt, lim inn implementasjonen av `Domain.fs` under:
+Funksjonen for å validere sendetidspunktene er enkel. Den må validere at sluttidspunktet er større enn starttidspunktet. Lim inn implementasjonen under i `Domain.fs`:
 
 ```f#
-module NRK.Dotnetskolen.Domain
-
-open System
-open System.Text.RegularExpressions
-
-type Kanal =
-    | NRK1
-    | NRK2
-    | NRK3
-    | NRKSUPER
-
-type EpgInnslag = {
-    Id: string
-    Tittel: string
-    Kanal: Kanal
-    StartTidspunkt: DateTimeOffset
-    SluttTidspunkt: DateTimeOffset
-}
-
-type Epg = EpgInnslag list
-
-let IsProgramIdValid (programId: string) : bool =
-    let programIdRegex = Regex(@"^[a-zA-Z]{4}[0-9]{8}$")
-    programIdRegex.IsMatch(programId)
-
-let IsTitleValid (title: string) : bool =
-    let titleRegex = Regex(@"^.{5,100}$")
-    titleRegex.IsMatch(title)
+...
+let AreStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
+    startTime < endTime
 ```
 
-Under følger `Tests.fs` med enhetstester for både `IsValidProgramId` og `IsTitleValid`:
+Kjør enhetstestene:
+
+```bash
+$ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
+  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
+Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.9.1
+Copyright (c) Microsoft Corporation.  All rights reserved.
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    13, Skipped:     0, Total:    13, Duration: 10 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
+```
+
+#### Validere en sending
+
+Nå som vi har funksjoner for å validere de ulike feltene i en sending, kan vi lage en funksjon som validerer en hel sending.
+
+##### Enhetstester
+
+Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene av en sending, kan enhetstestene for validering av hele sendingen være ganske enkle. Vi kan skrive én positiv test for en gyldig sending, og en negativ test for en ugyldig sending. Lim inn følgende enhetstester i `Tests.fs`:
 
 ```f#
-module Tests
-
-open Xunit
-open NRK.Dotnetskolen.Domain
-
 [<Fact>]
-let ``IsProgramIdValid_ValidProgramId_ReturnsTrue`` () =
+let ``IsTransmissionValid_ValidTransmission_ReturnsTrue`` () =
     // Arrange
-    let validProgramId = "abcd12345678"
+    let now = DateTimeOffset.Now
+    let transmission = {
+        Sending.Tittel = "Dagsrevyen"
+        Kanal = "NRK1"
+        StartTidspunkt = now
+        SluttTidspunkt = now.AddMinutes 30.
+    }
 
     // Act
-    let isProgramIdValid = IsProgramIdValid(validProgramId)
+    let isTransmissionValid = IsTransmissionValid transmission
 
     // Assert
-    Assert.True(isProgramIdValid)
+    Assert.True isTransmissionValid
 
 [<Fact>]
-let ``IsProgramIdValid_LettersAndDigitsSwapped_ReturnsFalse`` () =
+let ``IsTransmissionValid_InValidTransmission_ReturnsFalse`` () =
     // Arrange
-    let validProgramId = "12345678abcd"
+    let now = DateTimeOffset.Now
+    let transmission = {
+        Sending.Tittel = "@$%&/"
+        Kanal = "nrk3"
+        StartTidspunkt = now
+        SluttTidspunkt = now.AddMinutes -30.
+    }
 
     // Act
-    let isProgramIdValid = IsProgramIdValid(validProgramId)
+    let isTransmissionValid = IsTransmissionValid transmission
 
     // Assert
-    Assert.False(isProgramIdValid)
+    Assert.False isTransmissionValid
+```
 
-[<Fact>]
-let ``IsProgramIdValid_InvalidProgramId_ReturnsFalse`` () =
-    // Arrange
-    let invalidProgramId = "-_.,;:"
+##### Implementasjon av IsTransmissionValid
 
-    // Act
-    let isProgramIdValid = IsProgramIdValid(invalidProgramId)
+`IsTransmissionValid` trenger bare å slå sammen resultatet av å validere hvert av feltene i sendingen. Lim inn implementasjonen av `IsTransmissionValid` under i `Domain.fs`:
 
-    // Assert
-    Assert.False(isProgramIdValid)
+```f#
+let IsTransmissionValid (transmission: Sending) : bool =
+    (IsTitleValid transmission.Tittel) && 
+    (IsChannelValid transmission.Kanal) && 
+    (AreStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
+```
 
-[<Fact>]
-let ``IsTitleValid_ValidTitle_ReturnsTrue`` () =
-    // Arrange
-    let validProgramId = "Eksempelprogram"
+Kjør enhetstestene en siste gang:
 
-    // Act
-    let isProgramIdValid = IsTitleValid(validProgramId)
+```bash
+$ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj 
 
-    // Assert
-    Assert.True(isProgramIdValid)
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
+  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
+Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
+Microsoft (R) Test Execution Command Line Tool Version 16.9.1
+Copyright (c) Microsoft Corporation.  All rights reserved.
 
-[<Fact>]
-let ``IsTitleValid_TitleWithTwoCharacters_ReturnsFalse`` () =
-    // Arrange
-    let validProgramId = "ab"
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
 
-    // Act
-    let isProgramIdValid = IsTitleValid(validProgramId)
-
-    // Assert
-    Assert.False(isProgramIdValid)
-
-[<Fact>]
-let ``IsTitleValid_TitleWithOneHundredAndTwoCharacters_ReturnsFalse`` () =
-    // Arrange
-    let validProgramId = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901"
-
-    // Act
-    let isProgramIdValid = IsTitleValid(validProgramId)
-
-    // Assert
-    Assert.False(isProgramIdValid)
+Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 12 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
 ```
