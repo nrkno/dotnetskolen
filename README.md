@@ -1555,7 +1555,7 @@ Under følger OpenAPI-kontrakt for web-API-et vårt:
                     "startTidspunkt": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "Startdato- og tidspunkt for sendingen. Er alltid mindre enn sendingens sluttdato- og tidspunkt."
+                        "description": "Startdato- og tidspunkt for sendingen."
                     },
                     "sluttTidspunkt": {
                         "type": "string",
