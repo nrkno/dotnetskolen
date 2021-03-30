@@ -1080,7 +1080,7 @@ Før vi begynner å implementere valideringsreglene i domenemodellen skal vi skr
 
 #### Tittel
 
-La oss begynne med å verifisere at vi implementerer valideringsreglene for tittel.
+La oss begynne med å verifisere at vi implementerer valideringsreglene for tittel riktig.
 
 ##### Enhetstester
 
