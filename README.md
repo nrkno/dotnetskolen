@@ -1256,9 +1256,11 @@ Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration:
 
 #### Kanal
 
+Reglene for kanal er ganske enkle ettersom det kun er to gyldige kanaler, og disse kun kan skrives med store bokstaver.
+
 ##### Enhetstester
 
-Reglene for kanal er ganske enkle. Vi trenger imidlertid en positiv test per gyldige kanal, en negativ test for små bokstaver, og en negativ test for en ugyldig kanal. Utvid `Tests.fs` i enhettestprosjektet med følgende tester for kanal:
+For å teste valideringsreglen for kanal trenger vi én positiv test per gyldige kanal, en negativ test for en kanal små bokstaver, og en negativ test for en ugyldig kanal. Utvid `Tests.fs` i med følgende tester for kanal:
 
 ```f#
 [<Fact>]
