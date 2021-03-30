@@ -1063,7 +1063,7 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
 
 ### Steg 6 - Enhetstester for domenemodell
 
-Domenemodellen som ble innført i [forrige steg](#steg-5---definere-domenemodell) inneholder både strukturen til innslagene i EPG-en, og valideringsreglene knyttet til dem. Så langt har vi kun definert strukturen til EPG-en (at den består av en liste med sendinger, og hvilke felter hver sending inneholder). I dette steget skal vi implementere valideringsreglene i domenemodellen, og verifisere at vi har implementert dem riktig ved hjelp av enhetstester.
+Domenemodellen som ble innført i [forrige steg](#steg-5---definere-domenemodell) inneholder både strukturen til EPG-en, og valideringsreglene knyttet til dem. Så langt har vi kun modellert strukturen i F# (at EPG består av en liste med sendinger, og hvilke felter hver sending inneholder). I dette steget skal vi implementere valideringsreglene i F#, og verifisere at vi har implementert dem riktig ved hjelp av enhetstester.
 
 #### Regler i domenet vårt
 
