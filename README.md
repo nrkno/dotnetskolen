@@ -2,9 +2,7 @@
 
 ## To do
 
-- Skriv om kapittel om enhetstester til å ikke være sentrert rundt TDD. Heller skriv noen tester først, og implementer etterpå. Ikke heng deg opp i "slik ville TDD gjort, men vi skal ikke det"
 - "Fasit" -> løsningsforslag
-- Legge til valideringsregel for at sluttdato- og tidspunkt er etter startdato- og tidspunkt
 - Legg JSON Schema inn som kontrakt for modell i webapi
 - Definér operasjoner i webapi
 - Lag webapi med `Startup.fs`
