@@ -1179,6 +1179,7 @@ C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(66,28): error FS0039: Th
 For å validere en tittel bruker vi et regulært uttrykk som reflekterer reglene i domenet vårt. Åpne filen `Domain.fs` i API-prosjektet, og lim inn følgende kode på slutten av filen:
 
 ```f#
+...
 let IsTitleValid (title: string) : bool =
     let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
     titleRegex.IsMatch(title)
@@ -1263,6 +1264,7 @@ Reglene for kanal er ganske enkle ettersom det kun er to gyldige kanaler, og dis
 For å teste valideringsreglen for kanal trenger vi én positiv test per gyldige kanal, en negativ test for en kanal små bokstaver, og en negativ test for en ugyldig kanal. Utvid `Tests.fs` i med følgende tester for kanal:
 
 ```f#
+...
 [<Fact>]
 let ``IsChannelValid_NRK1UpperCase_ReturnsTrue`` () =
     // Arrange
@@ -1346,6 +1348,7 @@ Det siste vi skal validere i domenet vårt er at sluttidspunkt er etter starttid
 Lim inn følgende enhetstester for det i `Tests.fs` i enhetstestprosjektet:
 
 ```f#
+...
 [<Fact>]
 let ``AreStartAndEndTimesValid_StartBeforeEnd_ReturnsTrue`` () =
     // Arrange
@@ -1421,6 +1424,7 @@ Nå som vi har funksjoner for å validere de ulike feltene i en sending, kan vi 
 Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene av en sending, kan enhetstestene for validering av hele sendingen være ganske enkle. Vi kan skrive én positiv test for en gyldig sending, og en negativ test for en ugyldig sending. Lim inn følgende enhetstester i `Tests.fs`:
 
 ```f#
+...
 [<Fact>]
 let ``IsTransmissionValid_ValidTransmission_ReturnsTrue`` () =
     // Arrange
@@ -1461,6 +1465,7 @@ let ``IsTransmissionValid_InValidTransmission_ReturnsFalse`` () =
 `IsTransmissionValid` trenger bare å slå sammen resultatet av å validere hvert av feltene i sendingen. Lim inn implementasjonen av `IsTransmissionValid` under i `Domain.fs`:
 
 ```f#
+...
 let IsTransmissionValid (transmission: Sending) : bool =
     (IsTitleValid transmission.Tittel) && 
     (IsChannelValid transmission.Kanal) && 
