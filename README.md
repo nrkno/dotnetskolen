@@ -1341,11 +1341,11 @@ Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration:
 
 #### Sendetidspunkter
 
-Det siste vi skal validere i domenet vårt er at sluttidspunkt er etter starttidspunkt. 
+Det siste vi skal validere i domenet vårt er at sluttidspunkt er etter starttidspunkt.
 
 ##### Enhetstester
 
-Lim inn følgende enhetstester for det i `Tests.fs` i enhetstestprosjektet:
+Lim inn følgende enhetstester for validering av sendetidspunkter i `Tests.fs`:
 
 ```f#
 ...
