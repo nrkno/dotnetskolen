@@ -1421,7 +1421,7 @@ Nå som vi har funksjoner for å validere de ulike feltene i en sending, kan vi 
 
 ##### Enhetstester
 
-Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene av en sending, kan enhetstestene for validering av hele sendingen være ganske enkle. Vi kan skrive én positiv test for en gyldig sending, og én negativ test for en ugyldig sending. Lim inn følgende enhetstester i `Tests.fs`:
+Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene av en sending, kan enhetstestene for validering av hele sendingen være ganske enkle. Vi kan skrive én positiv test for en gyldig sending, og én negativ test for en ugyldig sending. Lim inn følgende enhetstester for validering av sendetidspunkter i `Tests.fs`:
 
 ```f#
 ...
