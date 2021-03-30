@@ -1458,10 +1458,9 @@ For å holde ting enkelt skal vi ha kun én operasjon i API-et vårt:
 Responsen til denne operasjonen vil bestå av en liste med sendinger, hvor hver sending har
 
 - Tittel - tekststreng som følger reglene definert i [domenemodellen vår](#steg-5---definere-domenemodell).
+- Kanal - NRK1 eller NRK2
 - Startdato- og tidspunkt - tekststreng som følger [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 - Sluttdato- og tidspunkt - tekststreng som følger [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Er garantert å være større enn startdato- og tidspunkt.
-
-> Merk at vi utelater kanal i API-responsen siden konsumenter av API-et må oppgi kanalen når de henter EPG-en.
 
 #### OpenAPI-kontrakt
 
@@ -1539,13 +1538,19 @@ Under følger OpenAPI-kontrakt for web-API-et vårt:
             },
             "Kanal": {
                 "type": "string",
-                "enum": ["NRK1", "NRK2"]
+                "enum": [
+                    "NRK1",
+                    "NRK2"
+                ]
             },
             "Sending": {
                 "type": "object",
                 "properties": {
                     "tittel": {
                         "$ref": "#/components/schemas/Tittel"
+                    },
+                    "kanal": {
+                        "$ref": "#/components/schemas/Kanal"
                     },
                     "startTidspunkt": {
                         "type": "string",
