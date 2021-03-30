@@ -1084,7 +1084,7 @@ La oss begynne med å verifisere at vi implementerer valideringsreglene for titt
 
 ##### Enhetstester
 
-Ettersom tittel har lengdebegrensninger er det viktig å teste grensetilfellene. I tillegg er det viktig å teste at kun gyldige tegn er lov. Enhetstestene under verifiserer at en tittel følger reglene definert over. Erstatt innholdet i `Tests.fs` i enhetstestprosjektet med koden under.
+Ettersom tittel har lengdebegrensninger er det viktig å teste grensetilfellene til lengden. I tillegg er det viktig å teste at kun gyldige tegn er lov. Erstatt innholdet i `Tests.fs` i enhetstestprosjektet med koden under.
 
 ```f#
 module Tests
