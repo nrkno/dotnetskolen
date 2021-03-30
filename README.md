@@ -1457,7 +1457,7 @@ For å holde ting enkelt skal vi ha kun én operasjon i API-et vårt:
 
 Responsen til denne operasjonen vil bestå av en liste med sendinger, hvor hver sending har
 
-- Tittel - tekststreng som følger reglene definert i domenemodellen vår.
+- Tittel - tekststreng som følger reglene definert i [domenemodellen vår](#steg-5---definere-domenemodell).
 - Startdato- og tidspunkt - tekststreng som følger [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 - Sluttdato- og tidspunkt - tekststreng som følger [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Er garantert å være større enn startdato- og tidspunkt.
 
