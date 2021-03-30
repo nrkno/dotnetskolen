@@ -1192,6 +1192,8 @@ Det regulære uttrykket lister opp hvilke tegn som er gyldige i en gruppe (tegne
 
 I tillegg spesifiserer `{5,100}` at vi tillater 5-100 av tegnene i gruppen over.
 
+##### Legge til prosjektreferanse
+
 For at enhetstestprosjektet skal få tilgang til funksjonen vi nettopp definerte i `Domain.fs` må vi legge til en prosjektreferanse til API-prosjektet i enhetstestprosjektet. Det kan vi gjøre vha. .NET CLI med følgende kommando:
 
 ```bash
@@ -1220,6 +1222,8 @@ Du kan se effekten av kommandoen over ved å åpne `test\unit\NRK.Dotnetskolen.U
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
+
+##### Åpne modul
 
 I tillegg til å legge til en referanse til API-prosjektet i enhetstestprosjektet, må vi åpne `NRK.Dotnetskolen.Domain`-modulen i `Tests.fs`. Det kan du gjøre ved å legge til `open NRK.Dotnetskolen.Domain` under `open Xunit` i `Tests.fs`:
 
