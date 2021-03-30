@@ -1,3 +1,3 @@
-# Steg 7 - API-kontrakt
+# Steg 8 - Integrasjonstester for web-API
 
-Løsningsforslag for [steg 7](https://github.com/nrkno/dotnetskolen/tree/main#steg-7---api-kontrakt).
+Løsningsforslag for [steg 8](https://github.com/nrkno/dotnetskolen/tree/main#steg-8---integrasjonstester-for-web-api).
