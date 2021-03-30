@@ -1320,7 +1320,7 @@ let IsChannelValid (channel: string) : bool =
     List.contains channel ["NRK1"; "NRK2"]
 ```
 
-Nå kan vi kjøre testene igjen:
+Kjør testene:
 
 ```bash
 $ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj
