@@ -1184,6 +1184,14 @@ let IsTitleValid (title: string) : bool =
     titleRegex.IsMatch(title)
 ```
 
+Det regulære uttrykket lister opp hvilke tegn som er gyldige i en gruppe (tegnene mellom mellom `[` og `]`):
+
+- `\p{L}` - syntaks for å spesifisere enhver bokstav i Unicode
+- `0-9` - tall
+- `\.,-:!` - spesialtegnene vi tillater
+
+I tillegg spesifiserer `{5,100}` at vi tillater 5-100 av tegnene i gruppen over.
+
 For at enhetstestprosjektet skal få tilgang til funksjonen vi nettopp definerte i `Domain.fs` må vi legge til en prosjektreferanse til API-prosjektet i enhetstestprosjektet. Det kan vi gjøre vha. .NET CLI med følgende kommando:
 
 ```bash
