@@ -1038,6 +1038,11 @@ type Epg = Sending list
 
 ```
 
+Domenemodellen vår består av to typer:
+
+- `Sending` - modellerer et enkelt innslag i EPG-en, og inneholder feltene som ble definert i forrige seksjon
+- `Epg` - en liste med sendinger
+
 Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain.fs" />` i `src\api\NRK.Dotnetskolen.Api.fsproj` slik som vist under:
 
 ```txt
@@ -1055,11 +1060,6 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
 
 </Project>
 ```
-
-Domenemodellen vår består av to typer:
-
-- `Sending` - modellerer et enkelt innslag i EPG-en, og inneholder feltene som ble definert i forrige seksjon
-- `Epg` - en liste med sendinger
 
 ### Steg 6 - Enhetstester for domenemodell
 
