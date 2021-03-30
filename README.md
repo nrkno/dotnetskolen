@@ -1,3 +1,3 @@
-# Steg 6 - Enhetstester for domenemodell
+# Steg 7 - API-kontrakt
 
-Løsningsforslag for [steg 6](https://github.com/nrkno/dotnetskolen/tree/main#steg6---enhetstester-for-domenemodell).
+Løsningsforslag for [steg 7](https://github.com/nrkno/dotnetskolen/tree/main#steg-7---api-kontrakt).
