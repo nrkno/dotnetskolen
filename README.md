@@ -13,14 +13,14 @@
 
 Velkommen til Dotnetskolen!
 
-Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp et .NET-prosjekt fra bunnen av, steg for steg. Målet er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
+Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp et .NET-prosjekt fra bunnen av, steg for steg. Målet med kurset er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
 
 - Opprette prosjekter og mappestruktur
 - Sette opp pakkehåndtering
 - Sette opp tester
 - Sette opp bygg og deploy
 
-Som en eksempel-applikasjon skal vi lage et web-API med tilhørende enhets- og integrasjonstester.
+Som en eksempel-applikasjon skal vi lage et enkelt web-API for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester.
 
 For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bruke .NET CLI som er et kommandolinjeverktøy som gir oss muligheten til å utvikle, bygge, kjøre og publisere .NET-applikasjoner. Du kan lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
 
