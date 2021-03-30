@@ -1444,3 +1444,135 @@ Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration:
 ```
 
 ### Steg 7 - API-kontrakt
+
+For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK definerer API-kontrakter ved bruk av OpenAPI ([https://www.openapis.org/](https://www.openapis.org/))
+
+#### Operasjoner
+
+For å holde ting enkelt skal vi ha kun én operasjon i API-et vårt:
+
+- Hent EPG for en gitt kanal på en gitt dato
+
+#### Responser
+
+Responsen til denne operasjonen vil bestå av en liste med sendinger, hvor hver sending har
+
+- Tittel - tekststreng som følger reglene definert i domenemodellen vår.
+- Startdato- og tidspunkt - tekststreng som følger [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
+- Sluttdato- og tidspunkt - tekststreng som følger [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Er garantert å være større enn startdato- og tidspunkt.
+
+> Merk at vi utelater kanal i API-responsen siden konsumenter av API-et må oppgi kanalen når de henter EPG-en.
+
+#### OpenAPI-kontrakt
+
+Under følger OpenAPI-kontrakt for web-API-et vårt:
+
+```json
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dotnetskolen EPG-API",
+        "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/epg/{kanal}/{dato}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Kanalnavn",
+                        "in": "path",
+                        "name": "kanal",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Kanal"
+                        },
+                        "example": "NRK1"
+                    },
+                    {
+                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
+                        "in": "path",
+                        "name": "dato",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2021-11-15"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Epg"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    },
+                    "400": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "\"Ugyldig kanal\""
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    }
+                },
+                "operationId": "hentEpgForKanalPåDato",
+                "description": "Henter EPG for den oppgitte kanalen på den oppgitte datoen. Returnerer 400 dersom kanal eller dato er ugyldig. Listen med sendinger er tom dersom det ikke finnes noen sendinger for den gitte kanalen på den gitte dagen."
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Tittel": {
+                "type": "string",
+                "pattern": "^[\\p{L}0-9\\.,-:!]{5,100}$",
+                "example": "Dagsrevyen",
+                "description": "Programtittel"
+            },
+            "Kanal": {
+                "type": "string",
+                "enum": ["NRK1", "NRK2"]
+            },
+            "Sending": {
+                "type": "object",
+                "properties": {
+                    "tittel": {
+                        "$ref": "#/components/schemas/Tittel"
+                    },
+                    "startTidspunkt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Startdato- og tidspunkt for sendingen. Er alltid mindre enn sendingens sluttdato- og tidspunkt."
+                    },
+                    "sluttTidspunkt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Sluttdato- og tidspunkt for sendingen. Er alltid større enn sendingens startdato- og tidspunkt."
+                    }
+                },
+                "required": [
+                    "tittel",
+                    "startTidspunkt",
+                    "sluttTidspunkt"
+                ]
+            },
+            "Epg": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Sending"
+                }
+            }
+        }
+    }
+}
+```
+
+> OpenAPI-kontrakten over er sterkt inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
