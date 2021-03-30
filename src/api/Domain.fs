@@ -13,5 +13,16 @@ type Sending = {
 type Epg = Sending list
 
 let IsTitleValid (title: string) : bool =
-    let titleRegex = Regex(@"^.{5,100}$")
+    let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
     titleRegex.IsMatch(title)
+
+let IsChannelValid (channel: string) : bool =
+    List.contains channel ["NRK1"; "NRK2"]
+
+let AreStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
+    startTime < endTime
+
+let IsTransmissionValid (transmission: Sending) : bool =
+    (IsTitleValid transmission.Tittel) && 
+    (IsChannelValid transmission.Kanal) && 
+    (AreStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
