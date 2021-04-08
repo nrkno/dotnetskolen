@@ -1615,6 +1615,10 @@ Under følger OpenAPI-kontrakt for web-API-et vårt. Den inneholder den ene oper
 }
 ```
 
+> OpenAPI-kontrakten over er sterkt inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
+>
+> I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
+
 Foreløpig skal vi ikke gjøre noe mer med denne kontrakten annet enn å ha den som dokumentasjon på API-et vårt. Lag en ny mappe `docs` i roten av repoet med enn ny fil `openapi.json` i hvor du limer inn kontrakten over. Du skal nå ha følgende mappehierarki i repoet:
 
 ```txt
@@ -1639,7 +1643,3 @@ test
 └── Dotnetskolen.sln
 └── paket.dependencies
 ```
-
-> OpenAPI-kontrakten over er sterkt inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
->
-> I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
