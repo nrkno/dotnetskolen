@@ -28,6 +28,8 @@
       - Map til dto
       - Serialiser DTO til JSON
 - Legg til "steg x av y"
+- Vurdere om vi skal legge til bygg og deploy (mulig utenfor scope av kurset)
+  - Kan ev. vise en enkel DOCKERFILE?
 
 ## Innledning
 
@@ -38,11 +40,13 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp et .NET-pro
 - Opprette prosjekter og mappestruktur
 - Sette opp pakkehåndtering
 - Sette opp tester
-- Sette opp bygg og deploy
+- ~~Sette opp bygg og deploy~~
 
 Som en eksempel-applikasjon skal vi lage et enkelt web-API for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester.
 
-For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bruke .NET CLI som er et kommandolinjeverktøy som gir oss muligheten til å utvikle, bygge, kjøre og publisere .NET-applikasjoner. Du kan lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
+Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva er .NET](#hva-er-net). Ellers er det uansett fint å lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve stegene](#oppgaver).
+
+Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i branchen `complete`) kan fungere som et referanse-repo for hvordan man kan sette opp .NET-prosjekter.
 
 ## Innholdsfortegnelse
 
@@ -74,7 +78,7 @@ For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bru
 
 ### Versjoner av .NET
 
-Opprinnelig var .NET kun tilgjengelig på Windows. Denne versjonen av .NET omtales som .NET Framework. Etter hvert kom implementasjoner av kjøretidsmiljøet til andre plattformer også, som Mono til Linux og Mac, og Xamarin til Android og iOS. Både Mono og Xamarin var opprinnelig drevet av andre selskaper enn Microsoft. I 2016 lanserte Microsoft en ny versjon av .NET, .NET Core, som er en implementasjon av .NET for alle plattformer (Windows, Mac og Linux). .NET Core gikk gjennom tre hovedversjoner, i parallell med .NET Framework som nådde sin siste versjon, 4.8, i 2019. .NET Framework blir ikke videreutviklet, og i 2020 lanserte Microsoft .NET 5 som er den nyeste versjon av .NET Core. .NET 5 er den versjonen Microsoft vil fortsette å utvikle fremover. 
+Opprinnelig var .NET kun tilgjengelig på Windows. Denne versjonen av .NET omtales som .NET Framework. Etter hvert kom implementasjoner av kjøretidsmiljøet til andre plattformer også, som Mono til Linux og Mac, og Xamarin til Android og iOS. Både Mono og Xamarin var opprinnelig drevet av andre selskaper enn Microsoft. I 2016 lanserte Microsoft en ny versjon av .NET, .NET Core, som er en implementasjon av .NET for alle plattformer (Windows, Mac og Linux). .NET Core gikk gjennom tre hovedversjoner, i parallell med .NET Framework som nådde sin siste versjon, 4.8, i 2019. .NET Framework blir ikke videreutviklet, og i 2020 lanserte Microsoft .NET 5 som er den nyeste versjon av .NET Core. .NET 5 er den versjonen Microsoft vil fortsette å utvikle fremover.
 
 For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Microsoft laget en spesifikasjon, .NET Standard. .NET Standard har flere versjoner, og de ulike versjonene av .NET (.NET Framework, .NET Core, Mono etc.) oppfyller kravene i en gitt versjon av .NET Standard. Les mer om .NET Standard, og kompatibilitet på tvers av .NET-versjoner her: [https://docs.microsoft.com/en-us/dotnet/standard/net-standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
 
@@ -87,7 +91,7 @@ For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Micros
 - [https://docs.microsoft.com/en-us/dotnet/standard/clr](https://docs.microsoft.com/en-us/dotnet/standard/clr)
 - [https://dotnet.microsoft.com/apps/xamarin](https://dotnet.microsoft.com/apps/xamarin)
 
-## Hvordan komme i gang med kurset
+## Hvordan komme i gang
 
 Påse at du har de [verktøyene](#verktøy) som kreves for å gjennomføre kurset. Deretter kan du [sette opp koden lokalt](#lokalt-oppsett-av-koden), og gå i gang med [første steg](#steg-1---opprette-api).
 
@@ -110,7 +114,15 @@ Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/do
 
 #### .NET SDK
 
-Ettersom du skal kjøre .NET-applikasjoner og bruke .NET CLI for å opprette prosjektene som inngår i løsningen trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med lavere versjoner av .NET, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
+Når man installerer .NET på maskinen sin har man valget mellom å installere
+
+- .NET runtime - kjøretidsmiljø for .NET-applikasjoner
+- .NET SDK - inneholder alt man trenger for å utvikle og kjøre .NET-applikasjoner lokalt, og inkluderer
+  - .NET runtime og basebiblioteker (BCL)
+  - Kompilatorer
+  - .NET CLI - kommandolinjeverktøy for å bygge, kjøre og publisere .NET-applikasjoner
+
+Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med lavere versjoner av .NET, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
 
 ``` bash
 $ dotnet --version
@@ -119,6 +131,8 @@ $ dotnet --version
 ```
 
 Dersom du ikke har .NET installert på maskinen din, kan du laste det ned her: [https://dotnet.microsoft.com/download/dotnet](https://dotnet.microsoft.com/download/dotnet)
+
+Som nevnt over inkluderer .NET SDK også .NET CLI som gir oss muligheten til å bygge, kjøre og publisere .NET-applikasjoner. For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bruke .NET CLI til oppsett av løsningen vår. Du kan lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
 
 #### IDE
 
