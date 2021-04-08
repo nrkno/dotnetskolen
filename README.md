@@ -63,7 +63,7 @@ Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (so
   - [Steg 4 - Pakkehåndtering](#steg-4---pakkehåndtering)
   - [Steg 5 - Definere domenemodell](#steg-5---definere-domenemodell)
   - [Steg 6 - Enhetstester for domenemodell](#steg-6---enhetstester-for-domenemodell)
-  - [Steg 7 - API-kontrakt](#steg-7---definere-api-kontrakt)
+  - [Steg 7 - Definere API-kontrakt](#steg-7---definere-api-kontrakt)
   - [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
 
 ## Hva er .NET?
