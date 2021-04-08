@@ -63,7 +63,7 @@ Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (so
   - [Steg 4 - Pakkehåndtering](#steg-4---pakkehåndtering)
   - [Steg 5 - Definere domenemodell](#steg-5---definere-domenemodell)
   - [Steg 6 - Enhetstester for domenemodell](#steg-6---enhetstester-for-domenemodell)
-  - [Steg 7 - API-kontrakt](#steg-7---api-kontrakt)
+  - [Steg 7 - API-kontrakt](#steg-7---definere-api-kontrakt)
   - [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
 
 ## Hva er .NET?
@@ -1477,7 +1477,7 @@ A total of 1 test files matched the specified pattern.
 Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 12 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
 ```
 
-### Steg 7 - API-kontrakt
+### Steg 7 - Definere API-kontrakt
 
 For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK definerer vi API-kontrakter ved bruk av OpenAPI ([https://www.openapis.org/](https://www.openapis.org/)).
 
