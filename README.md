@@ -34,14 +34,14 @@
 
 Velkommen til Dotnetskolen!
 
-Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp et .NET-prosjekt fra bunnen av, steg for steg. Målet med kurset er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
+Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp og implementere et .NET-prosjekt fra bunnen av, steg for steg. Målet med kurset er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
 
 - Opprette prosjekter og mappestruktur
 - Sette opp pakkehåndtering
 - Sette opp tester
 - ~~Sette opp bygg og deploy~~
 
-Som en eksempel-applikasjon skal vi lage et enkelt web-API for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester.
+Som en eksempel-applikasjon skal vi lage et web-API for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester.
 
 Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva .NET er](#hva-er-net). Deretter bør du lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve stegene](#oppgaver).
 
@@ -1372,7 +1372,7 @@ let ``AreStartAndEndTimesValid_StartEqualsEnd_ReturnsFalse`` () =
 
 ##### Implementasjon av AreStartAndEndTimesValid
 
-Funksjonen for å validere sendetidspunktene er enkel. Den må validere at sluttidspunktet er større enn starttidspunktet. Lim inn implementasjonen under i `Domain.fs`:
+Funksjonen for å validere sendetidspunktene må undersøke om sluttidspunktet er større enn starttidspunktet. Lim inn implementasjonen under i `Domain.fs`:
 
 ```f#
 ...
@@ -1481,7 +1481,7 @@ For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi l
 
 #### Operasjoner
 
-For å holde ting enkelt skal vi ha kun én operasjon i API-et vårt:
+For å begrense omfanget av API-et vårt skal vi ha kun én operasjon i det:
 
 - Hent EPG på en gitt dato
 
