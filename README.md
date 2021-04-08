@@ -4,8 +4,6 @@
 
 - Steg 8 - Implementere kontraktstyper
   - Lag DTO-er for OpenAPI-kontrakt i web-API
-  - Lag JSON-modul for serialisering og deserialisering
-    - Med enhetstester?
 - Steg 9 - Skall for web-API
   - Sett opp host i web-API med skall for `Startup`
     - Trenger dette for å kunne skrive integrasjonstester
@@ -26,7 +24,9 @@
         - Filtrer på kanal
         - Filtrer på dato (startdato må være på oppgitt dato?)
       - Map til dto
-      - Serialiser DTO til JSON
+    - Lag JSON-modul for serialisering og deserialisering
+      - Med enhetstester?
+      - Serialiser DTO til JSON og returner
 - Legg til "steg x av y"
 - Steg 7 - Utlede kontrakten steg for steg, og til slutt list opp helheten. På denne måten er det lettere for de som er ukjent med OpenAPI å følge eksemplet.
 - Vurdere om vi skal legge til bygg og deploy (mulig utenfor scope av kurset)
@@ -64,6 +64,7 @@ Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (so
   - [Steg 5 - Definere domenemodell](#steg-5---definere-domenemodell)
   - [Steg 6 - Enhetstester for domenemodell](#steg-6---enhetstester-for-domenemodell)
   - [Steg 7 - API-kontrakt](#steg-7---api-kontrakt)
+  - [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
 
 ## Hva er .NET?
 
@@ -864,8 +865,7 @@ framework: net5, netcoreapp3.1, netstandard2.0, netstandard2.1
 
 Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til nødvendige NuGet-pakker. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene:
 
-```txt
-
+```xml
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -894,7 +894,6 @@ Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), b
   </ItemGroup>
 
 </Project>
-
 ```
 
 Siden vi ønsker å benytte Paket til å håndtere pakkene i løsningen vår, må vi migrere disse pakkene til Paket. Det gjør vi ved å fjerne pakkereferansene fra `.fsproj`-filene, og legge dem til via Paket istedenfor.
@@ -1032,7 +1031,7 @@ Domenemodellen vår består av to typer:
 
 Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain.fs" />` i `src\api\NRK.Dotnetskolen.Api.fsproj` slik som vist under:
 
-```txt
+```xml
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
@@ -1060,7 +1059,7 @@ Før vi begynner å implementere valideringsreglene i domenemodellen skal vi skr
   - Må bestå av 5-100 tegn (inklusiv)
   - Kan kun bestå av store og små bokstaver, tall, og følgende spesialtegn: `, . : - !`
 - Kanal
-  - NRK1 eller NRK2.
+  - `NRK1` eller `NRK2`.
   - Kun store bokstaver er lov.
 - Sendetidspunkt
   - Sluttidspunkt skal være etter starttidspunkt
@@ -1192,7 +1191,7 @@ Reference `..\..\src\api\NRK.Dotnetskolen.Api.fsproj` added to the project.
 
 Du kan se effekten av kommandoen over ved å åpne `test\unit\NRK.Dotnetskolen.UnitTests.fsproj`:
 
-```txt
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
@@ -1486,11 +1485,11 @@ For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi l
 
 For å holde ting enkelt skal vi ha kun én operasjon i API-et vårt:
 
-- Hent EPG for en gitt kanal på en gitt dato
+- Hent EPG gitt dato
 
 #### Responser
 
-Responsen til denne operasjonen vil bestå av en liste med sendinger, hvor hver sending har:
+Responsen til denne operasjonen vil bestå av to lister med sendinger, én for hver kanal i domenet vårt, hvor hver sending har:
 
 - Tittel - tekststreng som følger reglene definert i [domenemodellen vår](#steg-5---definere-domenemodell).
 - Kanal - `NRK1` eller `NRK2`
@@ -1510,19 +1509,9 @@ Under følger OpenAPI-kontrakt for web-API-et vårt. Den inneholder den ene oper
         "version": "0.0.1"
     },
     "paths": {
-        "/epg/{kanal}/{dato}": {
+        "/epg/{dato}": {
             "get": {
                 "parameters": [
-                    {
-                        "description": "Kanalnavn",
-                        "in": "path",
-                        "name": "kanal",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/Kanal"
-                        },
-                        "example": "NRK1"
-                    },
                     {
                         "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
                         "in": "path",
@@ -1551,7 +1540,7 @@ Under følger OpenAPI-kontrakt for web-API-et vårt. Den inneholder den ene oper
                             "text/plain": {
                                 "schema": {
                                     "type": "string",
-                                    "example": "\"Ugyldig kanal\""
+                                    "example": "\"Ugyldig dato\""
                                 }
                             }
                         },
@@ -1559,7 +1548,7 @@ Under følger OpenAPI-kontrakt for web-API-et vårt. Den inneholder den ene oper
                     }
                 },
                 "operationId": "hentEpgForKanalPåDato",
-                "description": "Henter EPG for den oppgitte kanalen på den oppgitte datoen. Returnerer 400 dersom kanal eller dato er ugyldig. Listen med sendinger er tom dersom det ikke finnes noen sendinger for den gitte kanalen på den gitte dagen."
+                "description": "Henter EPG for NRK1 og NRK 2 på den oppgitte datoen. Returnerer 400 dersom dato er ugyldig. Listen med sendinger for en kanal er tom dersom det ikke finnes noen sendinger på den gitte dagen."
             }
         }
     },
@@ -1571,21 +1560,11 @@ Under følger OpenAPI-kontrakt for web-API-et vårt. Den inneholder den ene oper
                 "example": "Dagsrevyen",
                 "description": "Programtittel"
             },
-            "Kanal": {
-                "type": "string",
-                "enum": [
-                    "NRK1",
-                    "NRK2"
-                ]
-            },
             "Sending": {
                 "type": "object",
                 "properties": {
                     "tittel": {
                         "$ref": "#/components/schemas/Tittel"
-                    },
-                    "kanal": {
-                        "$ref": "#/components/schemas/Kanal"
                     },
                     "startTidspunkt": {
                         "type": "string",
@@ -1605,17 +1584,29 @@ Under følger OpenAPI-kontrakt for web-API-et vårt. Den inneholder den ene oper
                 ]
             },
             "Epg": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/Sending"
-                }
+                "type": "object",
+                "properties": {
+                    "NRK1": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Sending"
+                        }
+                    },
+                    "NRK2": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Sending"
+                        }
+                    }
+                },
+                "required": ["NRK1", "NRK2"]
             }
         }
     }
 }
 ```
 
-> OpenAPI-kontrakten over er sterkt inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
+> OpenAPI-kontrakten over er inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
 >
 > I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
 
@@ -1642,4 +1633,70 @@ test
     └── Tests.fs
 └── Dotnetskolen.sln
 └── paket.dependencies
+```
+
+### Steg 8 - Implementere kontraktstyper
+
+I [steg-5](#steg-5---definere-domenemodell) definerte vi domenemodellen vår som en F#-type. Domenemodellen representerer EPG-en slik vi konseptuelt tenker på den, både når det gjelder  struktur og regler for gyldige tilstander. API-kontrakter er ikke nødvendigvis en-til-en med domenemodeller. For det første kan strukturen til typene i API-et være annerledes enn i domenemodellen. Dette ser vi i vårt tilfelle hvor domenemodellen har alle sendinger, på tvers av kanaler, i én liste, mens API-kontrakten har én liste med sendinger per kanal. I tillegg er vi begrenset til å representere data med tekst i API-et ettersom HTTP er en tekstbasert protokoll. For eksempel benytter vi en `DateTimeOffset` til å representere start- og sluttidspunkt i domenemodellen vår, mens vi benytter `string` i OpenAPI-kontrakten vår. For at vi skal kunne oversette domenemodellen til OpenAPI-kontrakten skal vi innføre en egen F#-type som reflekterer typene i OpenAPI-kontrakten vår. Generelt blir typer som representerer dataene våre slik vi kommuniserer med andre systemer på kalt "data transfer objects", eller "DTO".
+
+Start med å opprett en fil `Dto.fs` i mappen `src/api`:
+
+```txt
+└── .config
+    └── dotnet-tools.json
+└── docs
+    └── openapi.json
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Dto.fs
+    └── Domain.fs
+    └── Program.fs
+test
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── integration
+    └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── Dotnetskolen.sln
+└── paket.dependencies
+```
+
+Lim inn innholdet under i `Dto.fs`:
+
+```f#
+module NRK.Dotnetskolen.Dto
+
+type Sending = {
+    Tittel: string
+    StartTidspunkt: string
+    SluttTidspunkt: string
+}
+
+type Epg = {
+  NRK1: Sending list
+  NRK2: Sending list
+}
+```
+
+På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemodell), må vi legge til `Dto.fs` i prosjektfilen vår:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Dto.fs" />
+    <Compile Include="Domain.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
 ```
