@@ -44,7 +44,7 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp et .NET-pro
 
 Som en eksempel-applikasjon skal vi lage et enkelt web-API for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester.
 
-Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva er .NET](#hva-er-net). Ellers er det uansett fint å lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve stegene](#oppgaver).
+Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva er .NET?](#hva-er-net). Deretter bør du lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve stegene](#oppgaver).
 
 Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i branchen `complete`) kan fungere som et referanse-repo for hvordan man kan sette opp .NET-prosjekter.
 
