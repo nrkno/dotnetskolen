@@ -1498,7 +1498,7 @@ Responsen til denne operasjonen vil bestå av en liste med sendinger, hvor hver 
 
 #### OpenAPI-kontrakt
 
-Under følger OpenAPI-kontrakt for web-API-et vårt.
+Under følger OpenAPI-kontrakt for web-API-et vårt. Den inneholder den ene operasjonen vår, hvilken path den er tilgjenglig på, hvilke parametere og responser den har, og formatet på responsene.
 
 ```json
 {
@@ -1614,7 +1614,7 @@ Under følger OpenAPI-kontrakt for web-API-et vårt.
 }
 ```
 
-Lag en ny mappe `docs` i roten av repoet med enn ny fil `openapi.json` i hvor du limer inn kontrakten over. Du skal nå ha følgende mappehierarki i repoet:
+Foreløpig skal vi ikke gjøre noe mer med denne kontrakten annet enn å ha den som dokumentasjon på API-et vårt. Lag en ny mappe `docs` i roten av repoet med enn ny fil `openapi.json` i hvor du limer inn kontrakten over. Du skal nå ha følgende mappehierarki i repoet:
 
 ```txt
 └── .config
