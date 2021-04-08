@@ -6,19 +6,9 @@
         "version": "0.0.1"
     },
     "paths": {
-        "/epg/{kanal}/{dato}": {
+        "/epg/{dato}": {
             "get": {
                 "parameters": [
-                    {
-                        "description": "Kanalnavn",
-                        "in": "path",
-                        "name": "kanal",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/Kanal"
-                        },
-                        "example": "NRK1"
-                    },
                     {
                         "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
                         "in": "path",
@@ -47,7 +37,7 @@
                             "text/plain": {
                                 "schema": {
                                     "type": "string",
-                                    "example": "\"Ugyldig kanal\""
+                                    "example": "\"Ugyldig dato\""
                                 }
                             }
                         },
@@ -55,7 +45,7 @@
                     }
                 },
                 "operationId": "hentEpgForKanalPåDato",
-                "description": "Henter EPG for den oppgitte kanalen på den oppgitte datoen. Returnerer 400 dersom kanal eller dato er ugyldig. Listen med sendinger er tom dersom det ikke finnes noen sendinger for den gitte kanalen på den gitte dagen."
+                "description": "Henter EPG for NRK1 og NRK 2 på den oppgitte datoen. Returnerer 400 dersom dato er ugyldig. Listen med sendinger for en kanal er tom dersom det ikke finnes noen sendinger på den gitte dagen."
             }
         }
     },
@@ -67,21 +57,11 @@
                 "example": "Dagsrevyen",
                 "description": "Programtittel"
             },
-            "Kanal": {
-                "type": "string",
-                "enum": [
-                    "NRK1",
-                    "NRK2"
-                ]
-            },
             "Sending": {
                 "type": "object",
                 "properties": {
                     "tittel": {
                         "$ref": "#/components/schemas/Tittel"
-                    },
-                    "kanal": {
-                        "$ref": "#/components/schemas/Kanal"
                     },
                     "startTidspunkt": {
                         "type": "string",
@@ -101,10 +81,22 @@
                 ]
             },
             "Epg": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/Sending"
-                }
+                "type": "object",
+                "properties": {
+                    "NRK1": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Sending"
+                        }
+                    },
+                    "NRK2": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Sending"
+                        }
+                    }
+                },
+                "required": ["NRK1", "NRK2"]
             }
         }
     }
