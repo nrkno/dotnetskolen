@@ -1546,7 +1546,7 @@ Under følger OpenAPI-kontrakt for web-API-et vårt. Den inneholder den ene oper
                         "description": "Bad Request"
                     }
                 },
-                "operationId": "hentEpgForKanalPåDato",
+                "operationId": "hentEpgPåDato",
                 "description": "Henter EPG for NRK1 og NRK 2 på den oppgitte datoen. Returnerer 400 dersom dato er ugyldig. Listen med sendinger for en kanal er tom dersom det ikke finnes noen sendinger på den gitte dagen."
             }
         }
