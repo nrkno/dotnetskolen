@@ -1485,7 +1485,7 @@ For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi l
 
 For å holde ting enkelt skal vi ha kun én operasjon i API-et vårt:
 
-- Hent EPG gitt dato
+- Hent EPG på en gitt dato
 
 #### Responser
 
