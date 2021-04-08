@@ -2,8 +2,6 @@
 
 ## To do
 
-- Steg 8 - Implementere kontraktstyper
-  - Lag DTO-er for OpenAPI-kontrakt i web-API
 - Steg 9 - Skall for web-API
   - Sett opp host i web-API med skall for `Startup`
     - Trenger dette for å kunne skrive integrasjonstester
