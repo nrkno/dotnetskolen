@@ -46,7 +46,7 @@ Som en eksempel-applikasjon skal vi lage et web-API for å hente ut elektronisk 
 
 Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva .NET er](#hva-er-net). Deretter bør du lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve stegene](#oppgaver).
 
-Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i branchen [ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan man kan sette opp .NET-prosjekter.
+Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan man kan sette opp .NET-prosjekter.
 
 ## Innholdsfortegnelse
 
