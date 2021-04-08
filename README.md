@@ -1697,3 +1697,37 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 
 </Project>
 ```
+
+### Steg 9 - Skall for web-API
+
+> Dersom man ønsker å skrive integrasjonstester på en annen måte enn det er gjort i steg 10, erstatte dem med smoketester f.eks., eller unnlate dem fullstendig, kan man gå videre til steg 11.
+> 
+> Det er dumt at dette steget kommer nå bare pga. hvordan vi tenker å skrive integrasjonstestene. Undersøk om det er mulig å skrive integrasjonstestene uten bruk av `Startup`.
+
+- Sett opp host i web-API med skall for `Startup`
+  - Trenger dette for å kunne skrive integrasjonstester
+
+### Steg 10 - Integrasjonstester
+
+> Dette steget er kun nødvendig å gjøre nå dersom man ønsker å skrive integrasjonstestene på den måten de er gjort i steg 10. Dersom man ønsker å skrive integrasjonstester på en annen måte, erstatte dem med smoketester f.eks., eller unnlate dem fullstendig, kan man gå videre til steg 11.
+
+- Lag integrasjonstester for webapi
+  - Definer routes og verifiser success/bad request
+  - Valider respons opp mot OpenAPI
+
+### Steg 11 - Fullføre API
+
+- Fullfør implementasjon av webapi
+  - Sett opp workflow for route
+    - Ta inn avhengighet for å hente alle sendinger
+      - Registrer i `ConfigureServices` og overskriv i `CustomWebHostBuilder` i integrasjonstestprosjektet
+      - Avhengighet returnerer kanskje DTO?
+      - Deserialisere JSON til DTO?
+    - Map DTO til domenemodell
+      - Mest for å vise at man burde gjøre dette steget
+    - Gå gjennom alle sendinger
+      - Filtrer på dato (startdato må være på oppgitt dato?)
+    - Map til dto
+  - Lag JSON-modul for serialisering og deserialisering
+    - Med enhetstester?
+    - Serialiser DTO til JSON og returner
