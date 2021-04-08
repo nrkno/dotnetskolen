@@ -2,7 +2,6 @@
 
 ## To do
 
-- Steg 7 - Legge til instruksjoner om hva deltakerne skal _gjøre_ med API-kontrakten: lagre i `/docs`?
 - Steg 8 - Implementere kontraktstyper
   - Lag DTO-er for OpenAPI-kontrakt i web-API
   - Lag JSON-modul for serialisering og deserialisering
