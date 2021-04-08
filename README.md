@@ -25,6 +25,7 @@
       - Med enhetstester?
       - Serialiser DTO til JSON og returner
 - Legg til "steg x av y"
+- Legg til lenker til forrige og neste steg
 - Steg 7 - Utlede kontrakten steg for steg, og til slutt list opp helheten. På denne måten er det lettere for de som er ukjent med OpenAPI å følge eksemplet.
 - Vurdere om vi skal legge til bygg og deploy (mulig utenfor scope av kurset)
   - Kan ev. vise en enkel DOCKERFILE?
@@ -209,6 +210,8 @@ Switched to branch 'steg-1'
 ```
 
 ## Oppgaver
+
+[⬇ Neste oppgave](#steg-2---opprette-testprosjekter)
 
 Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt, er du klar til å begynne på selve kurset!
 
