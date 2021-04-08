@@ -213,11 +213,7 @@ Switched to branch 'steg-1'
 
 Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt, er du klar til å begynne på selve kurset!
 
-### Steg 1 - Opprette API
-
-[🔝 Gå til toppen](#innledning)
-
-[⬇ Neste oppgave](#steg-2---opprette-testprosjekter)
+### Steg 1 - Opprette API [🔝 Gå til toppen](#innledning) [⬇ Neste oppgave](#steg-2---opprette-testprosjekter)
 
 I dette steget starter vi med et repo helt uten kode, og bruker .NET CLI til å opprette vårt første prosjekt `NRK.Dotnetskolen.Api`.
 
