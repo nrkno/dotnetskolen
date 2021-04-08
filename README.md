@@ -19,7 +19,6 @@
       - Map DTO til domenemodell
         - Mest for å vise at man burde gjøre dette steget
       - Gå gjennom alle sendinger
-        - Filtrer på kanal
         - Filtrer på dato (startdato må være på oppgitt dato?)
       - Map til dto
     - Lag JSON-modul for serialisering og deserialisering
