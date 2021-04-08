@@ -2,6 +2,7 @@
 
 ## To do
 
+- Steg 7 - Legge til instruksjoner om hva deltakerne skal _gjøre_ med API-kontrakten: lagre i `/docs`?
 - Steg 8 - Implementere kontraktstyper
   - Lag DTO-er for OpenAPI-kontrakt i web-API
   - Lag JSON-modul for serialisering og deserialisering
@@ -1479,7 +1480,7 @@ Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration:
 
 ### Steg 7 - API-kontrakt
 
-For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK definerer API-kontrakter ved bruk av OpenAPI ([https://www.openapis.org/](https://www.openapis.org/)).
+For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK definerer vi API-kontrakter ved bruk av OpenAPI ([https://www.openapis.org/](https://www.openapis.org/)).
 
 #### Operasjoner
 
@@ -1489,16 +1490,16 @@ For å holde ting enkelt skal vi ha kun én operasjon i API-et vårt:
 
 #### Responser
 
-Responsen til denne operasjonen vil bestå av en liste med sendinger, hvor hver sending har
+Responsen til denne operasjonen vil bestå av en liste med sendinger, hvor hver sending har:
 
 - Tittel - tekststreng som følger reglene definert i [domenemodellen vår](#steg-5---definere-domenemodell).
-- Kanal - NRK1 eller NRK2
+- Kanal - `NRK1` eller `NRK2`
 - Startdato- og tidspunkt - tekststreng som følger [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 - Sluttdato- og tidspunkt - tekststreng som følger [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Er garantert å være større enn startdato- og tidspunkt.
 
 #### OpenAPI-kontrakt
 
-Under følger OpenAPI-kontrakt for web-API-et vårt:
+Under følger OpenAPI-kontrakt for web-API-et vårt.
 
 ```json
 {
@@ -1612,6 +1613,31 @@ Under følger OpenAPI-kontrakt for web-API-et vårt:
         }
     }
 }
+```
+
+Lag en ny mappe `docs` i roten av repoet med enn ny fil `openapi.json` i hvor du limer inn kontrakten over. Du skal nå ha følgende mappehierarki i repoet:
+
+```txt
+└── .config
+    └── dotnet-tools.json
+└── docs
+    └── openapi.json
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Domain.fs
+    └── Program.fs
+test
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── integration
+    └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── Dotnetskolen.sln
+└── paket.dependencies
 ```
 
 > OpenAPI-kontrakten over er sterkt inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
