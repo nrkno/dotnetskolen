@@ -54,8 +54,8 @@ Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (so
 - [Hvordan komme i gang](#hvordan-komme-i-gang)
   - [Nødvendige verktøy](#verktøy)
   - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden)
-- [Oppgaver](#oppgaver)
   - [Se løsningsforslag](#se-løsningsforslag)
+- [Oppgaver](#oppgaver)
   - [Steg 1 - Opprette API](#steg-1---opprette-api)
   - [Steg 2 - Opprette testprosjekter](#steg-2---opprette-testprosjekter)
   - [Steg 3 - Opprette solution](#steg-3---opprette-solution)
@@ -199,10 +199,6 @@ For å sette opp `.gitignore` i ditt lokale repo:
 2. Lim inn innholdet i denne filen: [https://github.com/github/gitignore/blob/master/VisualStudio.gitignore](https://github.com/github/gitignore/blob/master/VisualStudio.gitignore) 
 3. Lagre og commite `.gitignore`-filen.
 
-## Oppgaver
-
-Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt, er du klar til å begynne på selve kurset!
-
 ### Se løsningsforslag
 
 Dersom du ønsker å se den forventede tilstanden til repoet etter å ha utført de ulike stegene i kurset, kan du sjekke ut branchen med korresponderende navn som seksjonen du ønsker å se på. F.eks. hvis du vil se hvordan repoet ser ut etter "Steg 1 - Opprette API", kan du sjekke ut branchen `steg-1` slik:
@@ -212,6 +208,10 @@ $ git checkout steg-1
 
 Switched to branch 'steg-1'
 ```
+
+## Oppgaver
+
+Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt, er du klar til å begynne på selve kurset!
 
 ### Steg 1 - Opprette API
 
