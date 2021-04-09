@@ -38,6 +38,7 @@
 - Steg 6
   - Forklare bruk av `[<Fact>]` og `[<Theory>]`
   - Forklare "Arrange, act, assert"?
+  - La deltakerne implementere valideringsfunksjonene selv
 - Steg 7 - Utlede kontrakten steg for steg, og til slutt list opp helheten. På denne måten er det lettere for de som er ukjent med OpenAPI å følge eksemplet.
 - Vurdere om vi skal legge til bygg og deploy (mulig utenfor scope av kurset)
   - Kan ev. vise en enkel DOCKERFILE?
@@ -75,6 +76,8 @@ Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (so
   - [Steg 6 - Enhetstester for domenemodell](#steg-6---enhetstester-for-domenemodell)
   - [Steg 7 - Definere API-kontrakt](#steg-7---definere-api-kontrakt)
   - [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
+  - [Steg 9 - Integrasjonstester for web-API](#steg-9---integrasjonstester-for-web-api)
+  - [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
 
 ## Hva er .NET?
 
@@ -1697,7 +1700,7 @@ test
 
 ### Steg 8 - Implementere kontraktstyper
 
-[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-7---definere-api-kontrakt) [⬇ Neste oppgave](#steg-9)
+[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-7---definere-api-kontrakt) [⬇ Neste oppgave](#steg-9---integrasjonstester-for-web-api)
 
 I [steg-5](#steg-5---definere-domenemodell) definerte vi domenemodellen vår som en F#-type. Domenemodellen representerer EPG-en slik vi konseptuelt tenker på den, både når det gjelder  struktur og regler for gyldige tilstander. API-kontrakter er ikke nødvendigvis en-til-en med domenemodeller. For det første kan strukturen til typene i API-et være annerledes enn i domenemodellen. Dette ser vi i vårt tilfelle hvor domenemodellen har alle sendinger, på tvers av kanaler, i én liste, mens API-kontrakten har én liste med sendinger per kanal. I tillegg er vi begrenset til å representere data med tekst i API-et ettersom HTTP er en tekstbasert protokoll. For eksempel benytter vi en `DateTimeOffset` til å representere start- og sluttidspunkt i domenemodellen vår, mens vi benytter `string` i OpenAPI-kontrakten vår. For at vi skal kunne oversette domenemodellen til OpenAPI-kontrakten skal vi innføre en egen F#-type som reflekterer typene i OpenAPI-kontrakten vår. Generelt blir typer som representerer dataene våre slik vi kommuniserer med andre systemer på kalt "data transfer objects", eller "DTO".
 
@@ -1712,8 +1715,8 @@ Start med å opprett en fil `Dto.fs` i mappen `src/api`:
 src
 └── api
     └── NRK.Dotnetskolen.Api.fsproj
-    └── Dto.fs
     └── Domain.fs
+    └── Dto.fs
     └── Program.fs
 test
 └── unit
@@ -1745,7 +1748,7 @@ type Epg = {
 }
 ```
 
-På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemodell), må vi legge til `Dto.fs` i prosjektfilen vår:
+På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemodell), må vi legge til `Dto.fs` i prosjektfilen til API-prosjektet:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -1766,20 +1769,273 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 
 ### Steg 9 - Integrasjonstester for web-API
 
-> Dersom man ønsker å skrive integrasjonstester på en annen måte enn det er gjort i steg 10, erstatte dem med smoketester f.eks., eller unnlate dem fullstendig, kan man gå videre til steg 11.
-> 
-> Det er dumt at dette steget kommer nå bare pga. hvordan vi tenker å skrive integrasjonstestene. Undersøk om det er mulig å skrive integrasjonstestene uten bruk av `Startup`.
+[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-8---implementere-kontraktstyper) [⬇ Neste oppgave](#steg-10---implementere-web-api)
 
-- Sett opp host i web-API med skall for `Startup`
-  - Trenger dette for å kunne skrive integrasjonstester
+Før vi faktisk implementerer web-API-et skal vi skrive integrasjonstester som verifiserer at API-et oppfyller kontrakten vi definerte i forrige steg. Overordnet er måten vi skal gjøre det på å kjøre web-API-et vårt på en webserver som kjører i minnet under testen ([https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0)), og sende forespørsler mot denne webserveren. Siden vi gir hele web-API-et vårt som input til denne webserveren er responsene vi får på samme format som web-API-et svarer med i et deployet miljø, og dermed kan vi verifisere at API-et oppfyller kontrakten vi har definert.
 
-> Dette steget er kun nødvendig å gjøre nå dersom man ønsker å skrive integrasjonstestene på den måten de er gjort i steg 10. Dersom man ønsker å skrive integrasjonstester på en annen måte, erstatte dem med smoketester f.eks., eller unnlate dem fullstendig, kan man gå videre til steg 11.
+> Inspirasjonen til å skrive integrasjonstestene på måten beskrevet over er hentet fra denne artikkelen skrevet av Microsoft: [https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0)
 
-- Lag integrasjonstester for webapi
-  - Definer routes og verifiser success/bad request
-  - Valider respons opp mot OpenAPI
+#### Endre prosjekttyper
 
-### Steg 10 - Fullføre API
+Fra og med .NET Core, opererer .NET med ulike prosjekttyper avhengig av hva slags type applikasjon man ønsker å utvikle. Avhengig av hvilken prosjekttype man har får man tilgang til ulik funksjonalitet knyttet til kompilering og publisering av prosjektene. Da vi opprettet API- og enhetstestprosjektene fikk vi prosjekter med den grunnleggende prosjekttypen `.NET SDK`. Siden vi i dette steget er avhengig av funksjonalitet som finnes i `.NET Web SDK` skal vi endre prosjekttypene til API- og enhetstestprosjektene.
+
+> Du kan lese mer om de ulike prosjekttypene i .NET her: [https://docs.microsoft.com/en-us/dotnet/core/project-sdk/overview](https://docs.microsoft.com/en-us/dotnet/core/project-sdk/overview)
+
+Åpne filen `src/api/NRK.Dotnetskolen.Api.fsproj`, og endre `Sdk`-attributtet på `Project`-elementet fra `Microsoft.NET.Sdk` til `Microsoft.NET.Sdk.Web`:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Dto.fs" />
+    <Compile Include="Domain.fs" />
+    <Compile Include="Startup.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+</Project>
+```
+
+Gjenta steget over for `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`.
+
+#### Sette opp skall for web-API
+
+For at vi skal kunne opprette webserveren som skal kjøre under integrasjonstesten, må den ha en referanse til startpunktet til web-API-et. Webserveren opprettes ved bruk av et `WebApplicationFactory` som tar inn en type i prosjektet hvor web-API-et er definert. Deretter leter `WebApplicationFactory` etter en funksjon `CreateHostBuilder` som returnerer en `IHostBuilder`, og oppretter en `TestServer` basert på hosten som er definert i `CreateHostBuilder`. Normalt sett kan typen som `WebApplicationFactory` være `Program`-klassen i web-API-et, men siden vi skriver web-API-et i F# har ikke web-API-et vårt klasser. For å komme rundt dette oppretter vi en tom klasse `EntryPoint` i web-API-et vårt som vi kan peke `WebApplicationFactory` på.
+
+Opprett filen `EntryPoint.fs` i mappen `src/api`:
+
+```txt
+└── .config
+    └── dotnet-tools.json
+└── docs
+    └── epg.schema.json
+    └── openapi.json
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Domain.fs
+    └── Dto.fs
+    └── EntryPoint.fs
+    └── Program.fs
+test
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── integration
+    └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── Dotnetskolen.sln
+└── paket.dependencies
+```
+
+Lim deretter inn koden under i `EntryPoint.fs`.
+
+```f#
+module NRK.Dotnetskolen.Api.TestServer
+
+type public EntryPoint() = class end
+```
+
+Legg til `EntryPoint.fs` i prosjektfilen til API-prosjektet:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Dto.fs" />
+    <Compile Include="Domain.fs" />
+    <Compile Include="EntryPoint.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
+```
+
+Nå som vi har `EntryPoint`-klassen definert, må vi definere `CreateHostBuilder`-funksjonen. Åpne `Program.fs` i API-prosjektet og legg til koden under mellom `open System` og `let from whom =`:
+
+```f#
+open Microsoft.AspNetCore.Hosting
+open Microsoft.Extensions.Hosting
+open Microsoft.Extensions.DependencyInjection
+open Microsoft.AspNetCore.Builder
+
+let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+    ()
+
+let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
+    ()
+
+let CreateHostBuilder args =
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(fun webBuilder -> 
+            webBuilder
+                .Configure(configureApp)
+                .ConfigureServices(configureServices)
+            |> ignore
+        )
+```
+
+Vi skal se nærmere på hva `CreateHostBuilder`-funksjonen gjør i [steg 10](#steg-10---implementere-web-api), men for nå er det tilstrekkelig å vite at den returnerer et objekt som kan returnere en host som representerer web-API-et vårt.
+
+#### Legge til avhengigheter
+
+##### Microsoft.AspNetCore.Mvc.Testing
+
+For å kunne kjøre integrasjonstestene slik vi skal er vi avhengig av å installere NuGet-pakken `Microsoft.AspNetCore.Mvc.Testing` i integrasjonstestprosjektet.
+
+Kjør følgende kommando fra roten av repoet:
+
+```bash
+$ dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+...
+```
+
+##### JsonSchema.Net
+
+For å kunne validere at responsen fra web-API-et er i henhold til OpenAPI-kontrakten, skal vi benytte NuGet-pakken `JsonSchema.Net`. Installer denne pakken ved å kjøre følgende kommando fra roten av repoet:
+
+```bash
+$ dotnet paket add JsonSchema.Net --project .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+...
+```
+
+##### Referanse til API-prosjektet
+
+For å kunne referere til inngangspunktet til API-prosjektet må vi legge til en prosjektreferanse fra integrasjonstestprosjektet.
+
+Kjør følgende kommando fra roten av repoet:
+
+```bash
+$ dotnet add .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj reference .\src\api\NRK.Dotnetskolen.Api.fsproj
+...
+```
+
+#### Sette opp klasse for integrasjonstester
+
+Nå er vi klare til å kunne sette opp integrasjonstestene. Åpne `Tests.fs` i integrasjonstestprosjektet, og erstatt innholdet i filen med koden under:
+
+```f#
+module Tests
+
+open System
+open Xunit
+open Microsoft.AspNetCore.Mvc.Testing
+open NRK.Dotnetskolen.Api.TestServer
+
+type public WebApiTests(factory: WebApplicationFactory<EntryPoint>) = 
+    interface IClassFixture<WebApplicationFactory<EntryPoint>>
+
+    member _.Factory = factory
+```
+
+Her definerer vi en klasse `WebApiTests` som tar inn et `WebApplicationFactory` i konstruktøren. `WebApplicationFactory` refererer til inngangspunktet `EntryPoint` som vi definerte i forrige steg. Klassen `WebApiTests` implementerer interfacet `IClassFixture`. Dette gjør at testrammeverket finner klassen vår, og gir oss et objekt av typen `WebApplicationFactory` i konstruktøren som kan opprette en `TestServer` for oss. Dette kan vi bruke til å skrive testene våre.
+
+#### Verifisere at endepunktet finnes
+
+I den første testen vår skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake.
+
+```f#
+open System.Net
+```
+
+Legg deretter til følgende test som en metode i `WebApiTests`-klassen:
+
+```f#
+[<Fact>]
+member this.GetEpg_Today_Returns200OK () =
+    // Arrange
+    let client = this.Factory.CreateClient();
+    let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+    let url = sprintf "/epg/%s" todayAsString
+
+    // Act
+    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+
+    // Assert
+    response.EnsureSuccessStatusCode() |> ignore
+```
+
+Her ser vi at vi bruker `WebApplicationFactory`-instansen vi fikk i konstruktøren til å opprette en HTTP-klient, og benytter denne HTTP-klienten til å sende en GET-forespørsel til `/epg/{dato}`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
+
+#### Verifisere format på EPG-respons
+
+I denne testen skal vi verifisere at responsen API-et gir følger formatet vi har spesifisert i OpenAPI-kontrakten vår. Start med å inkludér JsonSchema-et for responsen vår i integrasjonstest-prosjektet ved å legg til følgende i samme `ItemGroup` som `Program.fs` og `Tests.fs` i prosjektfilen til integrasjonstestprosjektet:
+
+```xml
+...
+<Content Include="../../docs/epg.schema.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+</Content>
+...
+```
+
+Legg deretter til følgende "open"-statement i `Tests.fs`:
+
+```f#
+open Json.Schema
+open System.Text.Json
+```
+
+Legg til slutt til følgende testmetode i `WebApiTest`-klassen:
+
+```f#
+[<Fact>]
+member this.GetEpg_Today_ReturnsValidResponse () =
+    // Arrange
+    let client = this.Factory.CreateClient();
+    let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+    let url = sprintf "/epg/%s" todayAsString
+    let jsonSchema = JsonSchema.FromFile "./epg.schema.json" 
+
+    // Act
+    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+
+    // Assert
+    response.EnsureSuccessStatusCode() |> ignore
+    let bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+    let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
+    let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
+    
+    Assert.True(isJsonValid)
+```
+
+Denne testen bygger på den første testen vi skrev, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten.
+
+#### Verifisere at dato valideres
+
+I den siste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid testklassen med følgende testmetode:
+
+```f#
+[<Fact>]
+member this.GetEpg_InvalidDate_ReturnsBadRequest () =
+    // Arrange
+    let client = this.Factory.CreateClient();
+    let invalidDateAsString = "2021-13-32"
+    let url = sprintf "/epg/%s" invalidDateAsString
+
+    // Act
+    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+
+    // Assert
+    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
+```
+
+Her sender vi inn en ugyldig dato, og forventer å få 400 Bad Request som respons.
+
+Hvis du forsøker å kjøre integrasjonstestene nå, vil de feile ettersom vi ikke har implementert noe i API-et enda. Det skal vi imidlertid gjøre noe med i neste steg.
+
+### Steg 10 - Implementere web-API
+
+[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-9---integrasjonstester-for-web-api)
 
 - Fullfør implementasjon av webapi
   - Sett opp workflow for route
