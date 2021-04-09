@@ -32,7 +32,7 @@ type public WebApiTests(factory: WebApplicationFactory<EntryPoint>) =
         let client = this.Factory.CreateClient();
         let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
         let url = sprintf "/epg/%s" todayAsString
-        let jsonSchema = JsonSchema.FromFile "./epg.schema.json" 
+        let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
 
         // Act
         let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
