@@ -7,9 +7,10 @@ open NRK.Dotnetskolen.Api.TestServer
 open System.Net
 open System.Text.Json
 open Json.Schema
+open NRK.Dotnetskolen.IntegrationTests.CustomWebApplicationFactory
 
-type public WebApiTests(factory: WebApplicationFactory<EntryPoint>) = 
-    interface IClassFixture<WebApplicationFactory<EntryPoint>>
+type public WebApiTests(factory: CustomWebApplicationFactory<EntryPoint>) = 
+    interface IClassFixture<CustomWebApplicationFactory<EntryPoint>>
 
     member _.Factory = factory
      

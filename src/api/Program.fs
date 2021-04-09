@@ -3,12 +3,26 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.AspNetCore.Builder
+open Giraffe
+open NRK.Dotnetskolen.Domain
+open NRK.Dotnetskolen.Api.Services
+open NRK.Dotnetskolen.Api.DataAccess
+open NRK.Dotnetskolen.Api.HttpHandlers
 
 let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    ()
+    let getEpgForDate = app.ApplicationServices.GetRequiredService<DateTime -> Epg>()
+    let webApp =
+        choose [
+            GET  >=> choose [
+                routef "/epg/%s" (epgHandler getEpgForDate)
+            ]
+            RequestErrors.NOT_FOUND "Not found"
+        ]
+    app.UseGiraffe webApp
 
 let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-    ()
+    services.AddGiraffe() |> ignore
+    services.AddSingleton<DateTime -> Epg>((getEpgForDate getAllTransmissions)) |> ignore
 
 let CreateHostBuilder args =
     Host.CreateDefaultBuilder(args)
@@ -19,12 +33,7 @@ let CreateHostBuilder args =
             |> ignore
         )
 
-// Define a function to construct a message to print
-let from whom =
-    sprintf "from %s" whom
-
 [<EntryPoint>]
 let main argv =
-    let message = from "F#" // Call the function
-    printfn "Hello world %s" message
-    0 // return an integer exit code
+    CreateHostBuilder(argv).Build().Run()
+    0

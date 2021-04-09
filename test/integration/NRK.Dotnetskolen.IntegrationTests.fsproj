@@ -6,6 +6,8 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Mock.fs" />
+    <Compile Include="CustomWebApplicationFactory.fs" />
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
     <Content Include="../../docs/epg.schema.json">
