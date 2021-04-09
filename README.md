@@ -2,6 +2,10 @@
 
 ## To do
 
+### For å bli ferdig
+
+- `DateTimeOffset` -> `Date`
+- Muligens slå sammen steg 9 og 10
 - Steg 9 - Skall for web-API
   - Sett opp host i web-API med skall for `Startup`
     - Trenger dette for å kunne skrive integrasjonstester
@@ -24,12 +28,18 @@
     - Lag JSON-modul for serialisering og deserialisering
       - Med enhetstester?
       - Serialiser DTO til JSON og returner
-- Legg til "steg x av y"
-- Legg til lenker til forrige og neste steg
+- Lage branchen `ferdig`
+
+### Utbedringer
+
+- "Oppgaver" -> "Steg"
+- Legg til "steg x av y" i tittel
+- Utbedring av steg 6?
+  - Forklare bruk av `[<Fact>]` og `[<Theory>]`
+  - Forklare "Arrange, act, assert"?
 - Steg 7 - Utlede kontrakten steg for steg, og til slutt list opp helheten. På denne måten er det lettere for de som er ukjent med OpenAPI å følge eksemplet.
 - Vurdere om vi skal legge til bygg og deploy (mulig utenfor scope av kurset)
   - Kan ev. vise en enkel DOCKERFILE?
-- Lage branchen `ferdig`
 
 ## Innledning
 
