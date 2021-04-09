@@ -1939,9 +1939,9 @@ type public WebApiTests(factory: WebApplicationFactory<EntryPoint>) =
 
 Her definerer vi en klasse `WebApiTests` som tar inn et `WebApplicationFactory` i konstruktøren. `WebApplicationFactory` refererer til startpunktet `EntryPoint` som vi definerte i forrige steg. Klassen `WebApiTests` implementerer interfacet `IClassFixture`. Dette gjør at testrammeverket finner klassen vår, og gir oss et objekt av typen `WebApplicationFactory` i konstruktøren som kan opprette en `TestServer` for oss. Dette kan vi bruke til å skrive testene våre.
 
-#### Verifisere at endepunktet finnes
+#### Test 1 - Verifisere at endepunktet finnes
 
-I den første testen vår skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake.
+I den første testen vår skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement i toppen av `Tests.fs`-filen.
 
 ```f#
 open System.Net
@@ -1964,9 +1964,9 @@ member this.GetEpg_Today_Returns200OK () =
     response.EnsureSuccessStatusCode() |> ignore
 ```
 
-Her ser vi at vi bruker `WebApplicationFactory`-instansen vi fikk i konstruktøren til å opprette en HTTP-klient, og benytter denne HTTP-klienten til å sende en GET-forespørsel til `/epg/{dato}`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
+Her bruker vi `WebApplicationFactory`-instansen vi fikk i konstruktøren til å opprette en HTTP-klient, og benytter denne HTTP-klienten til å sende en GET-forespørsel til `/epg/{dato}`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
 
-#### Verifisere format på EPG-respons
+#### Test 2 - Verifisere format på EPG-respons
 
 I denne testen skal vi verifisere at responsen API-et gir følger formatet vi har spesifisert i OpenAPI-kontrakten vår. Start med å inkludér JsonSchema-et for responsen vår i integrasjonstestprosjektet ved å legg til følgende i samme `ItemGroup` som `Program.fs` og `Tests.fs` i prosjektfilen til integrasjonstestprosjektet:
 
@@ -2010,7 +2010,7 @@ member this.GetEpg_Today_ReturnsValidResponse () =
 
 Denne testen bygger på den første testen vi skrev, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten.
 
-#### Verifisere at dato valideres
+#### Test 3 - Verifisere at dato valideres
 
 I den siste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid testklassen med følgende testmetode:
 
