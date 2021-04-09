@@ -1791,7 +1791,6 @@ Fra og med .NET Core, opererer .NET med ulike SDK-prosjekttyper avhengig av hva 
   <ItemGroup>
     <Compile Include="Dto.fs" />
     <Compile Include="Domain.fs" />
-    <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 </Project>
