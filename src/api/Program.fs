@@ -13,5 +13,4 @@ let CreateHostBuilder args =
 [<EntryPoint>]
 let main args =
     CreateHostBuilder(args).Build().Run()
-
     exitCode
