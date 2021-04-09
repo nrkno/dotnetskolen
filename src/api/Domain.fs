@@ -6,8 +6,8 @@ open System.Text.RegularExpressions
 type Sending = {
     Tittel: string
     Kanal: string
-    StartTidspunkt: DateTime
-    SluttTidspunkt: DateTime
+    StartTidspunkt: DateTimeOffset
+    SluttTidspunkt: DateTimeOffset
 }
 
 type Epg = Sending list
