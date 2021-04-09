@@ -1910,7 +1910,7 @@ $ dotnet paket add JsonSchema.Net --project .\test\integration\NRK.Dotnetskolen.
 
 ##### Referanse til API-prosjektet
 
-For å kunne referere til inngangspunktet til API-prosjektet må vi legge til en prosjektreferanse fra integrasjonstestprosjektet.
+For å kunne referere til startpunktet til API-prosjektet må vi legge til en prosjektreferanse fra integrasjonstestprosjektet.
 
 Kjør følgende kommando fra roten av repoet:
 
@@ -1937,7 +1937,7 @@ type public WebApiTests(factory: WebApplicationFactory<EntryPoint>) =
     member _.Factory = factory
 ```
 
-Her definerer vi en klasse `WebApiTests` som tar inn et `WebApplicationFactory` i konstruktøren. `WebApplicationFactory` refererer til inngangspunktet `EntryPoint` som vi definerte i forrige steg. Klassen `WebApiTests` implementerer interfacet `IClassFixture`. Dette gjør at testrammeverket finner klassen vår, og gir oss et objekt av typen `WebApplicationFactory` i konstruktøren som kan opprette en `TestServer` for oss. Dette kan vi bruke til å skrive testene våre.
+Her definerer vi en klasse `WebApiTests` som tar inn et `WebApplicationFactory` i konstruktøren. `WebApplicationFactory` refererer til startpunktet `EntryPoint` som vi definerte i forrige steg. Klassen `WebApiTests` implementerer interfacet `IClassFixture`. Dette gjør at testrammeverket finner klassen vår, og gir oss et objekt av typen `WebApplicationFactory` i konstruktøren som kan opprette en `TestServer` for oss. Dette kan vi bruke til å skrive testene våre.
 
 #### Verifisere at endepunktet finnes
 
