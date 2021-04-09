@@ -4,10 +4,10 @@
 
 ### For å bli ferdig
 
+- Muligens slå sammen steg 9 og 10
 - Hvordan validere API-respons?
   - Validere mot JsonSchema?
   - Deserialisere til DTO?
-- Muligens slå sammen steg 9 og 10
 - Steg 9 - Skall for web-API
   - Sett opp host i web-API med skall for `Startup`
     - Trenger dette for å kunne skrive integrasjonstester
