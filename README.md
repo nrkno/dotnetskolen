@@ -4,6 +4,9 @@
 
 ### For å bli ferdig
 
+- Hvordan validere API-respons?
+  - Validere mot JsonSchema?
+  - Deserialisere til DTO?
 - Muligens slå sammen steg 9 og 10
 - Steg 9 - Skall for web-API
   - Sett opp host i web-API med skall for `Startup`
@@ -1034,8 +1037,8 @@ open System
 type Sending = {
     Tittel: string
     Kanal: string
-    StartTidspunkt: DateTime
-    SluttTidspunkt: DateTime
+    StartTidspunkt: DateTimeOffset
+    SluttTidspunkt: DateTimeOffset
 }
 
 type Epg = Sending list
@@ -1358,7 +1361,7 @@ Lim inn følgende enhetstester for validering av sendetidspunkter i `Tests.fs`:
 [<Fact>]
 let ``AreStartAndEndTimesValid_StartBeforeEnd_ReturnsTrue`` () =
     // Arrange
-    let startTime = DateTime.Now
+    let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes 30.
 
     // Act
@@ -1370,7 +1373,7 @@ let ``AreStartAndEndTimesValid_StartBeforeEnd_ReturnsTrue`` () =
 [<Fact>]
 let ``AreStartAndEndTimesValid_StartAfterEnd_ReturnsFalse`` () =
     // Arrange
-    let startTime = DateTime.Now
+    let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes -30.
 
     // Act
@@ -1382,7 +1385,7 @@ let ``AreStartAndEndTimesValid_StartAfterEnd_ReturnsFalse`` () =
 [<Fact>]
 let ``AreStartAndEndTimesValid_StartEqualsEnd_ReturnsFalse`` () =
     // Arrange
-    let startTime = DateTime.Now
+    let startTime = DateTimeOffset.Now
     let endTime = startTime
 
     // Act
@@ -1398,7 +1401,7 @@ Funksjonen for å validere sendetidspunktene må undersøke om sluttidspunktet e
 
 ```f#
 ...
-let AreStartAndEndTimesValid (startTime: DateTime) (endTime: DateTime) =
+let AreStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
     startTime < endTime
 ```
 
@@ -1434,7 +1437,7 @@ Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene
 [<Fact>]
 let ``IsTransmissionValid_ValidTransmission_ReturnsTrue`` () =
     // Arrange
-    let now = DateTime.Now
+    let now = DateTimeOffset.Now
     let transmission = {
         Sending.Tittel = "Dagsrevyen"
         Kanal = "NRK1"
@@ -1451,7 +1454,7 @@ let ``IsTransmissionValid_ValidTransmission_ReturnsTrue`` () =
 [<Fact>]
 let ``IsTransmissionValid_InValidTransmission_ReturnsFalse`` () =
     // Arrange
-    let now = DateTime.Now
+    let now = DateTimeOffset.Now
     let transmission = {
         Sending.Tittel = "@$%&/"
         Kanal = "nrk3"
@@ -1660,7 +1663,7 @@ test
 
 [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-7---definere-api-kontrakt) [⬇ Neste oppgave](#steg-9)
 
-I [steg-5](#steg-5---definere-domenemodell) definerte vi domenemodellen vår som en F#-type. Domenemodellen representerer EPG-en slik vi konseptuelt tenker på den, både når det gjelder  struktur og regler for gyldige tilstander. API-kontrakter er ikke nødvendigvis en-til-en med domenemodeller. For det første kan strukturen til typene i API-et være annerledes enn i domenemodellen. Dette ser vi i vårt tilfelle hvor domenemodellen har alle sendinger, på tvers av kanaler, i én liste, mens API-kontrakten har én liste med sendinger per kanal. I tillegg er vi begrenset til å representere data med tekst i API-et ettersom HTTP er en tekstbasert protokoll. For eksempel benytter vi en `DateTime` til å representere start- og sluttidspunkt i domenemodellen vår, mens vi benytter `string` i OpenAPI-kontrakten vår. For at vi skal kunne oversette domenemodellen til OpenAPI-kontrakten skal vi innføre en egen F#-type som reflekterer typene i OpenAPI-kontrakten vår. Generelt blir typer som representerer dataene våre slik vi kommuniserer med andre systemer på kalt "data transfer objects", eller "DTO".
+I [steg-5](#steg-5---definere-domenemodell) definerte vi domenemodellen vår som en F#-type. Domenemodellen representerer EPG-en slik vi konseptuelt tenker på den, både når det gjelder  struktur og regler for gyldige tilstander. API-kontrakter er ikke nødvendigvis en-til-en med domenemodeller. For det første kan strukturen til typene i API-et være annerledes enn i domenemodellen. Dette ser vi i vårt tilfelle hvor domenemodellen har alle sendinger, på tvers av kanaler, i én liste, mens API-kontrakten har én liste med sendinger per kanal. I tillegg er vi begrenset til å representere data med tekst i API-et ettersom HTTP er en tekstbasert protokoll. For eksempel benytter vi en `DateTimeOffset` til å representere start- og sluttidspunkt i domenemodellen vår, mens vi benytter `string` i OpenAPI-kontrakten vår. For at vi skal kunne oversette domenemodellen til OpenAPI-kontrakten skal vi innføre en egen F#-type som reflekterer typene i OpenAPI-kontrakten vår. Generelt blir typer som representerer dataene våre slik vi kommuniserer med andre systemer på kalt "data transfer objects", eller "DTO".
 
 Start med å opprett en fil `Dto.fs` i mappen `src/api`:
 
