@@ -6,9 +6,11 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CustomWebApplicationFactory.fs" />
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
+    <Content Include="../../docs/epg.schema.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\api\NRK.Dotnetskolen.Api.fsproj" />
