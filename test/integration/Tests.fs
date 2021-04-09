@@ -7,6 +7,8 @@ open NRK.Dotnetskolen.Api.Startup
 open NRK.Dotnetskolen.IntegrationTests.CustomWebApplicationFactory
 
 type public WebApiTests(factory: CustomWebApplicationFactory<Startup>) = 
+    interface IClassFixture<CustomWebApplicationFactory<Startup>>
+
     member _.Factory = factory
      
     [<Fact>]
@@ -14,7 +16,7 @@ type public WebApiTests(factory: CustomWebApplicationFactory<Startup>) =
         // Arrange
         let client = this.Factory.CreateClient();
         let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
-        let url = sprintf "/epg/NRK1/%s" todayAsString
+        let url = sprintf "/epg/%s" todayAsString
 
         // Act
         let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
@@ -27,7 +29,7 @@ type public WebApiTests(factory: CustomWebApplicationFactory<Startup>) =
         // Arrange
         let client = this.Factory.CreateClient();
         let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
-        let url = sprintf "/epg/NRK3/%s" todayAsString
+        let url = sprintf "/epg/%s" todayAsString
 
         // Act
         let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
@@ -35,4 +37,3 @@ type public WebApiTests(factory: CustomWebApplicationFactory<Startup>) =
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
     
-    interface IClassFixture<CustomWebApplicationFactory<Startup>>
