@@ -4,18 +4,17 @@
 
 ### For å bli ferdig
 
-- Muligens slå sammen steg 9 og 10
-- Hvordan validere API-respons?
-  - Validere mot JsonSchema?
-  - Deserialisere til DTO?
-- Steg 9 - Skall for web-API
+- Steg 9 - Integrasjonstester
   - Sett opp host i web-API med skall for `Startup`
     - Trenger dette for å kunne skrive integrasjonstester
-- Steg 10 - Integrasjonstester
   - Lag integrasjonstester for webapi
     - Definer routes og verifiser success/bad request
     - Valider respons opp mot OpenAPI
-- Steg 11 - Fullføre API
+    - Hvordan validere API-respons?
+      - Validere mot JsonSchema?
+        - Må i så fall trekke ut JsonSchema for responsen, og validere mot det
+      - Deserialisere til DTO?
+- Steg 10 - Fullføre API
   - Fullfør implementasjon av webapi
     - Sett opp workflow for route
       - Ta inn avhengighet for å hente alle sendinger
@@ -36,7 +35,7 @@
 
 - "Oppgaver" -> "Steg"
 - Legg til "steg x av y" i tittel
-- Utbedring av steg 6?
+- Steg 6
   - Forklare bruk av `[<Fact>]` og `[<Theory>]`
   - Forklare "Arrange, act, assert"?
 - Steg 7 - Utlede kontrakten steg for steg, og til slutt list opp helheten. På denne måten er det lettere for de som er ukjent med OpenAPI å følge eksemplet.
@@ -1520,62 +1519,32 @@ Responsen til denne operasjonen vil bestå av to lister med sendinger, én for h
 - Startdato- og tidspunkt - tekststreng som følger datoformatet i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 - Sluttdato- og tidspunkt - tekststreng som følger datoformatet i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Er garantert å være større enn startdato- og tidspunkt.
 
-#### OpenAPI-kontrakt
+#### JSON Schema
 
-Under følger OpenAPI-kontrakt for web-API-et vårt. Den inneholder den ene operasjonen vår, hvilken path den er tilgjenglig på, hvilke parametere og responser den har, og formatet på responsene.
+Før vi definerer selve kontrakten til API-et i en OpenAPI-spesifikasjon, skal vi definere et [JSON Schema](https://json-schema.org/) for innholdet i responsen til den ene operasjonen i API-et vårt. Dette er vist under. Her ser vi at responsen består av et objekt med to felter: `NRK1` og `NRK2`, som begge er en liste med sendingene på de respektive kanalene. Hver sending inneholder en tittel, samt start- og sluttidspunkt.
 
 ```json
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Dotnetskolen EPG-API",
-        "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
-        "version": "0.0.1"
-    },
-    "paths": {
-        "/epg/{dato}": {
-            "get": {
-                "parameters": [
-                    {
-                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
-                        "in": "path",
-                        "name": "dato",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        },
-                        "example": "2021-11-15"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Epg"
-                                }
-                            }
-                        },
-                        "description": "OK"
-                    },
-                    "400": {
-                        "content": {
-                            "text/plain": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "\"Ugyldig dato\""
-                                }
-                            }
-                        },
-                        "description": "Bad Request"
-                    }
-                },
-                "operationId": "hentEpgPåDato",
-                "description": "Henter EPG for NRK1 og NRK 2 på den oppgitte datoen. Returnerer 400 dersom dato er ugyldig. Listen med sendinger for en kanal er tom dersom det ikke finnes noen sendinger på den gitte dagen."
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "NRK1": {
+            "type": "array",
+            "items": {
+                "$ref": "#/components/schemas/Sending"
+            }
+        },
+        "NRK2": {
+            "type": "array",
+            "items": {
+                "$ref": "#/components/schemas/Sending"
             }
         }
     },
+    "required": [
+        "NRK1",
+        "NRK2"
+    ],
     "components": {
         "schemas": {
             "Tittel": {
@@ -1606,24 +1575,90 @@ Under følger OpenAPI-kontrakt for web-API-et vårt. Den inneholder den ene oper
                     "startTidspunkt",
                     "sluttTidspunkt"
                 ]
-            },
-            "Epg": {
-                "type": "object",
-                "properties": {
-                    "NRK1": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Sending"
-                        }
+            }
+        }
+    }
+}
+```
+
+Foreløpig skal vi ikke gjøre noe mer med JSON schemaet enn å ha den som dokumentasjon på API-et vårt. Lag en ny mappe `docs` i roten av repoet med enn ny fil `epg.schema.json` hvor du limer inn JSON schemaet over. Du skal nå ha følgende mappehierarki i repoet:
+
+```txt
+└── .config
+    └── dotnet-tools.json
+└── docs
+    └── epg.schema.json
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Domain.fs
+    └── Program.fs
+test
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── integration
+    └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── Dotnetskolen.sln
+└── paket.dependencies
+```
+
+#### OpenAPI-kontrakt
+
+Nå som vi har formatet på innholdet i responsen vår, kan vi definere Open API-spesifikasjonen for API-et vårt slik som under. Den inneholder den ene operasjonen vår, hvilken path den er tilgjenglig på, hvilke parametere og responser den har, og formatet på responsen.
+
+```json
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dotnetskolen EPG-API",
+        "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/epg/{dato}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
+                        "in": "path",
+                        "name": "dato",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2021-11-15"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "./epg.schema.json"
+                                }
+                            }
+                        },
+                        "description": "OK"
                     },
-                    "NRK2": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Sending"
-                        }
+                    "400": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "\"Ugyldig dato\""
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
                     }
                 },
-                "required": ["NRK1", "NRK2"]
+                "operationId": "hentEpgPåDato",
+                "description": "Henter EPG for NRK1 og NRK 2 på den oppgitte datoen. Returnerer 400 dersom dato er ugyldig. Listen med sendinger for en kanal er tom dersom det ikke finnes noen sendinger på den gitte dagen."
             }
         }
     }
@@ -1634,12 +1669,13 @@ Under følger OpenAPI-kontrakt for web-API-et vårt. Den inneholder den ene oper
 >
 > I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
 
-Foreløpig skal vi ikke gjøre noe mer med denne kontrakten annet enn å ha den som dokumentasjon på API-et vårt. Lag en ny mappe `docs` i roten av repoet med enn ny fil `openapi.json` i hvor du limer inn kontrakten over. Du skal nå ha følgende mappehierarki i repoet:
+Opprett en ny fil `openapi.json` i `docs`-mappen, og lim inn kontrakten over. Du skal nå ha følgende mappehierarki i repoet:
 
 ```txt
 └── .config
     └── dotnet-tools.json
 └── docs
+    └── epg.schema.json
     └── openapi.json
 src
 └── api
@@ -1671,6 +1707,7 @@ Start med å opprett en fil `Dto.fs` i mappen `src/api`:
 └── .config
     └── dotnet-tools.json
 └── docs
+    └── epg.schema.json
     └── openapi.json
 src
 └── api
@@ -1727,7 +1764,7 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 </Project>
 ```
 
-### Steg 9 - Skall for web-API
+### Steg 9 - Integrasjonstester
 
 > Dersom man ønsker å skrive integrasjonstester på en annen måte enn det er gjort i steg 10, erstatte dem med smoketester f.eks., eller unnlate dem fullstendig, kan man gå videre til steg 11.
 > 
@@ -1736,15 +1773,13 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 - Sett opp host i web-API med skall for `Startup`
   - Trenger dette for å kunne skrive integrasjonstester
 
-### Steg 10 - Integrasjonstester
-
 > Dette steget er kun nødvendig å gjøre nå dersom man ønsker å skrive integrasjonstestene på den måten de er gjort i steg 10. Dersom man ønsker å skrive integrasjonstester på en annen måte, erstatte dem med smoketester f.eks., eller unnlate dem fullstendig, kan man gå videre til steg 11.
 
 - Lag integrasjonstester for webapi
   - Definer routes og verifiser success/bad request
   - Valider respons opp mot OpenAPI
 
-### Steg 11 - Fullføre API
+### Steg 10 - Fullføre API
 
 - Fullfør implementasjon av webapi
   - Sett opp workflow for route
