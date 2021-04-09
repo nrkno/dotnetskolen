@@ -2037,6 +2037,72 @@ Hvis du forsøker å kjøre integrasjonstestene nå, vil de feile ettersom vi ik
 
 [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-9---integrasjonstester-for-web-api)
 
+#### Modellen til .NET
+
+- Host
+- Dependency injection
+  - configureServices
+- Middlewarepipeline
+  - configureApp
+- HostBuilder
+  - Definerer host
+
+#### Legg til Giraffe
+
+```bash
+$ dotnet paket add giraffe --project .\src\api\NRK.Dotnetskolen.Api.fsproj
+...
+```
+
+"open"-statement i `Program.fs`
+
+```f#
+...
+open Microsoft.AspNetCore.Http
+open Giraffe
+...
+```
+
+#### Implementere ConfigureServices
+
+```f#
+let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
+    services.AddGiraffe() |> ignore
+```
+
+#### Implementere ConfigureApp
+
+```f#
+let epgHandler (date : string) : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        ("{}" json) next ctx
+
+let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+    let webApp =
+        choose [
+            GET  >=> choose [
+                routef "/epg/%s" epgHandler
+            ]
+            RequestErrors.NOT_FOUND "Not found"
+        ]
+    app.UseGiraffe webApp
+```
+
+#### Validere dato
+
+
+
+#### Kjør tester
+
+200OK-testen går grønn ✔
+
+```bash
+$ dotnet test
+...
+```
+
+#### 
+
 - Fullfør implementasjon av webapi
   - Sett opp workflow for route
     - Ta inn avhengighet for å hente alle sendinger
