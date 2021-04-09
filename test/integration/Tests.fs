@@ -12,7 +12,7 @@ type public WebApiTests(factory: CustomWebApplicationFactory<Startup>) =
     member _.Factory = factory
      
     [<Fact>]
-    member this.GetEpg_NRK1Today_ReturnsValidEpgResponse () =
+    member this.GetEpg_Today_ReturnsValidEpgResponse () =
         // Arrange
         let client = this.Factory.CreateClient();
         let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
@@ -25,11 +25,11 @@ type public WebApiTests(factory: CustomWebApplicationFactory<Startup>) =
         response.EnsureSuccessStatusCode() |> ignore
 
     [<Fact>]
-    member this.GetEpg_NRK3Today_ReturnsBadRequest () =
+    member this.GetEpg_InvalidDate_ReturnsBadRequest () =
         // Arrange
         let client = this.Factory.CreateClient();
-        let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
-        let url = sprintf "/epg/%s" todayAsString
+        let invalidDateAsString = "2021-13-32"
+        let url = sprintf "/epg/%s" invalidDateAsString
 
         // Act
         let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
