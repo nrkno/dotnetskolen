@@ -117,7 +117,7 @@ let ``IsChannelValid_NRK3UpperCase_ReturnsFalse`` () =
 [<Fact>]
 let ``AreStartAndEndTimesValid_StartBeforeEnd_ReturnsTrue`` () =
     // Arrange
-    let startTime = DateTime.Now
+    let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes 30.
 
     // Act
@@ -129,7 +129,7 @@ let ``AreStartAndEndTimesValid_StartBeforeEnd_ReturnsTrue`` () =
 [<Fact>]
 let ``AreStartAndEndTimesValid_StartAfterEnd_ReturnsFalse`` () =
     // Arrange
-    let startTime = DateTime.Now
+    let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes -30.
 
     // Act
@@ -141,7 +141,7 @@ let ``AreStartAndEndTimesValid_StartAfterEnd_ReturnsFalse`` () =
 [<Fact>]
 let ``AreStartAndEndTimesValid_StartEqualsEnd_ReturnsFalse`` () =
     // Arrange
-    let startTime = DateTime.Now
+    let startTime = DateTimeOffset.Now
     let endTime = startTime
 
     // Act
@@ -153,7 +153,7 @@ let ``AreStartAndEndTimesValid_StartEqualsEnd_ReturnsFalse`` () =
 [<Fact>]
 let ``IsTransmissionValid_ValidTransmission_ReturnsTrue`` () =
     // Arrange
-    let now = DateTime.Now
+    let now = DateTimeOffset.Now
     let transmission = {
         Sending.Tittel = "Dagsrevyen"
         Kanal = "NRK1"
@@ -170,7 +170,7 @@ let ``IsTransmissionValid_ValidTransmission_ReturnsTrue`` () =
 [<Fact>]
 let ``IsTransmissionValid_InValidTransmission_ReturnsFalse`` () =
     // Arrange
-    let now = DateTime.Now
+    let now = DateTimeOffset.Now
     let transmission = {
         Sending.Tittel = "@$%&/"
         Kanal = "nrk3"

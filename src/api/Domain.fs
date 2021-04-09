@@ -19,7 +19,7 @@ let IsTitleValid (title: string) : bool =
 let IsChannelValid (channel: string) : bool =
     List.contains channel ["NRK1"; "NRK2"]
 
-let AreStartAndEndTimesValid (startTime: DateTime) (endTime: DateTime) =
+let AreStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
     startTime < endTime
 
 let IsTransmissionValid (transmission: Sending) : bool =
