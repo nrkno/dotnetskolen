@@ -1764,7 +1764,7 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 </Project>
 ```
 
-### Steg 9 - Integrasjonstester
+### Steg 9 - Integrasjonstester for web-API
 
 > Dersom man ønsker å skrive integrasjonstester på en annen måte enn det er gjort i steg 10, erstatte dem med smoketester f.eks., eller unnlate dem fullstendig, kan man gå videre til steg 11.
 > 
