@@ -225,7 +225,7 @@ Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt,
 
 ### Steg 1 - Opprette API
 
-[🔝 Gå til toppen](#innledning) [⬇ Neste oppgave](#steg-2---opprette-testprosjekter)
+[🔝 Gå til toppen](#dotnetskolen) [⬇ Neste oppgave](#steg-2---opprette-testprosjekter)
 
 I dette steget starter vi med et repo helt uten kode, og bruker .NET CLI til å opprette vårt første prosjekt `NRK.Dotnetskolen.Api`.
 
@@ -430,7 +430,7 @@ Hello world from F#
 
 ### Steg 2 - Opprette testprosjekter
 
-[🔝 Gå til toppen](#innledning) [⬆ Forrige oppgave](#steg-1---opprette-api) [⬇ Neste oppgave](#steg-3---opprette-solution)
+[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-1---opprette-api) [⬇ Neste oppgave](#steg-3---opprette-solution)
 
 I dette steget skal vi opprette to testprosjekter
 
@@ -566,7 +566,7 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 
 ### Steg 3 - Opprette solution
 
-[🔝 Gå til toppen](#innledning) [⬆ Forrige oppgave](#steg-2---opprette-testprosjekter) [⬇ Neste oppgave](#steg-4---pakkehåndtering)
+[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-2---opprette-testprosjekter) [⬇ Neste oppgave](#steg-4---pakkehåndtering)
 
 Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme repo, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker og kjøre alle testene for systemet vårt, kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
 
@@ -720,7 +720,7 @@ Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
 
 ### Steg 4 - Pakkehåndtering
 
-[🔝 Gå til toppen](#innledning) [⬆ Forrige oppgave](#steg-3---opprette-solution) [⬇ Neste oppgave](#steg-5---definere-domenemodell)
+[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-3---opprette-solution) [⬇ Neste oppgave](#steg-5---definere-domenemodell)
 
 Siden vi har behov for å installere NuGet-pakker senere i kurset, setter vi opp Paket for løsningen nå. [Første avsnitt](#nuget-og-paket) under introduserer konseptene NuGet og Paket, og [andre avsnitt](#sette-opp-paket) forklarer hvordan man setter opp Paket i en .NET-løsning.
 
@@ -986,7 +986,7 @@ Nå er du klar til å legge til avhengigheter i prosjektet ditt!
 
 ### Steg 5 - Definere domenemodell
 
-[🔝 Gå til toppen](#innledning) [⬆ Forrige oppgave](#steg-4---pakkehåndtering) [⬇ Neste oppgave](#steg-6---enhetstester-for-domenemodell)
+[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-4---pakkehåndtering) [⬇ Neste oppgave](#steg-6---enhetstester-for-domenemodell)
 
 Vi skal lage et API for å hente ut en forenklet elektronisk programguide (EPG) for ulike kanaler i NRK TV. Tanken er at dette API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://info.nrk.no/presse/tvguide/](https://info.nrk.no/presse/tvguide/)
 
@@ -1068,7 +1068,7 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
 
 ### Steg 6 - Enhetstester for domenemodell
 
-[🔝 Gå til toppen](#innledning) [⬆ Forrige oppgave](#steg-5---definere-domenemodell) [⬇ Neste oppgave](#steg-7---definere-api-kontrakt)
+[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-5---definere-domenemodell) [⬇ Neste oppgave](#steg-7---definere-api-kontrakt)
 
 Domenemodellen som ble innført i [forrige steg](#steg-5---definere-domenemodell) inneholder både strukturen til EPG-en, og valideringsreglene knyttet til dem. Så langt har vi kun modellert strukturen i F# (at EPG består av en liste med sendinger, og hvilke felter hver sending inneholder). I dette steget skal vi implementere valideringsreglene i F#, og verifisere at vi har implementert dem riktig ved hjelp av enhetstester.
 
@@ -1500,7 +1500,7 @@ Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration:
 
 ### Steg 7 - Definere API-kontrakt
 
-[🔝 Gå til toppen](#innledning) [⬆ Forrige oppgave](#steg-6---enhetstester-for-domenemodell) [⬇ Neste oppgave](#steg-8---implementere-kontraktstyper)
+[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-6---enhetstester-for-domenemodell) [⬇ Neste oppgave](#steg-8---implementere-kontraktstyper)
 
 For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK definerer vi API-kontrakter ved bruk av OpenAPI ([https://www.openapis.org/](https://www.openapis.org/)).
 
@@ -1659,7 +1659,7 @@ test
 
 ### Steg 8 - Implementere kontraktstyper
 
-[🔝 Gå til toppen](#innledning) [⬆ Forrige oppgave](#steg-7---definere-api-kontrakt) [⬇ Neste oppgave](#steg-9)
+[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige oppgave](#steg-7---definere-api-kontrakt) [⬇ Neste oppgave](#steg-9)
 
 I [steg-5](#steg-5---definere-domenemodell) definerte vi domenemodellen vår som en F#-type. Domenemodellen representerer EPG-en slik vi konseptuelt tenker på den, både når det gjelder  struktur og regler for gyldige tilstander. API-kontrakter er ikke nødvendigvis en-til-en med domenemodeller. For det første kan strukturen til typene i API-et være annerledes enn i domenemodellen. Dette ser vi i vårt tilfelle hvor domenemodellen har alle sendinger, på tvers av kanaler, i én liste, mens API-kontrakten har én liste med sendinger per kanal. I tillegg er vi begrenset til å representere data med tekst i API-et ettersom HTTP er en tekstbasert protokoll. For eksempel benytter vi en `DateTimeOffset` til å representere start- og sluttidspunkt i domenemodellen vår, mens vi benytter `string` i OpenAPI-kontrakten vår. For at vi skal kunne oversette domenemodellen til OpenAPI-kontrakten skal vi innføre en egen F#-type som reflekterer typene i OpenAPI-kontrakten vår. Generelt blir typer som representerer dataene våre slik vi kommuniserer med andre systemer på kalt "data transfer objects", eller "DTO".
 
