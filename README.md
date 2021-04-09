@@ -1886,11 +1886,13 @@ Vi skal se nærmere på hva `CreateHostBuilder`-funksjonen gjør i [steg 10](#st
 
 #### Legge til avhengigheter
 
+For å kunne kjøre integrasjonstestene våre er vi avhengig av et par NuGet-pakker og en prosjektreferanse til web-API-et. De følgende avsnittene forklarer hvordan du legger dem til.
+
 ##### Microsoft.AspNetCore.Mvc.Testing
 
-For å kunne kjøre integrasjonstestene slik vi skal er vi avhengig av å installere NuGet-pakken `Microsoft.AspNetCore.Mvc.Testing` i integrasjonstestprosjektet.
+For å kunne kjøre integrasjonstestene slik vi skal er vi avhengig av NuGet-pakken `Microsoft.AspNetCore.Mvc.Testing`.
 
-Kjør følgende kommando fra roten av repoet:
+Kjør følgende kommando fra roten av repoet for å installere pakken:
 
 ```bash
 $ dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
