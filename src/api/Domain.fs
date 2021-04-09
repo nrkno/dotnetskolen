@@ -6,8 +6,8 @@ open System.Text.RegularExpressions
 type Sending = {
     Tittel: string
     Kanal: string
-    StartTidspunkt: DateTimeOffset
-    SluttTidspunkt: DateTimeOffset
+    StartTidspunkt: DateTime
+    SluttTidspunkt: DateTime
 }
 
 type Epg = Sending list
@@ -19,7 +19,7 @@ let IsTitleValid (title: string) : bool =
 let IsChannelValid (channel: string) : bool =
     List.contains channel ["NRK1"; "NRK2"]
 
-let AreStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
+let AreStartAndEndTimesValid (startTime: DateTime) (endTime: DateTime) =
     startTime < endTime
 
 let IsTransmissionValid (transmission: Sending) : bool =
