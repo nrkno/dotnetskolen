@@ -1530,13 +1530,13 @@ Før vi definerer selve kontrakten til API-et i en OpenAPI-spesifikasjon, skal v
     "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
     "properties": {
-        "NRK1": {
+        "nrk1": {
             "type": "array",
             "items": {
                 "$ref": "#/components/schemas/Sending"
             }
         },
-        "NRK2": {
+        "nrk2": {
             "type": "array",
             "items": {
                 "$ref": "#/components/schemas/Sending"
@@ -1544,8 +1544,8 @@ Før vi definerer selve kontrakten til API-et i en OpenAPI-spesifikasjon, skal v
         }
     },
     "required": [
-        "NRK1",
-        "NRK2"
+        "nrk1",
+        "nrk2"
     ],
     "components": {
         "schemas": {
