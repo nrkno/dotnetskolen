@@ -1796,7 +1796,7 @@ Fra og med .NET Core, opererer .NET med ulike SDK-prosjekttyper avhengig av hva 
 </Project>
 ```
 
-Gjenta steget over for `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`.
+Gjenta steget over for `test/unit/NRK.Dotnetskolen.IntegrationTests.fsproj` for å endre SDK-prosjekttypen til integrasjonstestprosjektet.
 
 #### Sette opp skall for web-API
 
@@ -1966,7 +1966,7 @@ Her ser vi at vi bruker `WebApplicationFactory`-instansen vi fikk i konstruktør
 
 #### Verifisere format på EPG-respons
 
-I denne testen skal vi verifisere at responsen API-et gir følger formatet vi har spesifisert i OpenAPI-kontrakten vår. Start med å inkludér JsonSchema-et for responsen vår i integrasjonstest-prosjektet ved å legg til følgende i samme `ItemGroup` som `Program.fs` og `Tests.fs` i prosjektfilen til integrasjonstestprosjektet:
+I denne testen skal vi verifisere at responsen API-et gir følger formatet vi har spesifisert i OpenAPI-kontrakten vår. Start med å inkludér JsonSchema-et for responsen vår i integrasjonstestprosjektet ved å legg til følgende i samme `ItemGroup` som `Program.fs` og `Tests.fs` i prosjektfilen til integrasjonstestprosjektet:
 
 ```xml
 ...
