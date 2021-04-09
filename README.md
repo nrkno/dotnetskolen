@@ -4,31 +4,13 @@
 
 ### For å bli ferdig
 
-- Steg 9 - Integrasjonstester
-  - Sett opp host i web-API med skall for `Startup`
-    - Trenger dette for å kunne skrive integrasjonstester
-  - Lag integrasjonstester for webapi
-    - Definer routes og verifiser success/bad request
-    - Valider respons opp mot OpenAPI
-    - Hvordan validere API-respons?
-      - Validere mot JsonSchema?
-        - Må i så fall trekke ut JsonSchema for responsen, og validere mot det
-      - Deserialisere til DTO?
-- Steg 10 - Fullføre API
-  - Fullfør implementasjon av webapi
-    - Sett opp workflow for route
-      - Ta inn avhengighet for å hente alle sendinger
-        - Registrer i `ConfigureServices` og overskriv i `CustomWebHostBuilder` i integrasjonstestprosjektet
-        - Avhengighet returnerer kanskje DTO?
-        - Deserialisere JSON til DTO?
-      - Map DTO til domenemodell
-        - Mest for å vise at man burde gjøre dette steget
-      - Gå gjennom alle sendinger
-        - Filtrer på dato (startdato må være på oppgitt dato?)
-      - Map til dto
-    - Lag JSON-modul for serialisering og deserialisering
-      - Med enhetstester?
-      - Serialiser DTO til JSON og returner
+- Steg 10 - Implementere API
+  - Refaktorering
+  - DataAccess returnerer DTO?
+  - Mapper så DTO til domenemodell, og validerer i dette steget?
+- README
+  - Domain før Dto i prosjektfil
+  - Veiledning for steg 10
 - Lage branchen `ferdig`
 
 ### Utbedringer
