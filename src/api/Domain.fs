@@ -1,28 +1,30 @@
-module NRK.Dotnetskolen.Domain
+namespace NRK.Dotnetskolen
 
-open System
-open System.Text.RegularExpressions
+module Domain = 
 
-type Sending = {
-    Tittel: string
-    Kanal: string
-    StartTidspunkt: DateTimeOffset
-    SluttTidspunkt: DateTimeOffset
-}
+    open System
+    open System.Text.RegularExpressions
 
-type Epg = Sending list
+    type Sending = {
+        Tittel: string
+        Kanal: string
+        StartTidspunkt: DateTimeOffset
+        SluttTidspunkt: DateTimeOffset
+    }
 
-let IsTitleValid (title: string) : bool =
-    let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
-    titleRegex.IsMatch(title)
+    type Epg = Sending list
 
-let IsChannelValid (channel: string) : bool =
-    List.contains channel ["NRK1"; "NRK2"]
+    let IsTitleValid (title: string) : bool =
+        let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+        titleRegex.IsMatch(title)
 
-let AreStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
-    startTime < endTime
+    let IsChannelValid (channel: string) : bool =
+        List.contains channel ["NRK1"; "NRK2"]
 
-let IsTransmissionValid (transmission: Sending) : bool =
-    (IsTitleValid transmission.Tittel) && 
-    (IsChannelValid transmission.Kanal) && 
-    (AreStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
+    let AreStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
+        startTime < endTime
+
+    let IsTransmissionValid (transmission: Sending) : bool =
+        (IsTitleValid transmission.Tittel) && 
+        (IsChannelValid transmission.Kanal) && 
+        (AreStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
