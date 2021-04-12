@@ -2217,7 +2217,7 @@ Dette starter web-API-et på `https://localhost:5001`. Verifiser at API-et funge
 
 ##### Definere route fra API-kontrakt
 
-Dersom vi ser på API-kontrakten vi definerte i [steg 7](#steg-7---definere-api-kontrakt) inneholder den én operasjon `/epg/{dato}` som returnerer `200 OK` med den aktuelle EPG-en dersom alt er OK, og `400 Bad Request` dersom den ikke klarer å parse datoen.
+Dersom vi ser på API-kontrakten vi definerte i [steg 7](#steg-7---definere-api-kontrakt) inneholder den én operasjon `/epg/{dato}` som returnerer `200 OK` med den aktuelle EPG-en dersom alt er OK, og `400 Bad Request` dersom den ikke klarer å parse datoen:
 
 ```json
 ...
@@ -2258,7 +2258,7 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
 
 Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> text date` for HTTP `GET`-forespørsler til URL-en `/epg/%s`, hvor `%s` matcher tekststrengen oppgitt i URL-en etter `/epg/`. 
 
-Start API-et igjen og se hva som skjer dersom du går til `https://localhost:5001/epg/2021-01-01` i nettleseren.
+Start API-et igjen og se hva som skjer dersom du går til [https://localhost:5001/epg/2021-01-01](https://localhost:5001/epg/2021-01-01) i nettleseren.
 
 ```bash
 $ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
