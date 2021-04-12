@@ -2147,7 +2147,7 @@ En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender ma
 
 #### Implementere web-API
 
-Nå som vi har blitt kjent med de grunnleggende konseptene i .NET-applikasjoner, kan vi starte å sette sammen vårt eget web-API. For å gjøre det trenger vi en middleware pipeline som kan behandle HTTP-forespørslene som kommer inn til API-et vårt. .NET sitt standard rammeverk for web-applikasjoner er ASP.NET. ASP.NET er imidlertid objektorientert, og siden vi bruker F# og skriver funksjonell kode skal vi benytte Giraffe istedenfor, som er et funksjonelt web-rammeverk for .NET.
+Nå som vi har blitt kjent med de grunnleggende konseptene i .NET-applikasjoner, kan vi starte å sette sammen vårt eget web-API. For å gjøre det trenger vi en middleware pipeline som kan behandle HTTP-forespørslene som kommer inn til API-et vårt. .NET sitt standard rammeverk for web-applikasjoner er ASP.NET MVC. Vi kunne brukt ASP.NET MVC, men det er objektorientert, og siden vi bruker F# og skriver funksjonell kode skal vi benytte Giraffe istedenfor, som er et tredjeparts funksjonelt web-rammeverk for .NET.
 
 ##### Installere Giraffe
 
