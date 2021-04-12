@@ -1,3 +1,6 @@
-module NRK.Dotnetskolen.Api.TestServer
+namespace NRK.Dotnetskolen.Api
 
-type public EntryPoint() = class end
+module TestServer =
+
+    type public EntryPoint() = class end
+    
