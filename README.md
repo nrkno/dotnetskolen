@@ -2,10 +2,6 @@
 
 ## To do
 
-### For å bli ferdig
-
-- Lage branchen `ferdig`
-
 ### Utbedringer
 
 - Forklare open-statements og at rekkefølge i prosjektet har noe å si
