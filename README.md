@@ -1670,7 +1670,7 @@ Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den
 >
 > I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
 >
-> Merk at OpenAPI-kontrakten over benytter versjon `3.1.0` av OpenAPI. `OpenAPI 3.1.0` ble lansert 16. februar 2021, og det vil ta noe tid før det er støtte for denne i tooling som `WebGUI` og linting. Takk til [@laat](https://github.com/laat) som poengterte det.
+> Merk at OpenAPI-kontrakten over benytter versjon `3.1.0` av OpenAPI. `OpenAPI 3.1.0` ble lansert 16. februar 2021, og det vil ta noe tid før det er støtte for denne i tooling som `WebGUI` og linting. Derfor vil f.eks. Visual Studio Code vise en valideringsfeil i filen `openapi.json`. Takk til [@laat](https://github.com/laat) som poengterte det.
 
 ### Steg 8 - Implementere kontraktstyper
 
