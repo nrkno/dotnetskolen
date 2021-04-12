@@ -2175,7 +2175,7 @@ let configureServices (webHostContext: WebHostBuilderContext) (services: IServic
     services.AddGiraffe() |> ignore
 ```
 
-`services.AddGiraffe()` returnerer `IServiceCollection`-objektet. Ettersom `configureServices`-funksjonen ikke skal returnere noe legger vi til `|> ignore` for å overse returverdien til `AddGiraffe`
+> `services.AddGiraffe()` returnerer `IServiceCollection`-objektet. Ettersom `configureServices`-funksjonen ikke skal returnere noe legger vi til `|> ignore` for å overse returverdien til `AddGiraffe`
 
 Nå kan vi legge til Giraffe i middleware pipelinen vår. Det gjør vi ved å kalle `UseGiraffe`-funksjonen på `IApplicationBuilder`-objektet i `configureApp`-funksjonen:
 
