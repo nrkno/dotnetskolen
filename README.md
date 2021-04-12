@@ -2538,7 +2538,10 @@ Oppgaven til `getEpgForDate` er å filtrere sendinger på den oppgitte datoen, m
 ...
 let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
     let allTransmissions = getAllTransmissions ()
+    ...
 ```
+
+Fullfør implementasjonen for `getEpgForDate` og sørg for at Epg-verdien som returneres kun har sendinger som starter på den oppgitte datoen `date`.
 
 ###### Implementere getAllTransmissions
 
