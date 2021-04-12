@@ -1,12 +1,14 @@
-module NRK.Dotnetskolen.Domain
+namespace NRK.Dotnetskolen
 
-open System
+module Domain = 
 
-type Sending = {
-    Tittel: string
-    Kanal: string
-    StartTidspunkt: DateTimeOffset
-    SluttTidspunkt: DateTimeOffset
-}
+    open System
 
-type Epg = Sending list
+    type Sending = {
+        Tittel: string
+        Kanal: string
+        StartTidspunkt: DateTimeOffset
+        SluttTidspunkt: DateTimeOffset
+    }
+
+    type Epg = Sending list
