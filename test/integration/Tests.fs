@@ -16,29 +16,23 @@ type public WebApiTests(factory: CustomWebApplicationFactory<EntryPoint>) =
      
     [<Fact>]
     member this.GetEpg_Today_Returns200OK () =
-        // Arrange
         let client = this.Factory.CreateClient();
         let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
         let url = sprintf "/epg/%s" todayAsString
 
-        // Act
         let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
 
-        // Assert
         response.EnsureSuccessStatusCode() |> ignore
      
     [<Fact>]
     member this.GetEpg_Today_ReturnsValidResponse () =
-        // Arrange
         let client = this.Factory.CreateClient();
         let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
         let url = sprintf "/epg/%s" todayAsString
         let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
 
-        // Act
         let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
 
-        // Assert
         response.EnsureSuccessStatusCode() |> ignore
         let bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
         let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
@@ -48,14 +42,11 @@ type public WebApiTests(factory: CustomWebApplicationFactory<EntryPoint>) =
 
     [<Fact>]
     member this.GetEpg_InvalidDate_ReturnsBadRequest () =
-        // Arrange
         let client = this.Factory.CreateClient();
         let invalidDateAsString = "2021-13-32"
         let url = sprintf "/epg/%s" invalidDateAsString
 
-        // Act
         let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
 
-        // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
     
