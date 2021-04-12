@@ -1389,7 +1389,7 @@ Responsen til denne operasjonen vil bestå av to lister med sendinger, én for h
 
 #### JSON Schema
 
-Før vi definerer selve kontrakten til API-et i en OpenAPI-spesifikasjon, skal vi definere et [JSON Schema](https://json-schema.org/) for innholdet i responsen til den ene operasjonen i API-et vårt. Dette er vist under. Her ser vi at responsen består av et objekt med to felter: `NRK1` og `NRK2`, som begge er en liste med sendingene på de respektive kanalene. Hver sending inneholder en tittel, samt start- og sluttidspunkt.
+Før vi definerer selve kontrakten til API-et i en OpenAPI-spesifikasjon, skal vi definere et [JSON Schema](https://json-schema.org/) for innholdet i responsen til operasjonen i API-et vårt. Dette er vist under. Her ser vi at responsen består av et objekt med to felter: `NRK1` og `NRK2`, som begge er en liste med sendingene på de respektive kanalene. Hver sending inneholder en tittel, samt start- og sluttidspunkt.
 
 ```json
 {
