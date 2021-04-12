@@ -1954,7 +1954,34 @@ member this.GetEpg_Today_Returns200OK () =
     response.EnsureSuccessStatusCode() |> ignore
 ```
 
-Her bruker vi `WebApplicationFactory`-instansen vi fikk i konstruktøren til å opprette en HTTP-klient, og benytter denne HTTP-klienten til å sende en GET-forespørsel til `/epg/{dato}`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
+`Tests.fs` i integrasjonstestprosjektet skal nå se slik ut:
+
+```f#
+module Tests
+
+open System
+open System.Net
+open Xunit
+open Microsoft.AspNetCore.Mvc.Testing
+open NRK.Dotnetskolen.Api.TestServer
+
+type public WebApiTests(factory: WebApplicationFactory<EntryPoint>) = 
+    interface IClassFixture<WebApplicationFactory<EntryPoint>>
+
+    member _.Factory = factory
+
+    [<Fact>]
+    member this.GetEpg_Today_Returns200OK () =
+        let client = this.Factory.CreateClient();
+        let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+        let url = sprintf "/epg/%s" todayAsString
+
+        let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+
+        response.EnsureSuccessStatusCode() |> ignore
+```
+
+Her bruker vi `WebApplicationFactory`-instansen vi fikk i konstruktøren til å opprette en HTTP-klient, og benytter denne HTTP-klienten til å sende en GET-forespørsel til `/epg/<dagens dato>`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
 
 #### Test 2 - Verifisere format på EPG-respons
 
