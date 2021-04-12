@@ -4,8 +4,6 @@
 
 ### For å bli ferdig
 
-- Legge til `Dto`-suffix i typenavn for Dto- README
-  - Veiledning for steg 10
 - Lage branchen `ferdig`
 
 ### Utbedringer
@@ -1659,13 +1657,13 @@ Lim inn innholdet under i `Dto.fs`:
 ```f#
 module NRK.Dotnetskolen.Dto
 
-type Sending = {
+type SendingDto = {
     Tittel: string
     StartTidspunkt: string
     SluttTidspunkt: string
 }
 
-type Epg = {
+type EpgDto = {
   NRK1: Sending list
   NRK2: Sending list
 }
