@@ -2878,6 +2878,7 @@ Legg til følgende `open`-statement og kode for å registrere `getEpgForDate` me
 
 ```f#
 ...
+open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.IntegrationTests.Mock
 
 type public CustomWebApplicationFactory<'TStartup when 'TStartup : not struct>() =
@@ -2888,7 +2889,6 @@ type public CustomWebApplicationFactory<'TStartup when 'TStartup : not struct>()
             serviceCollection.Remove(existingGetEpgForDateFunction) |> ignore
             
             serviceCollection.AddSingleton<DateTime -> Epg>(getEpgForDate getAllTransmissions) |> ignore
-            ()
         ) |> ignore
 ```
 
