@@ -1744,7 +1744,12 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 
 **Steg 9 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-8---implementere-kontraktstyper) [⬇ Neste steg](#steg-10---implementere-web-api)
 
-Før vi faktisk implementerer web-API-et skal vi skrive integrasjonstester som verifiserer at API-et oppfyller kontrakten vi definerte i forrige steg. Overordnet er måten vi skal gjøre det på å kjøre web-API-et vårt på en webserver som kjører i minnet under testen ([https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0)), og sende forespørsler mot denne webserveren. Siden vi gir hele web-API-et vårt som input til denne webserveren er responsene vi får på samme format som web-API-et svarer med i et deployet miljø, og dermed kan vi verifisere at API-et oppfyller kontrakten vi har definert.
+Før vi faktisk implementerer web-API-et skal vi skrive integrasjonstester som verifiserer at API-et oppfyller kontrakten vi definerte i forrige steg. Det skal vi gjøre ved å
+
+1. Kjøre web-API-et vårt på en webserver som kjører i minnet under testen
+2. Sende forespørsler mot denne webserveren, og verifisere at responsene vi i retur oppfyller OpenAPI-kontrakten
+
+Siden vi gir hele web-API-et vårt som input til denne webserveren er responsene vi får på samme format som web-API-et svarer med i et deployet miljø, og dermed kan vi være trygge på at API-et oppfyller kontrakten vi har definert også når det deployes.
 
 > Inspirasjonen til å skrive integrasjonstestene på måten beskrevet over er hentet fra denne artikkelen skrevet av Microsoft: [https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0)
 
