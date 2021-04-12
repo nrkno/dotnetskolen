@@ -1,5 +1,5 @@
-# Forenklet EPG-API i .NET
+# Referanseimplementasjon av web-API i F#
 
-Dette er et forenklet EPG-API implementert i .NET. Hensikten med denne implemenasjonen er at den skal kunne fungere som en referanse for hvordan man kan sette opp web-API-et i .NET.
+Dette er et web-API med begrenset funksjonalitet for å hente ut EPG for NRK1 og NRK2. Hensikten med dette repoet er at det skal fungere som en referanse for hvordan sette opp et web-API i F#.
 
 Se forøvrig kurset som går gjennom prosessen med å implementere API-et fra bunnen av [her](https://github.com/nrkno/dotnetskolen/tree/main)
