@@ -1100,13 +1100,9 @@ $ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
-  NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(11,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(22,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(33,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(44,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(55,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(66,28): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(13,24): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: The value or constructor 'IsTitleValid' is not defined. Maybe you want one of the following:↔   IsTitleValid_ValidTitle_ReturnsTrue 
+[C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
 ```
 
 ##### Implementere IsTitleValid
