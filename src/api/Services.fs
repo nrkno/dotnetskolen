@@ -1,8 +1,10 @@
-module NRK.Dotnetskolen.Api.Services
+namespace NRK.Dotnetskolen.Api
 
-open System
-open NRK.Dotnetskolen.Domain
+module Services =
 
-let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
-    getAllTransmissions ()
-    |> List.filter (fun s -> s.StartTidspunkt.Date.Date = date.Date)
+    open System
+    open NRK.Dotnetskolen.Domain
+
+    let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
+        getAllTransmissions ()
+        |> List.filter (fun s -> s.StartTidspunkt.Date.Date = date.Date)
