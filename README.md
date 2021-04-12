@@ -1048,7 +1048,7 @@ Domenemodellen som ble innført i [forrige steg](#steg-5---definere-domenemodell
 
 #### Regler i domenet vårt
 
-Før vi begynner å implementere valideringsreglene i domenemodellen skal vi skrive enhetstestene som verifiserer dem. Vi ønsker å verifisere følgende regler fra domenet vårt:
+Vi ønsker å verifisere følgende regler fra domenet vårt:
 
 - Tittel
   - Må bestå av 5-100 tegn (inklusiv)
