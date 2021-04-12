@@ -2900,4 +2900,6 @@ $ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 296 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
 
-Gratulerer! 🎉 Du har nå implementert et web-API i F#, med enhets- og integrasjonstester, API-dokumentasjon i OpenAPI, og gjort alt ved hjelp av .NET CLI.
+Gratulerer! 🎉
+
+Du har nå implementert et web-API i F#, med enhets- og integrasjonstester, API-dokumentasjon i OpenAPI, og gjort alt ved hjelp av .NET CLI.
