@@ -1795,7 +1795,11 @@ Gjenta steget over for `test/unit/NRK.Dotnetskolen.IntegrationTests.fsproj` for 
 
 #### Sette opp skall for web-API
 
-For at vi skal kunne opprette webserveren som skal kjøre under integrasjonstesten, må den ha en referanse til startpunktet til web-API-et. Webserveren opprettes ved bruk av et `WebApplicationFactory` som tar inn en klasse i assembly-en hvor web-API-et er definert. Deretter leter `WebApplicationFactory` etter en funksjon `CreateHostBuilder` i assembly-en til web-API-et. `CreateHostBuilder`-funksjonen skal returnere et objekt som implementerer interfacet `IHostBuilder`, og `WebApplicationFactory` benytter dette objektet til å opprette en `TestServer` basert på hosten som er definert i `CreateHostBuilder`. Normalt sett kan klassen som `WebApplicationFactory` refererer til være `Program`-klassen i web-API-et, men siden vi skriver web-API-et i F# har ikke web-API-et vårt klasser. For å komme rundt dette oppretter vi en tom klasse `EntryPoint` i web-API-et vårt som vi kan peke `WebApplicationFactory` på.
+For at vi skal kunne opprette webserveren som skal kjøre under integrasjonstesten, må den ha en referanse til startpunktet til web-API-et. Webserveren opprettes ved bruk av et `WebApplicationFactory` som tar inn en klasse i assembly-en hvor web-API-et er definert. Deretter leter `WebApplicationFactory` etter en funksjon `CreateHostBuilder` i denne assembly-en.
+
+`CreateHostBuilder`-funksjonen skal returnere et objekt som implementerer interfacet `IHostBuilder`, og `WebApplicationFactory` benytter dette objektet til å opprette et `TestServer`-objekt basert på hosten som er definert i `CreateHostBuilder`.
+
+`WebApplicationFactory` er skrevet i C# som er objektorientert, og i C# ville klassen som `WebApplicationFactory` refererer til typisk være `Program`-klassen i web-API-et. Siden vi imidlertid skriver web-API-et i F# har ikke web-API-et vårt klasser. For å komme rundt dette oppretter vi en tom klasse `EntryPoint` i web-API-et vårt som vi kan peke `WebApplicationFactory` på.
 
 Opprett filen `EntryPoint.fs` i mappen `src/api`:
 
