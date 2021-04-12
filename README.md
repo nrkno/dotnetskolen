@@ -4,7 +4,6 @@
 
 ### Utbedringer
 
-- Forklare open-statements og at rekkefølge i prosjektet har noe å si
 - Ikke oppgi all kode i veiledningen, slik at deltakerne kan skrive noe selv for bedre læring
 - Steg 6
   - Forklare bruk av `[<Fact>]` og `[<Theory>]`
@@ -1013,6 +1012,8 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
 
 </Project>
 ```
+
+Merk at rekkefølgen filer blir inkludert i prosjektfilen på har betydning. Dersom `modul A` er definert i `ModulA.fs` og `modul B` er definert i `ModulB.fs`, og `modul A` skal kunne åpne `modul B` må `ModulB.fs` ligge før `ModulA.fs` i prosjektfilen.
 
 > Moduler i F# blir kompilert til det samme som statiske klasser i C#.
 
