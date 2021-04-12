@@ -1018,6 +1018,8 @@ Over definerer vi en F#-modul `Domain` i namespacet `NRK.Dotnetskolen`. I `Domai
 
 Vi åpnet også modulen `System` for å få tilgang til typen `DateTimeOffset`.
 
+> Legg merke til innrykket på linjene etter `module Domain =`. Dette inntrykket er påkrevd av F# for at koden skal kompilere riktig.
+
 Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain.fs" />` i `src\api\NRK.Dotnetskolen.Api.fsproj` slik som vist under:
 
 ```xml
@@ -1110,17 +1112,17 @@ C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: Th
 For å validere en tittel bruker vi et regulært uttrykk som reflekterer reglene i domenet vårt. Åpne filen `Domain.fs` i API-prosjektet, og legg til følgende `open`-statement under `open system`:
 
 ```f#
-    open System
-    open System.Text.RegularExpressions
+open System
+open System.Text.RegularExpressions
 ```
 
 Lim deretter inn følgende kode på slutten av filen:
 
 ```f#
 ...
-    let IsTitleValid (title: string) : bool =
-        let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
-        titleRegex.IsMatch(title)
+let IsTitleValid (title: string) : bool =
+    let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+    titleRegex.IsMatch(title)
 ```
 
 Det regulære uttrykket lister opp hvilke tegn som er gyldige i en gruppe (tegnene mellom mellom `[` og `]`):
@@ -1199,7 +1201,7 @@ Reglene for kanal er ganske enkle ettersom det kun er to gyldige kanaler, og dis
 
 ##### Enhetstester
 
-For å teste valideringsreglen for kanal trenger vi én positiv test per gyldige kanal, en negativ test for en kanal små bokstaver, og en negativ test for en ugyldig kanal. Utvid `Tests.fs` i med følgende tester for kanal:
+For å teste valideringsreglen for kanal trenger vi én positiv test per gyldige kanal, en negativ test for en kanal med små bokstaver, og en negativ test for en ugyldig kanal. Utvid `Tests.fs` i med følgende tester for kanal:
 
 ```f#
 ...
@@ -1255,7 +1257,17 @@ Det siste vi skal validere i domenet vårt er at sluttidspunkt er etter starttid
 
 ##### Enhetstester
 
-Lim inn følgende enhetstester for validering av sendetidspunkter i `Tests.fs`:
+Start med å legg til `open System` over `open Xunit` i `Tests.fs`:
+
+```f#
+module Tests
+
+open System
+open Xunit
+...
+```
+
+Lim deretter inn følgende enhetstester for validering av sendetidspunkter i `Tests.fs`:
 
 ```f#
 ...
