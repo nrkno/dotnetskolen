@@ -434,7 +434,21 @@ test
     └── Tests.fs
 ```
 
-For å kjøre testene i enhetstestprosjektet kan du kjøre følgende kommando
+Hvis du åpner `Tests.fs` ser du at malen inkluderer en helt basal test som alltid passerer:
+
+```f#
+module Tests
+
+open System
+open Xunit
+
+[<Fact>]
+let ``My test`` () =
+    Assert.True(true)
+
+```
+
+For å kjøre testen i enhetstestprosjektet kan du kjøre følgende kommando
 
 ``` bash
 $ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
