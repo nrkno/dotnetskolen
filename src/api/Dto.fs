@@ -1,12 +1,12 @@
 module NRK.Dotnetskolen.Dto
 
-type Sending = {
+type SendingDto = {
     Tittel: string
     StartTidspunkt: string
     SluttTidspunkt: string
 }
 
-type Epg = {
-  NRK1: Sending list
-  NRK2: Sending list
+type EpgDto = {
+  NRK1: SendingDto list
+  NRK2: SendingDto list
 }
