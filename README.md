@@ -902,7 +902,27 @@ $ dotnet paket add coverlet.collector --project test\unit\NRK.Dotnetskolen.UnitT
 
 > Merk at NuGet-pakken `FSharp.Core` ikke var listet ut i `.fsproj`-filene til enhets- og integrasjonstestprosjektene. Vi er imidlertid avhengig av å ha denne pakken for å få kjørt testene. Derfor er den lagt til eksplisitt via Paket over.
 
-Gjenta kommandoene for integrasjonstestprosjektet ved å bytte ut `test\unit\NRK.Dotnetskolen.UnitTests.fsproj` med `test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj`.
+Gjenta kommandoene for integrasjonstestprosjektet ved å bytte ut `test\unit\NRK.Dotnetskolen.UnitTests.fsproj` med `test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj`:
+
+
+
+```bash
+
+$ dotnet paket add FSharp.Core --project test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+...
+
+$ dotnet paket add Microsoft.NET.Test.Sdk --project test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+...
+
+$ dotnet paket add xunit --project test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+...
+
+$ dotnet paket add xunit.runner.visualstudio --project test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+...
+
+$ dotnet paket add coverlet.collector --project test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+...
+```
 
 Verifiser at testprosjektene fortsatt kjører ved å kjøre `dotnet test` i roten av repoet:
 
