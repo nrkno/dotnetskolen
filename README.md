@@ -1,11 +1,5 @@
 # Dotnetskolen
 
-## To do
-
-### Utbedringer
-
-- Legg til "steg x av y" i tittel
-
 ## Innledning
 
 Velkommen til Dotnetskolen!
@@ -190,7 +184,7 @@ Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt,
 
 ### Steg 1 - Opprette API
 
-[🔝 Gå til toppen](#dotnetskolen) [⬇ Neste steg](#steg-2---opprette-testprosjekter)
+**Steg 1 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬇ Neste steg](#steg-2---opprette-testprosjekter)
 
 I dette steget starter vi med et repo helt uten kode, og bruker .NET CLI til å opprette vårt første prosjekt `NRK.Dotnetskolen.Api`.
 
@@ -395,7 +389,7 @@ Hello world from F#
 
 ### Steg 2 - Opprette testprosjekter
 
-[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-1---opprette-api) [⬇ Neste steg](#steg-3---opprette-solution)
+**Steg 2 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-1---opprette-api) [⬇ Neste steg](#steg-3---opprette-solution)
 
 I dette steget skal vi opprette to testprosjekter
 
@@ -531,7 +525,7 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 
 ### Steg 3 - Opprette solution
 
-[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-2---opprette-testprosjekter) [⬇ Neste steg](#steg-4---pakkehåndtering)
+**Steg 3 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-2---opprette-testprosjekter) [⬇ Neste steg](#steg-4---pakkehåndtering)
 
 Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme repo, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker og kjøre alle testene for systemet vårt, kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
 
@@ -683,7 +677,7 @@ Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
 
 ### Steg 4 - Pakkehåndtering
 
-[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-3---opprette-solution) [⬇ Neste steg](#steg-5---definere-domenemodell)
+**Steg 4 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-3---opprette-solution) [⬇ Neste steg](#steg-5---definere-domenemodell)
 
 Siden vi har behov for å installere NuGet-pakker senere i kurset, setter vi opp Paket for løsningen nå. [Første avsnitt](#nuget-og-paket) under introduserer konseptene NuGet og Paket, og [andre avsnitt](#sette-opp-paket) forklarer hvordan man setter opp Paket i en .NET-løsning.
 
@@ -927,7 +921,7 @@ Nå er du klar til å legge til avhengigheter i prosjektet ditt!
 
 ### Steg 5 - Definere domenemodell
 
-[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-4---pakkehåndtering) [⬇ Neste steg](#steg-6---enhetstester-for-domenemodell)
+**Steg 5 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-4---pakkehåndtering) [⬇ Neste steg](#steg-6---enhetstester-for-domenemodell)
 
 Vi skal lage et API for å hente ut en forenklet elektronisk programguide (EPG) for ulike kanaler i NRK TV. Tanken er at dette API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://info.nrk.no/presse/tvguide/](https://info.nrk.no/presse/tvguide/)
 
@@ -1006,7 +1000,7 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
 
 ### Steg 6 - Enhetstester for domenemodell
 
-[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-5---definere-domenemodell) [⬇ Neste steg](#steg-7---definere-api-kontrakt)
+**Steg 6 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-5---definere-domenemodell) [⬇ Neste steg](#steg-7---definere-api-kontrakt)
 
 Domenemodellen som ble innført i [forrige steg](#steg-5---definere-domenemodell) inneholder både strukturen til EPG-en, og valideringsreglene knyttet til dem. Så langt har vi kun modellert strukturen i F# (at EPG består av en liste med sendinger, og hvilke felter hver sending inneholder). I dette steget skal vi implementere valideringsreglene i F#, og verifisere at vi har implementert dem riktig ved hjelp av enhetstester.
 
@@ -1346,7 +1340,7 @@ Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration:
 
 ### Steg 7 - Definere API-kontrakt
 
-[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-6---enhetstester-for-domenemodell) [⬇ Neste steg](#steg-8---implementere-kontraktstyper)
+**Steg 7 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-6---enhetstester-for-domenemodell) [⬇ Neste steg](#steg-8---implementere-kontraktstyper)
 
 For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK definerer vi API-kontrakter ved bruk av OpenAPI ([https://www.openapis.org/](https://www.openapis.org/)).
 
@@ -1650,7 +1644,7 @@ Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den
 
 ### Steg 8 - Implementere kontraktstyper
 
-[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-7---definere-api-kontrakt) [⬇ Neste steg](#steg-9---integrasjonstester-for-web-api)
+**Steg 8 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-7---definere-api-kontrakt) [⬇ Neste steg](#steg-9---integrasjonstester-for-web-api)
 
 I [steg-5](#steg-5---definere-domenemodell) definerte vi domenemodellen vår som en F#-type. Domenemodellen representerer EPG-en slik vi konseptuelt tenker på den, både når det gjelder  struktur og regler for gyldige tilstander. API-kontrakter er ikke nødvendigvis en-til-en med domenemodeller. For det første kan strukturen til typene i API-et være annerledes enn i domenemodellen. Dette ser vi i vårt tilfelle hvor domenemodellen har alle sendinger, på tvers av kanaler, i én liste, mens API-kontrakten har én liste med sendinger per kanal. I tillegg er vi begrenset til å representere data med tekst i API-et ettersom HTTP er en tekstbasert protokoll. For eksempel benytter vi en `DateTimeOffset` til å representere start- og sluttidspunkt i domenemodellen vår, mens vi benytter `string` i OpenAPI-kontrakten vår. For at vi skal kunne oversette domenemodellen til OpenAPI-kontrakten skal vi innføre en egen F#-type som reflekterer typene i OpenAPI-kontrakten vår. Generelt blir typer som representerer dataene våre slik vi kommuniserer med andre systemer på kalt "data transfer objects", eller "DTO".
 
@@ -1713,7 +1707,7 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 
 ### Steg 9 - Integrasjonstester for web-API
 
-[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-8---implementere-kontraktstyper) [⬇ Neste steg](#steg-10---implementere-web-api)
+**Steg 9 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-8---implementere-kontraktstyper) [⬇ Neste steg](#steg-10---implementere-web-api)
 
 Før vi faktisk implementerer web-API-et skal vi skrive integrasjonstester som verifiserer at API-et oppfyller kontrakten vi definerte i forrige steg. Overordnet er måten vi skal gjøre det på å kjøre web-API-et vårt på en webserver som kjører i minnet under testen ([https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0)), og sende forespørsler mot denne webserveren. Siden vi gir hele web-API-et vårt som input til denne webserveren er responsene vi får på samme format som web-API-et svarer med i et deployet miljø, og dermed kan vi verifisere at API-et oppfyller kontrakten vi har definert.
 
@@ -1974,7 +1968,7 @@ Hvis du forsøker å kjøre integrasjonstestene nå, vil de feile ettersom vi ik
 
 ### Steg 10 - Implementere web-API
 
-[🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-9---integrasjonstester-for-web-api)
+**Steg 10 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-9---integrasjonstester-for-web-api)
 
 I [forrige steg](#steg-9---integrasjonstester-for-web-api) opprettet vi et skall for web-API-et ved at vi implementerte funksjonen `CreateHostBuilder` i `Program.fs` slik at vi kunne peke testserveren i integrasjonsprosjektet til startpunktet til web-API-et vårt. Selve programmet i web-API-prosjektet har imidlertid ikke tatt i bruk startpunktet enda. Det kan du verifisere ved å starte API-prosjektet med følgende kommando:
 
