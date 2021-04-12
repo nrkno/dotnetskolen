@@ -5,12 +5,13 @@
 ### Utbedringer
 
 - Forklare open-statements og at rekkefølge i prosjektet har noe å si
-- Legg til "steg x av y" i tittel
+- Ikke oppgi all kode i veiledningen, slik at deltakerne kan skrive noe selv for bedre læring
 - Steg 6
   - Forklare bruk av `[<Fact>]` og `[<Theory>]`
   - Forklare "Arrange, act, assert"?
   - La deltakerne implementere valideringsfunksjonene selv
 - Steg 7 - Utlede kontrakten steg for steg, og til slutt list opp helheten. På denne måten er det lettere for de som er ukjent med OpenAPI å følge eksemplet.
+- Legg til "steg x av y" i tittel
 
 ## Innledning
 
@@ -962,8 +963,8 @@ Nå som vi har spesifisert domenet vårt, kan vi modellere det i F#. Start med �
     └── ...
 src
 └── api
-    └── NRK.Dotnetskolen.Api.fsproj
     └── Domain.fs
+    └── NRK.Dotnetskolen.Api.fsproj
     └── Program.fs
 test
 └── ...
@@ -974,23 +975,23 @@ test
 Lim inn innholdet under i `Domain.fs`:
 
 ```f#
+namespace NRK.Dotnetskolen
 
-module NRK.Dotnetskolen.Domain
+module Domain = 
 
-open System
+    open System
 
-type Sending = {
-    Tittel: string
-    Kanal: string
-    StartTidspunkt: DateTimeOffset
-    SluttTidspunkt: DateTimeOffset
-}
+    type Sending = {
+        Tittel: string
+        Kanal: string
+        StartTidspunkt: DateTimeOffset
+        SluttTidspunkt: DateTimeOffset
+    }
 
-type Epg = Sending list
-
+    type Epg = Sending list
 ```
 
-Domenemodellen vår består av to typer:
+Over definerer vi en F#-modul `Domain` i namespacet `NRK.Dotnetskolen`. I `Domain`-modulen definerer vi domenemodellen vår, som består av to typer:
 
 - `Sending` - modellerer et enkelt innslag i EPG-en, og inneholder feltene som ble definert i forrige seksjon
 - `Epg` - en liste med sendinger
@@ -1012,6 +1013,8 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
 
 </Project>
 ```
+
+> Moduler i F# blir kompilert til det samme som statiske klasser i C#.
 
 ### Steg 6 - Enhetstester for domenemodell
 
@@ -1266,15 +1269,15 @@ let ``IsChannelValid_NRK3UpperCase_ReturnsFalse`` () =
 
 ##### Implementasjon av IsChannelValid
 
-Før vi kjører testene igjen, legger vi til implementasjon av `IsChannelValid` i `Domain.fs`:
+Før vi kjører testene igjen, definerer vi skallet for `IsChannelValid` i `Domain.fs`:
 
 ```f#
 ...
 let IsChannelValid (channel: string) : bool =
-    List.contains channel ["NRK1"; "NRK2"]
+    // Implementasjon her
 ```
 
-Kjør testene:
+Implementér `IsChannelValid` slik at enhetstestene passerer.
 
 ```bash
 $ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj
@@ -1342,15 +1345,15 @@ let ``AreStartAndEndTimesValid_StartEqualsEnd_ReturnsFalse`` () =
 
 ##### Implementasjon av AreStartAndEndTimesValid
 
-Funksjonen for å validere sendetidspunktene må undersøke om sluttidspunktet er større enn starttidspunktet. Lim inn implementasjonen under i `Domain.fs`:
+Funksjonen for å validere sendetidspunktene må undersøke om sluttidspunktet er større enn starttidspunktet. Lim inn skallet til `AreStartAndEndTimesValid` i `Domain.fs`:
 
 ```f#
 ...
 let AreStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
-    startTime < endTime
+    // Implementasjon her
 ```
 
-Kjør enhetstestene:
+Implementér `AreStartAndEndTimesValid` og få enhetstestene til å passere.
 
 ```bash
 $ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj
@@ -1375,58 +1378,19 @@ Nå som vi har funksjoner for å validere de ulike feltene i en sending, kan vi 
 
 ##### Enhetstester
 
-Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene av en sending, kan enhetstestene for validering av hele sendingen være ganske enkle. Vi kan skrive én positiv test for en gyldig sending, og én negativ test for en ugyldig sending. Lim inn følgende enhetstester for validering av sendinger i `Tests.fs`:
-
-```f#
-...
-[<Fact>]
-let ``IsTransmissionValid_ValidTransmission_ReturnsTrue`` () =
-    // Arrange
-    let now = DateTimeOffset.Now
-    let transmission = {
-        Sending.Tittel = "Dagsrevyen"
-        Kanal = "NRK1"
-        StartTidspunkt = now
-        SluttTidspunkt = now.AddMinutes 30.
-    }
-
-    // Act
-    let isTransmissionValid = IsTransmissionValid transmission
-
-    // Assert
-    Assert.True isTransmissionValid
-
-[<Fact>]
-let ``IsTransmissionValid_InValidTransmission_ReturnsFalse`` () =
-    // Arrange
-    let now = DateTimeOffset.Now
-    let transmission = {
-        Sending.Tittel = "@$%&/"
-        Kanal = "nrk3"
-        StartTidspunkt = now
-        SluttTidspunkt = now.AddMinutes -30.
-    }
-
-    // Act
-    let isTransmissionValid = IsTransmissionValid transmission
-
-    // Assert
-    Assert.False isTransmissionValid
-```
+Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene av en sending, kan enhetstestene for validering av hele sendingen være ganske enkle. Skriv én positiv test for en gyldig sending, og én negativ test for en ugyldig sending i `Tests.fs`:
 
 ##### Implementasjon av IsTransmissionValid
 
-`IsTransmissionValid` trenger bare å slå sammen resultatet av å validere hvert av feltene i sendingen. Lim inn implementasjonen av `IsTransmissionValid` under i `Domain.fs`:
+Legg til følgende skall for `IsTransmissionValid` i `Domain.fs`:
 
 ```f#
 ...
 let IsTransmissionValid (transmission: Sending) : bool =
-    (IsTitleValid transmission.Tittel) && 
-    (IsChannelValid transmission.Kanal) && 
-    (AreStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
+    // Implementasjon her
 ```
 
-Kjør enhetstestene en siste gang:
+Implementér `IsTransmissionValid`, og få enhetstestene til å passere:
 
 ```bash
 $ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj 
@@ -1636,9 +1600,9 @@ Start med å opprett en fil `Dto.fs` i mappen `src/api`:
     └── ...
 src
 └── api
-    └── NRK.Dotnetskolen.Api.fsproj
     └── Domain.fs
     └── Dto.fs
+    └── NRK.Dotnetskolen.Api.fsproj
     └── Program.fs
 test
 └── ...
@@ -1649,18 +1613,20 @@ test
 Lim inn innholdet under i `Dto.fs`:
 
 ```f#
-module NRK.Dotnetskolen.Dto
+namespace NRK.Dotnetskolen
 
-type SendingDto = {
-    Tittel: string
-    StartTidspunkt: string
-    SluttTidspunkt: string
-}
+module Dto =
 
-type EpgDto = {
-  NRK1: Sending list
-  NRK2: Sending list
-}
+  type SendingDto = {
+      Tittel: string
+      StartTidspunkt: string
+      SluttTidspunkt: string
+  }
+
+  type EpgDto = {
+    NRK1: SendingDto list
+    NRK2: SendingDto list
+  }
 ```
 
 På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemodell), må vi legge til `Dto.fs` i prosjektfilen til API-prosjektet:
@@ -1727,10 +1693,10 @@ Opprett filen `EntryPoint.fs` i mappen `src/api`:
     └── ...
 src
 └── api
-    └── NRK.Dotnetskolen.Api.fsproj
     └── Domain.fs
     └── Dto.fs
     └── EntryPoint.fs
+    └── NRK.Dotnetskolen.Api.fsproj
     └── Program.fs
 test
 └── ...
@@ -1741,9 +1707,12 @@ test
 Lim deretter inn koden under i `EntryPoint.fs`.
 
 ```f#
-module NRK.Dotnetskolen.Api.TestServer
+namespace NRK.Dotnetskolen.Api
 
-type public EntryPoint() = class end
+module TestServer =
+
+    type public EntryPoint() = class end
+    
 ```
 
 Legg til `EntryPoint.fs` i prosjektfilen til API-prosjektet:
@@ -2189,14 +2158,16 @@ Husk å legg til `HttpHandlers.fs` i prosjektfilen til API-prosjektet:
 Legg til følgende kode i `HttpHandlers.fs`:
 
 ```f#
-module NRK.Dotnetskolen.Api.HttpHandlers
+namespace NRK.Dotnetskolen.Api
 
-open Microsoft.AspNetCore.Http
-open Giraffe
+module NRK.Dotnetskolen.Api.HttpHandlers =
 
-let epgHandler (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        (text dateAsString) next ctx
+    open Microsoft.AspNetCore.Http
+    open Giraffe
+
+    let epgHandler (dateAsString : string) : HttpHandler =
+        fun (next : HttpFunc) (ctx : HttpContext) ->
+            (text dateAsString) next ctx
 ```
 
 Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til at Giraffe har sin egen middleware pipeline, på tilsvarende måte som .NET legger opp til: først spesifiserer vi hva vi ønsker å returnere i HTTP-responsen `text dateAsString`, deretter kaller vi neste middleware i pipelinen `next ctx` hvor vi gir inn `HttpContext`-objektet.
@@ -2379,16 +2350,18 @@ Husk å legg til `Services.fs` i prosjektfilen til API-prosjektet:
 </Project>
 ```
 
-Ut i fra signaturen til `getEpgForDate` må `Services.fs` se ca. slik ut:
+Ut i fra signaturen til `getEpgForDate` må `Services.fs` se slik ut:
 
 ```f#
-module NRK.Dotnetskolen.Api.Services
+namespace NRK.Dotnetskolen.Api
 
-open System
-open NRK.Dotnetskolen.Domain
+module Services =
 
-let getEpgForDate (date : DateTime) : Epg =
-  // Implementasjon her...
+    open System
+    open NRK.Dotnetskolen.Domain
+
+    let getEpgForDate (date : DateTime) : Epg =
+    // Implementasjon her...
 ```
 
 Oppgaven til `getEpgForDate` er å filtrere sendinger på den oppgitte datoen, men hvor skal den få sendingene fra? På tilsvarende måte som vi gjorde i `epgHandler`-funksjonen i `HttpHandlers`, kan vi her si at vi ønsker å delegere ansvaret til å faktisk hente sendinger til noen andre. Dette kan vi gjøre ved å ta inn en funksjon `getAllTransmissions: () -> Epg` i `getEpgForDate`:
@@ -2446,18 +2419,20 @@ Husk å legg til `DataAccess.fs` i prosjektfilen til API-prosjektet:
 Vi later som at vi henter sendingene våre fra en database, og implementerer derfor egne typer som representerer hvordan sendingene og EPG-en er lagret i databasen:
 
 ```f#
-module NRK.Dotnetskolen.Api.DataAccess
+namespace NRK.Dotnetskolen.Api
 
-open System
+module DataAccess = 
 
-type SendingEntity = {
-    Tittel: string
-    Kanal: string
-    StartTidspunkt: string
-    SluttTidspunkt: string
-}
+    open System
 
-type EpgEntity = SendingEntity list
+    type SendingEntity = {
+        Tittel: string
+        Kanal: string
+        StartTidspunkt: string
+        SluttTidspunkt: string
+    }
+
+    type EpgEntity = SendingEntity list
 ```
 
 Deretter kan vi definere noen sendinger i en egen liste vi kaller `database`:
@@ -2599,24 +2574,26 @@ Husk å legg til `CustomWebApplicationFactory.fs` i prosjektfilen til integrasjo
 Lim inn følgende kode i `CustomWebApplicationFactory.fs`:
 
 ```f#
-module NRK.Dotnetskolen.IntegrationTests.CustomWebApplicationFactory
+namespace NRK.Dotnetskolen.IntegrationTests
 
-open System
-open System.Linq
-open Microsoft.AspNetCore.Hosting
-open Microsoft.AspNetCore.Mvc.Testing
-open Microsoft.Extensions.DependencyInjection
-open NRK.Dotnetskolen.Domain
-open NRK.Dotnetskolen.Api.Services
+module CustomWebApplicationFactory =
 
-type public CustomWebApplicationFactory<'TStartup when 'TStartup : not struct>() =
-    inherit WebApplicationFactory<'TStartup>()
-    override _.ConfigureWebHost (webHostBuilder: IWebHostBuilder) =
-        webHostBuilder.ConfigureServices(fun (serviceCollection: IServiceCollection) ->
-            let existingGetEpgForDateFunction = serviceCollection.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
-            serviceCollection.Remove(existingGetEpgForDateFunction) |> ignore
-            ()
-        ) |> ignore
+    open System
+    open System.Linq
+    open Microsoft.AspNetCore.Hosting
+    open Microsoft.AspNetCore.Mvc.Testing
+    open Microsoft.Extensions.DependencyInjection
+    open NRK.Dotnetskolen.Domain
+    open NRK.Dotnetskolen.Api.Services
+
+    type public CustomWebApplicationFactory<'TStartup when 'TStartup : not struct>() =
+        inherit WebApplicationFactory<'TStartup>()
+        override _.ConfigureWebHost (webHostBuilder: IWebHostBuilder) =
+            webHostBuilder.ConfigureServices(fun (serviceCollection: IServiceCollection) ->
+                let existingGetEpgForDateFunction = serviceCollection.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
+                serviceCollection.Remove(existingGetEpgForDateFunction) |> ignore
+                ()
+            ) |> ignore
 ```
 
 Her ser vi at `CustomWebApplicationFactory` arver fra `WebApplicationFactory`, og at vi overrider metoden `ConfigureWebHost`. I vår implementasjon av `ConfigureWebHost` henter vi ut den eksisterende implementasjonen av `getEpgForDate` (som bruker `getAllTransmissions` fra `DataAccess`-modulen i API-et) og fjerner den fra `IServiceCollection`-objektet. Hvis vi hadde stoppet her hadde web-API-et feilet fordi det ikke hadde noen implementasjon av `getEpgForDate`-funksjonen. La oss implementere vår egen `getAllTransmissions`-funksjon i integrasjonstestprosjektet, og legge få `getEpgForDate` til å bruke den istedenfor.
@@ -2668,54 +2645,56 @@ Husk å legg til `Mock.fs` i prosjektfilen til integrasjonstestprosjektet:
 Lim inn følgende kode i `Mock.fs` hvor vi hardkoder noen sendinger som alltid har dagens dato:
 
 ```f#
-module NRK.Dotnetskolen.IntegrationTests.Mock
+namespace NRK.Dotnetskolen.IntegrationTests
 
-open System
-open NRK.Dotnetskolen.Domain
+module Mock =
 
-let getAllTransmissions () : Epg =
-    let now = DateTimeOffset.Now
-    [
-        // Sendinger tilbake i tid
-        {
-            Tittel = "Testprogram"
-            Kanal = "NRK1"
-            StartTidspunkt = now.AddDays(-10.)
-            SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
-        }
-        {
-            Tittel = "Testprogram"
-            Kanal = "NRK2"
-            StartTidspunkt = now.AddDays(-10.)
-            SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
-        }
-        // Sendinger i dag
-        {
-            Tittel = "Testprogram"
-            Kanal = "NRK1"
-            StartTidspunkt = now
-            SluttTidspunkt = now.AddMinutes(30.)
-        }
-        {
-            Tittel = "Testprogram"
-            Kanal = "NRK2"
-            StartTidspunkt = now
-            SluttTidspunkt = now.AddMinutes(30.)
-        }
-        // Sendinger tilbake i tid
-        {
-            Tittel = "Testprogram"
-            Kanal = "NRK1"
-            StartTidspunkt = now.AddDays(10.)
-            SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)
-        }
-        {
-            Tittel = "Testprogram"
-            Kanal = "NRK2"
-            StartTidspunkt = now.AddDays(10.)
-            SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)
-        }
-    ]
+    open System
+    open NRK.Dotnetskolen.Domain
+
+    let getAllTransmissions () : Epg =
+        let now = DateTimeOffset.Now
+        [
+            // Sendinger tilbake i tid
+            {
+                Tittel = "Testprogram"
+                Kanal = "NRK1"
+                StartTidspunkt = now.AddDays(-10.)
+                SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
+            }
+            {
+                Tittel = "Testprogram"
+                Kanal = "NRK2"
+                StartTidspunkt = now.AddDays(-10.)
+                SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
+            }
+            // Sendinger i dag
+            {
+                Tittel = "Testprogram"
+                Kanal = "NRK1"
+                StartTidspunkt = now
+                SluttTidspunkt = now.AddMinutes(30.)
+            }
+            {
+                Tittel = "Testprogram"
+                Kanal = "NRK2"
+                StartTidspunkt = now
+                SluttTidspunkt = now.AddMinutes(30.)
+            }
+            // Sendinger tilbake i tid
+            {
+                Tittel = "Testprogram"
+                Kanal = "NRK1"
+                StartTidspunkt = now.AddDays(10.)
+                SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)
+            }
+            {
+                Tittel = "Testprogram"
+                Kanal = "NRK2"
+                StartTidspunkt = now.AddDays(10.)
+                SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)
+            }
+        ]
 ```
 
 ##### Benytte mock av getAllTransmissions
