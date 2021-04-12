@@ -1716,8 +1716,8 @@ module Dto =
   }
 
   type EpgDto = {
-    NRK1: SendingDto list
-    NRK2: SendingDto list
+    Nrk1: SendingDto list
+    Nrk2: SendingDto list
   }
 ```
 
@@ -2412,17 +2412,18 @@ let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHa
 
 ###### Returnere JSON som oppfyller API-kontrakten
 
-Det eneste som gjenstår i `epgHandler` nå er å mappe fra domenemodellen til kontraktstypen vår, og returnere kontraktstypen som JSON. 
+Det eneste som gjenstår i `epgHandler` nå er å mappe fra domenemodellen til kontraktstypen vår, og returnere kontraktstypen som JSON.
 
 Vi begynner med å mappe fra domenemodellen til kontraktstypen vår. Utvid `Dto.fs` med en funksjon `fromDomain` som tar inn et `Epg`-objekt og returnerer et `EpgDto`-objekt:
 
 ```f#
 ...
 let fromDomain (domain: Domain.Epg) : EpgDto =
+    // Implementasjon her
 ...
 ```
 
-Bruk deretter `fromDomain`-funksjonen i `epgHandler`-funksjonen i `HttpHandlers.fs`:
+Implementér `fromDomain`-funksjonen. Bruk deretter `fromDomain`-funksjonen i `epgHandler`-funksjonen i `HttpHandlers.fs`:
 
 ```f#
 ...
