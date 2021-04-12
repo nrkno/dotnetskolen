@@ -13,16 +13,18 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
     let getEpgForDate = app.ApplicationServices.GetRequiredService<DateTime -> Epg>()
     let webApp =
         choose [
-            GET  >=> choose [
+            GET  >=> 
                 routef "/epg/%s" (epgHandler getEpgForDate)
-            ]
             RequestErrors.NOT_FOUND "Not found"
         ]
     app.UseGiraffe webApp
 
 let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-    services.AddGiraffe() |> ignore
-    services.AddSingleton<DateTime -> Epg>((getEpgForDate getAllTransmissions)) |> ignore
+    let getEpgForDate = getEpgForDate getAllTransmissions
+    services
+        .AddGiraffe()
+        .AddSingleton<DateTime -> Epg>(getEpgForDate) 
+        |> ignore
 
 let CreateHostBuilder args =
     Host.CreateDefaultBuilder(args)

@@ -12,7 +12,7 @@ type SendingEntity = {
 
 type EpgEntity = SendingEntity list
 
-let dataStore = 
+let database = 
     [
         {
             Tittel = "Testprogram"
@@ -45,5 +45,5 @@ let toDomain (epgEntity : EpgEntity) : Epg =
     |> List.filter(fun d -> IsTransmissionValid d)
 
 let getAllTransmissions () : Epg =
-    dataStore
+    database
     |> toDomain

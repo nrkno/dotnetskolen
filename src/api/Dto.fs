@@ -1,17 +1,17 @@
 module NRK.Dotnetskolen.Dto
 
-type Sending = {
+type SendingDto = {
     Tittel: string
     StartTidspunkt: string
     SluttTidspunkt: string
 }
 
-type Epg = {
-  Nrk1: Sending list
-  Nrk2: Sending list
+type EpgDto = {
+  Nrk1: SendingDto list
+  Nrk2: SendingDto list
 }
 
-let fromDomain (domain : Domain.Epg) : Epg =
+let fromDomain (domain : Domain.Epg) : EpgDto =
     let mapSendingerForKanal (kanal : string) =
         domain 
             |> List.filter (fun s -> s.Kanal = kanal) 

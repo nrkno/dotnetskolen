@@ -8,8 +8,6 @@ open Giraffe
 open NRK.Dotnetskolen.Dto
 open NRK.Dotnetskolen.Domain
 
-let earlyReturn : HttpFunc = Some >> Task.FromResult
-
 let isDateValid (dateAsString : string) (date : byref<DateTime>) : bool =
     DateTime.TryParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, &date)
 
@@ -23,5 +21,5 @@ let epgHandler (getEpgForDate : DateTime -> Epg) (dateAsString : string) : HttpH
                             |> json
             response next ctx
         else
-            RequestErrors.badRequest (text "Invalid date") earlyReturn ctx
+            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 
