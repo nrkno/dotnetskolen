@@ -1934,7 +1934,7 @@ Her definerer vi en klasse `WebApiTests` som tar inn et `WebApplicationFactory` 
 
 #### Test 1 - Verifisere at endepunktet finnes
 
-I den første testen vår skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement i toppen av `Tests.fs`-filen.
+I den første testen vår skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement etter `open System` i `Tests.fs`-filen.
 
 ```f#
 open System.Net
