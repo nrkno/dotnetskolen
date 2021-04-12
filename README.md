@@ -1099,6 +1099,8 @@ let ``IsTitleValid_InvalidTitle_ReturnsFalse`` (title: string) =
     Assert.False isTitleValid
 ```
 
+Her har vi definert to enhetstester som begge tester funksjonen `isTitleValid`. Den første testen verifiserer at `isTitleValid` returnerer `true` når tittelen _er_ gyldig, mens den andre verifiserer det motsatte tilfellet.
+
 I xUnit annoterer man testfunksjoner med enten `[<Fact>]` eller `[<Theory>]`. xUnit definerer `Fact`-tester som tester som alltid passerer, mens `Theory`-tester kun passerer for gitte input. Over har vi implementert to testmetoder med `Theory`-attributtet:
 
 - `IsTitleValid_ValidTitle_ReturnsTrue` - Passerer dersom `title` er gyldig
