@@ -1,12 +1,14 @@
-module NRK.Dotnetskolen.Dto
+namespace NRK.Dotnetskolen
 
-type SendingDto = {
-    Tittel: string
-    StartTidspunkt: string
-    SluttTidspunkt: string
-}
+module Dto =
 
-type EpgDto = {
-  NRK1: SendingDto list
-  NRK2: SendingDto list
-}
+  type SendingDto = {
+      Tittel: string
+      StartTidspunkt: string
+      SluttTidspunkt: string
+  }
+
+  type EpgDto = {
+    NRK1: SendingDto list
+    NRK2: SendingDto list
+  }
