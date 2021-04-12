@@ -2472,7 +2472,11 @@ let epgHandler (getEpgForDate : DateTime -> Epg) (dateAsString : string) : HttpH
 
 ##### Registrere avhengigheter
 
-I steget [hente EPG](#hente-epg) definerte vi at funksjonen `epgHandler` hadde en avhengighet til en funksjon `getEpgForDate: DateTime -> Epg`. Husk fra [kapitlet om "dependency injection"](#dependency-injection) må vi sørge for at slike avhengigheter er tilfredsstilt når vi kaller funksjonen. `epgHandler`-funksjonen blir kalt av Giraffe, og vi oppgir `epgHandler` til Giraffe i `configureApp`-funksjonen i `Program.fs`. Vi har imidlertid lært at avhengigheter registreres i `IServiceCollection`-objektet i `configureServices`-funksjonen. Hvordan får vi tak i denne avhengigheten i `configureApp`-funksjonen? Merk at `configureApp`-funksjonen tar inn et `IApplicationBuilder`-objekt som parameter. `IApplicationBuilder` har en property som heter `ApplicationServices` som er samlingen med avhengigheter vi registrerer i `IServiceCollection`-objektet. La oss anvende denne kunnskapen til å gi `epgHandler`-funksjonen det den trenger av avhengigheter.
+I steget [hente EPG](#hente-epg) definerte vi at funksjonen `epgHandler` hadde en avhengighet til en funksjon `getEpgForDate: DateTime -> Epg`. Husk fra [kapitlet om "dependency injection"](#dependency-injection) at vi må sørge for at slike avhengigheter er tilfredsstilt når vi kaller funksjonen.
+
+`epgHandler`-funksjonen blir kalt av Giraffe, og vi oppgir `epgHandler` til Giraffe i `configureApp`-funksjonen i `Program.fs`. Vi har imidlertid lært at avhengigheter registreres i `IServiceCollection`-objektet i `configureServices`-funksjonen. Hvordan får vi tak i denne avhengigheten i `configureApp`-funksjonen?
+
+`configureApp`-funksjonen tar inn et `IApplicationBuilder`-objekt som parameter. `IApplicationBuilder` har en property som heter `ApplicationServices` som er samlingen med avhengigheter vi registrerer i `IServiceCollection`-objektet. La oss anvende denne kunnskapen til å gi `epgHandler`-funksjonen det den trenger av avhengigheter.
 
 ###### Implementere `getEpgForDate`
 
