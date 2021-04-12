@@ -2110,7 +2110,11 @@ let CreateHostBuilder args =
 ...
 ```
 
-I `CreateHostBuilder`-funksjonen kaller vi metoden `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter som er gitt på kommandolinja ved oppstart av programmet. `CreateDefaultBuilder` sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen. Deretter kaller vi `ConfigureWebHostDefaults` som bl.a. sørger for å sette opp Kestrel som web-server for applikasjonen vår og tillate serving av statiske filer. `ConfigureWebHostDefaults` tar som argument en funksjon som gir oss tilgang til `IWebHostBuilder`-objektet som blir brukt for å bygge web-applikasjonen vår. Dette gir oss mulighet til å konfigurere web-applikasjonen etter våre behov. `IWebHostBuilder`-objektet har flere funksjoner, men de som er mest relevante for oss i denne omgang er `Configure` og `ConfigureServices` for å konfigurere hhv. pipelinen av middleware, og avhengigheter i applikasjonen vår. Dette blir forklart nærmere i de to neste avsnittene.
+I `CreateHostBuilder`-funksjonen kaller vi metoden `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter som er gitt på kommandolinja ved oppstart av programmet. `CreateDefaultBuilder` sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen.
+
+Deretter kaller vi `ConfigureWebHostDefaults` som bl.a. sørger for å sette opp Kestrel som web-server for applikasjonen vår og tillate serving av statiske filer. `ConfigureWebHostDefaults` tar som argument en funksjon som gir oss tilgang til `IWebHostBuilder`-objektet som blir brukt for å bygge web-applikasjonen vår. Dette gir oss mulighet til å konfigurere web-applikasjonen etter våre behov.
+
+`IWebHostBuilder`-objektet har flere funksjoner, men de som er mest relevante for oss i denne omgang er `Configure` og `ConfigureServices` for å konfigurere hhv. pipelinen av middleware, og avhengigheter i applikasjonen vår. Dette blir forklart nærmere i de to neste avsnittene.
 
 > Du kan lese mer om `Host`-konseptet og hva det innebærer her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-5.0)
 
