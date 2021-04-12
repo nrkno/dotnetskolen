@@ -9,6 +9,6 @@ module Dto =
   }
 
   type EpgDto = {
-    NRK1: SendingDto list
-    NRK2: SendingDto list
+    Nrk1: SendingDto list
+    Nrk2: SendingDto list
   }
