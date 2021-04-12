@@ -2352,6 +2352,7 @@ La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. L
 ```f#
 open System
 open System.Globalization
+open System.Threading.Tasks
 ...
 let isDateValid (dateAsString : string) (date : byref<DateTime>) : bool =
     DateTime.TryParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, &date)
