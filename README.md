@@ -10,7 +10,7 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp og implemen
 - Sette opp pakkehåndtering
 - Sette opp tester
 
-Som en eksempel-applikasjon skal vi lage et web-API for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester.
+Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester.
 
 Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva .NET er](#hva-er-net). Deretter bør du lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve stegene](#steg).
 
@@ -1364,7 +1364,7 @@ Før vi definerer selve kontrakten til API-et i en OpenAPI-spesifikasjon, skal v
 
 ```json
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "http://json-schema.org/draft/2019-09/schema#",
     "type": "object",
     "properties": {
         "nrk1": {
@@ -1459,7 +1459,7 @@ Lim inn følgende JSON i `openapi.json`:
 
 ```json
 {
-    "openapi": "3.0.0",
+    "openapi": "3.1.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1472,7 +1472,7 @@ Her oppgir vi hvilken versjon av OpenAPI vi benytter, og litt metadata om API-et
 
 ```json
 {
-    "openapi": "3.0.0",
+    "openapi": "3.1.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1491,7 +1491,7 @@ Her har vi spesifisert at API-et vårt eksponerer URL-en `/epg/{dato}` for HTTP 
 
 ```json
 {
-    "openapi": "3.0.0",
+    "openapi": "3.1.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1529,7 +1529,7 @@ Nå kan vi legge til hvilke responser endepunktet har: `200 OK` med EPG eller `4
 
 ```json
 {
-    "openapi": "3.0.0",
+    "openapi": "3.1.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1582,10 +1582,9 @@ Nå kan vi legge til hvilke responser endepunktet har: `200 OK` med EPG eller `4
 
 Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den.
 
-
 ```json
 {
-    "openapi": "3.0.0",
+    "openapi": "3.1.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1641,6 +1640,8 @@ Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den
 > OpenAPI-kontrakten over er inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
 >
 > I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
+>
+> Merk at OpenAPI-kontrakten over benytter versjon `3.1.0` av OpenAPI. `OpenAPI 3.1.0` ble lansert 16. februar 2021, og det vil ta noe tid før det er støtte for denne i tooling som `WebGUI` og linting. Takk til @laat som poengterte det.
 
 ### Steg 8 - Implementere kontraktstyper
 
