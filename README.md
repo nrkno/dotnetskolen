@@ -1107,13 +1107,20 @@ C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: Th
 
 ##### Implementere IsTitleValid
 
-For å validere en tittel bruker vi et regulært uttrykk som reflekterer reglene i domenet vårt. Åpne filen `Domain.fs` i API-prosjektet, og lim inn følgende kode på slutten av filen:
+For å validere en tittel bruker vi et regulært uttrykk som reflekterer reglene i domenet vårt. Åpne filen `Domain.fs` i API-prosjektet, og legg til følgende `open`-statement under `open system`:
+
+```f#
+    open System
+    open System.Text.RegularExpressions
+```
+
+Lim deretter inn følgende kode på slutten av filen:
 
 ```f#
 ...
-let IsTitleValid (title: string) : bool =
-    let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
-    titleRegex.IsMatch(title)
+    let IsTitleValid (title: string) : bool =
+        let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+        titleRegex.IsMatch(title)
 ```
 
 Det regulære uttrykket lister opp hvilke tegn som er gyldige i en gruppe (tegnene mellom mellom `[` og `]`):
