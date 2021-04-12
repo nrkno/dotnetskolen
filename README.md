@@ -156,7 +156,7 @@ $ cd dotnetskolen # Gå inn i mappen som repoet ligger i lokalt
 $ git branch # List ut alle brancher du har sjekket ut lokalt
 
 * main
-````
+```
 
 #### Sjekke ut egen branch
 
@@ -589,7 +589,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
-````
+```
 
 For å legge til referanser til prosjektene du har opprettet kan du kjøre følgende kommandoer
 
@@ -681,7 +681,7 @@ Global
 		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D} = {A53A8A2E-FED1-4E9A-801B-56F9DEB5BC41}
 	EndGlobalSection
 EndGlobal
-````
+```
 
 Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
 
@@ -815,7 +815,7 @@ source https://api.nuget.org/v3/index.json
 
 storage: none
 framework: netcoreapp3.1, netstandard2.0, netstandard2.1
-````
+```
 
 Dersom du kjører .NET 5 på din maskin, sørg for å legge til `net5` på starten av verdien for `framework`, slik:
 
@@ -825,7 +825,7 @@ source https://api.nuget.org/v3/index.json
 
 storage: none
 framework: net5, netcoreapp3.1, netstandard2.0, netstandard2.1
-````
+```
 
 #### Migrere pakker fra NuGet til Paket
 
@@ -894,7 +894,7 @@ $ dotnet paket add xunit.runner.visualstudio --project test\unit\NRK.Dotnetskole
 
 $ dotnet paket add coverlet.collector --project test\unit\NRK.Dotnetskolen.UnitTests.fsproj
 ...
-````
+```
 
 > Merk at NuGet-pakken `FSharp.Core` ikke var listet ut i `.fsproj`-filene til enhets- og integrasjonstestprosjektene. Vi er imidlertid avhengig av å ha denne pakken for å få kjørt testene. Derfor er den lagt til eksplisitt via Paket over.
 
@@ -925,7 +925,7 @@ A total of 1 test files matched the specified pattern.
 
 Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 1 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)       
 Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 1 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
-````
+```
 
 Nå er du klar til å legge til avhengigheter i prosjektet ditt!
 
@@ -1706,7 +1706,6 @@ namespace NRK.Dotnetskolen.Api
 module TestServer =
 
     type public EntryPoint() = class end
-    
 ```
 
 Legg til `EntryPoint.fs` i prosjektfilen til API-prosjektet:
