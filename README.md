@@ -693,7 +693,7 @@ Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
 
 **Steg 4 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-3---opprette-solution) [⬇ Neste steg](#steg-5---definere-domenemodell)
 
-Siden vi har behov for å installere NuGet-pakker senere i kurset, setter vi opp Paket for løsningen nå. [Første avsnitt](#nuget-og-paket) under introduserer konseptene NuGet og Paket, og [andre avsnitt](#sette-opp-paket) forklarer hvordan man setter opp Paket i en .NET-løsning.
+Siden vi har behov for å installere NuGet-pakker senere i kurset, setter vi opp pakkehåndteringsverktøyet Paket for løsningen nå. [Første avsnitt](#nuget-og-paket) under introduserer konseptene NuGet og Paket, og [andre avsnitt](#sette-opp-paket) forklarer hvordan man setter opp Paket i en .NET-løsning.
 
 #### NuGet og Paket
 
