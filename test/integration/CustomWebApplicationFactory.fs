@@ -13,8 +13,9 @@ type public CustomWebApplicationFactory<'TStartup when 'TStartup : not struct>()
     inherit WebApplicationFactory<'TStartup>()
     override _.ConfigureWebHost (webHostBuilder: IWebHostBuilder) =
         webHostBuilder.ConfigureServices(fun (serviceCollection: IServiceCollection) ->
-            let existingService = serviceCollection.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
-            serviceCollection.Remove(existingService) |> ignore
+            let existingGetEpgForDateFunction = serviceCollection.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
+            serviceCollection.Remove(existingGetEpgForDateFunction) |> ignore
+            
             serviceCollection.AddSingleton<DateTime -> Epg>(getEpgForDate getAllTransmissions) |> ignore
             ()
         ) |> ignore

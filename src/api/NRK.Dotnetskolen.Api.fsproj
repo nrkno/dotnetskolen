@@ -6,9 +6,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Domain.fs" />
+    <Compile Include="DataAccess.fs" />
     <Compile Include="Dto.fs" />
     <Compile Include="Services.fs" />
-    <Compile Include="DataAccess.fs" />
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="EntryPoint.fs" />
     <Compile Include="Program.fs" />
