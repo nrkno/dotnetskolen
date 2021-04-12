@@ -2423,7 +2423,7 @@ let fromDomain (domain: Domain.Epg) : EpgDto =
 ...
 ```
 
-Implementér `fromDomain`-funksjonen. Bruk deretter `fromDomain`-funksjonen i `epgHandler`-funksjonen i `HttpHandlers.fs`:
+Implementér `fromDomain`-funksjonen. Legg deretter til følgende `open`-statement, og bruk `fromDomain`-funksjonen i `epgHandler`-funksjonen i `HttpHandlers.fs`:
 
 ```f#
 ...
