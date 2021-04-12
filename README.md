@@ -1077,12 +1077,8 @@ open Xunit
 [<InlineData(".,-:!")>]
 [<InlineData("ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ")>]
 let ``IsTitleValid_ValidTitle_ReturnsTrue`` (title: string) =
-    // Arrange: get title from xUnit
-
-    // Act
     let isTitleValid = IsTitleValid title
 
-    // Assert
     Assert.True isTitleValid
 
 [<Theory>]
@@ -1090,21 +1086,12 @@ let ``IsTitleValid_ValidTitle_ReturnsTrue`` (title: string) =
 [<InlineData("@$%&/")>]
 [<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
 let ``IsTitleValid_InvalidTitle_ReturnsFalse`` (title: string) =
-    // Arrange: get title from xUnit
-
-    // Act
     let isTitleValid = IsTitleValid title
 
-    // Assert
     Assert.False isTitleValid
 ```
 
-Her har vi definert to enhetstester som begge tester funksjonen `isTitleValid`. Den første testen verifiserer at `isTitleValid` returnerer `true` når tittelen _er_ gyldig, mens den andre verifiserer det motsatte tilfellet.
-
-I xUnit annoterer man testfunksjoner med enten `[<Fact>]` eller `[<Theory>]`. xUnit definerer `Fact`-tester som tester som alltid passerer, mens `Theory`-tester kun passerer for gitte input. Over har vi implementert to testmetoder med `Theory`-attributtet:
-
-- `IsTitleValid_ValidTitle_ReturnsTrue` - Passerer dersom `title` er gyldig
-- `IsTitleValid_InvalidTitle_ReturnsFalse` - Passerer dersom `title` er ugyldig
+Her har vi definert to enhetstester som begge tester funksjonen `isTitleValid`. Den første testen verifiserer at `isTitleValid` returnerer `true` når tittelen _er_ gyldig, mens den andre verifiserer det motsatte tilfellet. I xUnit annoterer man testfunksjoner med enten `[<Fact>]` eller `[<Theory>]`. xUnit definerer `Fact`-tester som tester som alltid passerer, mens `Theory`-tester kun passerer for gitte input. Over har vi brukt `Theory`-attributtet på begge testene.
 
 Hvis du forsøker å kjøre testene, vil du se at testprosjektet ikke kompilerer fordi vi verken har referanse til API-prosjektet (hvor domenet vårt er definert) eller har definert funksjonen `IsTitleValid` enda.
 
@@ -1217,24 +1204,16 @@ For å teste valideringsreglen for kanal trenger vi én positiv test per gyldige
 [<InlineData("NRK1")>]
 [<InlineData("NRK2")>]
 let ``IsChannelValid_ValidChannel_ReturnsTrue`` (channel: string) =
-    // Arrange: get channel from xUnit
-
-    // Act
     let isChannelValid = IsChannelValid channel
 
-    // Assert
     Assert.True isChannelValid
 
 [<Theory>]
 [<InlineData("nrk1")>]
 [<InlineData("NRK3")>]
 let ``IsChannelValid_InvalidChannel_ReturnsFalse`` (channel: string) =
-    // Arrange: get channel from xUnit
-
-    // Act
     let isChannelValid = IsChannelValid channel
 
-    // Assert
     Assert.False isChannelValid
 ```
 
@@ -1279,38 +1258,29 @@ Lim inn følgende enhetstester for validering av sendetidspunkter i `Tests.fs`:
 ...
 [<Fact>]
 let ``AreStartAndEndTimesValid_StartBeforeEnd_ReturnsTrue`` () =
-    // Arrange
     let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes 30.
 
-    // Act
     let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
 
-    // Assert
     Assert.True areStartAndSluttTidspunktValid
 
 [<Fact>]
 let ``AreStartAndEndTimesValid_StartAfterEnd_ReturnsFalse`` () =
-    // Arrange
     let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes -30.
 
-    // Act
     let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
 
-    // Assert
     Assert.False areStartAndSluttTidspunktValid
 
 [<Fact>]
 let ``AreStartAndEndTimesValid_StartEqualsEnd_ReturnsFalse`` () =
-    // Arrange
     let startTime = DateTimeOffset.Now
     let endTime = startTime
 
-    // Act
     let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
 
-    // Assert
     Assert.False areStartAndSluttTidspunktValid
 ```
 
@@ -1930,15 +1900,12 @@ Legg deretter til følgende test som en metode i `WebApiTests`-klassen:
 ```f#
 [<Fact>]
 member this.GetEpg_Today_Returns200OK () =
-    // Arrange
     let client = this.Factory.CreateClient();
     let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
     let url = sprintf "/epg/%s" todayAsString
 
-    // Act
     let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
 
-    // Assert
     response.EnsureSuccessStatusCode() |> ignore
 ```
 
@@ -1968,16 +1935,13 @@ Legg til slutt til følgende testmetode i `WebApiTest`-klassen:
 ```f#
 [<Fact>]
 member this.GetEpg_Today_ReturnsValidResponse () =
-    // Arrange
     let client = this.Factory.CreateClient();
     let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
     let url = sprintf "/epg/%s" todayAsString
     let jsonSchema = JsonSchema.FromFile "./epg.schema.json" 
 
-    // Act
     let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
 
-    // Assert
     response.EnsureSuccessStatusCode() |> ignore
     let bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
     let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
@@ -1995,15 +1959,12 @@ I den siste testen skal vi verifisere at API-et validerer datoen som oppgis i UR
 ```f#
 [<Fact>]
 member this.GetEpg_InvalidDate_ReturnsBadRequest () =
-    // Arrange
     let client = this.Factory.CreateClient();
     let invalidDateAsString = "2021-13-32"
     let url = sprintf "/epg/%s" invalidDateAsString
 
-    // Act
     let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
 
-    // Assert
     Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
 ```
 
