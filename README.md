@@ -15,8 +15,6 @@
   - Forklare "Arrange, act, assert"?
   - La deltakerne implementere valideringsfunksjonene selv
 - Steg 7 - Utlede kontrakten steg for steg, og til slutt list opp helheten. På denne måten er det lettere for de som er ukjent med OpenAPI å følge eksemplet.
-- Vurdere om vi skal legge til bygg og deploy (mulig utenfor scope av kurset)
-  - Kan ev. vise en enkel DOCKERFILE?
 
 ## Innledning
 
