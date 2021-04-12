@@ -2187,7 +2187,7 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
 
 Legg merke til at `UseGiraffe`-funksjonen tar inn en `HttpHandler` som argument. Her har vi laget en `HttpHandler` som svarer på `/ping` og returner tekststrengen `pong`.
 
-Til slutt må vi endre `main`-funksjonen vår til å starte `Host`-en vår:
+Til slutt kan vi fjerne `from`-funksjonen i `Program.fs`, i tillegg til at vi må endre `main`-funksjonen vår til å starte `Host`-en vår:
 
 ```f#
 ...
