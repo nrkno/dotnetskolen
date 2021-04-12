@@ -4,12 +4,7 @@
 
 ### Utbedringer
 
-- Ikke oppgi all kode i veiledningen, slik at deltakerne kan skrive noe selv for bedre læring
-- Steg 6
-  - Forklare bruk av `[<Fact>]` og `[<Theory>]`
-  - Forklare "Arrange, act, assert"?
-  - La deltakerne implementere valideringsfunksjonene selv
-- Steg 7 - Utlede kontrakten steg for steg, og til slutt list opp helheten. På denne måten er det lettere for de som er ukjent med OpenAPI å følge eksemplet.
+- Steg 7 - Utlede kontrakten steg for steg, og til slutt liste opp helheten. På denne måten er det lettere for de som er ukjent med OpenAPI å følge eksemplet.
 - Legg til "steg x av y" i tittel
 
 ## Innledning
@@ -1042,10 +1037,12 @@ module Tests
 
 open Xunit
 
-[<Fact>]
-let ``IsTitleValid_TitleWithFiveLettersAndNumbers_ReturnsTrue`` () =
-    // Arrange
-    let title = "abc12"
+[<Theory>]
+[<InlineData("abc12")>]
+[<InlineData(".,-:!")>]
+[<InlineData("ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ")>]
+let ``IsTitleValid_ValidTitle_ReturnsTrue`` (title: string) =
+    // Arrange: get title from xUnit
 
     // Act
     let isTitleValid = IsTitleValid title
@@ -1053,54 +1050,12 @@ let ``IsTitleValid_TitleWithFiveLettersAndNumbers_ReturnsTrue`` () =
     // Assert
     Assert.True isTitleValid
 
-[<Fact>]
-let ``IsTitleValid_TitleWithOneHundredUpperCaseLetters_ReturnsTrue`` () =
-    // Arrange
-    let title = "ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ"
-
-    // Act
-    let isTitleValid = IsTitleValid title
-
-    // Assert
-    Assert.True isTitleValid
-
-[<Fact>]
-let ``IsTitleValid_TitleWithFourLetters_ReturnsFalse`` () =
-    // Arrange
-    let title = "abcd"
-
-    // Act
-    let isTitleValid = IsTitleValid title
-
-    // Assert
-    Assert.False isTitleValid
-
-[<Fact>]
-let ``IsTitleValid_TitleWithOneHundredAndOneLetters_ReturnsFalse`` () =
-    // Arrange
-    let title = "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija"
-
-    // Act
-    let isTitleValid = IsTitleValid title
-
-    // Assert
-    Assert.False isTitleValid
-
-[<Fact>]
-let ``IsTitleValid_TitleWithFiveSpecialCharacters_ReturnsTrue`` () =
-    // Arrange
-    let title = ".,-:!"
-
-    // Act
-    let isTitleValid = IsTitleValid title
-
-    // Assert
-    Assert.True isTitleValid
-
-[<Fact>]
-let ``IsTitleValid_TitleWithFiveIllegalCharacters_ReturnsFalse`` () =
-    // Arrange
-    let title = "@$%&/"
+[<Theory>]
+[<InlineData("abcd")>]
+[<InlineData("@$%&/")>]
+[<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
+let ``IsTitleValid_InvalidTitle_ReturnsFalse`` (title: string) =
+    // Arrange: get title from xUnit
 
     // Act
     let isTitleValid = IsTitleValid title
@@ -1108,6 +1063,11 @@ let ``IsTitleValid_TitleWithFiveIllegalCharacters_ReturnsFalse`` () =
     // Assert
     Assert.False isTitleValid
 ```
+
+I xUnit annoterer man testfunksjoner med enten `[<Fact>]` eller `[<Theory>]`. xUnit definerer `Fact`-tester som tester som alltid passerer, mens `Theory`-tester kun passerer for gitte input. Over har vi implementert to testmetoder med `Theory`-attributtet:
+
+- `IsTitleValid_ValidTitle_ReturnsTrue` - Passerer dersom `title` er gyldig
+- `IsTitleValid_InvalidTitle_ReturnsFalse` - Passerer dersom `title` er ugyldig
 
 Hvis du forsøker å kjøre testene, vil du se at testprosjektet ikke kompilerer fordi vi verken har referanse til API-prosjektet (hvor domenet vårt er definert) eller har definert funksjonen `IsTitleValid` enda.
 
@@ -1216,10 +1176,11 @@ For å teste valideringsreglen for kanal trenger vi én positiv test per gyldige
 
 ```f#
 ...
-[<Fact>]
-let ``IsChannelValid_NRK1UpperCase_ReturnsTrue`` () =
-    // Arrange
-    let channel = "NRK1"
+[<Theory>]
+[<InlineData("NRK1")>]
+[<InlineData("NRK2")>]
+let ``IsChannelValid_ValidChannel_ReturnsTrue`` (channel: string) =
+    // Arrange: get channel from xUnit
 
     // Act
     let isChannelValid = IsChannelValid channel
@@ -1227,32 +1188,11 @@ let ``IsChannelValid_NRK1UpperCase_ReturnsTrue`` () =
     // Assert
     Assert.True isChannelValid
 
-[<Fact>]
-let ``IsChannelValid_NRK2UpperCase_ReturnsTrue`` () =
-    // Arrange
-    let channel = "NRK2"
-
-    // Act
-    let isChannelValid = IsChannelValid channel
-
-    // Assert
-    Assert.True isChannelValid
-
-[<Fact>]
-let ``IsChannelValid_NRK1LowerCase_ReturnsFalse`` () =
-    // Arrange
-    let channel = "nrk1"
-
-    // Act
-    let isChannelValid = IsChannelValid channel
-
-    // Assert
-    Assert.False isChannelValid
-
-[<Fact>]
-let ``IsChannelValid_NRK3UpperCase_ReturnsFalse`` () =
-    // Arrange
-    let channel = "NRK3"
+[<Theory>]
+[<InlineData("nrk1")>]
+[<InlineData("NRK3")>]
+let ``IsChannelValid_InvalidChannel_ReturnsFalse`` (channel: string) =
+    // Arrange: get channel from xUnit
 
     // Act
     let isChannelValid = IsChannelValid channel
@@ -1336,6 +1276,8 @@ let ``AreStartAndEndTimesValid_StartEqualsEnd_ReturnsFalse`` () =
     // Assert
     Assert.False areStartAndSluttTidspunktValid
 ```
+
+> Merk at her bruker vi `[<Fact>]`-attributtet istedenfor `[<Theory>]`. `[<InlineData>]`-attributtet som man bruker med `[<Theory>]`-attributtet krever verdier som er konstanse ved kompilering. Ettersom vi benytter `DateTimeOffset`-objekter (som ikke er konstante ved kompilering) som input til `AreStartAndEndTimesValid`, bruker vi derfor `[<Fact>]`-attributtet.
 
 ##### Implementasjon av AreStartAndEndTimesValid
 
