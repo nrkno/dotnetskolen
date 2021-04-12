@@ -4,7 +4,6 @@
 
 ### Utbedringer
 
-- Steg 7 - Utlede kontrakten steg for steg, og til slutt liste opp helheten. På denne måten er det lettere for de som er ukjent med OpenAPI å følge eksemplet.
 - Legg til "steg x av y" i tittel
 
 ## Innledning
@@ -1444,7 +1443,151 @@ test
 
 #### OpenAPI-kontrakt
 
-Nå som vi har formatet på innholdet i responsen vår, kan vi definere Open API-spesifikasjonen for API-et vårt slik som under. Den inneholder den ene operasjonen vår, hvilken path den er tilgjenglig på, hvilke parametere og responser den har, og formatet på responsen.
+Nå som vi har formatet på innholdet i responsen vår, kan vi definere Open API-spesifikasjonen for API-et vårt slik som under. La oss starte med å opprett en ny fil `openapi.json` i `docs`-mappen. Du skal nå ha følgende mappehierarki i repoet:
+
+```txt
+└── .config
+    └── ...
+└── docs
+    └── epg.schema.json
+    └── openapi.json
+src
+└── ...
+test
+└── ...
+└── Dotnetskolen.sln
+└── paket.dependencies
+``` definere litt metadata for kontrakten:
+
+```
+
+Lim inn følgende JSON i `openapi.json`:
+
+```json
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dotnetskolen EPG-API",
+        "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
+        "version": "0.0.1"
+    }
+}
+```
+
+Her oppgir vi hvilken versjon av OpenAPI vi benytter, og litt metadata om API-et vårt. Fortsett med å legg til definisjon av hvilke URL-er som er eksponert i API-et vårt:
+
+```json
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dotnetskolen EPG-API",
+        "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/epg/{dato}": {
+            "get": {
+            }
+        }
+    }
+}
+```
+
+Her har vi spesifisert at API-et vårt eksponerer URL-en `/epg/{dato}` for HTTP `GET`-forespørsler. La oss fortsette med å spesifisere parameteret `dato`:
+
+```json
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dotnetskolen EPG-API",
+        "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/epg/{dato}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
+                        "in": "path",
+                        "name": "dato",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2021-11-15"
+                    }
+                ]
+            }
+        }
+    }
+}
+```
+
+Her har vi spesifisert `dato`-parameteret vårt, og sagt at:
+
+- Det er påkrevd
+- At det er en tekststreng som oppfyller formatet `date` i OpenAPI
+- `2021-11-15` er et eksempel på en gyldig dato
+
+Nå kan vi legge til hvilke responser endepunktet har: `200 OK` med EPG eller `400 Bad Request` ved ugyldig dato.
+
+```json
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dotnetskolen EPG-API",
+        "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/epg/{dato}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
+                        "in": "path",
+                        "name": "dato",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2021-11-15"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "./epg.schema.json"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    },
+                    "400": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "\"Ugyldig dato\""
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den.
+
 
 ```json
 {
@@ -1504,22 +1647,6 @@ Nå som vi har formatet på innholdet i responsen vår, kan vi definere Open API
 > OpenAPI-kontrakten over er inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
 >
 > I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
-
-Opprett en ny fil `openapi.json` i `docs`-mappen, og lim inn kontrakten over. Du skal nå ha følgende mappehierarki i repoet:
-
-```txt
-└── .config
-    └── ...
-└── docs
-    └── epg.schema.json
-    └── openapi.json
-src
-└── ...
-test
-└── ...
-└── Dotnetskolen.sln
-└── paket.dependencies
-```
 
 ### Steg 8 - Implementere kontraktstyper
 
