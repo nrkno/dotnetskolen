@@ -1449,7 +1449,7 @@ Før vi definerer selve kontrakten til API-et i en OpenAPI-spesifikasjon, skal v
 }
 ```
 
-Foreløpig skal vi ikke gjøre noe mer med JSON schemaet enn å ha den som dokumentasjon på API-et vårt. Lag en ny mappe `docs` i roten av repoet med enn ny fil `epg.schema.json` hvor du limer inn JSON schemaet over. Du skal nå ha følgende mappehierarki i repoet:
+Foreløpig skal vi ikke gjøre noe mer med JSON schemaet enn å ha det som dokumentasjon på API-et vårt. Lag en ny mappe `docs` i roten av repoet med enn ny fil `epg.schema.json` hvor du limer inn JSON schemaet over. Du skal nå ha følgende mappehierarki i repoet:
 
 ```txt
 └── .config
