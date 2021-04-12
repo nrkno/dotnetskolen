@@ -2645,7 +2645,9 @@ let getAllTransmissions () : Epg =
   // Implementasjon her
 ```
 
-Legg merke til at `getAllTransmissions`-funksjonen skal returnere en verdi av typen `Epg` fra `Domain`-modulen. Implementér `getAllTransmissions`-funksjonen.
+Legg merke til at `getAllTransmissions`-funksjonen skal returnere en verdi av typen `Epg` fra `Domain`-modulen. 
+
+☑️ Implementér `getAllTransmissions`-funksjonen.
 
 > Tips: det kan være lurt å skrive en funksjon `toDomain` som mapper en `EpgEntity`-verdi til `Epg`-verdi. Husk i den forbindelse å validér om `Epg`-verdien er gyldig i ettertid. Vi kan ikke garantere datakvaliteten til databasen.
 
