@@ -1010,7 +1010,13 @@ module Domain =
 Over definerer vi en F#-modul `Domain` i namespacet `NRK.Dotnetskolen`. I `Domain`-modulen definerer vi domenemodellen vår, som består av to typer:
 
 - `Sending` - modellerer et enkelt innslag i EPG-en, og inneholder feltene som ble definert i forrige seksjon
+  - Tittel
+  - Kanal
+  - StartTidspunkt
+  - SluttTidspunkt
 - `Epg` - en liste med sendinger
+
+Vi åpnet også modulen `System` for å få tilgang til typen `DateTimeOffset`.
 
 Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain.fs" />` i `src\api\NRK.Dotnetskolen.Api.fsproj` slik som vist under:
 
