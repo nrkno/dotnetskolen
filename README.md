@@ -2657,6 +2657,7 @@ Forutsatt at vi har fungerende implementasjoner av `getEpgForDate` og `getAllTra
 
 ```f#
 ...
+open NRK.Dotnetskolen.Domain
 open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.Api.DataAccess
 ...
@@ -2677,14 +2678,13 @@ Nå som vi har registrert vår implementasjon av `getEpgForDate` i `IServiceColl
 ```f#
 let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
     let getEpgForDate = app.ApplicationServices.GetRequiredService<DateTime -> Epg>()
-    let webApp =
-        choose [
-            GET  >=> 
-                routef "/epg/%s" (epgHandler getEpgForDate)
-            RequestErrors.NOT_FOUND "Not found"
-        ]
+    let webApp = GET  >=> routef "/epg/%s" (epgHandler getEpgForDate)
     app.UseGiraffe webApp
 ```
+
+Her bruker vi `app.ApplicationServices` til å hente ut en funksjon som har signaturen `DateTime -> Epg`. Siden vi kun har registrert én funksjon med denne signaturen, vet vi at det er `getEpgForDate`. Deretter sender vi inn `getEpgForDate` til `epgHandler`-funksjonen, og på den måten anvender "partial application" av `epgHandler`, før vi oppgir den returnerte funksjonen til Giraffe.
+
+> Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
 
 Kjør testene på nytt med følgende kommando, og se om alle testene passerer nå:
 
@@ -2694,7 +2694,7 @@ $ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 244 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
 
-Testene feiler fortsatt. Ser du hvorfor?
+☑️ Testene feiler fortsatt. Ser du hvorfor?
 
 > Tips: se på datoene til sendingene som hentes i `DataAccess.fs`.
 
