@@ -5,7 +5,6 @@
 ### For å bli ferdig
 
 - README
-  - Domain før Dto i prosjektfil
   - Veiledning for steg 10
 - Lage branchen `ferdig`
 
@@ -30,7 +29,6 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp og implemen
 - Opprette prosjekter og mappestruktur
 - Sette opp pakkehåndtering
 - Sette opp tester
-- ~~Sette opp bygg og deploy~~
 
 Som en eksempel-applikasjon skal vi lage et web-API for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester.
 
@@ -2010,7 +2008,7 @@ member this.GetEpg_InvalidDate_ReturnsBadRequest () =
 
 Her sender vi inn en ugyldig dato, og forventer å få 400 Bad Request som respons.
 
-Hvis du forsøker å kjøre integrasjonstestene nå, vil de feile ettersom vi ikke har implementert noe i API-et enda. Det skal vi imidlertid gjøre noe med i neste steg.
+Hvis du forsøker å kjøre integrasjonstestene nå, vil de feile ettersom vi ikke har implementert noe i API-et enda. Det skal vi imidlertid gjøre noe med i neste steg hvor vi faktisk implementerer web-API-et.
 
 ### Steg 10 - Implementere web-API
 
@@ -2079,20 +2077,3 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
 $ dotnet test
 ...
 ```
-
-#### 
-
-- Fullfør implementasjon av webapi
-  - Sett opp workflow for route
-    - Ta inn avhengighet for å hente alle sendinger
-      - Registrer i `ConfigureServices` og overskriv i `CustomWebHostBuilder` i integrasjonstestprosjektet
-      - Avhengighet returnerer kanskje DTO?
-      - Deserialisere JSON til DTO?
-    - Map DTO til domenemodell
-      - Mest for å vise at man burde gjøre dette steget
-    - Gå gjennom alle sendinger
-      - Filtrer på dato (startdato må være på oppgitt dato?)
-    - Map til dto
-  - Lag JSON-modul for serialisering og deserialisering
-    - Med enhetstester?
-    - Serialiser DTO til JSON og returner
