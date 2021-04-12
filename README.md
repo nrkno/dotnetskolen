@@ -2187,6 +2187,15 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
 
 Legg merke til at `UseGiraffe`-funksjonen tar inn en `HttpHandler` som argument. Her har vi laget en `HttpHandler` som svarer på `/ping` og returner tekststrengen `pong`.
 
+Til slutt må vi endre `main`-funksjonen vår til å starte `Host`-en vår:
+
+```f#
+...
+let main argv =
+    CreateHostBuilder(argv).Build().Run()
+    0
+```
+
 Start API-et fra med følgende kommando:
 
 ```bash
@@ -2204,7 +2213,7 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: C:\Dev\nrkno@github.com\dotnetskolen\src\api
 ```
 
-Verifiser at API-et fungerer ved å gå til [https://localhost:5001/ping](https://localhost:5001/ping) i nettleseren din og se at svaret er `pong`.
+Dette starter web-API-et på `https://localhost:5001`. Verifiser at API-et fungerer ved å gå til [https://localhost:5001/ping](https://localhost:5001/ping) i nettleseren din og se at svaret er `pong`.
 
 ##### Definere route fra API-kontrakt
 
