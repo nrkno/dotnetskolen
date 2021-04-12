@@ -2322,7 +2322,7 @@ Legg til følgende kode i `HttpHandlers.fs`:
 ```f#
 namespace NRK.Dotnetskolen.Api
 
-module NRK.Dotnetskolen.Api.HttpHandlers =
+module HttpHandlers =
 
     open Microsoft.AspNetCore.Http
     open Giraffe
