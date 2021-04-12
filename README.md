@@ -4,10 +4,6 @@
 
 ### For å bli ferdig
 
-- Steg 10 - Implementere API
-  - Refaktorering
-  - DataAccess returnerer DTO?
-  - Mapper så DTO til domenemodell, og validerer i dette steget?
 - README
   - Domain før Dto i prosjektfil
   - Veiledning for steg 10
@@ -15,6 +11,7 @@
 
 ### Utbedringer
 
+- Forklare open-statements og at rekkefølge i prosjektet har noe å si
 - Legg til "steg x av y" i tittel
 - Steg 6
   - Forklare bruk av `[<Fact>]` og `[<Theory>]`
@@ -1740,8 +1737,8 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Dto.fs" />
     <Compile Include="Domain.fs" />
+    <Compile Include="Dto.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
@@ -1769,8 +1766,8 @@ Fra og med .NET Core, opererer .NET med ulike SDK-prosjekttyper avhengig av hva 
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Dto.fs" />
     <Compile Include="Domain.fs" />
+    <Compile Include="Dto.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 </Project>
@@ -1831,8 +1828,8 @@ Legg til `EntryPoint.fs` i prosjektfilen til API-prosjektet:
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Dto.fs" />
     <Compile Include="Domain.fs" />
+    <Compile Include="Dto.fs" />
     <Compile Include="EntryPoint.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
