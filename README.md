@@ -1232,7 +1232,7 @@ let IsChannelValid (channel: string) : bool =
     // Implementasjon her
 ```
 
-Implementér `IsChannelValid` slik at enhetstestene passerer.
+☑️ Implementér `IsChannelValid` slik at enhetstestene passerer.
 
 ```bash
 $ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj
@@ -1311,7 +1311,7 @@ let AreStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffse
     // Implementasjon her
 ```
 
-Implementér `AreStartAndEndTimesValid` og få enhetstestene til å passere.
+☑️ Implementér `AreStartAndEndTimesValid` og få enhetstestene til å passere.
 
 ```bash
 $ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj
@@ -1348,7 +1348,7 @@ let IsTransmissionValid (transmission: Sending) : bool =
     // Implementasjon her
 ```
 
-Implementér `IsTransmissionValid`, og få enhetstestene til å passere:
+☑️ Implementér `IsTransmissionValid`, og få enhetstestene til å passere:
 
 ```bash
 $ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj 
@@ -2256,7 +2256,7 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
     app.UseGiraffe webApp
 ```
 
-Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> text date` for HTTP `GET`-forespørsler til URL-en `/epg/%s`, hvor `%s` matcher tekststrengen oppgitt i URL-en etter `/epg/`. 
+Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> text date` for HTTP `GET`-forespørsler til URL-en `/epg/%s`, hvor `%s` matcher tekststrengen oppgitt i URL-en etter `/epg/`.
 
 Start API-et igjen og se hva som skjer dersom du går til [https://localhost:5001/epg/2021-01-01](https://localhost:5001/epg/2021-01-01) i nettleseren.
 
@@ -2423,7 +2423,7 @@ let fromDomain (domain: Domain.Epg) : EpgDto =
 ...
 ```
 
-Implementér `fromDomain`-funksjonen. Legg deretter til følgende `open`-statement, og bruk `fromDomain`-funksjonen i `epgHandler`-funksjonen i `HttpHandlers.fs`:
+☑️ Implementér `fromDomain`-funksjonen. Legg deretter til følgende `open`-statement, og bruk `fromDomain`-funksjonen i `epgHandler`-funksjonen i `HttpHandlers.fs`:
 
 ```f#
 ...
@@ -2541,7 +2541,7 @@ let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
     ...
 ```
 
-Fullfør implementasjonen for `getEpgForDate` og sørg for at Epg-verdien som returneres kun har sendinger som starter på den oppgitte datoen `date`.
+☑️ Fullfør implementasjonen for `getEpgForDate` og sørg for at Epg-verdien som returneres kun har sendinger som starter på den oppgitte datoen `date`.
 
 ###### Implementere getAllTransmissions
 
