@@ -2044,6 +2044,13 @@ Her sender vi inn en ugyldig dato, og forventer å få 400 Bad Request som respo
 
 Hvis du forsøker å kjøre integrasjonstestene nå, vil de feile ettersom vi ikke har implementert noe i API-et enda. Det skal vi imidlertid gjøre noe med i neste steg hvor vi faktisk implementerer web-API-et.
 
+```bash
+$ dotnet test .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+
+...
+Failed!  - Failed:     3, Passed:     0, Skipped:     0, Total:     3, Duration: 219 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+```
+
 ### Steg 10 - Implementere web-API
 
 **Steg 10 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-9---integrasjonstester-for-web-api)
