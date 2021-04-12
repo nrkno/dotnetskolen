@@ -4,7 +4,7 @@
 
 ### For å bli ferdig
 
-- README
+- Legge til `Dto`-suffix i typenavn for Dto- README
   - Veiledning for steg 10
 - Lage branchen `ferdig`
 
@@ -376,7 +376,7 @@ I kommandoen over brukte vi `--language`-argumentet for å oppgi at vi ønsket e
 
 Du skal nå ha en filstruktur som ser slik ut
 
-``` 
+```txt
 src
 └── api
     └── NRK.Dotnetskolen.Api.fsproj
@@ -443,7 +443,7 @@ Restore succeeded.
 
 Du skal nå ha følgende mappestruktur
 
-``` txt
+```txt
 src
 └── api
     └── NRK.Dotnetskolen.Api.fsproj
@@ -510,7 +510,7 @@ Restore succeeded.
 
 Du skal nå ha følgende mappestruktur
 
-``` txt
+```txt
 src
 └── api
     └── NRK.Dotnetskolen.Api.fsproj
@@ -560,7 +560,7 @@ The template "Solution File" was created successfully.
 
 Du skal nå ha fått filen `Dotnetskolen.sln` slik som vist under
 
-``` txt
+```txt
 src
 └── api
     └── NRK.Dotnetskolen.Api.fsproj
@@ -579,7 +579,7 @@ test
 
 Hvis vi ser på innholdet i `Dotnetskolen.sln` ser vi at det ikke er noen referanser til prosjektene våre enda
 
-``` txt
+```txt
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
@@ -619,7 +619,7 @@ Project `test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj` added to the
 
 Nå ser vi at `Dotnetskolen.sln` inneholder referanser til prosjektene våre
 
-``` txt
+```txt
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
@@ -736,22 +736,13 @@ The template "Dotnet local tool manifest file" was created successfully.
 
 Du skal nå ha fått `dotnet-tools.json`-filen i `.config`-mappen slik som vist under.
 
-``` txt
+```txt
 └── .config
     └── dotnet-tools.json
 src
-└── api
-    └── NRK.Dotnetskolen.Api.fsproj
-    └── Program.fs
+└── ...
 test
-└── unit
-    └── NRK.Dotnetskolen.UnitTests.fsproj
-    └── Program.fs
-    └── Tests.fs
-└── integration
-    └── NRK.Dotnetskolen.IntegrationTests.fsproj
-    └── Program.fs
-    └── Tests.fs
+└── ...
 └── Dotnetskolen.sln
 ```
 
@@ -776,7 +767,7 @@ Tool 'paket' (version '5.257.0') was successfully installed. Entry is added to t
 
 Nå ser vi at Paket er lagt til i listen over tools i `dotnet-tools.json`
 
-``` txt
+```json
 {
   "version": 1,
   "isRoot": true,
@@ -814,22 +805,13 @@ Performance:
 
 Du skal nå ha følgende filer i repoet ditt
 
-``` txt
+```txt
 └── .config
     └── dotnet-tools.json
 src
-└── api
-    └── NRK.Dotnetskolen.Api.fsproj
-    └── Program.fs
+└── ...
 test
-└── unit
-    └── NRK.Dotnetskolen.UnitTests.fsproj
-    └── Program.fs
-    └── Tests.fs
-└── integration
-    └── NRK.Dotnetskolen.IntegrationTests.fsproj
-    └── Program.fs
-    └── Tests.fs
+└── ...
 └── Dotnetskolen.sln
 └── paket.dependencies
 ```
@@ -985,21 +967,14 @@ Nå som vi har spesifisert domenet vårt, kan vi modellere det i F#. Start med �
 
 ```txt
 └── .config
-    └── dotnet-tools.json
+    └── ...
 src
 └── api
     └── NRK.Dotnetskolen.Api.fsproj
     └── Domain.fs
     └── Program.fs
 test
-└── unit
-    └── NRK.Dotnetskolen.UnitTests.fsproj
-    └── Program.fs
-    └── Tests.fs
-└── integration
-    └── NRK.Dotnetskolen.IntegrationTests.fsproj
-    └── Program.fs
-    └── Tests.fs
+└── ...
 └── Dotnetskolen.sln
 └── paket.dependencies
 ```
@@ -1564,23 +1539,13 @@ Foreløpig skal vi ikke gjøre noe mer med JSON schemaet enn å ha den som dokum
 
 ```txt
 └── .config
-    └── dotnet-tools.json
+    └── ...
 └── docs
     └── epg.schema.json
 src
-└── api
-    └── NRK.Dotnetskolen.Api.fsproj
-    └── Domain.fs
-    └── Program.fs
+└── ...
 test
-└── unit
-    └── NRK.Dotnetskolen.UnitTests.fsproj
-    └── Program.fs
-    └── Tests.fs
-└── integration
-    └── NRK.Dotnetskolen.IntegrationTests.fsproj
-    └── Program.fs
-    └── Tests.fs
+└── ...
 └── Dotnetskolen.sln
 └── paket.dependencies
 ```
@@ -1652,24 +1617,14 @@ Opprett en ny fil `openapi.json` i `docs`-mappen, og lim inn kontrakten over. Du
 
 ```txt
 └── .config
-    └── dotnet-tools.json
+    └── ...
 └── docs
     └── epg.schema.json
     └── openapi.json
 src
-└── api
-    └── NRK.Dotnetskolen.Api.fsproj
-    └── Domain.fs
-    └── Program.fs
+└── ...
 test
-└── unit
-    └── NRK.Dotnetskolen.UnitTests.fsproj
-    └── Program.fs
-    └── Tests.fs
-└── integration
-    └── NRK.Dotnetskolen.IntegrationTests.fsproj
-    └── Program.fs
-    └── Tests.fs
+└── ...
 └── Dotnetskolen.sln
 └── paket.dependencies
 ```
@@ -1684,10 +1639,9 @@ Start med å opprett en fil `Dto.fs` i mappen `src/api`:
 
 ```txt
 └── .config
-    └── dotnet-tools.json
+    └── ...
 └── docs
-    └── epg.schema.json
-    └── openapi.json
+    └── ...
 src
 └── api
     └── NRK.Dotnetskolen.Api.fsproj
@@ -1695,14 +1649,7 @@ src
     └── Dto.fs
     └── Program.fs
 test
-└── unit
-    └── NRK.Dotnetskolen.UnitTests.fsproj
-    └── Program.fs
-    └── Tests.fs
-└── integration
-    └── NRK.Dotnetskolen.IntegrationTests.fsproj
-    └── Program.fs
-    └── Tests.fs
+└── ...
 └── Dotnetskolen.sln
 └── paket.dependencies
 ```
@@ -1783,10 +1730,9 @@ Opprett filen `EntryPoint.fs` i mappen `src/api`:
 
 ```txt
 └── .config
-    └── dotnet-tools.json
+    └── ...
 └── docs
-    └── epg.schema.json
-    └── openapi.json
+    └── ...
 src
 └── api
     └── NRK.Dotnetskolen.Api.fsproj
@@ -1795,14 +1741,7 @@ src
     └── EntryPoint.fs
     └── Program.fs
 test
-└── unit
-    └── NRK.Dotnetskolen.UnitTests.fsproj
-    └── Program.fs
-    └── Tests.fs
-└── integration
-    └── NRK.Dotnetskolen.IntegrationTests.fsproj
-    └── Program.fs
-    └── Tests.fs
+└── ...
 └── Dotnetskolen.sln
 └── paket.dependencies
 ```
@@ -2132,7 +2071,7 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
     app.UseGiraffe webApp
 ```
 
-Legg merke til at `UseGiraffe`-funksjonen tar inn en `HttpHandler` som argument. Her har vi laget en `HttpHandler` som svarer på `/ping` og returner `pong`.
+Legg merke til at `UseGiraffe`-funksjonen tar inn en `HttpHandler` som argument. Her har vi laget en `HttpHandler` som svarer på `/ping` og returner tekststrengen `pong`.
 
 Start API-et fra med følgende kommando:
 
@@ -2153,16 +2092,664 @@ info: Microsoft.Hosting.Lifetime[0]
 
 Verifiser at API-et fungerer ved å gå til [https://localhost:5001/ping](https://localhost:5001/ping) i nettleseren din og se at svaret er `pong`.
 
+##### Definere route fra API-kontrakt
 
-#### Validere dato
+Dersom vi ser på API-kontrakten vi definerte i [steg 7](#steg-7---definere-api-kontrakt) inneholder den én operasjon `/epg/{dato}` som returnerer `200 OK` med den aktuelle EPG-en dersom alt er OK, og `400 Bad Request` dersom den ikke klarer å parse datoen.
 
+```json
+...
+    "paths": {
+        "/epg/{dato}": {
+            "get": {
+                ...
+                "responses": {
+                    "200": {
+                    ...
+                        "description": "OK"
+                    },
+                    "400": {
+                        ...
+                        "description": "Bad Request"
+                    }
+                }
+                ...
+                "description": "Henter EPG for NRK1 og NRK 2 på den oppgitte datoen. Returnerer 400 dersom dato er ugyldig. Listen med sendinger for en kanal er tom dersom det ikke finnes noen sendinger på den gitte dagen."
+            }
+        }
+    }
+}
+```
 
+Det er to ting som definerer operasjonen i API-et vårt:
 
-#### Kjør tester
+1. URL-en `/epg/{dato}`
+2. At den er tilgjengelig gjennom HTTP `GET`-verbet
 
-200OK-testen går grønn ✔
+Dette kan vi bruke når vi skal definere operasjonen i Giraffe:
+
+```f#
+let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+    let webApp = GET >=> routef "/epg/%s" (fun date -> text date)
+    app.UseGiraffe webApp
+```
+
+Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> text date` for HTTP `GET`-forespørsler til URL-en `/epg/%s`, hvor `%s` matcher tekststrengen oppgitt i URL-en etter `/epg/`. 
+
+Start API-et igjen og se hva som skjer dersom du går til `https://localhost:5001/epg/2021-01-01` i nettleseren.
 
 ```bash
-$ dotnet test
+$ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
 ...
+```
+
+Vi kan også se at integrasjonstesten som verifiserer om API-et vårt svarer på `/epg/{dato}` nå passerer ved å kjøre følgende kommando:
+
+```bash
+$ dotnet test .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+...
+Failed!  - Failed:     2, Passed:     1, Skipped:     0, Total:     3, Duration: 214 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+```
+
+##### Implementere HTTP Handler for /epg/{dato}
+
+Den anonyme funksjonen som håndterer HTTP GET-forespørsler til `/epg/{dato}` gir ikke så mye verdi slik den står nå. La oss gå videre med å implementere operasjonen slik den er definert i API-kontrakten vår. Overordnet ønsker vi at funksjonen skal gjøre følgende:
+
+1. Validere datoen som er oppgitt i URL-en, og returnere `400 Bad Request` dersom den er ugyldig
+2. Hente sendinger for den oppgitte datoen
+3. Returnere EPG på JSON-format som oppfyller API-kontrakten vår
+
+La oss starte med å trekke ut den anonyme funksjonen til en egen funksjon `epgHandler` som vi legger i en ny modul `HttpHandlers`. Opprett en ny fil `HttpHandlers.fs` som du legger i mappen `src/api` slik:
+
+```txt
+...
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Domain.fs
+    └── Dto.fs
+    └── EntryPoint.fs
+    └── HttpHandlers.fs
+    └── Program.fs
+...
+```
+
+Husk å legg til `HttpHandlers.fs` i prosjektfilen til API-prosjektet:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Domain.fs" />
+    <Compile Include="Dto.fs" />
+    <Compile Include="EntryPoint.fs" />
+    <Compile Include="HttpHandlers.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
+```
+
+Legg til følgende kode i `HttpHandlers.fs`:
+
+```f#
+module NRK.Dotnetskolen.Api.HttpHandlers
+
+open Microsoft.AspNetCore.Http
+open Giraffe
+
+let epgHandler (dateAsString : string) : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        (text dateAsString) next ctx
+```
+
+Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til at Giraffe har sin egen middleware pipeline, på tilsvarende måte som .NET legger opp til: først spesifiserer vi hva vi ønsker å returnere i HTTP-responsen `text dateAsString`, deretter kaller vi neste middleware i pipelinen `next ctx` hvor vi gir inn `HttpContext`-objektet.
+
+Åpne modulen `HttpHandlers` i `Program.fs` og kall funksjonen `epgHandler` istedenfor den anonyme funksjonen vi hadde:
+
+```f#
+...
+open NRK.Dotnetskolen.Api.HttpHandlers
+
+let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+    let webApp = GET >=> routef "/epg/%s" epgHandler
+    app.UseGiraffe webApp
+```
+
+###### Validere dato
+
+La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. Lim inn følgende `open`-statements, og `isDateValid`-funksjonen under før `epgHandler`-funksjonen i `HttpHandlers.fs`:
+
+```f#
+open System
+open System.Globalization
+...
+let isDateValid (dateAsString : string) (date : byref<DateTime>) : bool =
+    DateTime.TryParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, &date)
+```
+
+`isDateValid`-funksjonen forsøker å parse tekststrengen vi har fått inn i URL-en til en dato på formatet `yyyy-MM-dd` og returnerer en boolsk verdi som indkerer om det gikk bra eller ikke. Nå kan vi bruke `isDateValid`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig:
+
+```f#
+let epgHandler (dateAsString : string) : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        let mutable date = DateTime.MinValue
+        if (isDateValid dateAsString &date) then
+            (text dateAsString) next ctx
+        else
+            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+```
+
+Koden over illustrerer et tilfelle hvor vi _ikke_ kaller neste middleware i pipelinen. Her setter vi statuskoden til `400` og skriver `Invalid date` til respons body, før vi bryter videre prosessering av middleware i Giraffe ved å lage en tom middleware `Some >> Task.FromResult` som returnerer umiddelbart.
+
+Kjør integrasjonstestene på nytt, og se at testen som verifiserer at API-et vårt responderer med `400 Bad Request` med en ugyldig dato også passerer nå:
+
+```bash
+$ dotnet test .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+...
+Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 244 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+```
+
+###### Hente EPG
+
+Nå som vi har validert at datoen vi får inn er gyldig kan vi gå videre med å hente sendinger for den oppgitte datoen. Siden det å hente sendinger for en gitt dato kan implementeres på flere måter (kalle web-tjeneste, spørre database, hente fra fil), benytter vi IoC-prinsippet, og sier at dette er en funksjon vi må få inn til `epgHandler`. Vi definerer denne funksjonen som `getEpgForDate: DateTime -> Epg` hvor `Epg` er typen fra domenemodellen vår. Utvid `epgHandler` med denne avhengigheten slik som vist under:
+
+```f#
+...
+open NRK.Dotnetskolen.Domain
+...
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        let mutable date = DateTime.MinValue
+        if (isDateValid dateAsString &date) then
+            (text dateAsString) next ctx
+        else
+            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+```
+
+Nå kan vi kalle `getEpgForDate` med den validerte datoen for å få alle sendingene for den gitte datoen slik som vist under:
+
+```f#
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        let mutable date = DateTime.MinValue
+        if (isDateValid dateAsString &date) then
+            let epg = getEpgForDate date
+            (text dateAsString) next ctx
+        else
+            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+```
+
+###### Returnere JSON som oppfyller API-kontrakten
+
+Det eneste som gjenstår i `epgHandler` nå er å mappe fra domenemodellen til kontraktstypen vår, og returnere kontraktstypen som JSON. 
+
+Vi begynner med å mappe fra domenemodellen til kontraktstypen vår. Utvid `Dto.fs` med en funksjon `fromDomain` som tar inn et `Epg`-objekt og returnerer et `EpgDto`-objekt:
+
+```f#
+...
+let fromDomain (domain: Domain.Epg) : EpgDto =
+...
+```
+
+Bruk deretter `fromDomain`-funksjonen i `epgHandler`-funksjonen i `HttpHandlers.fs`:
+
+```f#
+...
+open NRK.Dotnetskolen.Dto
+...
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        let mutable date = DateTime.MinValue
+        if (isDateValid dateAsString &date) then
+            let epg = getEpgForDate date
+            let dto = fromDomain epg
+            (text dateAsString) next ctx
+        else
+            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+```
+
+Det siste vi må gjøre er å serialisere kontraktstypen vår til JSON. Giraffe har en hjelpefunksjon for å gjøre dette:
+
+```f#
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        let mutable date = DateTime.MinValue
+        if (isDateValid dateAsString &date) then
+            let epg = getEpgForDate date
+            let dto = fromDomain epg
+            (json dto) next ctx
+        else
+            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+```
+
+Skrevet med `|>`-operatoren i F# ser `epgHandler`-funksjonen slik ut:
+
+```f#
+let epgHandler (getEpgForDate : DateTime -> Epg) (dateAsString : string) : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        let mutable date = DateTime.MinValue
+        if (isDateValid dateAsString &date) then
+            let response = date
+                            |> getEpgForDate 
+                            |> fromDomain
+                            |> json
+            response next ctx
+        else
+            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+```
+
+##### Registrere avhengigheter
+
+I steget [hente EPG](#hente-epg) definerte vi at funksjonen `epgHandler` hadde en avhengighet til en funksjon `getEpgForDate: DateTime -> Epg`. Husk fra [kapitlet om "dependency injection"](#dependency-injection) må vi sørge for at slike avhengigheter er tilfredsstilt når vi kaller funksjonen. `epgHandler`-funksjonen blir kalt av Giraffe, og vi oppgir `epgHandler` til Giraffe i `configureApp`-funksjonen i `Program.fs`. Vi har imidlertid lært at avhengigheter registreres i `IServiceCollection`-objektet i `configureServices`-funksjonen. Hvordan får vi tak i denne avhengigheten i `configureApp`-funksjonen? Merk at `configureApp`-funksjonen tar inn et `IApplicationBuilder`-objekt som parameter. `IApplicationBuilder` har en property som heter `ApplicationServices` som er samlingen med avhengigheter vi registrerer i `IServiceCollection`-objektet. La oss anvende denne kunnskapen til å gi `epgHandler`-funksjonen det den trenger av avhengigheter.
+
+###### Implementere `getEpgForDate`
+
+La oss begynne med å definere funksjonen `getEpgForDate` i en ny fil `Services.fs`:
+
+```txt
+...
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── Domain.fs
+    └── Dto.fs
+    └── EntryPoint.fs
+    └── HttpHandlers.fs
+    └── Program.fs
+    └── Services.fs
+...
+```
+
+Husk å legg til `Services.fs` i prosjektfilen til API-prosjektet:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Domain.fs" />
+    <Compile Include="Dto.fs" />
+    <Compile Include="Services.fs" />
+    <Compile Include="EntryPoint.fs" />
+    <Compile Include="HttpHandlers.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
+```
+
+Ut i fra signaturen til `getEpgForDate` må `Services.fs` se ca. slik ut:
+
+```f#
+module NRK.Dotnetskolen.Api.Services
+
+open System
+open NRK.Dotnetskolen.Domain
+
+let getEpgForDate (date : DateTime) : Epg =
+  // Implementasjon her...
+```
+
+Oppgaven til `getEpgForDate` er å filtrere sendinger på den oppgitte datoen, men hvor skal den få sendingene fra? På tilsvarende måte som vi gjorde i `epgHandler`-funksjonen i `HttpHandlers`, kan vi her si at vi ønsker å delegere ansvaret til å faktisk hente sendinger til noen andre. Dette kan vi gjøre ved å ta inn en funksjon `getAllTransmissions: () -> Epg` i `getEpgForDate`:
+
+```f#
+...
+let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
+    let allTransmissions = getAllTransmissions ()
+```
+
+###### Implementere getAllTransmissions
+
+Nå kan vi bestemme hvor vi skal hente sendinger fra. Skal vi hente dem fra en web-tjeneste, database, fil? `getAllTransmissions`-funksjonen skjuler denne implementasjonsdetaljen fra resten av koden vår. For eksemplet vårt i dette kurset er det tilstrekkelig å definere sendinger i en egen fil `DataAccess.fs` og implementere `getAllTransmissions` der.
+
+Opprett `DataAccess.fs` i `src/api`:
+
+```txt
+...
+src
+└── api
+    └── NRK.Dotnetskolen.Api.fsproj
+    └── DataAccess.fs
+    └── Domain.fs
+    └── Dto.fs
+    └── EntryPoint.fs
+    └── HttpHandlers.fs
+    └── Program.fs
+    └── Services.fs
+...
+```
+
+Husk å legg til `DataAccess.fs` i prosjektfilen til API-prosjektet:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Domain.fs" />
+    <Compile Include="DataAccess.fs" />
+    <Compile Include="Dto.fs" />
+    <Compile Include="Services.fs" />
+    <Compile Include="EntryPoint.fs" />
+    <Compile Include="HttpHandlers.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
+```
+
+Vi later som at vi henter sendingene våre fra en database, og implementerer derfor egne typer som representerer hvordan sendingene og EPG-en er lagret i databasen:
+
+```f#
+module NRK.Dotnetskolen.Api.DataAccess
+
+open System
+
+type SendingEntity = {
+    Tittel: string
+    Kanal: string
+    StartTidspunkt: string
+    SluttTidspunkt: string
+}
+
+type EpgEntity = SendingEntity list
+```
+
+Deretter kan vi definere noen sendinger i en egen liste vi kaller `database`:
+
+```f#
+...
+let database = 
+    [
+        {
+            Tittel = "Testprogram"
+            Kanal = "NRK1"
+            StartTidspunkt = "2021-04-12T13:00:00Z"
+            SluttTidspunkt = "2021-04-12T13:30:00Z"
+        }
+        {
+            Tittel = "Testprogram"
+            Kanal = "NRK2"
+            StartTidspunkt = "2021-04-12T14:00:00Z"
+            SluttTidspunkt = "2021-04-12T15:00:00Z"
+        }
+        {
+            Tittel = "Testprogram"
+            Kanal = "NRK3"
+            StartTidspunkt = "2021-04-12T14:00:00Z"
+            SluttTidspunkt = "2021-04-12T16:30:00Z"
+        }
+    ]
+```
+
+Nå kan vi implementere `getAllTransmissions`-funksjonen:
+
+```f#
+...
+open NRK.Dotnetskolen.Domain
+...
+let getAllTransmissions () : Epg =
+  // Implementasjon her
+```
+
+Legg merke til at `getAllTransmissions`-funksjonen skal returnere en verdi av typen `Epg` fra `Domain`-modulen. Implementér `getAllTransmissions`-funksjonen.
+
+> Tips: det kan være lurt å skrive en funksjon `toDomain` som mapper en `EpgEntity`-verdi til `Epg`-verdi. Husk i den forbindelse å validér om `Epg`-verdien er gyldig i ettertid. Vi kan ikke garantere datakvaliteten til databasen.
+
+###### Registrere avhengigheter i configureServices
+
+Forutsatt at vi har fungerende implementasjoner av `getEpgForDate` og `getAllTransmissions`, kan vi gå videre å registrere disse i `configureServices`. Endre `Program.fs` med følgende `open`-statements og implementasjon for `configureServices`-funksjonenen:
+
+```f#
+...
+open NRK.Dotnetskolen.Api.Services
+open NRK.Dotnetskolen.Api.DataAccess
+...
+let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
+    let getEpgForDate = getEpgForDate getAllTransmissions
+    services
+        .AddGiraffe()
+        .AddSingleton<DateTime -> Epg>(getEpgForDate) 
+        |> ignore
+```
+
+Her bruker vi `AddSingleton`-funksjonen til å registrere vår implementasjon av `getEpgForDate` fra `Services.fs` hvor vi har gitt inn `getAllTransmissions` fra `DataAccess.fs` som parameter. `AddSingleton<DateTime -> Epg>` betyr at alle som spør etter en funksjon med signaturen `DateTime -> Epg` vil få den samme instansen av `getEpgForDate`-funksjonen. `Singleton` er bare en av flere livssykluser for objekter som registreres i `IServiceCollection`. Les om alle her: [https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-lifetimes](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-lifetimes)
+
+##### Benytte avhengigheter
+
+Nå som vi har registrert vår implementasjon av `getEpgForDate` i `IServiceCollection`-objektet, kan vi hente den ut i `configureApp`-funksjonen og gi den til `epgHandler`-funksjonen vår:
+
+```f#
+let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+    let getEpgForDate = app.ApplicationServices.GetRequiredService<DateTime -> Epg>()
+    let webApp =
+        choose [
+            GET  >=> 
+                routef "/epg/%s" (epgHandler getEpgForDate)
+            RequestErrors.NOT_FOUND "Not found"
+        ]
+    app.UseGiraffe webApp
+```
+
+Kjør testene på nytt med følgende kommando, og se om alle testene passerer nå:
+
+```bash
+$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+
+Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 244 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+```
+
+Testene feiler fortsatt. Ser du hvorfor?
+
+> Tips: se på datoene til sendingene som hentes i `DataAccess.fs`.
+
+#### Benytte egne avhengigheter i integrasjonstester
+
+Det generelle problemet vi opplevde når testene feilet i forrige avsnitt er at vi ikke har kontroll på avhengighetene til applikasjonen under kjøringen av integrasjonstestene. Mer konkret brukte vi den faktiske dataaksessen til web-API-et da vi kjørte testene. Ettersom vi ikke kan garantere hva dette datagrunnlaget inneholder, kan vi ikke belage integrasjonstestene våre på innholdet i den. La oss endre integrasjonstestene slik at vi styrer selv hva datagrunnlaget til web-API-et er.
+
+##### Override WebApplicationFactory
+
+I [forrige steg](#steg-9---integrasjonstester-for-web-api) brukte vi `WebApplicationFactory` til å bygge en webserver i minnet med web-API-et vårt inni. `WebApplicationFactory` gjør dette ved å se etter funksjonen `CreateHostBuilder` i prosjektet vårt, og benytter vår implementasjon av `CreateHostBuilder` til å lage en `Host`, og kjører denne. Fra [avsnittet om "dependency injection"](#dependency-injection) husker vi at vi registrerte alle avhengighetene til applikasjonen vår i `configureServices`-funksjonen. Vi kan endre avhengighetene til web-API-et vårt under integrasjonstesten ved å endre `IServiceCollection`-objektet som web-API-et vårt lager. For å gjøre det må vi lage vårt eget `WebApplicationFactory`. 
+
+Start med å opprett filen `CustomWebApplicationFactory.fs` i `/test/integration`-mappen:
+
+```txt
+...
+test
+└── unit
+    └── ...
+└── integration
+    └── CustomWebApplicationFactory.fs
+    └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── Dotnetskolen.sln
+```
+
+Husk å legg til `CustomWebApplicationFactory.fs` i prosjektfilen til integrasjonstestprosjektet:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <GenerateProgramFile>false</GenerateProgramFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CustomWebApplicationFactory.fs" />
+    <Compile Include="Tests.fs" />
+    <Compile Include="Program.fs" />
+    <Content Include="../../docs/epg.schema.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\api\NRK.Dotnetskolen.Api.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>
+```
+
+Lim inn følgende kode i `CustomWebApplicationFactory.fs`:
+
+```f#
+module NRK.Dotnetskolen.IntegrationTests.CustomWebApplicationFactory
+
+open System
+open System.Linq
+open Microsoft.AspNetCore.Hosting
+open Microsoft.AspNetCore.Mvc.Testing
+open Microsoft.Extensions.DependencyInjection
+open NRK.Dotnetskolen.Domain
+open NRK.Dotnetskolen.Api.Services
+
+type public CustomWebApplicationFactory<'TStartup when 'TStartup : not struct>() =
+    inherit WebApplicationFactory<'TStartup>()
+    override _.ConfigureWebHost (webHostBuilder: IWebHostBuilder) =
+        webHostBuilder.ConfigureServices(fun (serviceCollection: IServiceCollection) ->
+            let existingGetEpgForDateFunction = serviceCollection.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
+            serviceCollection.Remove(existingGetEpgForDateFunction) |> ignore
+            ()
+        ) |> ignore
+```
+
+Her ser vi at `CustomWebApplicationFactory` arver fra `WebApplicationFactory`, og at vi overrider metoden `ConfigureWebHost`. I vår implementasjon av `ConfigureWebHost` henter vi ut den eksisterende implementasjonen av `getEpgForDate` (som bruker `getAllTransmissions` fra `DataAccess`-modulen i API-et) og fjerner den fra `IServiceCollection`-objektet. Hvis vi hadde stoppet her hadde web-API-et feilet fordi det ikke hadde noen implementasjon av `getEpgForDate`-funksjonen. La oss implementere vår egen `getAllTransmissions`-funksjon i integrasjonstestprosjektet, og legge få `getEpgForDate` til å bruke den istedenfor.
+
+##### Implementere mock av getAllTransmissions
+
+Opprett filen `Mock.fs` i mappen `/test/integration`:
+
+```txt
+...
+test
+└── unit
+    └── ...
+└── integration
+    └── CustomWebApplicationFactory.fs
+    └── Mock.fs
+    └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── Dotnetskolen.sln
+```
+
+Husk å legg til `Mock.fs` i prosjektfilen til integrasjonstestprosjektet:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <GenerateProgramFile>false</GenerateProgramFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Mock.fs" />
+    <Compile Include="CustomWebApplicationFactory.fs" />
+    <Compile Include="Tests.fs" />
+    <Compile Include="Program.fs" />
+    <Content Include="../../docs/epg.schema.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\api\NRK.Dotnetskolen.Api.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>
+```
+
+Lim inn følgende kode i `Mock.fs` hvor vi hardkoder noen sendinger som alltid har dagens dato:
+
+```f#
+module NRK.Dotnetskolen.IntegrationTests.Mock
+
+open System
+open NRK.Dotnetskolen.Domain
+
+let getAllTransmissions () : Epg =
+    let now = DateTimeOffset.Now
+    [
+        // Sendinger tilbake i tid
+        {
+            Tittel = "Testprogram"
+            Kanal = "NRK1"
+            StartTidspunkt = now.AddDays(-10.)
+            SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
+        }
+        {
+            Tittel = "Testprogram"
+            Kanal = "NRK2"
+            StartTidspunkt = now.AddDays(-10.)
+            SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
+        }
+        // Sendinger i dag
+        {
+            Tittel = "Testprogram"
+            Kanal = "NRK1"
+            StartTidspunkt = now
+            SluttTidspunkt = now.AddMinutes(30.)
+        }
+        {
+            Tittel = "Testprogram"
+            Kanal = "NRK2"
+            StartTidspunkt = now
+            SluttTidspunkt = now.AddMinutes(30.)
+        }
+        // Sendinger tilbake i tid
+        {
+            Tittel = "Testprogram"
+            Kanal = "NRK1"
+            StartTidspunkt = now.AddDays(10.)
+            SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)
+        }
+        {
+            Tittel = "Testprogram"
+            Kanal = "NRK2"
+            StartTidspunkt = now.AddDays(10.)
+            SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)
+        }
+    ]
+```
+
+##### Benytte mock av getAllTransmissions
+
+Legg til følgende `open`-statement og kode for å registrere `getEpgForDate` med vår implementasjon av `getAllTransmissions`:
+
+```f#
+...
+open NRK.Dotnetskolen.IntegrationTests.Mock
+
+type public CustomWebApplicationFactory<'TStartup when 'TStartup : not struct>() =
+    inherit WebApplicationFactory<'TStartup>()
+    override _.ConfigureWebHost (webHostBuilder: IWebHostBuilder) =
+        webHostBuilder.ConfigureServices(fun (serviceCollection: IServiceCollection) ->
+            let existingGetEpgForDateFunction = serviceCollection.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
+            serviceCollection.Remove(existingGetEpgForDateFunction) |> ignore
+            
+            serviceCollection.AddSingleton<DateTime -> Epg>(getEpgForDate getAllTransmissions) |> ignore
+            ()
+        ) |> ignore
+```
+
+Dersom du kjører testene nå, skal alle passere:
+
+```bash
+$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+
+Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 296 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
