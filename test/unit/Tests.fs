@@ -4,10 +4,12 @@ open System
 open Xunit
 open NRK.Dotnetskolen.Domain
 
-[<Fact>]
-let ``IsTitleValid_TitleWithFiveLettersAndNumbers_ReturnsTrue`` () =
-    // Arrange
-    let title = "abc12"
+[<Theory>]
+[<InlineData("abc12")>]
+[<InlineData(".,-:!")>]
+[<InlineData("ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ")>]
+let ``IsTitleValid_ValidTitle_ReturnsTrue`` (title: string) =
+    // Arrange: get title from xUnit
 
     // Act
     let isTitleValid = IsTitleValid title
@@ -15,21 +17,12 @@ let ``IsTitleValid_TitleWithFiveLettersAndNumbers_ReturnsTrue`` () =
     // Assert
     Assert.True isTitleValid
 
-[<Fact>]
-let ``IsTitleValid_TitleWithOneHundredUpperCaseLetters_ReturnsTrue`` () =
-    // Arrange
-    let title = "ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ"
-
-    // Act
-    let isTitleValid = IsTitleValid title
-
-    // Assert
-    Assert.True isTitleValid
-
-[<Fact>]
-let ``IsTitleValid_TitleWithFourLetters_ReturnsFalse`` () =
-    // Arrange
-    let title = "abcd"
+[<Theory>]
+[<InlineData("abcd")>]
+[<InlineData("@$%&/")>]
+[<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
+let ``IsTitleValid_InvalidTitle_ReturnsFalse`` (title: string) =
+    // Arrange: get title from xUnit
 
     // Act
     let isTitleValid = IsTitleValid title
@@ -37,43 +30,11 @@ let ``IsTitleValid_TitleWithFourLetters_ReturnsFalse`` () =
     // Assert
     Assert.False isTitleValid
 
-[<Fact>]
-let ``IsTitleValid_TitleWithOneHundredAndOneLetters_ReturnsFalse`` () =
-    // Arrange
-    let title = "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija"
-
-    // Act
-    let isTitleValid = IsTitleValid title
-
-    // Assert
-    Assert.False isTitleValid
-
-[<Fact>]
-let ``IsTitleValid_TitleWithFiveSpecialCharacters_ReturnsTrue`` () =
-    // Arrange
-    let title = ".,-:!"
-
-    // Act
-    let isTitleValid = IsTitleValid title
-
-    // Assert
-    Assert.True isTitleValid
-
-[<Fact>]
-let ``IsTitleValid_TitleWithFiveIllegalCharacters_ReturnsFalse`` () =
-    // Arrange
-    let title = "@$%&/"
-
-    // Act
-    let isTitleValid = IsTitleValid title
-
-    // Assert
-    Assert.False isTitleValid
-
-[<Fact>]
-let ``IsChannelValid_NRK1UpperCase_ReturnsTrue`` () =
-    // Arrange
-    let channel = "NRK1"
+[<Theory>]
+[<InlineData("NRK1")>]
+[<InlineData("NRK2")>]
+let ``IsChannelValid_ValidChannel_ReturnsTrue`` (channel: string) =
+    // Arrange: get channel from xUnit
 
     // Act
     let isChannelValid = IsChannelValid channel
@@ -81,32 +42,11 @@ let ``IsChannelValid_NRK1UpperCase_ReturnsTrue`` () =
     // Assert
     Assert.True isChannelValid
 
-[<Fact>]
-let ``IsChannelValid_NRK2UpperCase_ReturnsTrue`` () =
-    // Arrange
-    let channel = "NRK2"
-
-    // Act
-    let isChannelValid = IsChannelValid channel
-
-    // Assert
-    Assert.True isChannelValid
-
-[<Fact>]
-let ``IsChannelValid_NRK1LowerCase_ReturnsFalse`` () =
-    // Arrange
-    let channel = "nrk1"
-
-    // Act
-    let isChannelValid = IsChannelValid channel
-
-    // Assert
-    Assert.False isChannelValid
-
-[<Fact>]
-let ``IsChannelValid_NRK3UpperCase_ReturnsFalse`` () =
-    // Arrange
-    let channel = "NRK3"
+[<Theory>]
+[<InlineData("nrk1")>]
+[<InlineData("NRK3")>]
+let ``IsChannelValid_InvalidChannel_ReturnsFalse`` (channel: string) =
+    // Arrange: get channel from xUnit
 
     // Act
     let isChannelValid = IsChannelValid channel
