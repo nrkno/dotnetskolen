@@ -2014,56 +2014,145 @@ Hvis du forsøker å kjøre integrasjonstestene nå, vil de feile ettersom vi ik
 
 [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-9---integrasjonstester-for-web-api)
 
+I [forrige steg](#steg-9---integrasjonstester-for-web-api) opprettet vi et skall for web-API-et ved at vi implementerte funksjonen `CreateHostBuilder` i `Program.fs` slik at vi kunne peke testserveren i integrasjonsprosjektet til startpunktet til web-API-et vårt. Selve programmet i web-API-prosjektet har imidlertid ikke tatt i bruk startpunktet enda. Det kan du verifisere ved å starte API-prosjektet med følgende kommando:
+
+```bash
+$ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
+
+Hello world from F#
+```
+
+Det eneste programmet i API-prosjektet gjør er å printe tekststrengen `Hello world from F#` til terminalen:
+
+```f#
+...
+// Define a function to construct a message to print
+let from whom =
+    sprintf "from %s" whom
+
+[<EntryPoint>]
+let main argv =
+    let message = from "F#" // Call the function
+    printfn "Hello world %s" message
+    0 // return an integer exit code
+```
+
 #### Modellen til .NET
 
-- Host
-- Dependency injection
-  - configureServices
-- Middlewarepipeline
-  - configureApp
-- HostBuilder
-  - Definerer host
+Før vi går videre med å endre `Program.fs`, og ta i bruk skallet til web-API-et, skal vi se på noen grunnleggende konsepter som er brukt i .NET for å lage applikasjoner.
 
-#### Legg til Giraffe
+##### Host
+
+Når vi utvikler og kjører en applikasjon har vi behov for tilgang til felles ressurser som konfigurasjon, avhengigheter og logging. I tillegg ønsker vi å ha kontroll på hvordan prosessen til applikasjonen vår starter og slutter. Microsoft tilbyr et objekt, `Host`, som holder styr på disse tingene for oss. Typisk bygger man opp og starter en `Host` i `Program.fs`. Dette gjøres i funksjonen `CreateHostBuilder`, som vi allerede har lagt til i vår `Program.fs`:
+
+```f#
+open System
+open Microsoft.AspNetCore.Hosting
+open Microsoft.Extensions.Hosting
+open Microsoft.Extensions.DependencyInjection
+open Microsoft.AspNetCore.Builder
+
+let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+    ()
+
+let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
+    ()
+
+let CreateHostBuilder args =
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(fun webBuilder -> 
+            webBuilder
+                .Configure(configureApp)
+                .ConfigureServices(configureServices)
+            |> ignore
+        )
+...
+```
+
+I `CreateHostBuilder`-funksjonen kaller vi metoden `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter som er gitt på kommandolinja ved oppstart av programmet. `CreateDefaultBuilder` sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen. Deretter kaller vi `ConfigureWebHostDefaults` som bl.a. sørger for å sette opp Kestrel som web-server for applikasjonen vår og tillate serving av statiske filer. `ConfigureWebHostDefaults` tar som argument en funksjon som gir oss tilgang til `IWebHostBuilder`-objektet som blir brukt for å bygge web-applikasjonen vår. Dette gir oss mulighet til å konfigurere web-applikasjonen etter våre behov. `IWebHostBuilder`-objektet har flere funksjoner, men de som er mest relevante for oss i denne omgang er `Configure` og `ConfigureServices` for å konfigurere hhv. pipelinen av middleware, og avhengigheter i applikasjonen vår. Dette blir forklart nærmere i de to neste avsnittene.
+
+> Du kan lese mer om `Host`-konseptet og hva det innebærer her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-5.0)
+
+##### Middleware pipeline
+
+Web-applikasjoner i .NET er konfigurerbare og modulære slik at man har kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren, og til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørslen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline". Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørslen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørslen. Et eksempel på en slik mellomvare er autentisering. Måten man setter opp middleware pipelinen i .NET på er gjennom `Configure`-funksjonen i `IWebHostBuilder`-objektet.
+
+> Du kan lese mer om middleware i .NET-web-applikasjoner her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0)
+
+##### Dependency injection
+
+Et mye brukt prinsipp i programvareutvikling er "Inversion of control" (IoC) som kort fortalt går ut på at man skal la kontrollen over implementasjonen av avhengighetene man har i koden sin ligge på utsiden av der man har behov for avhengigheten. På denne måten kan man endre hva som implementerer avhengigheten man har, og man kan enklere enhetsteste koden sin fordi man kan sende inn fiktive implementasjoner av avhengighetene. Et eksempel på dette er dersom man har en funksjon `isLoginValid` for å validere brukernavn og passord som kommer inn fra et innloggingsskjema, har man behov for å hente entiteten som korresponderer til det oppgitte brukernavnet fra brukerdatabasen. Ved å ta inn en egen funksjon `getUser` i `ValidateLogin` har man gitt kontrollen over hvordan `getUser` skal implementeres til utsiden av `ValidateLogin`-funksjonen.
+
+```f#
+let isLoginValid (getUser: string -> UserEntity) (username: string) (password: string) : bool ->
+...
+```
+
+En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender man inn de nødvendige avhengighetene til de ulike delene av koden sin fra utsiden. Dersom en funksjon `A` har avhengiheter funksjonene `B` og `C`, og `B` og `C` har hhv. avhengiheter til funksjonene `D` og `E`, må man ha implementasjoner for `B`, `C`, `D` og `E` for å kunne kalle funksjon `A`. Disse avhengighetene danner et avhengighetstre, og dersom man skal kalle en funksjon man på toppen treet er nødt til å ha implementasjoner av alle de interne nodene og alle løvnodene i avhengighetstreet. For hver toppnivåfunksjon (som `A`) man har i applikasjonen sin, vil man ha et avhengighetstre. Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root". Ved å bruke `Host` i .NET er "composition root" `ConfigureServices`-funksjonen. Her har man tilgang til et `IServiceCollection`-objekt hvor man kan legge til implementasjoner av de ulike funksjonene man har behov for å applikasjonen sin.
+
+> Du kan lese mer om "dependency injection" her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0)
+
+#### Implementere vår middleware pipeline
+
+Nå som vi har blitt kjent med de grunnleggende konseptene i .NET-applikasjoner, kan vi starte å sette sammen vårt eget web-API. For å gjøre det trenger vi en middleware pipeline som kan behandle HTTP-forespørslene som kommer inn til API-et vårt. .NET sitt standard rammeverk for web-applikasjoner er ASP.NET. ASP.NET er imidlertid objektorientert, og siden vi bruker F# og skriver funksjonell kode skal vi benytte Giraffe istedenfor, som er et funksjonelt web-rammeverk for .NET.
+
+##### Installere Giraffe
+
+Giraffe er publisert som en NuGet-pakke, og for å installere den i API-prosjektet vårt kan du kjøre følgende kommando fra roten av repoet:
 
 ```bash
 $ dotnet paket add giraffe --project .\src\api\NRK.Dotnetskolen.Api.fsproj
 ...
 ```
 
-"open"-statement i `Program.fs`
+##### Legge til Giraffe i middleware pipeline
+
+Nå som Giraffe er installert, kan vi ta det i bruk i web-API-et vårt. Start med å åpne `Giraffe`-modulen i `Program.fs` ved å legge til følgende linje under de andre "open"-statementene:
 
 ```f#
 ...
-open Microsoft.AspNetCore.Http
 open Giraffe
 ...
 ```
 
-#### Implementere ConfigureServices
+For at Giraffe skal ha tilgang til sine avhengigheter må vi registrere dem i `IServiceCollection`-objektet i `ConfigureServices`-funksjonen. Gjør det ved å kall funksjonen `services.AddGiraffe()` i `ConfigureServices`-funksjonen i `Program.fs`:
 
 ```f#
 let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
     services.AddGiraffe() |> ignore
 ```
 
-#### Implementere ConfigureApp
+`services.AddGiraffe()` returnerer `IServiceCollection`-objektet. Ettersom `configureServices`-funksjonen ikke skal returnere noe legger vi til `|> ignore` for å overse returverdien til `AddGiraffe`
+
+Nå kan vi legge til Giraffe i middleware pipelinen vår. Det gjør vi ved å kalle `UseGiraffe`-funksjonen på `IApplicationBuilder`-objektet i `configureApp`-funksjonen:
 
 ```f#
-let epgHandler (date : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        ("{}" json) next ctx
-
 let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp =
-        choose [
-            GET  >=> choose [
-                routef "/epg/%s" epgHandler
-            ]
-            RequestErrors.NOT_FOUND "Not found"
-        ]
+    let webApp = route "/ping" >=> text "pong"
     app.UseGiraffe webApp
 ```
+
+Legg merke til at `UseGiraffe`-funksjonen tar inn en `HttpHandler` som argument. Her har vi laget en `HttpHandler` som svarer på `/ping` og returner `pong`.
+
+Start API-et fra med følgende kommando:
+
+```bash
+$ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
+
+info: Microsoft.Hosting.Lifetime[0]
+      Now listening on: https://localhost:5001
+info: Microsoft.Hosting.Lifetime[0]
+      Now listening on: http://localhost:5000
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Dev\nrkno@github.com\dotnetskolen\src\api
+```
+
+Verifiser at API-et fungerer ved å gå til [https://localhost:5001/ping](https://localhost:5001/ping) i nettleseren din og se at svaret er `pong`.
+
 
 #### Validere dato
 
