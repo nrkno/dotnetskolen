@@ -831,7 +831,9 @@ framework: net5, netcoreapp3.1, netstandard2.0, netstandard2.1
 
 #### Migrere pakker fra NuGet til Paket
 
-Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til nødvendige NuGet-pakker. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene:
+Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til nødvendige NuGet-pakker. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene. 
+
+`test\unit\NRK.Dotnetskolen.UnitTests.fsproj`:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
