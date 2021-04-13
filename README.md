@@ -12,9 +12,9 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp og implemen
 
 Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester.
 
-Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva .NET er](#hva-er-net). Deretter bør du lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve stegene](#steg).
+Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva .NET er](#hva-er-net). Deretter bør du lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve kurset](#steg).
 
-Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan man kan sette opp .NET-prosjekter.
+Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
 
 > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
 
@@ -43,7 +43,7 @@ Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (so
 
 - Programmeringsspråk - som f.eks. C# og F#
 - Kompilatorer - programmer som kompilerer kode skrevet i et .NET-programmeringsspråk til CIL ("common intermediate language")
-- CIL ("common intermediate language") - et felles språk som alle .NET-programmer blir kompilert til
+- CIL ("common intermediate language") - et felles lavnivåspråk som alle .NET-programmer blir kompilert til
 - CLR ("common language runtime") - kjøretidsmiljø for .NET-programmer som oversetter instruksjonene definert i CIL til maskinkode, og kjører maskinkoden
 - BCL ("base class library") - en stor samling biblioteker skrevet av Microsoft som tilbyr standard funksjonalitet som f.eks. datastrukturer (lister, datoer etc.), IO (lesing og skriving av filer, nettverkshåndtering) og sikkerhet (kryptering, sertifikater).
 
@@ -53,7 +53,7 @@ Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (so
 
 Opprinnelig var .NET kun tilgjengelig på Windows. Denne versjonen av .NET omtales som .NET Framework. Etter hvert kom implementasjoner av kjøretidsmiljøet til andre plattformer også, som Mono til Linux og Mac, og Xamarin til Android og iOS. Både Mono og Xamarin var opprinnelig drevet av andre selskaper enn Microsoft. I 2016 lanserte Microsoft en ny versjon av .NET, .NET Core, som er en implementasjon av .NET for alle plattformer (Windows, Mac og Linux). .NET Core gikk gjennom tre hovedversjoner, i parallell med .NET Framework som nådde sin siste versjon, 4.8, i 2019. .NET Framework blir ikke videreutviklet, og i 2020 lanserte Microsoft .NET 5 som er den nyeste versjon av .NET Core. .NET 5 er den versjonen Microsoft vil fortsette å utvikle fremover.
 
-For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Microsoft laget en spesifikasjon, .NET Standard. .NET Standard har flere versjoner, og de ulike versjonene av .NET (.NET Framework, .NET Core, Mono etc.) oppfyller kravene i en gitt versjon av .NET Standard. Les mer om .NET Standard, og kompatibilitet på tvers av .NET-versjoner her: [https://docs.microsoft.com/en-us/dotnet/standard/net-standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
+For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Microsoft laget en spesifikasjon, .NET Standard. .NET Standard har flere versjoner, og de ulike versjonene av .NET (.NET Framework, .NET Core, Mono etc.) følger spesifikasjonen i en gitt versjon av .NET Standard. Les mer om .NET Standard, og kompatibilitet på tvers av .NET-versjoner her: [https://docs.microsoft.com/en-us/dotnet/standard/net-standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
 
 #### Kilder
 
@@ -87,7 +87,7 @@ Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/do
 
 #### .NET SDK
 
-Når man installerer .NET på maskinen sin har man valget mellom å installere
+Når man installerer .NET har man valget mellom å installere
 
 - .NET runtime - kjøretidsmiljø for .NET-applikasjoner
 - .NET SDK - inneholder alt man trenger for å utvikle og kjøre .NET-applikasjoner lokalt, og inkluderer
@@ -95,7 +95,7 @@ Når man installerer .NET på maskinen sin har man valget mellom å installere
   - Kompilatorer
   - .NET CLI - kommandolinjeverktøy for å bygge, kjøre og publisere .NET-applikasjoner
 
-Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med lavere versjoner av .NET, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
+Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med .NET Core, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
 
 ``` bash
 $ dotnet --version
