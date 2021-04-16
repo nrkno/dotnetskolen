@@ -1,38 +1,29 @@
-open System
-open NRK.Dotnetskolen.Domain
-open Microsoft.AspNetCore.Hosting
-open Microsoft.Extensions.Hosting
-open Microsoft.Extensions.DependencyInjection
-open Microsoft.AspNetCore.Builder
+namespace NRK.Dotnetskolen.Api
 
-let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    ()
+module Program = 
 
-let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-    ()
+    open System
+    open NRK.Dotnetskolen.Domain
 
-let CreateHostBuilder args =
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(fun webBuilder -> 
-            webBuilder
-                .Configure(configureApp)
-                .ConfigureServices(configureServices)
-            |> ignore
-        )
+    open Microsoft.AspNetCore.Hosting
+    open Microsoft.Extensions.DependencyInjection
+    open Microsoft.AspNetCore.Builder
 
-// Define a function to construct a message to print
-let from whom =
-    sprintf "from %s" whom
+    let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+        ()
 
-[<EntryPoint>]
-let main argv =
-    let epg = [
-        {
-            Tittel = "Dagsrevyen"
-            Kanal = "NRK1"
-            StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
-            SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
-        }
-    ]
-    printfn "%A" epg
-    0 // return an integer exit code
+    let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
+        ()
+
+    [<EntryPoint>]
+    let main argv =
+        let epg = [
+            {
+                Tittel = "Dagsrevyen"
+                Kanal = "NRK1"
+                StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+                SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
+            }
+        ]
+        printfn "%A" epg
+        0 // return an integer exit code
