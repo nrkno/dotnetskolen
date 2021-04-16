@@ -8,8 +8,8 @@ open NRK.Dotnetskolen.Domain
 [<InlineData("abc12")>]
 [<InlineData(".,-:!")>]
 [<InlineData("ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ")>]
-let ``IsTitleValid_ValidTitle_ReturnsTrue`` (title: string) =
-    let isTitleValid = IsTitleValid title
+let ``isTitleValid_ValidTitle_ReturnsTrue`` (title: string) =
+    let isTitleValid = isTitleValid title
 
     Assert.True isTitleValid
 
@@ -17,56 +17,56 @@ let ``IsTitleValid_ValidTitle_ReturnsTrue`` (title: string) =
 [<InlineData("abcd")>]
 [<InlineData("@$%&/")>]
 [<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
-let ``IsTitleValid_InvalidTitle_ReturnsFalse`` (title: string) =
-    let isTitleValid = IsTitleValid title
+let ``isTitleValid_InvalidTitle_ReturnsFalse`` (title: string) =
+    let isTitleValid = isTitleValid title
 
     Assert.False isTitleValid
 
 [<Theory>]
 [<InlineData("NRK1")>]
 [<InlineData("NRK2")>]
-let ``IsChannelValid_ValidChannel_ReturnsTrue`` (channel: string) =
-    let isChannelValid = IsChannelValid channel
+let ``isChannelValid_ValidChannel_ReturnsTrue`` (channel: string) =
+    let isChannelValid = isChannelValid channel
 
     Assert.True isChannelValid
 
 [<Theory>]
 [<InlineData("nrk1")>]
 [<InlineData("NRK3")>]
-let ``IsChannelValid_InvalidChannel_ReturnsFalse`` (channel: string) =
-    let isChannelValid = IsChannelValid channel
+let ``isChannelValid_InvalidChannel_ReturnsFalse`` (channel: string) =
+    let isChannelValid = isChannelValid channel
 
     Assert.False isChannelValid
 
 [<Fact>]
-let ``AreStartAndEndTimesValid_StartBeforeEnd_ReturnsTrue`` () =
+let ``areStartAndEndTimesValid_StartBeforeEnd_ReturnsTrue`` () =
     let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes 30.
 
-    let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
+    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
 
     Assert.True areStartAndSluttTidspunktValid
 
 [<Fact>]
-let ``AreStartAndEndTimesValid_StartAfterEnd_ReturnsFalse`` () =
+let ``areStartAndEndTimesValid_StartAfterEnd_ReturnsFalse`` () =
     let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes -30.
 
-    let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
+    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
 
     Assert.False areStartAndSluttTidspunktValid
 
 [<Fact>]
-let ``AreStartAndEndTimesValid_StartEqualsEnd_ReturnsFalse`` () =
+let ``areStartAndEndTimesValid_StartEqualsEnd_ReturnsFalse`` () =
     let startTime = DateTimeOffset.Now
     let endTime = startTime
 
-    let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
+    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
 
     Assert.False areStartAndSluttTidspunktValid
 
 [<Fact>]
-let ``IsTransmissionValid_ValidTransmission_ReturnsTrue`` () =
+let ``isTransmissionValid_ValidTransmission_ReturnsTrue`` () =
     let now = DateTimeOffset.Now
     let transmission = {
         Sending.Tittel = "Dagsrevyen"
@@ -75,12 +75,12 @@ let ``IsTransmissionValid_ValidTransmission_ReturnsTrue`` () =
         SluttTidspunkt = now.AddMinutes 30.
     }
 
-    let isTransmissionValid = IsTransmissionValid transmission
+    let isTransmissionValid = isTransmissionValid transmission
 
     Assert.True isTransmissionValid
 
 [<Fact>]
-let ``IsTransmissionValid_InValidTransmission_ReturnsFalse`` () =
+let ``isTransmissionValid_InValidTransmission_ReturnsFalse`` () =
     let now = DateTimeOffset.Now
     let transmission = {
         Sending.Tittel = "@$%&/"
@@ -89,6 +89,6 @@ let ``IsTransmissionValid_InValidTransmission_ReturnsFalse`` () =
         SluttTidspunkt = now.AddMinutes -30.
     }
 
-    let isTransmissionValid = IsTransmissionValid transmission
+    let isTransmissionValid = isTransmissionValid transmission
 
     Assert.False isTransmissionValid
