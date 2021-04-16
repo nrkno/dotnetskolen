@@ -1,5 +1,9 @@
 # Dotnetskolen
 
+## Notis
+
+Veiledningen for steg-10 er ikke ferdig enda.
+
 ## Innledning
 
 Velkommen til Dotnetskolen!
@@ -2077,87 +2081,48 @@ Gjenta steget over for `test/unit/NRK.Dotnetskolen.IntegrationTests.fsproj` for 
 
 #### Sette opp skall for web-API
 
-For at vi skal kunne opprette webserveren som skal kjøre under integrasjonstesten, må den ha en referanse til startpunktet til web-API-et. Webserveren opprettes ved bruk av et `WebApplicationFactory` som tar inn en klasse i assembly-en hvor web-API-et er definert. Deretter leter `WebApplicationFactory` etter en funksjon `CreateHostBuilder` i denne assembly-en.
+For at vi skal kunne opprette webserveren som skal kjøre under integrasjonstesten, må vi ha referanser til to funksjoner i web-API-et:
 
-`CreateHostBuilder`-funksjonen skal returnere et objekt som implementerer interfacet `IHostBuilder`, og `WebApplicationFactory` benytter dette objektet til å opprette et `TestServer`-objekt basert på hosten som er definert i `CreateHostBuilder`.
+- `configureApp`
+- `configureServices`
 
-`WebApplicationFactory` er skrevet i C# som er objektorientert, og i C# ville klassen som `WebApplicationFactory` refererer til typisk være `Program`-klassen i web-API-et. Siden vi imidlertid skriver web-API-et i F# har ikke web-API-et vårt klasser. For å komme rundt dette oppretter vi en tom klasse `EntryPoint` i web-API-et vårt som vi kan peke `WebApplicationFactory` på.
+Vi skal se nærmere på hva disse funksjonene gjør i [steg 10](#steg-10---implementere-web-api), men for nå er det tilstrekkelig å vite at de brukes til å konfigurere web-API-et vårt.
 
-Opprett filen `EntryPoint.fs` i mappen `src/api`:
-
-```txt
-└── .config
-    └── ...
-└── docs
-    └── ...
-src
-└── api
-    └── Domain.fs
-    └── Dto.fs
-    └── EntryPoint.fs
-    └── NRK.Dotnetskolen.Api.fsproj
-    └── Program.fs
-test
-└── ...
-└── Dotnetskolen.sln
-└── paket.dependencies
-```
-
-Lim deretter inn koden under i `EntryPoint.fs`.
+Åpne `Program.fs` i API-prosjektet og erstatt innholdet i filen med følgende:
 
 ```f#
 namespace NRK.Dotnetskolen.Api
 
-module TestServer =
+module Program = 
 
-    type public EntryPoint() = class end
+    open System
+    open NRK.Dotnetskolen.Domain
+
+    open Microsoft.AspNetCore.Hosting
+    open Microsoft.Extensions.DependencyInjection
+    open Microsoft.AspNetCore.Builder
+
+    let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+        ()
+
+    let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
+        ()
+
+    [<EntryPoint>]
+    let main argv =    
+        let epg = [
+            {
+                Tittel = "Dagsrevyen"
+                Kanal = "NRK1"
+                StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+                SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
+            }
+        ]
+        printfn "%A" epg
+        0 // return an integer exit code
 ```
 
-Legg til `EntryPoint.fs` i prosjektfilen til API-prosjektet:
-
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Include="Domain.fs" />
-    <Compile Include="Dto.fs" />
-    <Compile Include="EntryPoint.fs" />
-    <Compile Include="Program.fs" />
-  </ItemGroup>
-
-</Project>
-```
-
-Nå som vi har `EntryPoint`-klassen definert, må vi definere `CreateHostBuilder`-funksjonen. Åpne `Program.fs` i API-prosjektet og legg til koden under mellom `open NRK.Dotnetskolen.Domain` og `let from whom =`:
-
-```f#
-open Microsoft.AspNetCore.Hosting
-open Microsoft.Extensions.Hosting
-open Microsoft.Extensions.DependencyInjection
-open Microsoft.AspNetCore.Builder
-
-let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    ()
-
-let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-    ()
-
-let CreateHostBuilder args =
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(fun webBuilder -> 
-            webBuilder
-                .Configure(configureApp)
-                .ConfigureServices(configureServices)
-            |> ignore
-        )
-```
-
-Vi skal se nærmere på hva `CreateHostBuilder`-funksjonen gjør i [steg 10](#steg-10---implementere-web-api), men for nå er det tilstrekkelig å vite at den returnerer et objekt som kan returnere en host som representerer web-API-et vårt.
+Her oppretter vi modulen `Program` i namespacet `NRK.Dotnetskolen.Api`. `Program`-modulen inneholder funksjonene `configureApp` og `configureServices`, samt `main`-funksjonen fra tidligere.
 
 #### Legge til avhengigheter
 
@@ -2194,7 +2159,7 @@ $ dotnet add .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj referen
 ...
 ```
 
-#### Sette opp klasse for integrasjonstester
+#### Sette opp integrasjonstester
 
 Nå er vi klare til å kunne sette opp integrasjonstestene. Åpne `Tests.fs` i integrasjonstestprosjektet, og erstatt innholdet i filen med koden under:
 
@@ -2202,32 +2167,37 @@ Nå er vi klare til å kunne sette opp integrasjonstestene. Åpne `Tests.fs` i i
 module Tests
 
 open System
+open System.IO
+open Microsoft.AspNetCore.Hosting
 open Xunit
-open Microsoft.AspNetCore.Mvc.Testing
-open NRK.Dotnetskolen.Api.TestServer
+open NRK.Dotnetskolen.Api
 
-type public WebApiTests(factory: WebApplicationFactory<EntryPoint>) = 
-    interface IClassFixture<WebApplicationFactory<EntryPoint>>
-
-    member _.Factory = factory
+let createWebHostBuilder () =
+    WebHostBuilder()
+        .UseContentRoot(Directory.GetCurrentDirectory()) 
+        .UseEnvironment("Test")
+        .Configure(Program.configureApp)
+        .ConfigureServices(Program.configureServices)
 ```
 
-Her definerer vi en klasse `WebApiTests` som tar inn et `WebApplicationFactory` i konstruktøren. `WebApplicationFactory` refererer til startpunktet `EntryPoint` som vi definerte i forrige steg. Klassen `WebApiTests` implementerer interfacet `IClassFixture`. Dette gjør at testrammeverket finner klassen vår, og gir oss et objekt av typen `WebApplicationFactory` i konstruktøren som kan opprette en `TestServer` for oss. Dette kan vi bruke til å skrive testene våre.
+Her definerer vi en funksjon `createWebHostBuilder` som returnerer en `IWebHostBuilder` som er konfigurert til å bruke `configureApp` og `configureServices`-funksjonene i web-API-et vårt. Vi skal bruke `createWebHostBuilder`-funksjonen til å opprette testserveren vår, og kjøre integrasjonstestene mot den.
 
 #### Test 1 - Verifisere at endepunktet finnes
 
-I den første testen vår skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement etter `open System` i `Tests.fs`-filen.
+I den første integrasjonstesten vår skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement etter `open System.IO` i `Tests.fs`-filen.
 
 ```f#
 open System.Net
+open Microsoft.AspNetCore.TestHost
 ```
 
-Legg deretter til følgende test som en metode i `WebApiTests`-klassen:
+Legg deretter til følgende test i `Tests.fs`-filen:
 
 ```f#
 [<Fact>]
-member this.GetEpg_Today_Returns200OK () =
-    let client = this.Factory.CreateClient();
+let ``Get EPG today returns 200 OK`` () =
+    use testServer = new TestServer(createWebHostBuilder())
+    use client = testServer.CreateClient()
     let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
     let url = sprintf "/epg/%s" todayAsString
 
@@ -2242,28 +2212,35 @@ member this.GetEpg_Today_Returns200OK () =
 module Tests
 
 open System
+open System.IO
 open System.Net
+open Microsoft.AspNetCore.TestHost
+open Microsoft.AspNetCore.Hosting
 open Xunit
-open Microsoft.AspNetCore.Mvc.Testing
-open NRK.Dotnetskolen.Api.TestServer
+open NRK.Dotnetskolen.Api
 
-type public WebApiTests(factory: WebApplicationFactory<EntryPoint>) = 
-    interface IClassFixture<WebApplicationFactory<EntryPoint>>
+let createWebHostBuilder () =
+    WebHostBuilder()
+        .UseContentRoot(Directory.GetCurrentDirectory()) 
+        .UseEnvironment("Test")
+        .Configure(Program.configureApp)
+        .ConfigureServices(Program.configureServices)
 
-    member _.Factory = factory
+[<Fact>]
+let ``Get EPG today returns 200 OK`` () =
+    use testServer = new TestServer(createWebHostBuilder())
+    use client = testServer.CreateClient()
+    let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+    let url = sprintf "/epg/%s" todayAsString
 
-    [<Fact>]
-    member this.GetEpg_Today_Returns200OK () =
-        let client = this.Factory.CreateClient();
-        let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
-        let url = sprintf "/epg/%s" todayAsString
+    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
 
-        let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
-
-        response.EnsureSuccessStatusCode() |> ignore
+    response.EnsureSuccessStatusCode() |> ignore
 ```
 
-Her bruker vi `WebApplicationFactory`-instansen vi fikk i konstruktøren til å opprette en HTTP-klient, og benytter denne HTTP-klienten til å sende en GET-forespørsel til `/epg/<dagens dato>`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
+Her bruker vi `createWebHostBuilder`-funksjonen til å opprette en testserver, og benytter testserveren til å opprette en HTTP-klient. Videre benytter vi HTTP-klienten til å sende en GET-forespørsel til `/epg/<dagens dato>`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
+
+> Merk at vi bruke `use`-kodeordet når vi oppretter testserveren og HTTP-klienten. Dette sørger for at kompilatoren rydder opp ressursene som disse to objektene bruker når testen er ferdig.
 
 #### Test 2 - Verifisere format på EPG-respons
 
@@ -2284,15 +2261,16 @@ open Json.Schema
 open System.Text.Json
 ```
 
-Legg til slutt til følgende testmetode i `WebApiTest`-klassen:
+Legg til slutt til følgende test i `Test.fs`-klassen:
 
 ```f#
 [<Fact>]
-member this.GetEpg_Today_ReturnsValidResponse () =
-    let client = this.Factory.CreateClient();
+let ``Get EPG today return valid response`` () =
+    use testServer = new TestServer(createWebHostBuilder())
+    use client = testServer.CreateClient()
     let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
     let url = sprintf "/epg/%s" todayAsString
-    let jsonSchema = JsonSchema.FromFile "./epg.schema.json" 
+    let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
 
     let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
 
@@ -2308,12 +2286,13 @@ Denne testen bygger på den første testen vi skrev, og validerer i tillegg at r
 
 #### Test 3 - Verifisere at dato valideres
 
-I den siste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid testklassen med følgende testmetode:
+I den siste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid testklassen med følgende test:
 
 ```f#
 [<Fact>]
-member this.GetEpg_InvalidDate_ReturnsBadRequest () =
-    let client = this.Factory.CreateClient();
+let ``Get EPG invalid date returns bad request`` () =
+    use testServer = new TestServer(createWebHostBuilder())
+    use client = testServer.CreateClient()
     let invalidDateAsString = "2021-13-32"
     let url = sprintf "/epg/%s" invalidDateAsString
 
@@ -2337,7 +2316,7 @@ Failed!  - Failed:     3, Passed:     0, Skipped:     0, Total:     3, Duration:
 
 **Steg 10 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-9---integrasjonstester-for-web-api)
 
-I [forrige steg](#steg-9---integrasjonstester-for-web-api) opprettet vi et skall for web-API-et ved at vi implementerte funksjonen `CreateHostBuilder` i `Program.fs` slik at vi kunne peke testserveren i integrasjonsprosjektet til startpunktet til web-API-et vårt. Selve programmet i web-API-prosjektet har imidlertid ikke tatt i bruk startpunktet enda. Det kan du verifisere ved å starte API-prosjektet med følgende kommando:
+I [forrige steg](#steg-9---integrasjonstester-for-web-api) opprettet vi et skall for web-API-et ved at vi definerte funksjonene `configureApp` og `configureServices` i `Program.fs` slik at vi kunne opprette en testserver i integrasjonsprosjektet. Selve programmet i web-API-prosjektet har imidlertid ikke tatt i bruk disse funksjonene, og laget en host. Det kan du verifisere ved å starte API-prosjektet med følgende kommando:
 
 ```bash
 $ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
@@ -2352,7 +2331,6 @@ Det eneste programmet i API-prosjektet gjør er å printe EPG-verdien du opprett
 
 ```f#
 ...
-
 [<EntryPoint>]
 let main argv =
     let epg = [
@@ -2369,26 +2347,28 @@ let main argv =
 
 #### Modellen til .NET
 
-Før vi går videre med å endre `Program.fs`, og ta i bruk skallet til web-API-et, skal vi se på noen grunnleggende konsepter som er brukt i .NET for å lage applikasjoner.
+Før vi går videre med å implementere forretningslogikken i web-API-et vårt, skal vi se på noen grunnleggende konsepter som er brukt i .NET for å lage applikasjoner.
 
 ##### Host
 
-Når vi utvikler og kjører en applikasjon har vi behov for tilgang til felles ressurser som konfigurasjon, avhengigheter og logging. I tillegg ønsker vi å ha kontroll på hvordan prosessen til applikasjonen vår starter og slutter. Microsoft tilbyr et objekt, `Host`, som holder styr på disse tingene for oss. Typisk bygger man opp og starter en `Host` i `Program.fs`. Dette gjøres i funksjonen `CreateHostBuilder`, som vi allerede har lagt til i vår `Program.fs`:
+Når vi utvikler og kjører en applikasjon har vi behov for tilgang til felles ressurser som konfigurasjon, avhengigheter og logging. I tillegg ønsker vi å ha kontroll på hvordan prosessen til applikasjonen vår starter og slutter. Microsoft tilbyr et objekt, `Host`, som holder styr på disse tingene for oss. Typisk bygger man opp og starter en `Host` i `Program.fs`.
+
+Dette gjøres i funksjonen `createHostBuilder`, som vi allerede har lagt til i vår `Program.fs`:
+
+Åpne `Program.fs` i web-API-prosjektet og legg til følgende `open`-statement:
 
 ```f#
-open System
-open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
-open Microsoft.Extensions.DependencyInjection
-open Microsoft.AspNetCore.Builder
+```
 
-let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    ()
+Legg deretter til funksjonen `createHostBuilder` etter `configureServices`-funksjonen:
 
+```f#
+...
 let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
     ()
 
-let CreateHostBuilder args =
+let createHostBuilder args =
     Host.CreateDefaultBuilder(args)
         .ConfigureWebHostDefaults(fun webBuilder -> 
             webBuilder
@@ -2399,7 +2379,7 @@ let CreateHostBuilder args =
 ...
 ```
 
-I `CreateHostBuilder`-funksjonen kaller vi metoden `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter som er gitt på kommandolinja ved oppstart av programmet. `CreateDefaultBuilder` sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen.
+I `createHostBuilder`-funksjonen kaller vi funksjonen `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter som er gitt på kommandolinja ved oppstart av programmet. `CreateDefaultBuilder` sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen.
 
 Deretter kaller vi `ConfigureWebHostDefaults` som bl.a. sørger for å sette opp Kestrel som web-server for applikasjonen vår og tillate serving av statiske filer. `ConfigureWebHostDefaults` tar som argument en funksjon som gir oss tilgang til `IWebHostBuilder`-objektet som blir brukt for å bygge web-applikasjonen vår. Dette gir oss mulighet til å konfigurere web-applikasjonen etter våre behov.
 
@@ -2411,7 +2391,7 @@ Deretter kaller vi `ConfigureWebHostDefaults` som bl.a. sørger for å sette opp
 
 Web-applikasjoner i .NET er konfigurerbare og modulære slik at man har kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørslen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline".
 
-Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørslen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørslen også. Et eksempel på en slik mellomvare er autentisering. 
+Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørslen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørslen også. Et eksempel på en slik mellomvare er autentisering.
 
 Måten man setter opp middleware pipelinen i .NET på er gjennom `Configure`-funksjonen i `IWebHostBuilder`-objektet.
 
@@ -2430,7 +2410,7 @@ let isLoginValid (getUser: string -> UserEntity) (username: string) (password: s
 
 En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender man inn de nødvendige avhengighetene til de ulike delene av koden sin fra utsiden. Dersom en funksjon `A` har avhengiheter funksjonene `B` og `C`, og `B` og `C` har hhv. avhengiheter til funksjonene `D` og `E`, må man ha implementasjoner for `B`, `C`, `D` og `E` for å kunne kalle funksjon `A`. Disse avhengighetene danner et avhengighetstre, og dersom man skal kalle en funksjon man på toppen treet er nødt til å ha implementasjoner av alle de interne nodene og alle løvnodene i avhengighetstreet. For hver toppnivåfunksjon (som `A`) man har i applikasjonen sin, vil man ha et avhengighetstre.
 
- Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root". Ved å bruke `Host` i .NET er "composition root" `ConfigureServices`-funksjonen. Her har man tilgang til et `IServiceCollection`-objekt hvor man kan legge til implementasjoner av de ulike funksjonene man har behov for å applikasjonen sin.
+ Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root". Ved å bruke `Host` i .NET er "composition root" `configureServices`-funksjonen. Her har man tilgang til et `IServiceCollection`-objekt hvor man kan legge til implementasjoner av de ulike funksjonene man har behov for å applikasjonen sin.
 
 > Du kan lese mer om "dependency injection" her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0)
 
@@ -2457,7 +2437,7 @@ open Giraffe
 ...
 ```
 
-For at Giraffe skal ha tilgang til sine avhengigheter må vi registrere dem i `IServiceCollection`-objektet i `ConfigureServices`-funksjonen. Gjør det ved å kall funksjonen `services.AddGiraffe()` i `ConfigureServices`-funksjonen i `Program.fs`:
+For at Giraffe skal ha tilgang til sine avhengigheter må vi registrere dem i `IServiceCollection`-objektet i `configureServices`-funksjonen. Gjør det ved å kall funksjonen `services.AddGiraffe()` i `configureServices`-funksjonen i `Program.fs`:
 
 ```f#
 let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
@@ -2481,7 +2461,7 @@ Til slutt kan vi fjerne `from`-funksjonen i `Program.fs`, i tillegg til at vi m�
 ```f#
 ...
 let main argv =
-    CreateHostBuilder(argv).Build().Run()
+    createHostBuilder(argv).Build().Run()
     0
 ```
 
@@ -2581,7 +2561,6 @@ src
     └── NRK.Dotnetskolen.Api.fsproj
     └── Domain.fs
     └── Dto.fs
-    └── EntryPoint.fs
     └── HttpHandlers.fs
     └── Program.fs
 ...
@@ -2600,7 +2579,6 @@ Husk å legg til `HttpHandlers.fs` i prosjektfilen til API-prosjektet:
   <ItemGroup>
     <Compile Include="Domain.fs" />
     <Compile Include="Dto.fs" />
-    <Compile Include="EntryPoint.fs" />
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
@@ -2638,30 +2616,32 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
 
 ###### Validere dato
 
-La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. Lim inn følgende `open`-statements, og `isDateValid`-funksjonen under før `epgHandler`-funksjonen i `HttpHandlers.fs`:
+La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. Lim inn følgende `open`-statements, og `parseAsDateTIme`-funksjonen under før `epgHandler`-funksjonen i `HttpHandlers.fs`:
 
 ```f#
 open System
 open System.Globalization
 open System.Threading.Tasks
 ...
-let isDateValid (dateAsString : string) (date : byref<DateTime>) : bool =
-    DateTime.TryParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, &date)
+let parseAsDateTime (dateAsString : string) : DateTime option =
+    try
+        let date = DateTime.ParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None)
+        Some date
+    with
+    | _ -> None
 ```
 
-`isDateValid`-funksjonen forsøker å parse tekststrengen vi har fått inn i URL-en til en dato på formatet `yyyy-MM-dd` og returnerer en boolsk verdi som indkerer om det gikk bra eller ikke. Nå kan vi bruke `isDateValid`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig:
+`isDateValid`-funksjonen forsøker å parse tekststrengen vi har fått inn i URL-en til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indkerer om det gikk bra eller ikke. Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig:
 
 ```f#
 let epgHandler (dateAsString : string) : HttpHandler =
     fun (next : HttpFunc) (ctx : HttpContext) ->
-        let mutable date = DateTime.MinValue
-        if (isDateValid dateAsString &date) then
-            (text dateAsString) next ctx
-        else
-            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+        match (parseAsDateTime dateAsString) with
+        | Some date -> (text dateAsString) next ctx
+        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
-Koden over illustrerer et tilfelle hvor vi _ikke_ kaller neste middleware i pipelinen. Her setter vi statuskoden til `400` og skriver `Invalid date` til respons body, før vi bryter videre prosessering av middleware i Giraffe ved å lage en tom middleware `Some >> Task.FromResult` som returnerer umiddelbart.
+Koden over illustrerer et tilfelle hvor vi _ikke_ kaller neste middleware i pipelinen. Her setter vi statuskoden til `400` og skriver `Invalid date` til response body, før vi bryter videre prosessering av middleware i Giraffe ved å lage en tom middleware `Some >> Task.FromResult` som returnerer umiddelbart.
 
 Kjør integrasjonstestene på nytt, og se at testen som verifiserer at API-et vårt responderer med `400 Bad Request` med en ugyldig dato også passerer nå:
 
@@ -2681,11 +2661,9 @@ open NRK.Dotnetskolen.Domain
 ...
 let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
     fun (next : HttpFunc) (ctx : HttpContext) ->
-        let mutable date = DateTime.MinValue
-        if (isDateValid dateAsString &date) then
-            (text dateAsString) next ctx
-        else
-            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+        match (parseAsDateTime dateAsString) with
+        | Some date -> (text dateAsString) next ctx
+        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
 Nå kan vi kalle `getEpgForDate` med den validerte datoen for å få alle sendingene for den gitte datoen slik som vist under:
@@ -2693,12 +2671,11 @@ Nå kan vi kalle `getEpgForDate` med den validerte datoen for å få alle sendin
 ```f#
 let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
     fun (next : HttpFunc) (ctx : HttpContext) ->
-        let mutable date = DateTime.MinValue
-        if (isDateValid dateAsString &date) then
+        match (parseAsDateTime dateAsString) with
+        | Some date -> 
             let epg = getEpgForDate date
             (text dateAsString) next ctx
-        else
-            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
 ###### Returnere JSON som oppfyller API-kontrakten
@@ -2723,12 +2700,12 @@ open NRK.Dotnetskolen.Dto
 let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
     fun (next : HttpFunc) (ctx : HttpContext) ->
         let mutable date = DateTime.MinValue
-        if (isDateValid dateAsString &date) then
+        match (parseAsDateTime dateAsString) with
+        | Some date -> 
             let epg = getEpgForDate date
             let dto = fromDomain epg
             (text dateAsString) next ctx
-        else
-            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
 Det siste vi må gjøre er å serialisere kontraktstypen vår til JSON. Giraffe har en hjelpefunksjon for å gjøre dette:
@@ -2736,13 +2713,12 @@ Det siste vi må gjøre er å serialisere kontraktstypen vår til JSON. Giraffe 
 ```f#
 let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
     fun (next : HttpFunc) (ctx : HttpContext) ->
-        let mutable date = DateTime.MinValue
-        if (isDateValid dateAsString &date) then
+        match (parseAsDateTime dateAsString) with
+        | Some date ->
             let epg = getEpgForDate date
             let dto = fromDomain epg
             (json dto) next ctx
-        else
-            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
 Skrevet med `|>`-operatoren i F# ser `epgHandler`-funksjonen slik ut:
@@ -2750,15 +2726,14 @@ Skrevet med `|>`-operatoren i F# ser `epgHandler`-funksjonen slik ut:
 ```f#
 let epgHandler (getEpgForDate : DateTime -> Epg) (dateAsString : string) : HttpHandler =
     fun (next : HttpFunc) (ctx : HttpContext) ->
-        let mutable date = DateTime.MinValue
-        if (isDateValid dateAsString &date) then
+        match (parseAsDateTime dateAsString) with
+        | Some date -> 
             let response = date
                             |> getEpgForDate 
                             |> fromDomain
                             |> json
             response next ctx
-        else
-            RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
 ##### Registrere avhengigheter
@@ -2780,7 +2755,6 @@ src
     └── NRK.Dotnetskolen.Api.fsproj
     └── Domain.fs
     └── Dto.fs
-    └── EntryPoint.fs
     └── HttpHandlers.fs
     └── Program.fs
     └── Services.fs
@@ -2801,7 +2775,6 @@ Husk å legg til `Services.fs` i prosjektfilen til API-prosjektet:
     <Compile Include="Domain.fs" />
     <Compile Include="Dto.fs" />
     <Compile Include="Services.fs" />
-    <Compile Include="EntryPoint.fs" />
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
@@ -2848,7 +2821,6 @@ src
     └── DataAccess.fs
     └── Domain.fs
     └── Dto.fs
-    └── EntryPoint.fs
     └── HttpHandlers.fs
     └── Program.fs
     └── Services.fs
@@ -2870,7 +2842,6 @@ Husk å legg til `DataAccess.fs` i prosjektfilen til API-prosjektet:
     <Compile Include="DataAccess.fs" />
     <Compile Include="Dto.fs" />
     <Compile Include="Services.fs" />
-    <Compile Include="EntryPoint.fs" />
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
@@ -2979,20 +2950,16 @@ Kjør testene på nytt med følgende kommando, og se om alle testene passerer n�
 ```bash
 $ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 
-Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 244 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 214 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
-
-☑️ Testene feiler fortsatt. Ser du hvorfor?
-
-> Tips: se på datoene til sendingene som hentes i `DataAccess.fs`.
 
 #### Benytte egne avhengigheter i integrasjonstester
 
-Det generelle problemet vi opplevde når testene feilet i forrige avsnitt er at vi ikke har kontroll på avhengighetene til applikasjonen under kjøringen av integrasjonstestene. Mer konkret brukte vi den faktiske dataaksessen til web-API-et da vi kjørte testene. Ettersom vi ikke kan garantere hva dette datagrunnlaget inneholder, kan vi ikke belage integrasjonstestene våre på innholdet i den. La oss endre integrasjonstestene slik at vi styrer selv hva datagrunnlaget til web-API-et er.
+Et problem med integrasjonstestene våre er at vi ikke har kontroll på avhengighetene til applikasjonen under kjøringen av integrasjonstestene. Mer konkret brukte vi den faktiske dataaksessen til web-API-et da vi kjørte testene. Ettersom vi ikke kan garantere hva dette datagrunnlaget inneholder, kan vi ikke belage integrasjonstestene våre på innholdet i den. La oss endre integrasjonstestene slik at vi styrer selv hva datagrunnlaget til web-API-et er.
 
 ##### Override WebApplicationFactory
 
-I [forrige steg](#steg-9---integrasjonstester-for-web-api) brukte vi `WebApplicationFactory` til å bygge en webserver i minnet med web-API-et vårt inni. `WebApplicationFactory` gjør dette ved å se etter funksjonen `CreateHostBuilder` i prosjektet vårt, og benytter vår implementasjon av `CreateHostBuilder` til å lage en `Host`, og kjører denne. Fra [avsnittet om "dependency injection"](#dependency-injection) husker vi at vi registrerte alle avhengighetene til applikasjonen vår i `configureServices`-funksjonen. Vi kan endre avhengighetene til web-API-et vårt under integrasjonstesten ved å endre `IServiceCollection`-objektet som web-API-et vårt lager. For å gjøre det må vi lage vårt eget `WebApplicationFactory`. 
+I [forrige steg](#steg-9---integrasjonstester-for-web-api) brukte vi `WebApplicationFactory` til å bygge en webserver i minnet med web-API-et vårt inni. `WebApplicationFactory` gjør dette ved å se etter funksjonen `createHostBuilder` i prosjektet vårt, og benytter vår implementasjon av `createHostBuilder` til å lage en `Host`, og kjører denne. Fra [avsnittet om "dependency injection"](#dependency-injection) husker vi at vi registrerte alle avhengighetene til applikasjonen vår i `configureServices`-funksjonen. Vi kan endre avhengighetene til web-API-et vårt under integrasjonstesten ved å endre `IServiceCollection`-objektet som web-API-et vårt lager. For å gjøre det må vi lage vårt eget `WebApplicationFactory`.
 
 Start med å opprett filen `CustomWebApplicationFactory.fs` i `/test/integration`-mappen:
 
