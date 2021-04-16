@@ -409,6 +409,8 @@ src
 
 Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med `NRK.Dotnetskolen.Api.fsproj` og `Program.fs` i `src/api`.
 
+##### Prosjektfil
+
 Åpne `NRK.Dotnetskolen.Api.fsproj` for å se innholdet til prosjektfilen til prosjektet du nettopp opprettet:
 
 ```xml
@@ -431,6 +433,8 @@ Her ser vi at prosjektet:
 - Har outputtypen `exe`
 - Skal kompileres til .NET 5
 - Består av én fil `Program.fs`
+
+##### Programfilen
 
 For å se hva programmet gjør kan vi åpne `Program.fs` og se på koden:
 
