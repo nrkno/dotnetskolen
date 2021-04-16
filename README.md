@@ -2503,7 +2503,9 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: C:\Dev\nrkno@github.com\dotnetskolen\src\api
 ```
 
-Dette starter web-API-et på `https://localhost:5001`. Verifiser at API-et fungerer ved å gå til [https://localhost:5001/ping](https://localhost:5001/ping) i nettleseren din og se at svaret er `pong`.
+Dette starter web-API-et på `http://localhost:5000`. Verifiser at API-et fungerer ved å gå til [http://localhost:5000/ping](http://localhost:5000/ping) i nettleseren din og se at svaret er `pong`.
+
+> Merk at dersom du forsøker å åpne applikasjonen på [https://localhost:5001](https://localhost:5001) kan du få beskjed om at nettleseren din ikke stoler på sertifikatet. For å komme rundt dette må man sette opp "self signed"-sertifikat på maskinen. Microsoft har skrevet en artikkel om det [her](https://docs.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide), men å sette opp det er ikke en del av dette kurset.
 
 ##### Definere route fra API-kontrakt
 
@@ -2548,7 +2550,7 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
 
 Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> text date` for HTTP `GET`-forespørsler til URL-en `/epg/%s`, hvor `%s` matcher tekststrengen oppgitt i URL-en etter `/epg/`.
 
-Start API-et igjen og se hva som skjer dersom du går til [https://localhost:5001/epg/2021-01-01](https://localhost:5001/epg/2021-01-01) i nettleseren.
+Start API-et igjen og se hva som skjer dersom du går til [http://localhost:5000/epg/2021-01-01](http://localhost:5000/epg/2021-01-01) i nettleseren.
 
 ```bash
 $ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
@@ -2933,7 +2935,7 @@ let getAllTransmissions () : Epg =
   // Implementasjon her
 ```
 
-Legg merke til at `getAllTransmissions`-funksjonen skal returnere en verdi av typen `Epg` fra `Domain`-modulen. 
+Legg merke til at `getAllTransmissions`-funksjonen skal returnere en verdi av typen `Epg` fra `Domain`-modulen.
 
 ☑️ Implementér `getAllTransmissions`-funksjonen.
 
@@ -2945,7 +2947,6 @@ Forutsatt at vi har fungerende implementasjoner av `getEpgForDate` og `getAllTra
 
 ```f#
 ...
-open NRK.Dotnetskolen.Domain
 open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.Api.DataAccess
 ...
