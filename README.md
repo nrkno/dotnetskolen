@@ -1303,6 +1303,42 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
 >
 > Moduler i F# blir kompilert til det samme som statiske klasser i C#.
 
+#### Opprette en EPG
+
+Nå som vi har definert domenemodellen vår, skal vi se hvordan vi kan ta den i bruk. Åpne `Program.fs` i web-API-prosjektet og legg til følgende `open`-statement under `open System`:
+
+```f#
+open NRK.Dotnetskolen.Domain
+```
+
+Endre deretter `main`-funksjonen til å opprette en `EPG`-verdi slik:
+
+```f#
+[<EntryPoint>]
+let main argv =
+    let epg = [
+        {
+            Tittel = "Dagsrevyen"
+            Kanal = "NRK1"
+            StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+            SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
+        }
+    ]
+    printfn "%A" epg
+    0 // return an integer exit code
+```
+
+Kjør API-prosjektet igjen med følgende kommando:
+
+``` bash
+$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
+
+[{ Tittel = "Dagsrevyen"
+   Kanal = "NRK1"
+   StartTidspunkt = 16.04.2021 19:00:00 +02:00   
+   SluttTidspunkt = 16.04.2021 19:30:00 +02:00 }]
+```
+
 ### Steg 6 - Enhetstester for domenemodell
 
 **Steg 6 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-5---definere-domenemodell) [⬇ Neste steg](#steg-7---definere-api-kontrakt)
