@@ -16,7 +16,7 @@ Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektro
 
 Vi skal bruke [.NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/) til å opprette prosjekter, samt kjøre koden og testene. I tillegg skal vi dokumentere web-API-et vårt ved hjelp av [OpenAPI](https://www.openapis.org/).
 
-Overordnet kommer mappestrukturen til løsningen vår til å se slik ut når vi er ferdige:
+Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
 
 ```txt
 └── docs (kontrakt for web-API-et)
@@ -33,14 +33,14 @@ Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese:
 - [Hva .NET er](#hva-er-net)
 - [Hva F# er](#hva-er-f)
   
-Deretter bør du uansett lese om
+Før du starter på selve stegene bør du lese:
 
 - [Nødvendige verktøy](#verktøy)
 - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden)
 
-Før du begynner på
+Deretter kan du begynne på selve kurset:
 
-- [selve kurset](#steg)
+- [Første steg](#steg-1---opprette-api)
 
 > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
 >
