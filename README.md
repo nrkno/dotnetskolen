@@ -212,16 +212,6 @@ For å sette opp `.gitignore` i ditt lokale repo:
 2. Lim inn innholdet i denne filen: [https://github.com/github/gitignore/blob/master/VisualStudio.gitignore](https://github.com/github/gitignore/blob/master/VisualStudio.gitignore) 
 3. Lagre og commite `.gitignore`-filen.
 
-### Se løsningsforslag
-
-Dersom du ønsker å se den forventede tilstanden til repoet etter å ha utført de ulike stegene i kurset, kan du sjekke ut branchen med korresponderende navn som seksjonen du ønsker å se på. F.eks. hvis du vil se hvordan repoet ser ut etter "Steg 1 - Opprette API", kan du sjekke ut branchen `steg-1` slik:
-
-``` bash
-$ git checkout steg-1
-
-Switched to branch 'steg-1'
-```
-
 ## Steg
 
 Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt, er du klar til å begynne på selve kurset!
@@ -440,6 +430,16 @@ $ cd src/api
 $ dotnet run
 
 Hello world from F#
+```
+
+### Se løsningsforslag
+
+Dersom du ønsker å se den forventede tilstanden til repoet etter å ha utført de ulike stegene i kurset, kan du sjekke ut branchen med korresponderende navn som seksjonen du ønsker å se på. F.eks. hvis du vil se hvordan repoet ser ut etter første steg, kan du sjekke ut branchen `steg-1` slik:
+
+``` bash
+$ git checkout steg-1
+
+Switched to branch 'steg-1'
 ```
 
 ### Steg 2 - Opprette testprosjekter
