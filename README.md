@@ -36,6 +36,7 @@ Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (so
   - [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
   - [Steg 9 - Integrasjonstester for web-API](#steg-9---integrasjonstester-for-web-api)
   - [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
+- [Credits](#credits)
 
 ## Hva er .NET?
 
@@ -2903,3 +2904,8 @@ Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration:
 Gratulerer! 🎉
 
 Du har nå implementert et web-API i F#, med enhets- og integrasjonstester, API-dokumentasjon i OpenAPI, og gjort alt ved hjelp av .NET CLI.
+
+## Credits
+
+- [@heidisu](https://github.com/heidisu) - Idé og kvalitetssikring
+- [@thomaswolff](https://github.com/thomaswolff) - Forfatter
