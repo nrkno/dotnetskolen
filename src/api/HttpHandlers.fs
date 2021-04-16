@@ -10,17 +10,20 @@ module HttpHandlers =
     open NRK.Dotnetskolen.Dto
     open NRK.Dotnetskolen.Domain
 
-    let isDateValid (dateAsString : string) (date : byref<DateTime>) : bool =
-        DateTime.TryParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, &date)
+    let parseAsDateTime (dateAsString : string) : DateTime option =
+        try
+            let date = DateTime.ParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None)
+            Some date
+        with
+        | _ -> None
 
     let epgHandler (getEpgForDate : DateTime -> Epg) (dateAsString : string) : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            let mutable date = DateTime.MinValue
-            if (isDateValid dateAsString &date) then
+            match (parseAsDateTime dateAsString) with
+            | Some date -> 
                 let response = date
                                 |> getEpgForDate 
                                 |> fromDomain
                                 |> json
                 response next ctx
-            else
-                RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+            | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx

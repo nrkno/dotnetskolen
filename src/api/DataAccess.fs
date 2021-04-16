@@ -44,7 +44,7 @@ module DataAccess =
             StartTidspunkt = DateTimeOffset.Parse(e.StartTidspunkt)
             SluttTidspunkt = DateTimeOffset.Parse(e.SluttTidspunkt)
         })
-        |> List.filter(fun d -> IsTransmissionValid d)
+        |> List.filter(fun d -> isTransmissionValid d)
 
     let getAllTransmissions () : Epg =
         database
