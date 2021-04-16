@@ -409,8 +409,61 @@ src
 
 Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med `NRK.Dotnetskolen.Api.fsproj` og `Program.fs` i `src/api`.
 
-Navnet til prosjektet `NRK.Dotnetskolen.Api.fsproj` følger Microsoft sin navnekonvensjon for programmer og biblioteker i .NET. For å lese mer om denne, og andre navnekonvensjoner i .NET, kan du se her: [https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls)
+Åpne `NRK.Dotnetskolen.Api.fsproj` for å se innholdet til prosjektfilen til prosjektet du nettopp opprettet:
 
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
+```
+
+Her ser vi at prosjektet:
+
+- Har outputtypen `exe`
+- Skal kompileres til .NET 5
+- Består av én fil `Program.fs`
+
+For å se hva programmet gjør kan vi åpne `Program.fs` og se på koden:
+
+```f#
+// Learn more about F# at http://docs.microsoft.com/dotnet/fsharp
+
+open System
+
+// Define a function to construct a message to print
+let from whom =
+    sprintf "from %s" whom
+
+[<EntryPoint>]
+let main argv =
+    let message = from "F#" // Call the function
+    printfn "Hello world %s" message
+    0 // return an integer exit code
+```
+
+Helt i starten av filen ser vi at programmet åpner en modul `System`. Denne modulen er definert i .NET sitt "base class library" - en samling biblioteker som tilbyr mye brukt funksjonalitet, skrevet av Microsoft.
+
+I tillegg ser vi at programmet har to funksjoner:
+
+- `from`
+  - Tar inn et parameter `whom`, og returnerer en tekststreng `from <whom>`
+- `main`
+  - Annotert med `[<EntryPoint>]` - Det er slik .NET vet hvilken funksjon den skal kalle når programmet starter
+  - Får inn argumenter gitt til programmet gjennom parmeteret `argv`
+  - Deklarerer en verdi `message` som er lik resultatet av å kalle `from`-funksjonen med `F#` som input
+  - Skriver tekststrengen `Hello world from F#` til output
+
+> Navnet til prosjektet `NRK.Dotnetskolen.Api.fsproj` følger Microsoft sin navnekonvensjon for programmer og biblioteker i .NET. For å lese mer om denne, og andre navnekonvensjoner i .NET, kan du se her: [https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls)
+>
 > Mappestrukturen over er ment som et forslag, og de videre stegene i kurset bygger på denne. Hvis du bruker kurset som inspirasjon eller veiledning til å opprette ditt eget prosjekt, trenger du ikke følge denne mappestrukturen. Hvordan du strukturerer mappene i ditt system er opp til deg, og er avhengig av aspekter som størrelse på systemet, antall prosjekter, og personlige preferanser.
 
 #### Kjøre API-prosjektet
@@ -446,12 +499,26 @@ Switched to branch 'steg-1'
 
 **Steg 2 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-1---opprette-api) [⬇ Neste steg](#steg-3---opprette-solution)
 
+Tester er en viktig del av systemutvikling fordi de hjelper oss med å verifisere at systemet fungerer slik det skal. Når man skriver tester for kode opererer man med to typer tester:
+
+- Enhetstester
+- Integrasjonstester
+
+Enhetstester verifiserer at små, isolerte deler av koden fungerer slik den skal. Gjerne én og én funksjon. I dette kurset skal vi bruke enhetstester til å verifisere:
+
+- Valideringsregler
+- Mapping fra en type til en annen
+
+Integrasjonstester verifiserer imidlertid at større deler av systemet fungerer slik det skal, og typisk i samspill med andre systemer. I dette kurset skal vi bruke integrasjonstester til å verifisere at web-API-et oppfører seg i henhold til [kontrakten vi definerer](#steg-7---definere-api-kontrakt).
+
 I dette steget skal vi opprette to testprosjekter
 
 - Ett for enhetstester - `NRK.Dotnetskolen.UnitTests`
 - Ett for integrasjonstester - `NRK.Dotnetskolen.IntegrationTests`
 
-For å gjøre dette bruker vi fortsatt `dotnet new`-kommandoen, men denne gangen velger vi en annen [mal](#maler) enn da vi opprettet API-prosjektet. Når man installerer .NET SDK følger det med flere maler for testprosjekter som korresponderer til ulike rammeverk som finnes for å detektere og kjøre tester:
+#### Dotnet new
+
+For å opprette testprosjektene skal vi igjen bruke `dotnet new`-kommandoen, men denne gangen velger vi en annen [mal](#maler) enn da vi opprettet API-prosjektet. Når man installerer .NET SDK følger det med flere maler for testprosjekter som korresponderer til ulike rammeverk som finnes for å detektere og kjøre tester:
 
 - xUnit
 - nUnit
