@@ -10,9 +10,13 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp og implemen
 - Sette opp pakkehåndtering
 - Sette opp tester
 
-Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester. Tanken er at API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://info.nrk.no/presse/tvguide/](https://info.nrk.no/presse/tvguide/). Vi skal bruke [.NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/) til å opprette prosjekter, samt kjøre koden og testene. I tillegg skal vi dokumentere web-API-et vårt ved hjelp av [OpenAPI](https://www.openapis.org/).
+Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester. Tanken er at API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://info.nrk.no/presse/tvguide/](https://info.nrk.no/presse/tvguide/).
 
-Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
+### Fremgangsmåte
+
+Vi skal bruke [.NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/) til å opprette prosjekter, samt kjøre koden og testene. I tillegg skal vi dokumentere web-API-et vårt ved hjelp av [OpenAPI](https://www.openapis.org/).
+
+Overordnet kommer mappestrukturen til løsningen vår til å se slik ut når vi er ferdige:
 
 ```txt
 └── docs (kontrakt for web-API-et)
@@ -20,7 +24,23 @@ Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
 └── test (kildekode til enhets- og integrasjonstestene)
 ```
 
-Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva .NET er](#hva-er-net) og [hva F# er](#hva-er-f). Deretter bør du lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve kurset](#steg).
+### Kom i gang
+
+Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det.
+
+Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese:
+
+- [Hva .NET er](#hva-er-net)
+- [Hva F# er](#hva-er-f)
+  
+Deretter bør du uansett lese om
+
+- [Nødvendige verktøy](#verktøy)
+- [Lokalt oppsett av koden](#lokalt-oppsett-av-koden)
+
+Før du begynner på
+
+- [selve kurset](#steg)
 
 > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
 >
