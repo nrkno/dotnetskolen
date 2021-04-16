@@ -1371,8 +1371,8 @@ Ettersom tittel har lengdebegrensninger er det viktig å teste grensetilfellene 
 [<InlineData("abc12")>]
 [<InlineData(".,-:!")>]
 [<InlineData("ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ")>]
-let ``IsTitleValid_ValidTitle_ReturnsTrue`` (title: string) =
-    let isTitleValid = IsTitleValid title
+let ``isTitleValid valid title returns true`` (title: string) =
+    let isTitleValid = isTitleValid title
 
     Assert.True isTitleValid
 
@@ -1380,27 +1380,27 @@ let ``IsTitleValid_ValidTitle_ReturnsTrue`` (title: string) =
 [<InlineData("abcd")>]
 [<InlineData("@$%&/")>]
 [<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
-let ``IsTitleValid_InvalidTitle_ReturnsFalse`` (title: string) =
-    let isTitleValid = IsTitleValid title
+let ``isTitleValid_InvalidTitle_ReturnsFalse`` (title: string) =
+    let isTitleValid = isTitleValid title
 
     Assert.False isTitleValid
 ```
 
 Her har vi definert to enhetstester som begge tester funksjonen `isTitleValid`. Den første testen verifiserer at `isTitleValid` returnerer `true` når tittelen _er_ gyldig, mens den andre verifiserer det motsatte tilfellet. I xUnit annoterer man testfunksjoner med enten `[<Fact>]` eller `[<Theory>]`. xUnit definerer `Fact`-tester som tester som alltid passerer, mens `Theory`-tester kun passerer for gitte input. Over har vi brukt `Theory`-attributtet på begge testene.
 
-Hvis du forsøker å kjøre testene, vil du se at testprosjektet ikke kompilerer fordi vi verken har referanse til API-prosjektet (hvor domenet vårt er definert) eller har definert funksjonen `IsTitleValid` enda.
+Hvis du forsøker å kjøre testene, vil du se at testprosjektet ikke kompilerer fordi vi verken har referanse til API-prosjektet (hvor domenet vårt er definert) eller har definert funksjonen `isTitleValid` enda.
 
 ```bash
 $ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(13,24): error FS0039: The value or constructor 'IsTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: The value or constructor 'IsTitleValid' is not defined. Maybe you want one of the following:↔   IsTitleValid_ValidTitle_ReturnsTrue 
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(13,24): error FS0039: The value or constructor 'isTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: The value or constructor 'isTitleValid' is not defined. Maybe you want one of the following:↔   isTitleValid_ValidTitle_ReturnsTrue 
 [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
 ```
 
-##### Implementere IsTitleValid
+##### Implementere isTitleValid
 
 For å validere en tittel bruker vi et regulært uttrykk som reflekterer reglene i domenet vårt. Åpne filen `Domain.fs` i API-prosjektet, og legg til følgende `open`-statement under `open system`:
 
@@ -1413,7 +1413,7 @@ Lim deretter inn følgende kode på slutten av filen:
 
 ```f#
 ...
-let IsTitleValid (title: string) : bool =
+let isTitleValid (title: string) : bool =
     let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
     titleRegex.IsMatch(title)
 ```
@@ -1501,31 +1501,31 @@ For å teste valideringsreglen for kanal trenger vi én positiv test per gyldige
 [<Theory>]
 [<InlineData("NRK1")>]
 [<InlineData("NRK2")>]
-let ``IsChannelValid_ValidChannel_ReturnsTrue`` (channel: string) =
-    let isChannelValid = IsChannelValid channel
+let ``isChannelValid valid channel returns true`` (channel: string) =
+    let isChannelValid = isChannelValid channel
 
     Assert.True isChannelValid
 
 [<Theory>]
 [<InlineData("nrk1")>]
 [<InlineData("NRK3")>]
-let ``IsChannelValid_InvalidChannel_ReturnsFalse`` (channel: string) =
-    let isChannelValid = IsChannelValid channel
+let ``isChannelValid invalid channelr returns false`` (channel: string) =
+    let isChannelValid = isChannelValid channel
 
     Assert.False isChannelValid
 ```
 
-##### Implementasjon av IsChannelValid
+##### Implementasjon av isChannelValid
 
-Før vi kjører testene igjen, definerer vi skallet for `IsChannelValid` i `Domain.fs`:
+Før vi kjører testene igjen, definerer vi skallet for `isChannelValid` i `Domain.fs`:
 
 ```f#
 ...
-let IsChannelValid (channel: string) : bool =
+let isChannelValid (channel: string) : bool =
     // Implementasjon her
 ```
 
-☑️ Implementér `IsChannelValid` slik at enhetstestene passerer.
+☑️ Implementér `isChannelValid` slik at enhetstestene passerer.
 
 ```bash
 $ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj
@@ -1555,46 +1555,46 @@ Lim inn følgende enhetstester for validering av sendetidspunkter i `Tests.fs`:
 ```f#
 ...
 [<Fact>]
-let ``AreStartAndEndTimesValid_StartBeforeEnd_ReturnsTrue`` () =
+let ``areStartAndEndTimesValid start before end returns true`` () =
     let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes 30.
 
-    let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
+    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
 
     Assert.True areStartAndSluttTidspunktValid
 
 [<Fact>]
-let ``AreStartAndEndTimesValid_StartAfterEnd_ReturnsFalse`` () =
+let ``areStartAndEndTimesValid start after end returns false`` () =
     let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes -30.
 
-    let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
+    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
 
     Assert.False areStartAndSluttTidspunktValid
 
 [<Fact>]
-let ``AreStartAndEndTimesValid_StartEqualsEnd_ReturnsFalse`` () =
+let ``areStartAndEndTimesValid start equals end returns false`` () =
     let startTime = DateTimeOffset.Now
     let endTime = startTime
 
-    let areStartAndSluttTidspunktValid = AreStartAndEndTimesValid startTime endTime
+    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
 
     Assert.False areStartAndSluttTidspunktValid
 ```
 
-> Merk at her bruker vi `[<Fact>]`-attributtet istedenfor `[<Theory>]`. `[<InlineData>]`-attributtet som man bruker med `[<Theory>]`-attributtet krever verdier som er konstanse ved kompilering. Ettersom vi benytter `DateTimeOffset`-objekter (som ikke er konstante ved kompilering) som input til `AreStartAndEndTimesValid`, bruker vi derfor `[<Fact>]`-attributtet.
+> Merk at her bruker vi `[<Fact>]`-attributtet istedenfor `[<Theory>]`. `[<InlineData>]`-attributtet som man bruker med `[<Theory>]`-attributtet krever verdier som er konstanse ved kompilering. Ettersom vi benytter `DateTimeOffset`-objekter (som ikke er konstante ved kompilering) som input til `areStartAndEndTimesValid`, bruker vi derfor `[<Fact>]`-attributtet.
 
-##### Implementasjon av AreStartAndEndTimesValid
+##### Implementasjon av areStartAndEndTimesValid
 
-Funksjonen for å validere sendetidspunktene må undersøke om sluttidspunktet er større enn starttidspunktet. Lim inn skallet til `AreStartAndEndTimesValid` i `Domain.fs`:
+Funksjonen for å validere sendetidspunktene må undersøke om sluttidspunktet er større enn starttidspunktet. Lim inn skallet til `areStartAndEndTimesValid` i `Domain.fs`:
 
 ```f#
 ...
-let AreStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
+let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
     // Implementasjon her
 ```
 
-☑️ Implementér `AreStartAndEndTimesValid` og få enhetstestene til å passere.
+☑️ Implementér `areStartAndEndTimesValid` og få enhetstestene til å passere.
 
 ```bash
 $ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj
@@ -1621,17 +1621,17 @@ Nå som vi har funksjoner for å validere de ulike feltene i en sending, kan vi 
 
 Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene av en sending, kan enhetstestene for validering av hele sendingen være ganske enkle. Skriv én positiv test for en gyldig sending, og én negativ test for en ugyldig sending i `Tests.fs`:
 
-##### Implementasjon av IsTransmissionValid
+##### Implementasjon av isTransmissionValid
 
-Legg til følgende skall for `IsTransmissionValid` i `Domain.fs`:
+Legg til følgende skall for `isTransmissionValid` i `Domain.fs`:
 
 ```f#
 ...
-let IsTransmissionValid (transmission: Sending) : bool =
+let isTransmissionValid (transmission: Sending) : bool =
     // Implementasjon her
 ```
 
-☑️ Implementér `IsTransmissionValid`, og få enhetstestene til å passere:
+☑️ Implementér `isTransmissionValid`, og få enhetstestene til å passere:
 
 ```bash
 $ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj 
@@ -2134,7 +2134,7 @@ Legg til `EntryPoint.fs` i prosjektfilen til API-prosjektet:
 </Project>
 ```
 
-Nå som vi har `EntryPoint`-klassen definert, må vi definere `CreateHostBuilder`-funksjonen. Åpne `Program.fs` i API-prosjektet og legg til koden under mellom `open System` og `let from whom =`:
+Nå som vi har `EntryPoint`-klassen definert, må vi definere `CreateHostBuilder`-funksjonen. Åpne `Program.fs` i API-prosjektet og legg til koden under mellom `open NRK.Dotnetskolen.Domain` og `let from whom =`:
 
 ```f#
 open Microsoft.AspNetCore.Hosting
@@ -2343,21 +2343,28 @@ I [forrige steg](#steg-9---integrasjonstester-for-web-api) opprettet vi et skall
 ```bash
 $ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
 
-Hello world from F#
+[{ Tittel = "Dagsrevyen"
+   Kanal = "NRK1"
+   StartTidspunkt = 16.04.2021 19:00:00 +02:00   
+   SluttTidspunkt = 16.04.2021 19:30:00 +02:00 }]
 ```
 
-Det eneste programmet i API-prosjektet gjør er å printe tekststrengen `Hello world from F#` til terminalen:
+Det eneste programmet i API-prosjektet gjør er å printe EPG-verdien du opprettet på slutten av [steg 5](#definere-domenemodell):
 
 ```f#
 ...
-// Define a function to construct a message to print
-let from whom =
-    sprintf "from %s" whom
 
 [<EntryPoint>]
 let main argv =
-    let message = from "F#" // Call the function
-    printfn "Hello world %s" message
+    let epg = [
+        {
+            Tittel = "Dagsrevyen"
+            Kanal = "NRK1"
+            StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+            SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
+        }
+    ]
+    printfn "%A" epg
     0 // return an integer exit code
 ```
 
