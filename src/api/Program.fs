@@ -1,5 +1,4 @@
 open System
-open NRK.Dotnetskolen.Domain
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.DependencyInjection
