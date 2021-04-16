@@ -232,6 +232,17 @@ Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt,
 
 I dette steget starter vi med et repo helt uten kode, og bruker .NET CLI til å opprette vårt første prosjekt `NRK.Dotnetskolen.Api`.
 
+#### .NET-prosjekter
+
+For å kunne organisere kode i .NET bruker man _prosjekter_. Et prosjekt er en samling med kildekodefiler og eventuelle andre ressursfiler, og alle filene som inngår i prosjektet er referert til i en _prosjektfil_. For F#-prosjekter har slike prosjektfiler filendelsen `.fsproj`.
+
+Når man kompilerer .NET-prosjekter kan man velge mellom to typer output:
+
+- Kjørbar fil (executable) - et program som kan kjøres
+- Klassebibliotek ("dynamically linked library" eller DLL) - en samling med funksjonalitet som kan benyttes av andre programmer
+
+Alle prosjektene vi skal opprette i dette kurset er kjørbare filer.
+
 #### Dotnet new
 
 Som nevnt i [innledningen](#dotnetskolen) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange underkommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet)
@@ -300,7 +311,7 @@ Run 'dotnet [command] --help' for more information on a command.
 
 #### Maler
 
-For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. Som første parameter tar `new`-kommandoen inn hva slags type prosjekt som skal opprettes. Når man installerer .NET SDK får man med et sett med forhåndsdefinerte prosjektmaler for vanlige typer prosjekter. For å se malene som er installert på din maskin kan du kjøre `dotnet new` slik:
+For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. `dotnet new` oppretter .NET-prosjekter, og som første parameter tar `new`-kommandoen inn hva slags mal prosjektet man oppretter skal følge. Når man installerer .NET SDK får man med et sett med forhåndsdefinerte prosjektmaler for vanlige formål. For å se malene som er installert på din maskin kan du kjøre `dotnet new` slik:
 
 ``` bash
 $ dotnet new
