@@ -12,7 +12,7 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp og implemen
 
 Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester.
 
-Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva .NET er](#hva-er-net). Deretter bør du lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve kurset](#steg).
+Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva .NET er](#hva-er-net) og [hva F# er](#hva-er-f). Deretter bør du lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve kurset](#steg).
 
 Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
 
@@ -21,6 +21,7 @@ Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (so
 ## Innholdsfortegnelse
 
 - [Hva er .NET?](#hva-er-net)
+- [Hva er F#?](#hva-er-f)
 - [Hvordan komme i gang](#hvordan-komme-i-gang)
   - [Nødvendige verktøy](#verktøy)
   - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden)
@@ -64,6 +65,16 @@ For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Micros
 - [https://en.wikipedia.org/wiki/Common_Intermediate_Language](https://en.wikipedia.org/wiki/Common_Intermediate_Language)
 - [https://docs.microsoft.com/en-us/dotnet/standard/clr](https://docs.microsoft.com/en-us/dotnet/standard/clr)
 - [https://dotnet.microsoft.com/apps/xamarin](https://dotnet.microsoft.com/apps/xamarin)
+
+## Hva er F#?
+
+F# er et funksjonelt programmeringsspråk for .NET, og er mye brukt i NRK TV og NRK Radio. Under er noen nyttige ressurser om F#.
+
+- Innføring i syntaks
+  - F# cheat sheet: [http://dungpa.github.io/fsharp-cheatsheet/](http://dungpa.github.io/fsharp-cheatsheet/)
+  - F# på 60 sekunder: [https://fsharpforfunandprofit.com/posts/fsharp-in-60-seconds/](https://fsharpforfunandprofit.com/posts/fsharp-in-60-seconds/)
+- [https://fsharpforfunandprofit.com](https://fsharpforfunandprofit.com)
+  - Nettsted laget av Scott Wlaschin, med mange utfyllende og forklarende artikler om F# og funksjonell programmering. For mer utfyllende innføring i F# se: [https://fsharpforfunandprofit.com/site-contents/#understanding-f](https://fsharpforfunandprofit.com/site-contents/#understanding-f)
 
 ## Hvordan komme i gang
 
@@ -2907,5 +2918,5 @@ Du har nå implementert et web-API i F#, med enhets- og integrasjonstester, API-
 
 ## Medvirkende
 
-- [@heidisu](https://github.com/heidisu) - Idé og kvalitetssikring
 - [@thomaswolff](https://github.com/thomaswolff) - Forfatter
+- [@heidisu](https://github.com/heidisu) - Idé og kvalitetssikring
