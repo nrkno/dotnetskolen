@@ -127,6 +127,8 @@ Git er et gratis versjonshåndteringssystem som finnes til alle plattformer. Der
 
 Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/downloads).
 
+Dersom Git er nytt for deg kan det være nyttig å lese denne artikkelen om hvordan man jobber med endringer i et Git-repo: [https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository)
+
 #### .NET SDK
 
 Når man installerer .NET har man valget mellom å installere
@@ -489,7 +491,75 @@ $ dotnet run
 Hello world from F#
 ```
 
-### Se løsningsforslag
+#### Lagre endringer i Git
+
+Nå som du har fullført det første steget i kurset er det en fin anledning til å lagre endringene du har gjort så langt i Git.
+
+##### Se endringer
+
+Gitt at du fulgte veiledningen for å [sette opp koden lokalt](#lokalt-oppsett-av-koden) før du begynte å kode, kan du kjøre følgende kommando for å se hvilke endringer som er gjort i repoet:
+
+```bash
+$ git status
+
+On branch <branchnavn>
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        src/
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+I outputen over ser vi at Git har oppdaget at det er opprettet en mappe `src` og innhold i den, men Git overvåker ikke disse per nå (`untracked files`).
+
+##### Legg til endringer i Git
+
+For å få Git til å overvåke filene vi har opprettet, og deretter se status i Git kan du kjøre følgende kommandoer:
+
+```bash
+$ git add .
+$ git status
+
+On branch <branchnavn>
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   src/api/NRK.Dotnetskolen.Api.fsproj
+        new file:   src/api/Program.fs
+```
+
+Nå overvåker Git filene.
+
+##### Lagre endringene
+
+For å lagre nåværende tilstand av filene i en "commit" i Git kan du kjøre følgende kommando:
+
+```bash
+$ git commit -m "Opprettet API-prosjekt"
+
+[<branchnavn> 00d11c8] Opprettet API-prosjekt
+ 2 files changed, 25 insertions(+)
+ create mode 100644 src/api/NRK.Dotnetskolen.Api.fsproj
+ create mode 100644 src/api/Program.fs
+```
+
+##### Se alle historiske endringer i repoet
+
+For å se alle commits i nåværende branch i Git, kan du kjøre følgende kommando:
+
+```bash
+$ git log
+
+commit 00d11c82d0179f41883a55ce88e147a73ae60ee2 (HEAD -> <branchnavn>)
+Author: Thomas Wolff <thomas.wolff@nrk.no>
+Date:   Fri Apr 16 13:43:40 2021 +0200
+
+    Opprettet API-prosjekt
+...
+```
+
+Tips! Gjenta de tre stegene over med å se endringer, legge dem til, og lagre dem etter å ha fullført hvert steg for å ha bedre oversikt over hva du har vært gjennom i kurset.
+
+#### Se løsningsforslag
 
 Dersom du ønsker å se den forventede tilstanden til repoet etter å ha utført de ulike stegene i kurset, kan du sjekke ut branchen med korresponderende navn som seksjonen du ønsker å se på. F.eks. hvis du vil se hvordan repoet ser ut etter første steg, kan du sjekke ut branchen `steg-1` slik:
 
