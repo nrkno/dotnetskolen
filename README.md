@@ -4,19 +4,27 @@
 
 Velkommen til Dotnetskolen!
 
-Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp og implementere et .NET-prosjekt fra bunnen av, steg for steg. Målet med kurset er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
+Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp og implementere en .NET-løsning fra bunnen av, steg for steg. Målet med kurset er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
 
 - Opprette prosjekter og mappestruktur
 - Sette opp pakkehåndtering
 - Sette opp tester
 
-Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester.
+Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester. Tanken er at API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://info.nrk.no/presse/tvguide/](https://info.nrk.no/presse/tvguide/). Vi skal bruke [.NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/) til å opprette prosjekter, samt kjøre koden og testene. I tillegg skal vi dokumentere web-API-et vårt ved hjelp av [OpenAPI](https://www.openapis.org/).
+
+Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
+
+```txt
+└── docs (kontrakt for web-API-et)
+└── src  (kildekode til web-API-et)
+└── test (kildekode til enhets- og integrasjonstestene)
+```
 
 Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det. Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese [hva .NET er](#hva-er-net) og [hva F# er](#hva-er-f). Deretter bør du lese [hvordan du kommer i gang](#hvordan-komme-i-gang) før du begynner på [selve kurset](#steg).
 
-Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
-
 > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
+>
+> Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
 
 ## Innholdsfortegnelse
 
@@ -1472,10 +1480,10 @@ Foreløpig skal vi ikke gjøre noe mer med JSON schemaet enn å ha det som dokum
     └── ...
 └── docs
     └── epg.schema.json
-src
-└── ...
-test
-└── ...
+└── src
+    └── ...
+└── test
+    └── ...
 └── Dotnetskolen.sln
 └── paket.dependencies
 ```
@@ -1490,10 +1498,10 @@ Nå som vi har formatet på innholdet i responsen vår, kan vi definere Open API
 └── docs
     └── epg.schema.json
     └── openapi.json
-src
-└── ...
+└── src
+    └── ...
 test
-└── ...
+    └── ...
 └── Dotnetskolen.sln
 └── paket.dependencies
 ``` definere litt metadata for kontrakten:
