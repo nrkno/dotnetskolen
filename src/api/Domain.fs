@@ -14,17 +14,17 @@ module Domain =
 
     type Epg = Sending list
 
-    let IsTitleValid (title: string) : bool =
+    let isTitleValid (title: string) : bool =
         let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
         titleRegex.IsMatch(title)
 
-    let IsChannelValid (channel: string) : bool =
+    let isChannelValid (channel: string) : bool =
         List.contains channel ["NRK1"; "NRK2"]
 
-    let AreStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
+    let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
         startTime < endTime
 
-    let IsTransmissionValid (transmission: Sending) : bool =
-        (IsTitleValid transmission.Tittel) && 
-        (IsChannelValid transmission.Kanal) && 
-        (AreStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
+    let isTransmissionValid (transmission: Sending) : bool =
+        (isTitleValid transmission.Tittel) && 
+        (isChannelValid transmission.Kanal) && 
+        (areStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
