@@ -555,7 +555,54 @@ test
     └── Tests.fs
 ```
 
-Hvis du åpner `Tests.fs` ser du at malen inkluderer en helt basal test som alltid passerer:
+Åpne filen `NRK.Dotnetskolen.UnitTests.fsproj`:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+    <GenerateProgramFile>false</GenerateProgramFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Tests.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="1.3.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
+```
+
+I prosjektfilen kan vi se at enhetstestprosjektet:
+
+- Skal kompileres til .NET 5
+- Inneholder to kildekodefiler
+  - `Tests.fs`
+  - `Program.fs`
+- Har referanser til fire NuGet-pakker
+  - `Microsoft.NET.Test.Sdk` - Pakke for å bygge .NET testprosjekter
+  - `xunit` - Bibliotek for å skrive enhetstester
+  - `xunit.runner.visualstudio` - Pakke for å kjøre Xunit-tester i "Test explorer" i Visual Studio [https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019](https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019)
+  - `coverlet.collector` - bibliotek
+
+> Vi ser nærmere på hva NuGet-pakker er i [steg 4](#steg-4---pakkehåndtering).
+
+Åpne filen `Tests.fs`:
 
 ```f#
 module Tests
@@ -568,6 +615,15 @@ let ``My test`` () =
     Assert.True(true)
 
 ```
+
+Øverst i filen blir det definert en F#-modul `Tests`. I tillegg blir modulene `System` og `Xunit` åpnet, som kommer fra hhv. basebiblioteket til Microsoft, og biblioteket Xunit. Videre blir det definert en test ``` ``My test`` ```. Måten vi ser at det er en test på er ved å se at den er annotert med `[<Fact>]`. Xunit opererer med to annotasjoner for tester:
+
+- `[<Fact>]`
+- `[<Theory>]`)
+
+Forskjellen på disse blir nærmere forklart i [steget om enhetstester](#steg-6---enhetstester-for-domenemodell).
+
+Merk at ``` `` ``` er brukt for å kunne ha et variabelnavn som inneholder mellomrom. På denne måten kan man ha et funksjonsnavn som beskriver testen og samtidig er lesbar for mennesker.
 
 For å kjøre testen i enhetstestprosjektet kan du kjøre følgende kommando
 
