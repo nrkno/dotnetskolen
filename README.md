@@ -1380,7 +1380,7 @@ let ``isTitleValid valid title returns true`` (title: string) =
 [<InlineData("abcd")>]
 [<InlineData("@$%&/")>]
 [<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
-let ``isTitleValid_InvalidTitle_ReturnsFalse`` (title: string) =
+let ``isTitleValid invalid title returns false`` (title: string) =
     let isTitleValid = isTitleValid title
 
     Assert.False isTitleValid
@@ -1396,8 +1396,7 @@ $ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
   Determining projects to restore...
   All projects are up-to-date for restore.
 C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(13,24): error FS0039: The value or constructor 'isTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: The value or constructor 'isTitleValid' is not defined. Maybe you want one of the following:↔   isTitleValid_ValidTitle_ReturnsTrue 
-[C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: The value or constructor 'isTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
 ```
 
 ##### Implementere isTitleValid
