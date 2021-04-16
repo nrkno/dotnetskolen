@@ -555,6 +555,8 @@ test
     └── Tests.fs
 ```
 
+##### Prosjektfil
+
 Åpne filen `NRK.Dotnetskolen.UnitTests.fsproj`:
 
 ```xml
@@ -602,6 +604,8 @@ I prosjektfilen kan vi se at enhetstestprosjektet:
 
 > Vi ser nærmere på hva NuGet-pakker er i [steg 4](#steg-4---pakkehåndtering).
 
+##### Testfilen
+
 Åpne filen `Tests.fs`:
 
 ```f#
@@ -619,11 +623,13 @@ let ``My test`` () =
 Øverst i filen blir det definert en F#-modul `Tests`. I tillegg blir modulene `System` og `Xunit` åpnet, som kommer fra hhv. basebiblioteket til Microsoft, og biblioteket Xunit. Videre blir det definert en test ``` ``My test`` ```. Måten vi ser at det er en test på er ved å se at den er annotert med `[<Fact>]`. Xunit opererer med to annotasjoner for tester:
 
 - `[<Fact>]`
-- `[<Theory>]`)
+- `[<Theory>]`
 
 Forskjellen på disse blir nærmere forklart i [steget om enhetstester](#steg-6---enhetstester-for-domenemodell).
 
-Merk at ``` `` ``` er brukt for å kunne ha et variabelnavn som inneholder mellomrom. På denne måten kan man ha et funksjonsnavn som beskriver testen og samtidig er lesbar for mennesker.
+Merk at ``` ``<variabelnavn med mellomrom>`` ``` er brukt for å kunne ha et variabelnavn som inneholder mellomrom. På denne måten kan man ha et funksjonsnavn som beskriver testen og samtidig er lesbar for mennesker.
+
+##### Kjøre enhetstestprosjektet
 
 For å kjøre testen i enhetstestprosjektet kan du kjøre følgende kommando
 
