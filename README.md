@@ -506,8 +506,7 @@ Tester er en viktig del av systemutvikling fordi de hjelper oss med å verifiser
 
 Enhetstester verifiserer at små, isolerte deler av koden fungerer slik den skal. Gjerne én og én funksjon. I dette kurset skal vi bruke enhetstester til å verifisere:
 
-- Valideringsregler
-- Mapping fra en type til en annen
+- Valideringsregler i domenet vårt
 
 Integrasjonstester verifiserer imidlertid at større deler av systemet fungerer slik det skal, og typisk i samspill med andre systemer. I dette kurset skal vi bruke integrasjonstester til å verifisere at web-API-et oppfører seg i henhold til [kontrakten vi definerer](#steg-7---definere-api-kontrakt).
 
