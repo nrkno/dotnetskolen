@@ -70,7 +70,7 @@ For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Micros
 
 F# er et funksjonelt programmeringsspråk for .NET, og er mye brukt i NRK TV og NRK Radio siden det egner seg godt til å drive modellering i [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design). Når man [installerer .NET SDK](#net-sdk) følger kompilator for F# med, og man kan utvikle og kjøre F#-kode. Som nevnt i innledningen skal all koding i dette kurset gjøres i F#.
 
-Under er noen nyttige ressurser om F#.
+Dersom F# er nytt, eller du ønsker å friske opp minnet om språket finner du noen nyttige lenker under:
 
 - Innføring i syntaks
   - F# cheat sheet: [http://dungpa.github.io/fsharp-cheatsheet/](http://dungpa.github.io/fsharp-cheatsheet/)
