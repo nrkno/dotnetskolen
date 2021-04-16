@@ -1328,13 +1328,9 @@ La oss begynne med å verifisere at vi implementerer valideringsreglene for titt
 
 ##### Enhetstester
 
-Ettersom tittel har lengdebegrensninger er det viktig å teste grensetilfellene til lengden. I tillegg er det viktig å teste at kun gyldige tegn er lov. Erstatt innholdet i `Tests.fs` i enhetstestprosjektet med koden under.
+Ettersom tittel har lengdebegrensninger er det viktig å teste grensetilfellene til lengden. I tillegg er det viktig å teste at kun gyldige tegn er lov. Erstatt den eksisterende testen i `Tests.fs` i enhetstestprosjektet med testene under.
 
 ```f#
-module Tests
-
-open Xunit
-
 [<Theory>]
 [<InlineData("abc12")>]
 [<InlineData(".,-:!")>]
@@ -1518,17 +1514,7 @@ Det siste vi skal validere i domenet vårt er at sluttidspunkt er etter starttid
 
 ##### Enhetstester
 
-Start med å legg til `open System` over `open Xunit` i `Tests.fs`:
-
-```f#
-module Tests
-
-open System
-open Xunit
-...
-```
-
-Lim deretter inn følgende enhetstester for validering av sendetidspunkter i `Tests.fs`:
+Lim inn følgende enhetstester for validering av sendetidspunkter i `Tests.fs`:
 
 ```f#
 ...
