@@ -706,6 +706,10 @@ test
     └── Tests.fs
 ```
 
+Foreløpig er prosjekt- og test-filene til integrasjonstestprosjektet helt like de fra enhetstestprosjektet (bortsett fra prosjektnavnet). Forskjellen på enhets- og integrasjonstestene blir tydeligere når vi skal skrive testene i [steg 6](#steg-6---enhetstester-for-domenemodell) og [steg 9](#steg-9---integrasjonstester-for-web-api).
+
+##### Kjøre integrasjonstester
+
 For å kjøre testene i integrasjonstestprosjektet kan du kjøre følgende kommando
 
 ``` bash
