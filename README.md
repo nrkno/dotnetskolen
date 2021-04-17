@@ -130,7 +130,7 @@ Git er et gratis versjonshåndteringssystem som finnes til alle plattformer. Der
 
 Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/downloads).
 
-Dersom Git er nytt for deg kan det være nyttig å lese denne artikkelen om hvordan man jobber med endringer i et Git-repo: [https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository). Det er forøvrig instruksjoner på [slutten av første steg](#lagre-endringer-i-git) for hvordan du kan lagre endringer du gjør underveis i kurset i Git.
+Dersom Git er nytt for deg kan det være nyttig å lese denne artikkelen om hvordan man jobber med endringer i et Git-repo: [https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository). Det er forøvrig instruksjoner på [slutten av første steg](#lagre-endringer-i-git-valgfritt) for hvordan du kan lagre endringer du gjør underveis i kurset i Git.
 
 #### .NET SDK
 
@@ -500,7 +500,7 @@ $ dotnet run
 Hello world from F#
 ```
 
-#### Lagre endringer i Git
+#### Lagre endringer i Git (valgfritt)
 
 Nå som du har fullført det første steget i kurset er det en fin anledning til å lagre endringene du har gjort så langt i Git.
 
