@@ -36,7 +36,7 @@ Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese:
 Før du starter på selve stegene i kurset bør du lese om:
 
 - [Nødvendige verktøy for å gjennomføre kurset](#verktøy)
-- [Lokalt oppsett av koden](#lokalt-oppsett-av-koden)
+- [Lokalt oppsett av koden](#lokalt-oppsett-av-koden-valgfritt)
 
 Deretter kan du begynne på selve kurset:
 
@@ -52,7 +52,7 @@ Deretter kan du begynne på selve kurset:
 - [Hva er F#?](#hva-er-f)
 - [Hvordan komme i gang](#hvordan-komme-i-gang)
   - [Nødvendige verktøy](#verktøy)
-  - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden)
+  - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden-valgfritt)
   - [Se løsningsforslag](#se-løsningsforslag)
 - [Steg](#steg)
   - [Steg 1 - Opprette API](#steg-1---opprette-api)
@@ -506,7 +506,7 @@ Nå som du har fullført det første steget i kurset er det en fin anledning til
 
 ##### Se endringer
 
-Gitt at du fulgte veiledningen for å [sette opp koden lokalt](#lokalt-oppsett-av-koden) før du begynte å kode, kan du kjøre følgende kommando for å se hvilke endringer som er gjort i repoet:
+Gitt at du fulgte veiledningen for å [sette opp koden lokalt](#lokalt-oppsett-av-koden-valgfritt) før du begynte å kode, kan du kjøre følgende kommando for å se hvilke endringer som er gjort i repoet:
 
 ```bash
 $ git status
