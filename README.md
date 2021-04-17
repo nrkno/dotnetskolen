@@ -1625,7 +1625,9 @@ Nå som vi har funksjoner for å validere de ulike feltene i en sending, kan vi 
 
 ##### Enhetstester
 
-Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene av en sending, kan enhetstestene for validering av hele sendingen være ganske enkle. Skriv én positiv test for en gyldig sending, og én negativ test for en ugyldig sending i `Tests.fs`:
+Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene av en sending, kan enhetstestene for validering av hele sendingen være ganske enkle. 
+
+☑️ Skriv én positiv test for en gyldig sending, og én negativ test for en ugyldig sending i `Tests.fs` som antar at det finnes en funksjon `isTransmissionValid` i `Domain.fs`
 
 ##### Implementasjon av isTransmissionValid
 
