@@ -26,21 +26,21 @@ Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
 
 ### Kom i gang
 
-Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå kan ha nytte av det.
+Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå skal kunne ha nytte av det.
 
 Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese:
 
 - [Hva .NET er](#hva-er-net)
 - [Hva F# er](#hva-er-f)
   
-Før du starter på selve stegene bør du lese:
+Før du starter på selve stegene i kurset bør du lese om:
 
-- [Nødvendige verktøy](#verktøy)
+- [Nødvendige verktøy for å gjennomføre kurset](#verktøy)
 - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden)
 
 Deretter kan du begynne på selve kurset:
 
-- [Første steg](#steg-1---opprette-api)
+- [Gå til første steg](#steg-1---opprette-api)
 
 > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
 >
@@ -98,23 +98,26 @@ For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Micros
 
 F# er et funksjonelt programmeringsspråk for .NET, og er mye brukt i NRK TV og NRK Radio siden det egner seg godt til å drive modellering i [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design). Når man [installerer .NET SDK](#net-sdk) følger kompilator for F# med, og man kan utvikle og kjøre F#-kode. Som nevnt i innledningen skal all koding i dette kurset gjøres i F#.
 
-Dersom F# er nytt, eller du ønsker å friske opp minnet om språket finner du noen nyttige lenker under:
+Dersom F# er nytt for deg, eller du ønsker å friske opp minnet om språket finner du noen nyttige lenker under:
 
 - Innføring i syntaks
   - F# cheat sheet: [http://dungpa.github.io/fsharp-cheatsheet/](http://dungpa.github.io/fsharp-cheatsheet/)
   - F# på 60 sekunder: [https://fsharpforfunandprofit.com/posts/fsharp-in-60-seconds/](https://fsharpforfunandprofit.com/posts/fsharp-in-60-seconds/)
 - [https://fsharpforfunandprofit.com](https://fsharpforfunandprofit.com)
-  - Nettsted laget av Scott Wlaschin, med mange utfyllende og forklarende artikler om F# og funksjonell programmering. For mer utfyllende innføring i F# se: [https://fsharpforfunandprofit.com/site-contents/#understanding-f](https://fsharpforfunandprofit.com/site-contents/#understanding-f)
+  - Nettsted laget av Scott Wlaschin, med mange utfyllende og forklarende artikler om F# og funksjonell programmering. 
+  - For mer utfyllende innføring i F# se: [https://fsharpforfunandprofit.com/site-contents/#understanding-f](https://fsharpforfunandprofit.com/site-contents/#understanding-f)
 
 ## Hvordan komme i gang
 
-Påse at du har de [verktøyene](#verktøy) som kreves for å gjennomføre kurset. Deretter kan du [sette opp koden lokalt](#lokalt-oppsett-av-koden), og gå i gang med [første steg](#steg-1---opprette-api).
+Veiledningen i dette kurset forutsetter at du har noen verktøy installert på maskinen din. Se gjennom listen under for å sørge for at du har det som trengs.
+
+> Å installere og bruke Git er valgfritt, men er kjekt å ha dersom du ønsker å ha veiledningen, og løsningsforslag, lokalt på maskinen din.
 
 ### Verktøy
 
 For å gjennomføre kurset må du ha satt opp følgende:
 
-- [Git](#Git)
+- [Git (valgfritt)](#Git)
 - [.NET SDK](#NET-SDK)
 - [En IDE](#IDE)
   - [Rider](https://www.jetbrains.com/rider/download)
@@ -127,7 +130,7 @@ Git er et gratis versjonshåndteringssystem som finnes til alle plattformer. Der
 
 Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/downloads).
 
-Dersom Git er nytt for deg kan det være nyttig å lese denne artikkelen om hvordan man jobber med endringer i et Git-repo: [https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository)
+Dersom Git er nytt for deg kan det være nyttig å lese denne artikkelen om hvordan man jobber med endringer i et Git-repo: [https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository). Det er forøvrig instruksjoner på [slutten av første steg](#lagre-endringer-i-git) for hvordan du kan lagre endringer du gjør underveis i kurset i Git.
 
 #### .NET SDK
 
