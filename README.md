@@ -174,7 +174,7 @@ Velg den IDE-en som passer dine behov.
 
 > Merk at et vanlig use case for IDE-er er at de også blir brukt til å kompilere og kjøre kode. Instruksjonene i kurset kommer imidlertid til å benytte .NET CLI til dette. Du står selvfølgelig fritt frem til å bygge og kjøre koden ved hjelp av din IDE hvis du ønsker det.
 
-### Lokalt oppsett av koden
+### Lokalt oppsett av koden (valgfritt)
 
 #### Klone repo
 
