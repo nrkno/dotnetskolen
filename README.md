@@ -54,12 +54,14 @@ Har du tilbakemeldinger, eller lurer på noe knyttet til kurset? Opprett gjerne 
 
 ### 🔗 Nyttige lenker
 
-- Andre kurs i NRK
-  - F#-skolen, kurs i F# laget av ansatte i NRK TV - [https://github.com/nrkno/fsharpskolen](https://github.com/nrkno/fsharpskolen)
-  - Kubernetes-kurs i regi av plattform i NRK - [https://github.com/nrkno/plattform-k8s-kurs](https://github.com/nrkno/plattform-k8s-kurs)
-
 - Microsoft's offisielle dokumentasjon for .NET - [https://docs.microsoft.com/en-us/dotnet/](https://docs.microsoft.com/en-us/dotnet/)
 - F# cheat sheet - [http://dungpa.github.io/fsharp-cheatsheet/](http://dungpa.github.io/fsharp-cheatsheet/)
+
+### Andre kurs i NRK
+
+- F#-skolen, kurs i F# laget av ansatte i NRK TV - [https://github.com/nrkno/fsharpskolen](https://github.com/nrkno/fsharpskolen)
+- Kubernetes-kurs i regi av plattform i NRK - [https://github.com/nrkno/plattform-k8s-kurs](https://github.com/nrkno/plattform-k8s-kurs)
+
 
 ### 👩👨 Medvirkende
 
