@@ -17,7 +17,7 @@
 - ~~ i kodeeksempelet for httpHandlers så tror jeg module NRK.Dotnetskolen.Api.HttpHandlers  bare skal være HttpHandlers? ~~
 - ~~ Fikse navn på tester til å være uten understrek ~~
 - ~~ Skrive om integrasjonstester til å være funksjonelle ~~
-- Oppdatere veiledningen for steg 10 nå som testene er funksjonelle
+- ~~ Oppdatere veiledningen for steg 10 nå som testene er funksjonelle ~~
 - Skrive om option og pattern matching i steg 10
 - skrive to ord om >=> ?
 

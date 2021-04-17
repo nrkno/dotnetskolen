@@ -1,9 +1,5 @@
 # Dotnetskolen
 
-## Notis
-
-Veiledningen for steg-10 er ikke ferdig enda.
-
 ## Innledning
 
 Velkommen til Dotnetskolen!
@@ -198,7 +194,7 @@ $ git branch # List ut alle brancher du har sjekket ut lokalt
 
 #### Sjekke ut egen branch
 
-Før du begynner å kode kan du gjerne lage din egen branch med `git checkout -b <branchnavn>`. På denne måten kan du holde dine endringer adskilt fra koden som ligger i repoet fra før.
+Før du begynner å kode kan du gjerne lage din egen branch med `git checkout -b <branchnavn>`. På denne måten kan du holde dine endringer adskilt fra koden som ligger i repoet fra før, og det er lettere for kursholder å hjelpe deg dersom du har behov for det.
 
 ``` bash
 $ git checkout -b my-branch
@@ -2033,15 +2029,17 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 Før vi faktisk implementerer web-API-et skal vi skrive integrasjonstester som verifiserer at API-et oppfyller kontrakten vi definerte i forrige steg. Det skal vi gjøre ved å
 
 1. Kjøre web-API-et vårt på en webserver som kjører i minnet under testen
-2. Sende forespørsler mot denne webserveren, og verifisere at responsene vi i retur oppfyller OpenAPI-kontrakten
+2. Sende forespørsler mot denne webserveren, og verifisere at responsene vi får i retur oppfyller OpenAPI-kontrakten
 
 Siden vi gir hele web-API-et vårt som input til denne webserveren er responsene vi får på samme format som web-API-et svarer med i et deployet miljø, og dermed kan vi være trygge på at API-et oppfyller kontrakten vi har definert også når det deployes.
 
+> Webserveren vi skal kjøre i integrasjonstestene er dokumentert her: [https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0)
+>
 > Inspirasjonen til å skrive integrasjonstestene på måten beskrevet over er hentet fra denne artikkelen skrevet av Microsoft: [https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0)
 
 #### Endre prosjekttyper
 
-Fra og med .NET Core, opererer .NET med ulike SDK-prosjekttyper avhengig av hva slags type applikasjon man ønsker å utvikle. Via de ulike prosjekttype får man tilgang til ulik funksjonalitet knyttet til kompilering og publisering av prosjektene. Da vi opprettet API- og enhetstestprosjektene fikk vi prosjekter med den grunnleggende prosjekttypen `.NET SDK`. Siden vi i dette steget er avhengig av funksjonalitet som finnes i `.NET Web SDK` skal vi endre prosjekttypene til API- og enhetstestprosjektene.
+Fra og med .NET Core opererer .NET med ulike SDK-prosjekttyper avhengig av hva slags type applikasjon man ønsker å utvikle. Via de ulike prosjekttype får man tilgang til forskjellig funksjonalitet knyttet til kompilering og publisering av prosjektene. Da vi opprettet API- og enhetstestprosjektene fikk vi prosjekter med den grunnleggende prosjekttypen `.NET SDK`. Siden vi i dette steget er avhengig av funksjonalitet som finnes i `.NET Web SDK` skal vi endre prosjekttypene til API- og enhetstestprosjektene.
 
 Åpne filen `src/api/NRK.Dotnetskolen.Api.fsproj`, og endre `Sdk`-attributtet på `Project`-elementet fra `Microsoft.NET.Sdk` til `Microsoft.NET.Sdk.Web`:
 
@@ -2081,12 +2079,12 @@ Gjenta steget over for `test/unit/NRK.Dotnetskolen.IntegrationTests.fsproj` for 
 
 #### Sette opp skall for web-API
 
-For at vi skal kunne opprette webserveren som skal kjøre under integrasjonstesten, må vi ha referanser til to funksjoner i web-API-et:
+Som vi skal se nærmere på i [steg 10](#steg-10---implementere-web-api) under [modellen til .NET](#modellen-til-net) representeres hele web-API-et vårt gjennom et objekt som implementerer interfacet `IHost`, og vi konfigurerer vi en slik host i .NET ved hjelp av to funksjoner:
 
 - `configureApp`
 - `configureServices`
 
-Vi skal se nærmere på hva disse funksjonene gjør i [steg 10](#steg-10---implementere-web-api), men for nå er det tilstrekkelig å vite at de brukes til å konfigurere web-API-et vårt.
+For å sette opp en webserver i integrasjonstestene som kjører web-API-et vårt, er vi avhengig av å kunne gi web-API-et vårt som input til den. Det skal vi gjøre ved å opprette en host som konfigureres med funksjonene `configureApp` og `configureServices` fra web-API-et vårt.
 
 Åpne `Program.fs` i API-prosjektet og erstatt innholdet i filen med følgende:
 
@@ -2122,7 +2120,7 @@ module Program =
         0 // return an integer exit code
 ```
 
-Her oppretter vi modulen `Program` i namespacet `NRK.Dotnetskolen.Api`. `Program`-modulen inneholder funksjonene `configureApp` og `configureServices`, samt `main`-funksjonen fra tidligere.
+Her oppretter vi modulen `Program` i namespacet `NRK.Dotnetskolen.Api`. `Program`-modulen inneholder funksjonene `configureApp` og `configureServices`, samt `main`-funksjonen fra tidligere. Foreløpig skal vi la `configureApp`- og `configureServices`-funksjonene forbli tomme, men vi kommer tilbake til å implementere dem i [steg 10](#steg-10---implementere-web-api).
 
 #### Legge til avhengigheter
 
@@ -2130,7 +2128,7 @@ For å kunne kjøre integrasjonstestene våre er vi avhengig av et par NuGet-pak
 
 ##### Microsoft.AspNetCore.Mvc.Testing
 
-For å kunne kjøre integrasjonstestene slik vi skal er vi avhengig av NuGet-pakken `Microsoft.AspNetCore.Mvc.Testing`.
+For å få tilgang til webserveren vi skal kjøre under integrasjonstestene er vi avhengig av NuGet-pakken `Microsoft.AspNetCore.Mvc.Testing`.
 
 Kjør følgende kommando fra roten av repoet for å installere pakken:
 
@@ -2180,18 +2178,18 @@ let createWebHostBuilder () =
         .ConfigureServices(Program.configureServices)
 ```
 
-Her definerer vi en funksjon `createWebHostBuilder` som returnerer en `IWebHostBuilder` som er konfigurert til å bruke `configureApp` og `configureServices`-funksjonene i web-API-et vårt. Vi skal bruke `createWebHostBuilder`-funksjonen til å opprette testserveren vår, og kjøre integrasjonstestene mot den.
+Her definerer vi en funksjon `createWebHostBuilder` som returnerer en `IWebHostBuilder`. `IWebHostBuilder` returnerer et `IHost`-objekt i funksjonen `Build`, som vi skal bruke snart. I `createWebHostBuilder` konfigurerer vi `IWebHostBuilder` til å bruke `configureApp` og `configureServices`-funksjonene i web-API-et vårt. Vi skal bruke `createWebHostBuilder`-funksjonen til å opprette testserveren vår, og kjøre integrasjonstestene mot den.
 
 #### Test 1 - Verifisere at endepunktet finnes
 
-I den første integrasjonstesten vår skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement etter `open System.IO` i `Tests.fs`-filen.
+I den første integrasjonstesten skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement etter `open System.IO` i `Tests.fs`-filen.
 
 ```f#
 open System.Net
 open Microsoft.AspNetCore.TestHost
 ```
 
-Legg deretter til følgende test i `Tests.fs`-filen:
+Legg deretter til følgende test etter `createWebHostBuilder`-funksjonen i `Tests.fs`-filen:
 
 ```f#
 [<Fact>]
@@ -2242,6 +2240,23 @@ Her bruker vi `createWebHostBuilder`-funksjonen til å opprette en testserver, o
 
 > Merk at vi bruke `use`-kodeordet når vi oppretter testserveren og HTTP-klienten. Dette sørger for at kompilatoren rydder opp ressursene som disse to objektene bruker når testen er ferdig.
 
+Kjør integrasjonstesten med følgende kommando:
+
+```bash
+$ dotnet test .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+...
+Failed Tests.Get EPG today returns 200 OK [124 ms]
+  Error Message:
+   System.Net.Http.HttpRequestException : Response status code does not indicate success: 404 (Not Found).
+  Stack Trace:
+     at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at Tests.Get EPG today returns 200 OK() in C:\Dev\nrkno@github.com\dotnetskolen2\test\integration\Tests.fs:line 27
+
+Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 124 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+```
+
+Som vi ser over feiler testen foreløpig ettersom web-API-et returnerer `404 (Not Found)`.
+
 #### Test 2 - Verifisere format på EPG-respons
 
 I denne testen skal vi verifisere at responsen API-et gir følger formatet vi har spesifisert i OpenAPI-kontrakten vår. Start med å inkludér JsonSchema-et for responsen vår i integrasjonstestprosjektet ved å legg til følgende i slutten av samme `ItemGroup` som `Program.fs` og `Tests.fs` i prosjektfilen til integrasjonstestprosjektet:
@@ -2282,11 +2297,39 @@ let ``Get EPG today return valid response`` () =
     Assert.True(isJsonValid)
 ```
 
-Denne testen bygger på den første testen vi skrev, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten.
+Denne testen bygger på den første testen vi skrev, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten:
+
+- `let jsonSchema = JsonSchema.FromFile "./epg.schema.json"` oppretter en .NET-representasjon av JSON Schemaet vi definerte i [kapittel 7](#steg-7---definere-api-kontrakt)
+- `let bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously` henter ut innholdet i responsen som en `string`
+- `let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement` oppretter en .NET-representasjon av JSON-dokumentet som API-et returnerer, og henter en referanse til rotelementet i JSON-dokumentet
+- `let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid` benytter JSON Schemaet vårt til å validere om JSON-objektet som web-API-et returnerte tilfredstiller API-kontrakten
+
+Kjør integrasjonstestene igjen for å verifisere at integrasjonstestene kompilerer:
+
+```bash
+$ dotnet test .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+...
+[xUnit.net 00:00:01.20]     Tests.Get EPG today returns 200 OK [FAIL]
+[xUnit.net 00:00:01.31]     Tests.Get EPG today return valid response [FAIL]
+  Failed Tests.Get EPG today returns 200 OK [93 ms]
+  Error Message:
+   System.Net.Http.HttpRequestException : Response status code does not indicate success: 404 (Not Found).
+  Stack Trace:
+     at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at Tests.Get EPG today returns 200 OK() in C:\Dev\nrkno@github.com\dotnetskolen2\test\integration\Tests.fs:line 29
+  Failed Tests.Get EPG today return valid response [110 ms]
+  Error Message:
+   System.Net.Http.HttpRequestException : Response status code does not indicate success: 404 (Not Found).
+  Stack Trace:
+     at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at Tests.Get EPG today return valid response() in C:\Dev\nrkno@github.com\dotnetskolen2\test\integration\Tests.fs:line 41
+
+Failed!  - Failed:     2, Passed:     0, Skipped:     0, Total:     2, Duration: 203 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+```
 
 #### Test 3 - Verifisere at dato valideres
 
-I den siste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid testklassen med følgende test:
+I den siste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid `Tests.fs` med følgende test:
 
 ```f#
 [<Fact>]
@@ -2303,20 +2346,21 @@ let ``Get EPG invalid date returns bad request`` () =
 
 Her sender vi inn en ugyldig dato, og forventer å få 400 Bad Request som respons.
 
-Hvis du forsøker å kjøre integrasjonstestene nå, vil de feile ettersom vi ikke har implementert noe i API-et enda. Det skal vi imidlertid gjøre noe med i neste steg hvor vi faktisk implementerer web-API-et.
+Kjør integrasjonstestene igjen for å verifisere at de kompilerer:
 
 ```bash
 $ dotnet test .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
-
 ...
-Failed!  - Failed:     3, Passed:     0, Skipped:     0, Total:     3, Duration: 219 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+Failed!  - Failed:     3, Passed:     0, Skipped:     0, Total:     3, Duration: 212 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
+
+Nå som vi har skrevet integrasjonstester som verifiserer at API-et oppfyller kontrakten, la oss implementere web-API-et!
 
 ### Steg 10 - Implementere web-API
 
 **Steg 10 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-9---integrasjonstester-for-web-api)
 
-I [forrige steg](#steg-9---integrasjonstester-for-web-api) opprettet vi et skall for web-API-et ved at vi definerte funksjonene `configureApp` og `configureServices` i `Program.fs` slik at vi kunne opprette en testserver i integrasjonsprosjektet. Selve programmet i web-API-prosjektet har imidlertid ikke tatt i bruk disse funksjonene, og laget en host. Det kan du verifisere ved å starte API-prosjektet med følgende kommando:
+I [forrige steg](#steg-9---integrasjonstester-for-web-api) opprettet vi et skall for web-API-et gjennom funksjonene `configureApp` og `configureServices` i `Program.fs` slik at vi kunne opprette en testserver i integrasjonsprosjektet. Selve programmet i web-API-prosjektet har imidlertid ikke tatt i bruk disse funksjonene, og laget en host basert på dem. Det kan du verifisere ved å starte API-prosjektet med følgende kommando:
 
 ```bash
 $ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
@@ -2327,7 +2371,7 @@ $ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
    SluttTidspunkt = 16.04.2021 19:30:00 +02:00 }]
 ```
 
-Det eneste programmet i API-prosjektet gjør er å printe EPG-verdien du opprettet på slutten av [steg 5](#definere-domenemodell):
+Det eneste programmet i API-prosjektet gjør er å printe EPG-verdien vi opprettet på slutten av [steg 5](#definere-domenemodell):
 
 ```f#
 ...
@@ -2351,9 +2395,7 @@ Før vi går videre med å implementere forretningslogikken i web-API-et vårt, 
 
 ##### Host
 
-Når vi utvikler og kjører en applikasjon har vi behov for tilgang til felles ressurser som konfigurasjon, avhengigheter og logging. I tillegg ønsker vi å ha kontroll på hvordan prosessen til applikasjonen vår starter og slutter. Microsoft tilbyr et objekt, `Host`, som holder styr på disse tingene for oss. Typisk bygger man opp og starter en `Host` i `Program.fs`.
-
-Dette gjøres i funksjonen `createHostBuilder`, som vi allerede har lagt til i vår `Program.fs`:
+Når vi utvikler og kjører en applikasjon har vi behov for tilgang til felles ressurser som konfigurasjon, avhengigheter og logging. I tillegg ønsker vi å ha kontroll på hvordan prosessen til applikasjonen vår starter og slutter. Microsoft tilbyr et objekt, `IHost`, som holder styr på disse tingene for oss. Typisk bygger man opp og starter et `IHost`-objekt i `Program.fs`. Det skal vi gjøre nå i en ny funksjon vi kaller `createHostBuilder`. Denne er en parallell til funksjonen `createWebHostBuilder` fra integrasjonstestprosjektet vårt.
 
 Åpne `Program.fs` i web-API-prosjektet og legg til følgende `open`-statement:
 
@@ -2379,7 +2421,7 @@ let createHostBuilder args =
 ...
 ```
 
-I `createHostBuilder`-funksjonen kaller vi funksjonen `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter som er gitt på kommandolinja ved oppstart av programmet. `CreateDefaultBuilder` sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen.
+I `createHostBuilder`-funksjonen kaller vi funksjonen `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter gitt inn gjennom `args`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen.
 
 Deretter kaller vi `ConfigureWebHostDefaults` som bl.a. sørger for å sette opp Kestrel som web-server for applikasjonen vår og tillate serving av statiske filer. `ConfigureWebHostDefaults` tar som argument en funksjon som gir oss tilgang til `IWebHostBuilder`-objektet som blir brukt for å bygge web-applikasjonen vår. Dette gir oss mulighet til å konfigurere web-applikasjonen etter våre behov.
 
@@ -2389,9 +2431,9 @@ Deretter kaller vi `ConfigureWebHostDefaults` som bl.a. sørger for å sette opp
 
 ##### Middleware pipeline
 
-Web-applikasjoner i .NET er konfigurerbare og modulære slik at man har kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørslen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline".
+Web-applikasjoner i .NET er konfigurerbare og modulære, og gjennom å konfigurere disse modulene har man kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren, og til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørslen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline".
 
-Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørslen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørslen også. Et eksempel på en slik mellomvare er autentisering.
+Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørslen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørslen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørslen videre i pipelinen dersom den ikke er tilstrekkelig autentisert.
 
 Måten man setter opp middleware pipelinen i .NET på er gjennom `Configure`-funksjonen i `IWebHostBuilder`-objektet.
 
@@ -2410,7 +2452,7 @@ let isLoginValid (getUser: string -> UserEntity) (username: string) (password: s
 
 En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender man inn de nødvendige avhengighetene til de ulike delene av koden sin fra utsiden. Dersom en funksjon `A` har avhengiheter funksjonene `B` og `C`, og `B` og `C` har hhv. avhengiheter til funksjonene `D` og `E`, må man ha implementasjoner for `B`, `C`, `D` og `E` for å kunne kalle funksjon `A`. Disse avhengighetene danner et avhengighetstre, og dersom man skal kalle en funksjon man på toppen treet er nødt til å ha implementasjoner av alle de interne nodene og alle løvnodene i avhengighetstreet. For hver toppnivåfunksjon (som `A`) man har i applikasjonen sin, vil man ha et avhengighetstre.
 
- Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root". Ved å bruke `Host` i .NET er "composition root" `configureServices`-funksjonen. Her har man tilgang til et `IServiceCollection`-objekt hvor man kan legge til implementasjoner av de ulike funksjonene man har behov for å applikasjonen sin.
+ Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root". Ved å bruke `IHost` i .NET er "composition root" `configureServices`-funksjonen. Her har man tilgang til et `IServiceCollection`-objekt hvor man kan legge til implementasjoner av de ulike funksjonene man har behov for å applikasjonen sin.
 
 > Du kan lese mer om "dependency injection" her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0)
 
@@ -2456,7 +2498,7 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
 
 Legg merke til at `UseGiraffe`-funksjonen tar inn en `HttpHandler` som argument. Her har vi laget en `HttpHandler` som svarer på `/ping` og returner tekststrengen `pong`.
 
-Til slutt kan vi fjerne `from`-funksjonen i `Program.fs`, i tillegg til at vi må endre `main`-funksjonen vår til å starte `Host`-en vår:
+Til slutt må vi endre `main`-funksjonen vår til å starte `Host`-en vår:
 
 ```f#
 ...
@@ -2484,7 +2526,7 @@ info: Microsoft.Hosting.Lifetime[0]
 
 Dette starter web-API-et på `http://localhost:5000`. Verifiser at API-et fungerer ved å gå til [http://localhost:5000/ping](http://localhost:5000/ping) i nettleseren din og se at svaret er `pong`.
 
-> Merk at dersom du forsøker å åpne applikasjonen på [https://localhost:5001](https://localhost:5001) kan du få beskjed om at nettleseren din ikke stoler på sertifikatet. For å komme rundt dette må man sette opp "self signed"-sertifikat på maskinen. Microsoft har skrevet en artikkel om det [her](https://docs.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide), men å sette opp det er ikke en del av dette kurset.
+> Merk at dersom du forsøker å åpne applikasjonen på [https://localhost:5001](https://localhost:5001) kan du få beskjed om at nettleseren din ikke stoler på sertifikatet. For å komme rundt dette må man sette opp "self signed"-sertifikat på maskinen. Microsoft har skrevet en artikkel om hvordan å gjøre det [her](https://docs.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide). Merk at å sette opp "self signed"-sertifikat er ikke en del av dette kurset.
 
 ##### Definere route fra API-kontrakt
 
@@ -2955,78 +2997,32 @@ Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration:
 
 #### Benytte egne avhengigheter i integrasjonstester
 
-Et problem med integrasjonstestene våre er at vi ikke har kontroll på avhengighetene til applikasjonen under kjøringen av integrasjonstestene. Mer konkret brukte vi den faktiske dataaksessen til web-API-et da vi kjørte testene. Ettersom vi ikke kan garantere hva dette datagrunnlaget inneholder, kan vi ikke belage integrasjonstestene våre på innholdet i den. La oss endre integrasjonstestene slik at vi styrer selv hva datagrunnlaget til web-API-et er.
+Et problem med integrasjonstestene våre slik de er nå er at vi ikke har kontroll på avhengighetene til applikasjonen under kjøringen av integrasjonstestene. Mer konkret brukte vi den faktiske dataaksessen til web-API-et da vi kjørte testene. I et faktisk system ville ikke dataene være hardkodet i web-API-et, men heller lagret i den database eller liknende. For å slippe å være avhengig av en database ved kjøring av integrasjonstestene, kan vi endre hosten vi bruker i integrasjonstestene til å benytte et datalager vi spesifiserer i testene istedenfor å bruke det datalageret web-API-et er konfigurert til å bruke.
 
-##### Override WebApplicationFactory
+##### Fjern getEpgForDate fra IServiceCollection
 
-I [forrige steg](#steg-9---integrasjonstester-for-web-api) brukte vi `WebApplicationFactory` til å bygge en webserver i minnet med web-API-et vårt inni. `WebApplicationFactory` gjør dette ved å se etter funksjonen `createHostBuilder` i prosjektet vårt, og benytter vår implementasjon av `createHostBuilder` til å lage en `Host`, og kjører denne. Fra [avsnittet om "dependency injection"](#dependency-injection) husker vi at vi registrerte alle avhengighetene til applikasjonen vår i `configureServices`-funksjonen. Vi kan endre avhengighetene til web-API-et vårt under integrasjonstesten ved å endre `IServiceCollection`-objektet som web-API-et vårt lager. For å gjøre det må vi lage vårt eget `WebApplicationFactory`.
+Da vi [satte opp integrasjonstestene](#sette-opp-integrasjonstester) definerte vi funksjonen `createWebHostBuilder` i `Tests.fs` i integrasjonstestprosjektet, som benyttet `configureServices` fra web-API-prosjektet. [Tidligere](#registrere-avhengigheter-i-configureservices) registrerte vi web-API-et sin implementasjon av `getEpgForDate` i `configureServices` til å bruke web-API-et sin implementasjon av `getAllTransmissions`. Nå ønsker vi å bytte ut implementasjonen av `getAllTransmissions` med vår egen for å ha kontroll på dataene som er brukt i API-et unde kjøring av integrasjonstestene. Det kan vi gjøre ved å legge til enda et kall til `ConfigureServices`-funksjonen på `IWebHostBuilder`-objektet i `createWebHostBuilder`-funksjonen i integrasjonstestprosjektet.
 
-Start med å opprett filen `CustomWebApplicationFactory.fs` i `/test/integration`-mappen:
-
-```txt
-...
-test
-└── unit
-    └── ...
-└── integration
-    └── CustomWebApplicationFactory.fs
-    └── NRK.Dotnetskolen.IntegrationTests.fsproj
-    └── Program.fs
-    └── Tests.fs
-└── Dotnetskolen.sln
-```
-
-Husk å legg til `CustomWebApplicationFactory.fs` i prosjektfilen til integrasjonstestprosjektet:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <IsPackable>false</IsPackable>
-    <GenerateProgramFile>false</GenerateProgramFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="CustomWebApplicationFactory.fs" />
-    <Compile Include="Tests.fs" />
-    <Compile Include="Program.fs" />
-    <Content Include="../../docs/epg.schema.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\api\NRK.Dotnetskolen.Api.fsproj" />
-  </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
-</Project>
-```
-
-Lim inn følgende kode i `CustomWebApplicationFactory.fs`:
+Legg til følgende `open`-statements i `Tests.fs` i integrasjonstestprosjektet:
 
 ```f#
-namespace NRK.Dotnetskolen.IntegrationTests
-
-module CustomWebApplicationFactory =
-
-    open System
-    open System.Linq
-    open Microsoft.AspNetCore.Hosting
-    open Microsoft.AspNetCore.Mvc.Testing
-    open Microsoft.Extensions.DependencyInjection
-    open NRK.Dotnetskolen.Domain
-    open NRK.Dotnetskolen.Api.Services
-
-    type public CustomWebApplicationFactory<'TStartup when 'TStartup : not struct>() =
-        inherit WebApplicationFactory<'TStartup>()
-        override _.ConfigureWebHost (webHostBuilder: IWebHostBuilder) =
-            webHostBuilder.ConfigureServices(fun (serviceCollection: IServiceCollection) ->
-                let existingGetEpgForDateFunction = serviceCollection.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
-                serviceCollection.Remove(existingGetEpgForDateFunction) |> ignore
-                ()
-            ) |> ignore
+open Microsoft.Extensions.DependencyInjection
+open System.Linq
+open NRK.Dotnetskolen.Domain
 ```
 
-Her ser vi at `CustomWebApplicationFactory` arver fra `WebApplicationFactory`, og at vi overrider metoden `ConfigureWebHost`. I vår implementasjon av `ConfigureWebHost` henter vi ut den eksisterende implementasjonen av `getEpgForDate` (som bruker `getAllTransmissions` fra `DataAccess`-modulen i API-et) og fjerner den fra `IServiceCollection`-objektet. Hvis vi hadde stoppet her hadde web-API-et feilet fordi det ikke hadde noen implementasjon av `getEpgForDate`-funksjonen. La oss implementere vår egen `getAllTransmissions`-funksjon i integrasjonstestprosjektet, og legge få `getEpgForDate` til å bruke den istedenfor.
+Legg deretter til funksjonen `configureTestServices` over `createWebHostBuilder` i `Tests.fs` i integrasjonstestprosjektet som vist under:
+
+```f#
+...
+let configureTestServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
+    let existingGetEpgForDateFunction = services.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
+    services.Remove(existingGetEpgForDateFunction) |> ignore
+    ()
+...
+```
+
+Her finner vi implementasjonen av `getEpgForDate` (det er den eneste funksjonen i `services` med denne signaturen), og fjerner den fra `services`. La oss implementere vår egen `getAllTransmissions`-funksjon i integrasjonstestprosjektet, og få `getEpgForDate` til å bruke den istedenfor.
 
 ##### Implementere mock av getAllTransmissions
 
@@ -3038,7 +3034,6 @@ test
 └── unit
     └── ...
 └── integration
-    └── CustomWebApplicationFactory.fs
     └── Mock.fs
     └── NRK.Dotnetskolen.IntegrationTests.fsproj
     └── Program.fs
@@ -3058,7 +3053,6 @@ Husk å legg til `Mock.fs` i prosjektfilen til integrasjonstestprosjektet:
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Mock.fs" />
-    <Compile Include="CustomWebApplicationFactory.fs" />
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
     <Content Include="../../docs/epg.schema.json">
@@ -3129,25 +3123,26 @@ module Mock =
 
 ##### Benytte mock av getAllTransmissions
 
-Legg til følgende `open`-statement og kode for å registrere `getEpgForDate` med vår implementasjon av `getAllTransmissions`:
+Nå som vi har vår egen implementasjon av `getAllTransmissions`, kan vi konfigurere `getEpgForDate` til å bruke denne implementasjonen istedenfor den fra web-API-prosjektet. Det gjør vi ved å utvide `configureTestServices`-funksjonen i `Tests.fs`-filen.
+
+Start med å legg til følgende `open`-statements:
 
 ```f#
-...
 open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.IntegrationTests.Mock
-
-type public CustomWebApplicationFactory<'TStartup when 'TStartup : not struct>() =
-    inherit WebApplicationFactory<'TStartup>()
-    override _.ConfigureWebHost (webHostBuilder: IWebHostBuilder) =
-        webHostBuilder.ConfigureServices(fun (serviceCollection: IServiceCollection) ->
-            let existingGetEpgForDateFunction = serviceCollection.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
-            serviceCollection.Remove(existingGetEpgForDateFunction) |> ignore
-            
-            serviceCollection.AddSingleton<DateTime -> Epg>(getEpgForDate getAllTransmissions) |> ignore
-        ) |> ignore
 ```
 
-Dersom du kjører testene nå, skal alle passere:
+Legg deretter til linjen `services.AddSingleton<DateTime -> Epg>(getEpgForDate getAllTransmissions) |> ignore` i `configureTestService`, slik:
+
+```f#
+let configureTestServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
+    let existingGetEpgForDateFunction = services.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
+    services.Remove(existingGetEpgForDateFunction) |> ignore
+    services.AddSingleton<DateTime -> Epg>(getEpgForDate getAllTransmissions) |> ignore
+    ()
+```
+
+Dersom du kjører integrasjonstestene igjen, skal de fortsatt passere:
 
 ```bash
 $ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
@@ -3161,5 +3156,5 @@ Du har nå implementert et web-API i F#, med enhets- og integrasjonstester, API-
 
 ## Medvirkende
 
-- [@thomaswolff](https://github.com/thomaswolff) - Forfatter
 - [@heidisu](https://github.com/heidisu) - Idé og kvalitetssikring
+- [@thomaswolff](https://github.com/thomaswolff) - Konsept og forfatter
