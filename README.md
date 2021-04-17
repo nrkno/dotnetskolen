@@ -171,7 +171,7 @@ Velg den IDE-en som passer dine behov.
 > Dersom du skal bruke Visual Studio Code, anbefales det å installere pluginen "Ionide". 
 > - Du kan laste ned Ionide her: [https://docs.microsoft.com/en-us/dotnet/fsharp/get-started/get-started-vscode](https://docs.microsoft.com/en-us/dotnet/fsharp/get-started/get-started-vscode)
 > - Du kan lese mer om Ionide her: [https://ionide.io/](https://ionide.io/)
->
+
 > Merk at et vanlig use case for IDE-er er at de også blir brukt til å kompilere og kjøre kode. Instruksjonene i kurset kommer imidlertid til å benytte .NET CLI til dette. Du står selvfølgelig fritt frem til å bygge og kjøre koden ved hjelp av din IDE hvis du ønsker det.
 
 ### Lokalt oppsett av koden
