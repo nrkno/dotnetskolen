@@ -231,7 +231,7 @@ Nå som du har installert alle verktøyene du trenger er du klar til å begynne 
 
 **Steg 1 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬇ Neste steg](#steg-2---opprette-testprosjekter)
 
-I dette steget starter vi med et repo helt uten kode, og bruker .NET CLI til å opprette vårt første prosjekt `NRK.Dotnetskolen.Api`.
+I dette steget starter vi med en mappe helt uten kode, og bruker .NET CLI til å opprette vårt første prosjekt `NRK.Dotnetskolen.Api`.
 
 #### .NET-prosjekter
 
@@ -391,7 +391,7 @@ Options:
 
 Som du ser av malene som er listet ut over, er det en innebygget mal for web-API som heter `webapi`. For å komme raskt i gang med et prosjekt, eller se hvordan ting er satt opp, kan man bruke `webapi` som mal. Vi kommer imidlertid til å opprette API-et vårt ved å bruke malen `console` for å lære mest mulig om å sette opp prosjektet helt fra bunnen av.
 
-Forutsatt at du står i roten av repoet, kan du kjøre følgende kommando for å opprette API-prosjektet
+Kjøre følgende kommando for å opprette API-prosjektet
 
 ``` bash
 $ dotnet new console --language F# --output src/api --name NRK.Dotnetskolen.Api
@@ -419,6 +419,8 @@ src
 ```
 
 Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med `NRK.Dotnetskolen.Api.fsproj` og `Program.fs` i `src/api`.
+
+> Merk at med mindre noe annet er spesifisert, er alle kommandoene i veiledningen skrevet med forutsetning om at du står i samme mappe når du kjører dem. Dersom du har klonet Git-repoet til kurset er det rotmappen til repoet. Dersom du følger kurset uten å bruke Git er det mappen du bestemmer deg for å kjøre kommandoene i.
 
 ##### Prosjektfil
 
@@ -610,7 +612,7 @@ I dette kurset kommer vi til å bruke xUnit. Dette valget er litt vilkårlig ett
 
 #### Opprette enhetstestprosjekt
 
-Forutsatt at du er i rotmappen til repoet, kan du kjøre følgende kommando for å opprette enhetstestprosjektet
+Kjør følgende kommando for å opprette enhetstestprosjektet
 
 ``` bash
 $ dotnet new xunit -lang F# -o test/unit -n NRK.Dotnetskolen.UnitTests
@@ -811,9 +813,9 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 
 **Steg 3 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-2---opprette-testprosjekter) [⬇ Neste steg](#steg-4---pakkehåndtering)
 
-Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme repo, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker og kjøre alle testene for systemet vårt, kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
+Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme mappe, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker og kjøre alle testene for systemet vårt, kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
 
-For å opprette en solution med `dotnet` kan du kjøre følgende kommando i roten av repoet
+For å opprette en solution med `dotnet` kan du kjøre følgende kommando:
 
 ``` bash
 $ dotnet new sln -n Dotnetskolen
@@ -985,7 +987,7 @@ Verktøyet "Paket" forsøker å løse utfordringene nevnt over, og er mye brukt 
 
 #### Sette opp Paket
 
-Paket finnes som en utvidelse (også kalt "tool") til .NET CLI. Utvidelser i .NET CLI kan enten installeres som globale (tilgjengelig for alle .NET-løsninger på maskinen), eller lokale (kun for prosjektet utvidelsen blir installert i). I dette kurset installerer vi Paket lokalt for vår løsning. Fordelen med dette er at versjonen av Paket vi installerer kun gjelder for dette repoet. Det gjør at andre repoer på samme maskin kan ha andre versjoner av Paket. I tillegg vil andre som kloner repoet kunne kjøre `dotnet tool restore`, og få installert alle verktøyene de trenger.
+Paket finnes som en utvidelse (også kalt "tool") til .NET CLI. Utvidelser i .NET CLI kan enten installeres som globale (tilgjengelig for alle .NET-løsninger på maskinen), eller lokale (kun for prosjektet utvidelsen blir installert i). I dette kurset installerer vi Paket lokalt for vår løsning. Fordelen med dette er at versjonen av Paket vi installerer kun gjelder for denne løsningen. Det gjør at andre løsninger på samme maskin kan ha andre versjoner av Paket. Dersom løsningen ligger på Git, vil i tillegg andre som kloner repoet kunne kjøre `dotnet tool restore`, og få installert alle verktøyene de trenger.
 
 Lokale utvidelser av .NET CLI defineres i en egen fil `dotnet-tools.json` som ligger i en mappe `.config`. Ettersom denne filen ikke finnes enda, oppretter vi den ved å kjøre følgende kommando
 
@@ -1064,7 +1066,7 @@ Performance:
  - Runtime: 500 milliseconds
 ```
 
-Du skal nå ha følgende filer i repoet ditt
+Du skal nå ha følgende filer i mappen din
 
 ```txt
 └── .config
@@ -1194,7 +1196,7 @@ $ dotnet paket add coverlet.collector --project test\integration\NRK.Dotnetskole
 ...
 ```
 
-Verifiser at testprosjektene fortsatt kjører ved å kjøre `dotnet test` i roten av repoet:
+Verifiser at testprosjektene fortsatt kjører ved å kjøre `dotnet test` i rotmappen din:
 
 ```bash
 $ dotnet test
@@ -1740,7 +1742,7 @@ Før vi definerer selve kontrakten til API-et i en OpenAPI-spesifikasjon, skal v
 }
 ```
 
-Foreløpig skal vi ikke gjøre noe mer med JSON schemaet enn å ha det som dokumentasjon på API-et vårt. Lag en ny mappe `docs` i roten av repoet med enn ny fil `epg.schema.json` hvor du limer inn JSON schemaet over. Du skal nå ha følgende mappehierarki i repoet:
+Foreløpig skal vi ikke gjøre noe mer med JSON schemaet enn å ha det som dokumentasjon på API-et vårt. Lag en ny mappe `docs` i rotmappen din med en ny fil `epg.schema.json` hvor du limer inn JSON schemaet over. Du skal nå ha følgende mappehierarki:
 
 ```txt
 └── .config
@@ -1757,7 +1759,7 @@ Foreløpig skal vi ikke gjøre noe mer med JSON schemaet enn å ha det som dokum
 
 #### OpenAPI-kontrakt
 
-Nå som vi har formatet på innholdet i responsen vår, kan vi definere Open API-spesifikasjonen for API-et vårt. La oss starte med å opprett en ny fil `openapi.json` i `docs`-mappen. Du skal nå ha følgende mappehierarki i repoet:
+Nå som vi har formatet på innholdet i responsen vår, kan vi definere Open API-spesifikasjonen for API-et vårt. La oss starte med å opprett en ny fil `openapi.json` i `docs`-mappen. Du skal nå ha følgende mappehierarki:
 
 ```txt
 └── .config
@@ -2139,7 +2141,7 @@ For å kunne kjøre integrasjonstestene våre er vi avhengig av et par NuGet-pak
 
 For å få tilgang til webserveren vi skal kjøre under integrasjonstestene er vi avhengig av NuGet-pakken `Microsoft.AspNetCore.Mvc.Testing`.
 
-Kjør følgende kommando fra roten av repoet for å installere pakken:
+Kjør følgende kommando fra rotenmappen din for å installere pakken:
 
 ```bash
 $ dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
@@ -2148,7 +2150,7 @@ $ dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project .\test\integration
 
 ##### JsonSchema.Net
 
-For å kunne validere at responsen fra web-API-et er i henhold til OpenAPI-kontrakten, skal vi benytte NuGet-pakken `JsonSchema.Net`. Installer denne pakken ved å kjøre følgende kommando fra roten av repoet:
+For å kunne validere at responsen fra web-API-et er i henhold til OpenAPI-kontrakten, skal vi benytte NuGet-pakken `JsonSchema.Net`. Installer denne pakken ved å kjøre følgende kommando fra rotmappen din:
 
 ```bash
 $ dotnet paket add JsonSchema.Net --project .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
@@ -2159,7 +2161,7 @@ $ dotnet paket add JsonSchema.Net --project .\test\integration\NRK.Dotnetskolen.
 
 For å kunne referere til startpunktet til API-prosjektet må vi legge til en prosjektreferanse fra integrasjonstestprosjektet.
 
-Kjør følgende kommando fra roten av repoet:
+Kjør følgende kommando fra rotmappen din:
 
 ```bash
 $ dotnet add .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj reference .\src\api\NRK.Dotnetskolen.Api.fsproj
@@ -2471,7 +2473,7 @@ Nå som vi har blitt kjent med de grunnleggende konseptene i .NET-applikasjoner,
 
 ##### Installere Giraffe
 
-Giraffe er publisert som en NuGet-pakke, og for å installere den i API-prosjektet vårt kan du kjøre følgende kommando fra roten av repoet:
+Giraffe er publisert som en NuGet-pakke, og for å installere den i API-prosjektet vårt kan du kjøre følgende kommando fra rotmappen din:
 
 ```bash
 $ dotnet paket add giraffe --project .\src\api\NRK.Dotnetskolen.Api.fsproj
