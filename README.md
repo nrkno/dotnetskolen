@@ -1349,7 +1349,9 @@ let main argv =
     0 // return an integer exit code
 ```
 
-Kjør API-prosjektet igjen med følgende kommando:
+Her oppretter vi en variabel `epg` som er en liste med sendinger, slik vi definerte i `Domain.fs`.
+
+Kjør API-prosjektet igjen med følgende kommando, og se at `epg`-verdien blir skrevet til terminalen.
 
 ``` bash
 $ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
@@ -1570,7 +1572,7 @@ Det siste vi skal validere i domenet vårt er at sluttidspunkt er etter starttid
 
 ##### Enhetstester
 
-Lim inn følgende enhetstester for validering av sendetidspunkter i `Tests.fs`:
+Under følger én enhetstest for validering av sendetidspunkter i `Tests.fs`:
 
 ```f#
 ...
@@ -1582,25 +1584,9 @@ let ``areStartAndEndTimesValid start before end returns true`` () =
     let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
 
     Assert.True areStartAndSluttTidspunktValid
-
-[<Fact>]
-let ``areStartAndEndTimesValid start after end returns false`` () =
-    let startTime = DateTimeOffset.Now
-    let endTime = startTime.AddMinutes -30.
-
-    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
-
-    Assert.False areStartAndSluttTidspunktValid
-
-[<Fact>]
-let ``areStartAndEndTimesValid start equals end returns false`` () =
-    let startTime = DateTimeOffset.Now
-    let endTime = startTime
-
-    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
-
-    Assert.False areStartAndSluttTidspunktValid
 ```
+
+☑️ Legg til flere enhetstester du mener er nødvendig for å verifisere at validering av start- og sluttidspunkt er korrekt.
 
 > Merk at her bruker vi `[<Fact>]`-attributtet istedenfor `[<Theory>]`. `[<InlineData>]`-attributtet som man bruker med `[<Theory>]`-attributtet krever verdier som er konstanse ved kompilering. Ettersom vi benytter `DateTimeOffset`-objekter (som ikke er konstante ved kompilering) som input til `areStartAndEndTimesValid`, bruker vi derfor `[<Fact>]`-attributtet.
 
