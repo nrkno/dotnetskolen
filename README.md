@@ -61,6 +61,11 @@ Har du tilbakemeldinger, eller lurer på noe knyttet til kurset? Opprett gjerne 
 - Microsoft's offisielle dokumentasjon for .NET - [https://docs.microsoft.com/en-us/dotnet/](https://docs.microsoft.com/en-us/dotnet/)
 - F# cheat sheet - [http://dungpa.github.io/fsharp-cheatsheet/](http://dungpa.github.io/fsharp-cheatsheet/)
 
+### Medvirkende
+
+- [@heidisu](https://github.com/heidisu) - Idé og kvalitetssikring
+- [@thomaswolff](https://github.com/thomaswolff) - Konsept og forfatter
+
 ## Innholdsfortegnelse
 
 - [Hva er .NET?](#hva-er-net)
@@ -80,7 +85,6 @@ Har du tilbakemeldinger, eller lurer på noe knyttet til kurset? Opprett gjerne 
   - [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
   - [Steg 9 - Integrasjonstester for web-API](#steg-9---integrasjonstester-for-web-api)
   - [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
-- [Medvirkende](#medvirkende)
 
 ## Hva er .NET?
 
@@ -3207,8 +3211,3 @@ Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration:
 Gratulerer! 🎉
 
 Du har nå implementert et web-API i F#, med enhets- og integrasjonstester, API-dokumentasjon i OpenAPI, og gjort alt ved hjelp av .NET CLI.
-
-## Medvirkende
-
-- [@heidisu](https://github.com/heidisu) - Idé og kvalitetssikring
-- [@thomaswolff](https://github.com/thomaswolff) - Konsept og forfatter
