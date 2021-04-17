@@ -407,7 +407,7 @@ I kommandoen over brukte vi `--language`-argumentet for å oppgi at vi ønsket e
 
 > Merk at istedenfor `--language`, `--output` og `--name`, kunne vi brukt forkortelsene `-lang`, `-o` og `-n`.
 
-Du skal nå ha en filstruktur som ser slik ut
+Du skal nå ha en mappestruktur som ser slik ut
 
 ```txt
 src
@@ -587,18 +587,16 @@ Tester er en viktig del av systemutvikling fordi de hjelper oss med å verifiser
 - Enhetstester
 - Integrasjonstester
 
-Enhetstester verifiserer at små, isolerte deler av koden fungerer slik den skal. Gjerne én og én funksjon. I dette kurset skal vi bruke enhetstester til å verifisere:
+Enhetstester verifiserer at små, isolerte deler av koden fungerer slik den skal. Gjerne én og én funksjon. I dette kurset skal vi bruke enhetstester til å verifisere valideringsregler i domenet vårt
 
-- Valideringsregler i domenet vårt
+Integrasjonstester verifiserer imidlertid at større deler av systemet fungerer slik det skal, og kan til og med dekke samspill med andre systemer. I dette kurset skal vi bruke integrasjonstester til å verifisere at web-API-et oppfører seg i henhold til [kontrakten vi definerer i steg 7](#steg-7---definere-api-kontrakt).
 
-Integrasjonstester verifiserer imidlertid at større deler av systemet fungerer slik det skal, og typisk i samspill med andre systemer. I dette kurset skal vi bruke integrasjonstester til å verifisere at web-API-et oppfører seg i henhold til [kontrakten vi definerer i steg 7](#steg-7---definere-api-kontrakt).
+#### Dotnet new
 
 I dette steget skal vi opprette to testprosjekter
 
 - Ett for enhetstester - `NRK.Dotnetskolen.UnitTests`
 - Ett for integrasjonstester - `NRK.Dotnetskolen.IntegrationTests`
-
-#### Dotnet new
 
 For å opprette testprosjektene skal vi igjen bruke `dotnet new`-kommandoen, men denne gangen velger vi en annen [mal](#maler) enn da vi opprettet API-prosjektet. Når man installerer .NET SDK følger det med flere maler for testprosjekter som korresponderer til ulike rammeverk som finnes for å detektere og kjøre tester:
 
@@ -710,7 +708,7 @@ let ``My test`` () =
 
 Forskjellen på disse blir nærmere forklart i [steget om enhetstester](#steg-6---enhetstester-for-domenemodell).
 
-Merk at ``` ``<variabelnavn med mellomrom>`` ``` er brukt for å kunne ha et variabelnavn som inneholder mellomrom. På denne måten kan man ha et funksjonsnavn som beskriver testen og samtidig er lesbar for mennesker.
+> Merk at ``` ``<variabelnavn med mellomrom>`` ``` er brukt for å kunne ha et variabelnavn som inneholder mellomrom. På denne måten kan man ha et funksjonsnavn som beskriver testen og samtidig er lesbar for mennesker.
 
 ##### Kjøre enhetstestprosjektet
 
@@ -785,7 +783,7 @@ test
     └── Tests.fs
 ```
 
-Foreløpig er prosjekt- og test-filene til integrasjonstestprosjektet helt like de fra enhetstestprosjektet (bortsett fra prosjektnavnet). Forskjellen på enhets- og integrasjonstestene blir tydeligere når vi skal skrive testene i [steg 6](#steg-6---enhetstester-for-domenemodell) og [steg 9](#steg-9---integrasjonstester-for-web-api).
+Foreløpig er prosjekt- og test-filene til integrasjonstestprosjektet helt like de fra enhetstestprosjektet (bortsett fra prosjektnavnet). Forskjellen på enhets- og integrasjonstestene blir tydeligere når vi skal skrive testene i hhv. [steg 6](#steg-6---enhetstester-for-domenemodell) og [steg 9](#steg-9---integrasjonstester-for-web-api).
 
 ##### Kjøre integrasjonstester
 
@@ -812,6 +810,8 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 **Steg 3 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-2---opprette-testprosjekter) [⬇ Neste steg](#steg-4---pakkehåndtering)
 
 Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme mappe, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker og kjøre alle testene for systemet vårt, kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
+
+#### Dotnet sln
 
 For å opprette en solution med `dotnet` kan du kjøre følgende kommando:
 
@@ -862,6 +862,8 @@ Global
 	EndGlobalSection
 EndGlobal
 ```
+
+#### Legge til prosjekter i solution
 
 For å legge til referanser til prosjektene du har opprettet kan du kjøre følgende kommandoer
 
@@ -954,6 +956,8 @@ Global
 	EndGlobalSection
 EndGlobal
 ```
+
+#### Solution i Visual Studio
 
 Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
 
