@@ -582,7 +582,7 @@ Switched to branch 'steg-1'
 
 **Steg 2 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-1---opprette-api) [⬇ Neste steg](#steg-3---opprette-solution)
 
-Tester er en viktig del av systemutvikling fordi de hjelper oss med å verifisere at systemet fungerer slik det skal. Når man skriver tester for kode opererer man med to typer tester:
+Tester er en viktig del av systemutvikling fordi de hjelper oss med å verifisere at systemet fungerer slik det skal. Når man skriver tester for kode opererer man ofte med to typer tester:
 
 - Enhetstester
 - Integrasjonstester
