@@ -64,7 +64,7 @@ Har du tilbakemeldinger, eller lurer på noe knyttet til kurset? Opprett gjerne 
 ### Medvirkende
 
 - [@heidisu](https://github.com/heidisu) - Idé og kvalitetssikring
-- [@thomaswolff](https://github.com/thomaswolff) - Konsept og forfatter
+- [@thomaswolff](https://github.com/thomaswolff) - Primus motor og forfatter
 
 ## Innholdsfortegnelse
 
