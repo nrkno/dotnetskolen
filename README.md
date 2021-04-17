@@ -967,19 +967,19 @@ Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
 
 **Steg 4 av 10** - [🔝 Gå til toppen](#dotnetskolen) [⬆ Forrige steg](#steg-3---opprette-solution) [⬇ Neste steg](#steg-5---definere-domenemodell)
 
-Siden vi har behov for å installere NuGet-pakker senere i kurset, setter vi opp pakkehåndteringsverktøyet Paket for løsningen nå.
+Siden vi har behov for å installere NuGet-pakker senere i kurset, skal vi sette opp pakkehåndteringsverktøyet Paket for løsningen.
 
 #### NuGet og Paket
 
-Basebiblioteket i .NET inneholder mye grunnleggende funksjonalitet, men det inneholder ikke alt. For å slippe å skrive kode for mye brukt funksjonalitet på nytt hver gang man trenger den, er det derfor et behov at utviklere skal kunne dele kode med hverandre. De facto måte å dele kode i .NET på er via "NuGet". NuGet er både et offentlig repo for kode utviklet av tredjeparter (tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/)), og et verktøy for å laste opp og ned "NuGet-pakker" fra dette repoet.
+Basebiblioteket i .NET inneholder mye grunnleggende funksjonalitet, men det inneholder ikke alt. For å slippe å skrive kode for mye brukt funksjonalitet på nytt hver gang man trenger den, er det en fordel om utviklere over hele verden kan dele kode med hverandre. De facto måte å dele kode i .NET på er via "NuGet". NuGet er både et offentlig repo for kode utviklet av tredjeparter (tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/)), og et verktøy for å laste opp og ned "NuGet-pakker" fra dette repoet.
 
 Nuget som verktøy for å håndtere pakker i et prosjekt har imidlertid noen utfordringer:
 
 - Transitive avhengigheter - Dersom et prosjekt har en avhengighet til `SomeNuGetPackage`, og `SomeNuGetPackage` har en avhengighet til `SomeOtherNuGetPackage`, er `SomeOtherNuGetPackage` en transitiv avhengighet i prosjektet. NuGet skiller ikke transitive avhengigheter fra direkte avhengigheter i `packages.config`. Dermed har man ikke kontroll på hvilke avhengigheter i `packages.config` som er direkte, og hvilke som er transitive.
-- En annen utfordring med NuGet er at dersom to pakker refererer ulike versjoner av en annen pakke, vil NuGet velge den siste versjonen av pakken. 
+- En annen utfordring med NuGet er at dersom to pakker refererer ulike versjoner av en annen pakke, vil NuGet velge den nyeste versjonen av de to pakkereferansene.
 - I tillegg må hvert prosjekt i en solution definere hvilke avhengigheter det har, og hvilken versjon. Dermed kan prosjekter i samme solution ha ulike versjoner av samme pakke. Dette kan skape problemer.
 
-Verktøyet "Paket" forsøker å løse utfordringene nevnt over, og er mye brukt i NRK. Derfor blir Paket brukt i dette kurset.
+Verktøyet "Paket" forsøker å løse utfordringene nevnt over, og er mye brukt i NRK TV og NRK Radio. Derfor blir Paket brukt i dette kurset.
 
 > Merk at selv om man bruker Paket som verktøy for å håndtere tredjepartsavhengigheter i en .NET-løsning, benytter man fortsatt NuGet sitt offentlige repo for å laste opp og ned avhengighetene.
 
@@ -990,6 +990,8 @@ Verktøyet "Paket" forsøker å løse utfordringene nevnt over, og er mye brukt 
 #### Sette opp Paket
 
 Paket finnes som en utvidelse (også kalt "tool") til .NET CLI. Utvidelser i .NET CLI kan enten installeres som globale (tilgjengelig for alle .NET-løsninger på maskinen), eller lokale (kun for prosjektet utvidelsen blir installert i). I dette kurset installerer vi Paket lokalt for vår løsning. Fordelen med dette er at versjonen av Paket vi installerer kun gjelder for denne løsningen. Det gjør at andre løsninger på samme maskin kan ha andre versjoner av Paket. Dersom løsningen ligger på Git, vil i tillegg andre som kloner repoet kunne kjøre `dotnet tool restore`, og få installert alle verktøyene de trenger.
+
+##### Opprette dotnet tool manifest
 
 Lokale utvidelser av .NET CLI defineres i en egen fil `dotnet-tools.json` som ligger i en mappe `.config`. Ettersom denne filen ikke finnes enda, oppretter vi den ved å kjøre følgende kommando
 
@@ -1010,6 +1012,8 @@ test
 └── ...
 └── Dotnetskolen.sln
 ```
+
+##### Legge til Paket som tool i dotnet
 
 `dotnet-tools.json` inneholder imidlertid ingen tools enda
 
@@ -1046,6 +1050,8 @@ Nå ser vi at Paket er lagt til i listen over tools i `dotnet-tools.json`
   }
 }
 ```
+
+##### Installere Paket
 
 For å installere Paket på maskinen din kan du kjøre følgende kommando
 
