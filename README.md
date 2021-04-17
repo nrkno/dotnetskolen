@@ -2507,7 +2507,26 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
     app.UseGiraffe webApp
 ```
 
-Legg merke til at `UseGiraffe`-funksjonen tar inn en `HttpHandler` som argument. Her har vi laget en `HttpHandler` som svarer på `/ping` og returner tekststrengen `pong`.
+Legg merke til at `UseGiraffe`-funksjonen tar inn `webApp` som et argument. `webApp` er en `HttpHandler`, som er Giraffe sin funksjonelle ekvivalent til middleware i .NET. En `HttpHandler` i Giraffe er en funksjon med to parametere:
+
+- `next: HttpFunc` - Neste `HttpHandler` i Giraffe sin pipeline
+- `ctx: HttpContext` - Representasjon av HTTP-forespørslen
+
+`HttpHandler` i Giraffe har samme ansvar som middleware i .NET:
+
+- Håndtere innkommende HTTP-forespørsler, og konstruere aktuell respons
+- Ev. kalle neste `HttpHandler` i Giraffe-pipelinen
+
+I `webApp` over setter vi sammen en `HttpHandler` av to funksjoner ved hjelp av `>=>`-operatoren:
+
+- `route` - Kaller sin `next` dersom `path`-delen i URL-en til den innkommende HTTP-forespørslen matcher tekststrengen den får oppgitt
+- `text` - Sørger for å skrive tekststrengen den får oppgitt til HTTP-responsen
+
+`>=>` er F#-syntaks for å kombinere to funksjoner som returnerer [monader](https://en.wikipedia.org/wiki/Monad_(functional_programming)).
+
+> Merk at Giraffe sin pipeline kjører i én middlevare i .NET, og at middleware pipelinen til .NET kan inneholde flere middlewares enn Giraffe.
+
+I `configureApp`-funksjonen over har vi laget en `HttpHandler` `webApp` som svarer på `/ping` og returner tekststrengen `pong`.
 
 Til slutt må vi endre `main`-funksjonen vår til å starte `Host`-en vår:
 
@@ -2654,7 +2673,10 @@ module HttpHandlers =
             (text dateAsString) next ctx
 ```
 
-Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til at Giraffe har sin egen middleware pipeline, på tilsvarende måte som .NET legger opp til: først spesifiserer vi hva vi ønsker å returnere i HTTP-responsen `text dateAsString`, deretter kaller vi neste middleware i pipelinen `next ctx` hvor vi gir inn `HttpContext`-objektet.
+Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til det vi nevnte tidligere: at Giraffe har sin egen middleware pipeline. På tilsvarende måte som .NET legger Giraffe opp til at vi: 
+
+- Først spesifiserer hva vi ønsker å returnere i HTTP-responsen `text dateAsString`
+- Deretter kaller vi neste `HttpHandler` i pipelinen `next ctx` hvor vi gir inn `HttpContext`-objektet.
 
 Åpne modulen `HttpHandlers` i `Program.fs` og kall funksjonen `epgHandler` istedenfor den anonyme funksjonen vi hadde:
 
@@ -2684,7 +2706,9 @@ let parseAsDateTime (dateAsString : string) : DateTime option =
     | _ -> None
 ```
 
-`isDateValid`-funksjonen forsøker å parse tekststrengen vi har fått inn i URL-en til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indkerer om det gikk bra eller ikke. Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig:
+`parseAsDateTime`-funksjonen forsøker å parse tekststrengen vi har fått inn i URL-en til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indkerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTime.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTime.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTime.ParseExact` kaster `Exception`, og `Some date` dersom funksjonkallet lykkes. 
+
+Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig:
 
 ```f#
 let epgHandler (dateAsString : string) : HttpHandler =
@@ -2694,7 +2718,7 @@ let epgHandler (dateAsString : string) : HttpHandler =
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
-Koden over illustrerer et tilfelle hvor vi _ikke_ kaller neste middleware i pipelinen. Her setter vi statuskoden til `400` og skriver `Invalid date` til response body, før vi bryter videre prosessering av middleware i Giraffe ved å lage en tom middleware `Some >> Task.FromResult` som returnerer umiddelbart.
+Koden over illustrerer et tilfelle hvor vi _ikke_ kaller neste middleware i pipelinen. Dersom den oppgitte datoen er ugyldig, setter vi statuskoden til `400` og skriver `Invalid date` til response body, før vi bryter videre prosessering av middleware i Giraffe ved å lage en tom middleware `Some >> Task.FromResult` som returnerer umiddelbart.
 
 Kjør integrasjonstestene på nytt, og se at testen som verifiserer at API-et vårt responderer med `400 Bad Request` med en ugyldig dato også passerer nå:
 
