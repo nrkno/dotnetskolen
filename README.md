@@ -591,7 +591,7 @@ Enhetstester verifiserer at små, isolerte deler av koden fungerer slik den skal
 
 - Valideringsregler i domenet vårt
 
-Integrasjonstester verifiserer imidlertid at større deler av systemet fungerer slik det skal, og typisk i samspill med andre systemer. I dette kurset skal vi bruke integrasjonstester til å verifisere at web-API-et oppfører seg i henhold til [kontrakten vi definerer](#steg-7---definere-api-kontrakt).
+Integrasjonstester verifiserer imidlertid at større deler av systemet fungerer slik det skal, og typisk i samspill med andre systemer. I dette kurset skal vi bruke integrasjonstester til å verifisere at web-API-et oppfører seg i henhold til [kontrakten vi definerer i steg 7](#steg-7---definere-api-kontrakt).
 
 I dette steget skal vi opprette to testprosjekter
 
