@@ -1160,6 +1160,8 @@ Gjenta stegene over for `test\integration\NRK.Dotnetskolen.IntegrationTests.fspr
 
 ##### Legge til pakkereferanser via Paket
 
+###### Enhetstestprosjektet
+
 Kjør følgende kommandoer for å legge til pakkereferansene i enhetstestprosjektet via Paket:
 
 ```bash
@@ -1182,9 +1184,9 @@ $ dotnet paket add coverlet.collector --project test\unit\NRK.Dotnetskolen.UnitT
 
 > Merk at NuGet-pakken `FSharp.Core` ikke var listet ut i `.fsproj`-filene til enhets- og integrasjonstestprosjektene. Vi er imidlertid avhengig av å ha denne pakken for å få kjørt testene. Derfor er den lagt til eksplisitt via Paket over.
 
+###### Integrasjontestprosjektet
+
 Gjenta kommandoene for integrasjonstestprosjektet ved å bytte ut `test\unit\NRK.Dotnetskolen.UnitTests.fsproj` med `test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj`:
-
-
 
 ```bash
 
