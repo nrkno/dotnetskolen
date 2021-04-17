@@ -242,8 +242,6 @@ Når man kompilerer .NET-prosjekter kan man velge mellom to typer output:
 - `.exe` - Kjørbar fil ("executable") - et program som kan kjøres
 - `.dll` - Klassebibliotek ("dynamically linked library") - en samling med funksjonalitet som kan benyttes av andre programmer
 
-Alle prosjektene vi skal opprette i dette kurset er kjørbare filer.
-
 #### Dotnet new
 
 Som nevnt i [innledningen](#dotnetskolen) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange underkommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet)
