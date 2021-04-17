@@ -111,7 +111,7 @@ Dersom F# er nytt for deg, eller du ønsker å friske opp minnet om språket fin
 
 Veiledningen i dette kurset forutsetter at du har noen verktøy installert på maskinen din. Se gjennom listen under for å sørge for at du har det som trengs.
 
-> Å installere og bruke Git er valgfritt, men er kjekt å ha dersom du ønsker å ha veiledningen, og løsningsforslag, lokalt på maskinen din.
+> Å installere og bruke Git er valgfritt, men er kjekt å ha dersom du ønsker å ha veiledningen, og [løsningsforslag](#se-løsningsforslag), lokalt på maskinen din.
 
 ### Verktøy
 
