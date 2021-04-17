@@ -48,9 +48,18 @@ Deretter kan du begynne på selve kurset:
 
 ### Tilbakemeldinger
 
-Har du tilbakemeldinger, eller lurer på noe knyttet til kurset? Opprett gjerne en tråd under "Discussions" for dette repoet her:
+Har du tilbakemeldinger, eller lurer på noe knyttet til kurset? Opprett gjerne en tråd for det her:
 
 - [https://github.com/nrkno/dotnetskolen/discussions](https://github.com/nrkno/dotnetskolen/discussions)
+
+### 🔗 Nyttige lenker
+
+- Andre kurs i NRK
+  - F#-skolen, kurs i F# laget av ansatte i NRK TV - [https://github.com/nrkno/fsharpskolen](https://github.com/nrkno/fsharpskolen)
+  - Kubernetes-kurs i regi av plattform i NRK - [https://github.com/nrkno/plattform-k8s-kurs](https://github.com/nrkno/plattform-k8s-kurs)
+
+- Microsoft's offisielle dokumentasjon for .NET - [https://docs.microsoft.com/en-us/dotnet/](https://docs.microsoft.com/en-us/dotnet/)
+- F# cheat sheet - [http://dungpa.github.io/fsharp-cheatsheet/](http://dungpa.github.io/fsharp-cheatsheet/)
 
 ## Innholdsfortegnelse
 
