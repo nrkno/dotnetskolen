@@ -2528,7 +2528,7 @@ I `webApp` over setter vi sammen en `HttpHandler` av to funksjoner ved hjelp av 
 
 I `configureApp`-funksjonen over har vi laget en `HttpHandler` `webApp` som svarer på `/ping` og returner tekststrengen `pong`.
 
-Til slutt må vi endre `main`-funksjonen vår til å starte `Host`-en vår:
+For å ta i bruk web-applikasjonen vi nå har bygd i programmet vårt bygger vi hosten vår, og starter den slik:
 
 ```f#
 ...
