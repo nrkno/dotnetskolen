@@ -158,7 +158,7 @@ Veiledningen forklarer det grunnleggende om kommandoene vi kommer til å bruke i
 
 #### IDE
 
-For å kunne debugge kode, samt få syntax highlighting, autocomplete, og kodenavigering er det kjekt å ha en IDE. De mest brukte IDE-ene for .NET er oppsummert i tabellen under.
+For å kunne debugge kode, få syntax highlighting og visning av kompileringsfeil, autocomplete, og kodenavigering er det kjekt å ha en IDE. De mest brukte IDE-ene for .NET er oppsummert i tabellen under.
 
 | Navn | Plattform | Lisens | Download |
 | - | - | - | - |
