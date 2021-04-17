@@ -225,7 +225,7 @@ For å sette opp `.gitignore` i ditt lokale repo:
 
 ## Steg
 
-Nå som du har installert alle verktøyene du trenger, og satt opp koden lokalt, er du klar til å begynne på selve kurset!
+Nå som du har installert alle verktøyene du trenger er du klar til å begynne på selve kurset!
 
 ### Steg 1 - Opprette API
 
