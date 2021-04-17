@@ -1,6 +1,6 @@
 # Dotnetskolen
 
-## Innledning
+## 👋 Innledning
 
 Velkommen til Dotnetskolen!
 
@@ -12,7 +12,7 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp og implemen
 
 Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester. Tanken er at API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://info.nrk.no/presse/tvguide/](https://info.nrk.no/presse/tvguide/)
 
-### Fremgangsmåte
+### ⚙️ Fremgangsmåte
 
 Vi skal bruke [.NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/) til å opprette prosjekter, samt kjøre koden og testene. I tillegg skal vi dokumentere web-API-et vårt ved hjelp av [OpenAPI](https://www.openapis.org/).
 
@@ -24,7 +24,7 @@ Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
 └── test (kildekode til enhets- og integrasjonstestene)
 ```
 
-### Kom i gang
+### ✅ Kom i gang
 
 Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå skal kunne ha nytte av det.
 
@@ -46,7 +46,7 @@ Deretter kan du begynne på selve kurset:
 >
 > Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
 
-### Tilbakemeldinger
+### 👍👎 Tilbakemeldinger
 
 Har du tilbakemeldinger, eller lurer på noe knyttet til kurset? Opprett gjerne en tråd for det her:
 
@@ -61,12 +61,12 @@ Har du tilbakemeldinger, eller lurer på noe knyttet til kurset? Opprett gjerne 
 - Microsoft's offisielle dokumentasjon for .NET - [https://docs.microsoft.com/en-us/dotnet/](https://docs.microsoft.com/en-us/dotnet/)
 - F# cheat sheet - [http://dungpa.github.io/fsharp-cheatsheet/](http://dungpa.github.io/fsharp-cheatsheet/)
 
-### Medvirkende
+### 👩👨 Medvirkende
 
 - [@heidisu](https://github.com/heidisu) - Idé og kvalitetssikring
 - [@thomaswolff](https://github.com/thomaswolff) - Primus motor og forfatter
 
-## Innholdsfortegnelse
+## 📖 Innholdsfortegnelse
 
 - [Hva er .NET?](#hva-er-net)
 - [Hva er F#?](#hva-er-f)
