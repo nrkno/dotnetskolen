@@ -2519,7 +2519,7 @@ Legg merke til at `UseGiraffe`-funksjonen tar inn `webApp` som et argument. `web
 
 I `webApp` over setter vi sammen en `HttpHandler` av to funksjoner ved hjelp av `>=>`-operatoren:
 
-- `route` - Kaller sin `next` dersom `path`-delen i URL-en til den innkommende HTTP-forespørslen matcher tekststrengen den får oppgitt
+- `route` - Kaller `next` dersom `path`-delen i URL-en til den innkommende HTTP-forespørslen matcher tekststrengen den får oppgitt
 - `text` - Sørger for å skrive tekststrengen den får oppgitt til HTTP-responsen
 
 `>=>` er F#-syntaks for å kombinere to funksjoner som returnerer [monader](https://en.wikipedia.org/wiki/Monad_(functional_programming)).
