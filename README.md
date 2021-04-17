@@ -519,7 +519,7 @@ Untracked files:
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
-I outputen over ser vi at Git har oppdaget at det er opprettet en mappe `src` og innhold i den, men Git overvåker ikke disse per nå (`untracked files`).
+I outputen over ser vi at Git har oppdaget at det er opprettet en mappe `src` og innhold i den, men Git overvåker ikke disse per nå (filene er "untracked").
 
 ##### Legg til endringer i Git
 
