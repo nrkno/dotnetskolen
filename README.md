@@ -46,6 +46,12 @@ Deretter kan du begynne på selve kurset:
 >
 > Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
 
+### Tilbakemeldinger
+
+Har du tilbakemeldinger, eller lurer på noe knyttet til kurset? Opprett gjerne en tråd under "Discussions" for dette repoet her:
+
+- [https://github.com/nrkno/dotnetskolen/discussions](https://github.com/nrkno/dotnetskolen/discussions)
+
 ## Innholdsfortegnelse
 
 - [Hva er .NET?](#hva-er-net)
