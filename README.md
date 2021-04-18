@@ -12,6 +12,8 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp og implemen
 
 Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester. Tanken er at API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://info.nrk.no/presse/tvguide/](https://info.nrk.no/presse/tvguide/)
 
+> Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
+
 ### 💻 Fremgangsmåte
 
 Vi skal bruke [.NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/) til å opprette prosjekter, samt kjøre koden og testene. I tillegg skal vi dokumentere web-API-et vårt ved hjelp av [OpenAPI](https://www.openapis.org/).
@@ -28,23 +30,27 @@ Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
 
 Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå skal kunne ha nytte av det.
 
+#### Intro til .NET og F#
+
 Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese:
 
 - [Hva .NET er](#hva-er-net)
 - [Hva F# er](#hva-er-f)
+
+#### Installér nødvendige verktøy
   
 Før du starter på selve stegene i kurset bør du lese om:
 
 - [Nødvendige verktøy for å gjennomføre kurset](#verktøy)
 - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden-valgfritt)
 
+#### Start på kurset
+
 Deretter kan du begynne på selve kurset:
 
 - [Gå til første steg](#steg-1---opprette-api)
 
 > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
->
-> Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
 
 ### ❓ Spørsmål
 
