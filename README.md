@@ -46,11 +46,12 @@ Deretter kan du begynne på selve kurset:
 >
 > Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
 
-### 👍👎 Tilbakemeldinger
+### ❓ Spørsmål
 
-Har du tilbakemeldinger, eller lurer på noe knyttet til kurset? Opprett gjerne en tråd for det her:
+Lurer du på noe knyttet til kurset? Ta gjerne kontakt på `#dotnetskolen` på Slack, eller opprett tråd på "Discussions" på GitHub:
 
-- [https://github.com/nrkno/dotnetskolen/discussions](https://github.com/nrkno/dotnetskolen/discussions)
+- [https://nrk.slack.com/messages/dotnetskolen](https://nrk.slack.com/messages/dotnetskolen)
+- [https://github.com/nrkno/dotnetskolen/discussions/categories/q-a](https://github.com/nrkno/dotnetskolen/discussions/categories/q-a)
 
 ### 🔗 Nyttige lenker
 
@@ -61,6 +62,11 @@ Har du tilbakemeldinger, eller lurer på noe knyttet til kurset? Opprett gjerne 
   - F#-skolen, kurs i F# laget av ansatte i NRK TV - [https://github.com/nrkno/fsharpskolen](https://github.com/nrkno/fsharpskolen)
   - Kubernetes-kurs i regi av plattform i NRK - [https://github.com/nrkno/plattform-k8s-kurs](https://github.com/nrkno/plattform-k8s-kurs)
 
+### 👍👎 Tilbakemeldinger
+
+Har du tilbakemeldinger til kurset? Opprett gjerne en tråd for det her:
+
+- [https://github.com/nrkno/dotnetskolen/discussions/categories/ideas](https://github.com/nrkno/dotnetskolen/discussions/categories/ideas)
 
 ### 👩👨 Medvirkende
 
