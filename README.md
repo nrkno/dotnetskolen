@@ -83,7 +83,7 @@ Har du tilbakemeldinger til kurset? Opprett gjerne en tråd for det her:
 
 - [Hva er .NET?](#hva-er-net)
 - [Hva er F#?](#hva-er-f)
-- [Hvordan komme i gang](#hvordan-komme-i-gang)
+- [Hvordan komme i gang med kurset](#hvordan-komme-i-gang)
   - [Nødvendige verktøy](#verktøy)
   - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden-valgfritt)
   - [Se løsningsforslag](#se-løsningsforslag)
@@ -139,7 +139,7 @@ Dersom F# er nytt for deg, eller du ønsker å friske opp minnet om språket fin
   - Nettsted laget av Scott Wlaschin, med mange utfyllende og forklarende artikler om F# og funksjonell programmering. 
   - For mer utfyllende innføring i F# se: [https://fsharpforfunandprofit.com/site-contents/#understanding-f](https://fsharpforfunandprofit.com/site-contents/#understanding-f)
 
-## Hvordan komme i gang
+## Hvordan komme i gang med kurset
 
 Veiledningen i dette kurset forutsetter at du har noen verktøy installert på maskinen din. Se gjennom listen under for å sørge for at du har det som trengs.
 
