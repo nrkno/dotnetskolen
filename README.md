@@ -3354,7 +3354,7 @@ type Sending = {
 }
 ```
 
-Her ser vi at istedenfor å bruke `string` for tittel og kanal, bruker vi de respektive typene som vi opprettet over. Istedenfor `DateTimeOffset` for start- og sluttidspunkt har `Sending`-typen nå en `Sendetidspunkt`-verdi. Legg merke til at `Sending` ikke har privat konstruktør. Det er ikke nødvendig ettersom alle feltene i `Sending`-typen må opprettes gjennom deres `create`-funksjoner. Dermed vil en `Sending`-verdi alltid være gyldig. Som en beleilighet for de som skal ta i bruk `Sending`-typen kan vi likevel lage en `create`-funksjon i en egen `Sending`-modul, slik at man enklere kan lage en `Sending`-verdi uten å kalle `create`-funksjonene i modulen som korresponderer til typen til hvert felt.
+Her ser vi at istedenfor å bruke `string` for tittel og kanal, bruker vi de respektive typene som vi opprettet over. I tillegg bruker vi `Sendetidspunkt` istedenfor `DateTimeOffset` for start- og sluttidspunkt. Legg merke til at `Sending` ikke har privat konstruktør. Det er ikke nødvendig ettersom alle feltene i `Sending`-typen må opprettes gjennom deres `create`-funksjoner. Dermed vil en `Sending`-verdi alltid være gyldig. Som en beleilighet for de som skal ta i bruk `Sending`-typen kan vi likevel lage en `create`-funksjon i en egen `Sending`-modul, slik at man enklere kan lage en `Sending`-verdi uten å kalle `create`-funksjonene i modulen som korresponderer til typen til hvert felt.
 
 ```f#
 module Sending =
