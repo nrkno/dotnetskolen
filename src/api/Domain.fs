@@ -12,14 +12,6 @@ module Domain =
         SluttTidspunkt: DateTimeOffset
     }
 
-    type Sending = {
-        Tittel: Tittel
-        Kanal: Kanal
-        Sendetidspunkt: Sendetidspunkt
-    }
-
-    type Epg = Sending list
-
     let isTitleValid (title: string) : bool =
         let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
         titleRegex.IsMatch(title)
@@ -63,6 +55,14 @@ module Domain =
 
         let startTidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.StartTidspunkt
         let sluttTidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.SluttTidspunkt
+
+    type Sending = {
+        Tittel: Tittel
+        Kanal: Kanal
+        Sendetidspunkt: Sendetidspunkt
+    }
+
+    type Epg = Sending list
 
     module Sending =
         let create (tittel: string) (kanal: string) (startTidspunkt: DateTimeOffset) (sluttTidspunkt: DateTimeOffset) : Sending option =
