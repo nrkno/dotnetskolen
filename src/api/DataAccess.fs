@@ -38,11 +38,11 @@ module DataAccess =
 
     let toDomain (epgEntity : EpgEntity) : Epg =
         epgEntity
-        |> List.map(fun e -> {
-            Sending.Tittel = e.Tittel
-            Kanal = e.Kanal
-            StartTidspunkt = DateTimeOffset.Parse(e.StartTidspunkt)
-            SluttTidspunkt = DateTimeOffset.Parse(e.SluttTidspunkt)
+        |> List.map(fun s -> {
+            Sending.Tittel = s.Tittel
+            Kanal = s.Kanal
+            StartTidspunkt = DateTimeOffset.Parse(s.StartTidspunkt)
+            SluttTidspunkt = DateTimeOffset.Parse(s.SluttTidspunkt)
         })
         |> List.filter(fun d -> isTransmissionValid d)
 
