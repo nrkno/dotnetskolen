@@ -13,8 +13,7 @@ module Program =
     open NRK.Dotnetskolen.Api.DataAccess
     open NRK.Dotnetskolen.Api.HttpHandlers
 
-    let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-        let getEpgForDate = app.ApplicationServices.GetRequiredService<DateTime -> Epg>()
+    let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
         let webApp =
             choose [
                 GET  >=> 
@@ -24,17 +23,15 @@ module Program =
         app.UseGiraffe webApp
 
     let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-        let getEpgForDate = getEpgForDate getAllTransmissions
         services
             .AddGiraffe()
-            .AddSingleton<DateTime -> Epg>(getEpgForDate) 
             |> ignore
 
     let createHostBuilder args =
         Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(fun webBuilder -> 
                 webBuilder
-                    .Configure(configureApp)
+                    .Configure(configureApp (getEpgForDate getAllTransmissions))
                     .ConfigureServices(configureServices)
                 |> ignore
             )
