@@ -3516,7 +3516,7 @@ let toDomain (epgEntity : EpgEntity) : Epg =
   |> List.choose id
 ```
 
-> `List.choose` tar inn en funksjon `f`, og returnerer en liste med verdier hvor `f` returnerer `Some`.
+> `List.choose` tar inn en funksjon `f`, og returnerer en liste med de interne verdiene til innslagene i listen hvor `f` returnerer `Some`. `ìd` er en innebygd funksjon i F# som returnerer det den får inn. Ved å kombinere `List.choose` med `id`-funksjonen oppnår vi det samme som vi gjorde med `List.filter (fun s -> s.IsSome)` og `List.map (fun s -> s.Value)` etter hverandre.
 
 Legg også merke til at i koden over fjernet vi `List.filter (fun d -> isTransmissionValid d)`, og på den måten flyttet ansvaret for å validere en `Sending`-verdi fra `toDomain`-funksjonen i `DataAccess.fs` til `Sending.create`-funksjonen i `Domain.fs`.
 
