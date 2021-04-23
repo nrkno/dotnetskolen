@@ -1,3 +1,3 @@
-# Steg 10 - Implementere web-API
+# Steg 11 - Følge prinsipper i domenedrevet design
 
-Løsningsforslag for [steg 10](https://github.com/nrkno/dotnetskolen/tree/main#steg-10---implementere-web-api).
+Løsningsforslag for [steg 11](https://github.com/nrkno/dotnetskolen/tree/main#steg-11---følge-prinsipper-i-domenedrevet-design).
