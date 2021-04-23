@@ -2937,10 +2937,10 @@ let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilde
     app.UseGiraffe webApp
 ```
 
-Til slutt må vi utvide `CreateHostBuilder`-funksjonen til å sende inn implementasjonen av `getEpgForDate` til `configureApp`, slik:
+Til slutt må vi utvide `createHostBuilder`-funksjonen til å sende inn implementasjonen av `getEpgForDate` til `configureApp`, slik:
 
 ```f#
-let CreateHostBuilder args =
+let createHostBuilder args =
     Host.CreateDefaultBuilder(args)
         .ConfigureWebHostDefaults(fun webBuilder -> 
             webBuilder
@@ -3081,15 +3081,15 @@ Legg merke til at `getAllTransmissions`-funksjonen skal returnere en verdi av ty
 
 ###### Registrere avhengigheter
 
-Ettersom vi innførte `getAllTransmissions` som en avhengighet til `getEpgForDate`, må vi endre `CreateHostBuilder` slik at `getEpgForDate` får inn denne avhengigheten.
+Ettersom vi innførte `getAllTransmissions` som en avhengighet til `getEpgForDate`, må vi endre `createHostBuilder` slik at `getEpgForDate` får inn denne avhengigheten.
 
-Legg til følgende `open`-statement, og utvid `CreateHostBuilder` i `Program.fs` i web-API-prosjektet til å sende inn `getAllTransmissions` fra `DataAccess`-modulen til `getEpgForDate`:
+Legg til følgende `open`-statement, og utvid `createHostBuilder` i `Program.fs` i web-API-prosjektet til å sende inn `getAllTransmissions` fra `DataAccess`-modulen til `getEpgForDate`:
 
 ```f#
 ...
 open NRK.Dotnetskolen.Api.DataAccess
 ...
-let CreateHostBuilder args =
+let createHostBuilder args =
     Host.CreateDefaultBuilder(args)
         .ConfigureWebHostDefaults(fun webBuilder -> 
             webBuilder
