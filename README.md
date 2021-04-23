@@ -3261,7 +3261,7 @@ Du har nå implementert et web-API i F#, med enhets- og integrasjonstester, API-
 
 #### Steg 11 - Følge prinsipper i domenedrevet design
 
-Implementasjonen av domenemodellen slik vi gjorde det i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) har en svakhet: det er ingen garanti for at verdier vi oppretter for `Sending` og `Epg` er gyldige. Det er kun `getAllTransmissions`-funksjonen i `DataAccess.fs` som kaller `isTranssmissionValid` når sendinger hentes. Det er ingen garanti for at alle opprettelser av `Sending`- og `Epg`-verdier kommer gjennom `getAllTransmissions`. I dette steget skal vi se hvordan vi kan endre domenemodellen vår slik at man ikke kan opprette `Sending`- og `Epg`-verdier uten at de er gyldige.
+Implementasjonen av domenemodellen slik vi gjorde det i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) har en svakhet: det er ingen garanti for at verdier vi oppretter for `Sending` og `Epg` er gyldige. Det er kun `toDomain`-funksjonen i `DataAccess.fs` som kaller `isTranssmissionValid` når sendinger hentes. Det er ingen garanti for at alle opprettelser av `Sending`- og `Epg`-verdier kommer gjennom `getAllTransmissions`. I dette steget skal vi se hvordan vi kan endre domenemodellen vår slik at man ikke kan opprette `Sending`- og `Epg`-verdier uten at de er gyldige.
 
 ##### Modellere hvert felt
 
