@@ -34,7 +34,7 @@ module Mock =
                 StartTidspunkt = now
                 SluttTidspunkt = now.AddMinutes(30.)
             }
-            // Sendinger tilbake i tid
+            // Sendinger frem i tid
             {
                 Tittel = "Testprogram"
                 Kanal = "NRK1"
