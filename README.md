@@ -1576,7 +1576,7 @@ Før vi kjører testene igjen, definerer vi skallet for `isChannelValid` i `Doma
 ```f#
 ...
 let isChannelValid (channel: string) : bool =
-    // Implementasjon her
+  // Implementasjon her
 ```
 
 ☑️ Implementér `isChannelValid` slik at enhetstestene passerer.
@@ -1629,7 +1629,7 @@ Funksjonen for å validere sendetidspunktene må undersøke om sluttidspunktet e
 ```f#
 ...
 let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
-    // Implementasjon her
+  // Implementasjon her
 ```
 
 ☑️ Implementér `areStartAndEndTimesValid` og få enhetstestene til å passere.
@@ -1668,7 +1668,7 @@ Legg til følgende skall for `isTransmissionValid` i `Domain.fs`:
 ```f#
 ...
 let isTransmissionValid (transmission: Sending) : bool =
-    // Implementasjon her
+  // Implementasjon her
 ```
 
 ☑️ Implementér `isTransmissionValid`, og få enhetstestene til å passere:
@@ -2495,7 +2495,7 @@ let isLoginValid (getUser: string -> UserEntity) (username: string) (password: s
 
 En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender man inn de nødvendige avhengighetene til de ulike delene av koden sin fra utsiden. Dersom en funksjon `A` har avhengiheter funksjonene `B` og `C`, og `B` og `C` har hhv. avhengiheter til funksjonene `D` og `E`, må man ha implementasjoner for `B`, `C`, `D` og `E` for å kunne kalle funksjon `A`. Disse avhengighetene danner et avhengighetstre, og dersom man skal kalle en funksjon man på toppen treet er nødt til å ha implementasjoner av alle de interne nodene og alle løvnodene i avhengighetstreet. For hver toppnivåfunksjon (som `A`) man har i applikasjonen sin, vil man ha et avhengighetstre.
 
- Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root". Ved å bruke `IHost` i .NET er "composition root" `configureServices`-funksjonen. Her har man tilgang til et `IServiceCollection`-objekt hvor man kan legge til implementasjoner av de ulike funksjonene man har behov for å applikasjonen sin.
+ Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root". Vi ser nærmere på hva man kan bruke som "composition root" i .NET i [avsnittet om å implemetere avhengighetene til API-et vårt](#implementere-avhengigheter).
 
 > Du kan lese mer om "dependency injection" her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0)
 
@@ -2658,6 +2658,8 @@ Den anonyme funksjonen som håndterer HTTP GET-forespørsler til `/epg/{dato}` g
 2. Hente sendinger for den oppgitte datoen
 3. Returnere EPG på JSON-format som oppfyller API-kontrakten vår
 
+###### Flytte HttpHandler til egen modul
+
 La oss starte med å trekke ut den anonyme funksjonen til en egen funksjon `epgHandler` som vi legger i en ny modul `HttpHandlers`. Opprett en ny fil `HttpHandlers.fs` som du legger i mappen `src/api` slik:
 
 ```txt
@@ -2710,7 +2712,7 @@ module HttpHandlers =
 Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til det vi nevnte tidligere: at Giraffe har sin egen middleware pipeline. På tilsvarende måte som .NET legger Giraffe opp til at vi: 
 
 - Først spesifiserer hva vi ønsker å returnere i HTTP-responsen `text dateAsString`
-- Deretter kaller vi neste `HttpHandler` i pipelinen `next ctx` hvor vi gir inn `HttpContext`-objektet.
+- Deretter kaller vi neste `HttpHandler` i pipelinen `next` hvor vi gir inn `HttpContext`-verdien `ctx`.
 
 Åpne modulen `HttpHandlers` i `Program.fs` og kall funksjonen `epgHandler` istedenfor den anonyme funksjonen vi hadde:
 
@@ -2752,7 +2754,7 @@ let epgHandler (dateAsString : string) : HttpHandler =
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
-Koden over illustrerer et tilfelle hvor vi _ikke_ kaller neste middleware i pipelinen. Dersom den oppgitte datoen er ugyldig, setter vi statuskoden til `400` og skriver `Invalid date` til response body, før vi bryter videre prosessering av middleware i Giraffe ved å lage en tom middleware `Some >> Task.FromResult` som returnerer umiddelbart.
+`None`-casen i koden over illustrerer et tilfelle hvor vi _ikke_ kaller neste middleware i pipelinen. Dersom den oppgitte datoen er ugyldig, setter vi statuskoden til `400` og skriver `Invalid date` til response body, før vi bryter videre prosessering av middleware i Giraffe ved å lage en tom middleware `Some >> Task.FromResult` som returnerer umiddelbart.
 
 Kjør integrasjonstestene på nytt, og se at testen som verifiserer at API-et vårt responderer med `400 Bad Request` med en ugyldig dato også passerer nå:
 
@@ -2798,7 +2800,7 @@ Vi begynner med å mappe fra domenemodellen til kontraktstypen vår. Utvid `Dto.
 ```f#
 ...
 let fromDomain (domain: Domain.Epg) : EpgDto =
-    // Implementasjon her
+  // Implementasjon her
 ...
 ```
 
@@ -2854,13 +2856,16 @@ let epgHandler (getEpgForDate : DateTime -> Epg) (dateAsString : string) : HttpH
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
-##### Registrere avhengigheter
+##### Implementere avhengigheter
 
 I steget [hente EPG](#hente-epg) definerte vi at funksjonen `epgHandler` hadde en avhengighet til en funksjon `getEpgForDate: DateTime -> Epg`. Husk fra [kapitlet om "dependency injection"](#dependency-injection) at vi må sørge for at slike avhengigheter er tilfredsstilt når vi kaller funksjonen.
 
-`epgHandler`-funksjonen blir kalt av Giraffe, og vi oppgir `epgHandler` til Giraffe i `configureApp`-funksjonen i `Program.fs`. Vi har imidlertid lært at avhengigheter registreres i `IServiceCollection`-objektet i `configureServices`-funksjonen. Hvordan får vi tak i denne avhengigheten i `configureApp`-funksjonen?
+`epgHandler`-funksjonen blir kalt av Giraffe, og vi oppgir `epgHandler` til Giraffe i `configureApp`-funksjonen i `Program.fs`. Dermed må vi også sende inn implementasjonen av `getEpgForDate`-funksjonen her. Gitt en implementasjon av `getEpgForDate` har vi i alle fall to måter å få tak i den i `configureApp`-funksjonen, og sende den inn som parameter til `epgHandler`:
 
-`configureApp`-funksjonen tar inn et `IApplicationBuilder`-objekt som parameter. `IApplicationBuilder` har en property som heter `ApplicationServices` som er samlingen med avhengigheter vi registrerer i `IServiceCollection`-objektet. La oss anvende denne kunnskapen til å gi `epgHandler`-funksjonen det den trenger av avhengigheter.
+1. Sende inn implementasjonen av `getEpgForDate` som parameter til `configureApp`-funksjonen.
+2. Registrere `getEpgForDate`-funksjonen i `IServiceCollection` i `configureServices`, og bruke `ApplicationServices`-feltet i `IApplicationBuilder`-parameteret til `configureApp` for å hente ut `getEpgForDate`-funksjonen derfra.
+
+Ettersom `getEpgForDate` kun er en funksjon, og vi lager en såpass liten og enkel applikasjon i dette kurset, kommer vi til å gå videre med alternativ #1. Dersom man har et større prosjekt med flere avhengigheter, eller har avhengigheter som er sterkt knyttet til hvordan dependency injection er løst i .NET (slik som Azure-bibliotekene til Microsoft), er det mer hensiktsmessig å gå for alternativ #2.
 
 ###### Implementere `getEpgForDate`
 
@@ -2900,7 +2905,7 @@ Husk å legg til `Services.fs` i prosjektfilen til API-prosjektet:
 </Project>
 ```
 
-Ut i fra signaturen til `getEpgForDate` må `Services.fs` se slik ut:
+Legg til følgende kode i `Services.fs`:
 
 ```f#
 namespace NRK.Dotnetskolen.Api
@@ -2911,8 +2916,48 @@ module Services =
     open NRK.Dotnetskolen.Domain
 
     let getEpgForDate (date : DateTime) : Epg =
-    // Implementasjon her...
+      []
 ```
+
+Foreløpig returnerer vi bare en tom liste slik at vi kan se hvordan vi kan benytte `getEpgForDate` i `epgHandler`.
+
+Legg til følgende `open`-statement i `Program.fs` i API-prosjektet:
+
+```f#
+...
+open NRK.Dotnetskolen.Api.Services
+...
+```
+
+Utvid deretter `configureApp`-funksjonen til å ta inn et parameter `getEpgForDate` og send det inn til `epgHandler`, slik:
+
+```f#
+let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+    let webApp = GET >=> routef "/epg/%s" (epgHandler getEpgForDate)
+    app.UseGiraffe webApp
+```
+
+Til slutt må vi utvide `CreateHostBuilder`-funksjonen til å sende inn implementasjonen av `getEpgForDate` til `configureApp`, slik:
+
+```f#
+let CreateHostBuilder args =
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(fun webBuilder -> 
+            webBuilder
+                .Configure(configureApp getEpgForDate)
+                .ConfigureServices(configureServices)
+            |> ignore
+        )
+```
+
+Kjør web-API-et med følgende kommando, og gå til [http://localhost:5000/epg/2021-04-23](http://localhost:5000/epg/2021-04-23) for å se hva API-et returnerer.
+
+```bash
+$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
+...
+```
+
+La oss gå videre med å implementere `getEpgForDate`.
 
 Oppgaven til `getEpgForDate` er å filtrere sendinger på den oppgitte datoen, men hvor skal den få sendingene fra? På tilsvarende måte som vi gjorde i `epgHandler`-funksjonen i `HttpHandlers`, kan vi her si at vi ønsker å delegere ansvaret til å faktisk hente sendinger til noen andre. Dette kan vi gjøre ved å ta inn en funksjon `getAllTransmissions: () -> Epg` i `getEpgForDate`:
 
@@ -2924,6 +2969,10 @@ let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
 ```
 
 ☑️ Fullfør implementasjonen for `getEpgForDate` og sørg for at Epg-verdien som returneres kun har sendinger som starter på den oppgitte datoen `date`.
+
+> 💡Tips!
+>
+> - `List.filter` kan være til hjelp for å filtrere sendingene fra `getAllTransmissions`
 
 ###### Implementere getAllTransmissions
 
@@ -3027,41 +3076,48 @@ Legg merke til at `getAllTransmissions`-funksjonen skal returnere en verdi av ty
 
 ☑️ Implementér `getAllTransmissions`-funksjonen.
 
-> Tips: det kan være lurt å skrive en funksjon `toDomain` som mapper en `EpgEntity`-verdi til `Epg`-verdi. Husk i den forbindelse å validér om `Epg`-verdien er gyldig i ettertid. Vi kan ikke garantere datakvaliteten til databasen.
+[comment]: <> (To do: fiks denne veiledningen dersom du innfører `Create`-funksjon i Domain.fs)
+> Tips: det kan være lurt å skrive en funksjon `toDomain` som mapper en `EpgEntity`-verdi til `Epg`-verdi. Husk i den forbindelse å validére om `Epg`-verdien er gyldig i ettertid. Vi kan ikke garantere datakvaliteten til databasen.
 
-###### Registrere avhengigheter i configureServices
+###### Registrere avhengigheter
 
-Forutsatt at vi har fungerende implementasjoner av `getEpgForDate` og `getAllTransmissions`, kan vi gå videre å registrere disse i `configureServices`. Endre `Program.fs` med følgende `open`-statements og implementasjon for `configureServices`-funksjonenen:
+Ettersom vi innførte `getAllTransmissions` som en avhengighet til `getEpgForDate`, må vi endre `CreateHostBuilder` slik at `getEpgForDate` får inn denne avhengigheten.
+
+Legg til følgende `open`-statement, og utvid `CreateHostBuilder` i `Program.fs` i web-API-prosjektet til å sende inn `getAllTransmissions` fra `DataAccess`-modulen til `getEpgForDate`:
 
 ```f#
 ...
-open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.Api.DataAccess
 ...
-let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-    let getEpgForDate = getEpgForDate getAllTransmissions
-    services
-        .AddGiraffe()
-        .AddSingleton<DateTime -> Epg>(getEpgForDate) 
-        |> ignore
+let CreateHostBuilder args =
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(fun webBuilder -> 
+            webBuilder
+                .Configure(configureApp (getEpgForDate getAllTransmissions))
+                .ConfigureServices(configureServices)
+            |> ignore
+        )
 ```
 
-Her bruker vi `AddSingleton`-funksjonen til å registrere vår implementasjon av `getEpgForDate` fra `Services.fs` hvor vi har gitt inn `getAllTransmissions` fra `DataAccess.fs` som parameter. `AddSingleton<DateTime -> Epg>` betyr at alle som spør etter en funksjon med signaturen `DateTime -> Epg` vil få den samme instansen av `getEpgForDate`-funksjonen. `Singleton` er bare en av flere livssykluser for objekter som registreres i `IServiceCollection`. Les om alle her: [https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-lifetimes](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-lifetimes)
+Merk at over har vi kalt `getEpgForDate` med `getAllTransmissions`, og fått en ny funksjon i retur som tar inn en `DateTime` og returnerer en `Epg`-verdi. Det å sende inn et subsett av parameterene til en funksjon, og få en funksjon i retur som tar inn de resterende parameterene kalles "partial application". Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
 
-##### Benytte avhengigheter
+##### Fikse tester
 
-Nå som vi har registrert vår implementasjon av `getEpgForDate` i `IServiceCollection`-objektet, kan vi hente den ut i `configureApp`-funksjonen og gi den til `epgHandler`-funksjonen vår:
+Ettersom vi har innført `getEpgForDate` som parameter til `configureApp`-funksjonen, må vi sende inn det parameteret når vi lager `IWebHostBuilder` i `createWebHostBuilder`-funksjonen i `Tests.fs` i integrasjonstestprosjektet. Legg til følgende `open`-statements, og utvid `createWebHostBuilder`-funksjonen slik:
 
 ```f#
-let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let getEpgForDate = app.ApplicationServices.GetRequiredService<DateTime -> Epg>()
-    let webApp = GET  >=> routef "/epg/%s" (epgHandler getEpgForDate)
-    app.UseGiraffe webApp
+...
+open NRK.Dotnetskolen.Domain
+open NRK.Dotnetskolen.Api.Services
+...
+let createWebHostBuilder () =
+    WebHostBuilder()
+        .UseContentRoot(Directory.GetCurrentDirectory()) 
+        .UseEnvironment("Test")
+        .Configure(Program.configureApp (getEpgForDate getAllTransmissions))
+        .ConfigureServices(Program.configureServices)
+        .ConfigureServices(configureTestServices)
 ```
-
-Her bruker vi `app.ApplicationServices` til å hente ut en funksjon som har signaturen `DateTime -> Epg`. Siden vi kun har registrert én funksjon med denne signaturen, vet vi at det er `getEpgForDate`. Deretter sender vi inn `getEpgForDate` til `epgHandler`-funksjonen, og på den måten anvender "partial application" av `epgHandler`, før vi oppgir den returnerte funksjonen til Giraffe.
-
-> Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
 
 Kjør testene på nytt med følgende kommando, og se om alle testene passerer nå:
 
@@ -3075,32 +3131,9 @@ Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration:
 
 Et problem med integrasjonstestene våre slik de er nå er at vi ikke har kontroll på avhengighetene til applikasjonen under kjøringen av integrasjonstestene. Mer konkret brukte vi den faktiske dataaksessen til web-API-et da vi kjørte testene. I et faktisk system ville ikke dataene være hardkodet i web-API-et, men heller lagret i den database eller liknende. For å slippe å være avhengig av en database ved kjøring av integrasjonstestene, kan vi endre hosten vi bruker i integrasjonstestene til å benytte et datalager vi spesifiserer i testene istedenfor å bruke det datalageret web-API-et er konfigurert til å bruke.
 
-##### Fjern getEpgForDate fra IServiceCollection
-
-Da vi [satte opp integrasjonstestene](#sette-opp-integrasjonstester) definerte vi funksjonen `createWebHostBuilder` i `Tests.fs` i integrasjonstestprosjektet, som benyttet `configureServices` fra web-API-prosjektet. [Tidligere](#registrere-avhengigheter-i-configureservices) registrerte vi web-API-et sin implementasjon av `getEpgForDate` i `configureServices` til å bruke web-API-et sin implementasjon av `getAllTransmissions`. Nå ønsker vi å bytte ut implementasjonen av `getAllTransmissions` med vår egen for å ha kontroll på dataene som er brukt i API-et unde kjøring av integrasjonstestene. Det kan vi gjøre ved å legge til enda et kall til `ConfigureServices`-funksjonen på `IWebHostBuilder`-objektet i `createWebHostBuilder`-funksjonen i integrasjonstestprosjektet.
-
-Legg til følgende `open`-statements i `Tests.fs` i integrasjonstestprosjektet:
-
-```f#
-open Microsoft.Extensions.DependencyInjection
-open System.Linq
-open NRK.Dotnetskolen.Domain
-```
-
-Legg deretter til funksjonen `configureTestServices` over `createWebHostBuilder` i `Tests.fs` i integrasjonstestprosjektet som vist under:
-
-```f#
-...
-let configureTestServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-    let existingGetEpgForDateFunction = services.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
-    services.Remove(existingGetEpgForDateFunction) |> ignore
-    ()
-...
-```
-
-Her finner vi implementasjonen av `getEpgForDate` (det er den eneste funksjonen i `services` med denne signaturen), og fjerner den fra `services`. La oss implementere vår egen `getAllTransmissions`-funksjon i integrasjonstestprosjektet, og få `getEpgForDate` til å bruke den istedenfor.
-
 ##### Implementere mock av getAllTransmissions
+
+La oss implementere vår egen `getAllTransmissions`-funksjon i integrasjonstestprosjektet, og få `getEpgForDate` til å bruke den istedenfor.
 
 Opprett filen `Mock.fs` i mappen `/test/integration`:
 
@@ -3199,24 +3232,15 @@ module Mock =
 
 ##### Benytte mock av getAllTransmissions
 
-Nå som vi har vår egen implementasjon av `getAllTransmissions`, kan vi konfigurere `getEpgForDate` til å bruke denne implementasjonen istedenfor den fra web-API-prosjektet. Det gjør vi ved å utvide `configureTestServices`-funksjonen i `Tests.fs`-filen.
-
-Start med å legg til følgende `open`-statements:
+Nå som vi har vår egen implementasjon av `getAllTransmissions`, kan vi konfigurere `getEpgForDate` til å bruke denne implementasjonen istedenfor den fra web-API-prosjektet. Det gjør vi ved å bytte ut `open`-statementen `open NRK.Dotnetskolen.Api.DataAccess` med `open NRK.Dotnetskolen.IntegrationTests.Mock`, slik:
 
 ```f#
-open NRK.Dotnetskolen.Api.Services
+...
 open NRK.Dotnetskolen.IntegrationTests.Mock
+...
 ```
 
-Legg deretter til linjen `services.AddSingleton<DateTime -> Epg>(getEpgForDate getAllTransmissions) |> ignore` i `configureTestService`, slik:
-
-```f#
-let configureTestServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-    let existingGetEpgForDateFunction = services.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
-    services.Remove(existingGetEpgForDateFunction) |> ignore
-    services.AddSingleton<DateTime -> Epg>(getEpgForDate getAllTransmissions) |> ignore
-    ()
-```
+Dette sørger for at `getAllTransmissions` blir hentet fra `Mock`-modulen vår i integrasjonstestprosjektet istedenfor å bruke `DataAccess`-modulen i API-et vårt.
 
 Dersom du kjører integrasjonstestene igjen, skal de fortsatt passere:
 
