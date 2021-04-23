@@ -3,12 +3,23 @@ module Tests
 open System
 open System.IO
 open System.Net
+open System.Linq
 open System.Text.Json
 open Microsoft.AspNetCore.Hosting
 open Microsoft.AspNetCore.TestHost
+open Microsoft.Extensions.DependencyInjection
 open Xunit
 open Json.Schema
 open NRK.Dotnetskolen.Api
+open NRK.Dotnetskolen.Domain
+open NRK.Dotnetskolen.Api.Services
+open NRK.Dotnetskolen.IntegrationTests.Mock
+
+let configureTestServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
+    let existingGetEpgForDateFunction = services.SingleOrDefault((fun s -> s.ServiceType = typeof<DateTime -> Epg>))
+    services.Remove(existingGetEpgForDateFunction) |> ignore
+    services.AddSingleton<DateTime -> Epg>(getEpgForDate getAllTransmissions) |> ignore
+    ()
 
 let createWebHostBuilder () =
     WebHostBuilder()
@@ -16,6 +27,7 @@ let createWebHostBuilder () =
         .UseEnvironment("Test")
         .Configure(Program.configureApp)
         .ConfigureServices(Program.configureServices)
+        .ConfigureServices(configureTestServices)
 
 [<Fact>]
 let ``Get EPG today returns 200 OK`` () =
