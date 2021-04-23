@@ -6,11 +6,6 @@ module Domain =
     open System.Text.RegularExpressions
 
     type Tittel = private Tittel of string
-    type Kanal = private Kanal of string
-    type Sendetidspunkt = private {
-        StartTidspunkt: DateTimeOffset
-        SluttTidspunkt: DateTimeOffset
-    }
 
     let isTitleValid (title: string) : bool =
         let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
@@ -26,6 +21,8 @@ module Domain =
 
         let value (Tittel tittel) = tittel
 
+    type Kanal = private Kanal of string
+
     let isChannelValid (channel: string) : bool =
         List.contains channel ["NRK1"; "NRK2"]
 
@@ -38,6 +35,11 @@ module Domain =
                 None
 
         let value (Kanal kanal) = kanal
+    
+    type Sendetidspunkt = private {
+        StartTidspunkt: DateTimeOffset
+        SluttTidspunkt: DateTimeOffset
+    }
 
     let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
         startTime < endTime
