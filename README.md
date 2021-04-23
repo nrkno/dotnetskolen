@@ -2522,7 +2522,7 @@ open Giraffe
 ...
 ```
 
-For at Giraffe skal ha tilgang til sine avhengigheter må vi registrere dem i `IServiceCollection`-objektet i `configureServices`-funksjonen. Gjør det ved å kall funksjonen `services.AddGiraffe()` i `configureServices`-funksjonen i `Program.fs`:
+For at Giraffe skal ha tilgang til sine avhengigheter må vi registrere dem i `IServiceCollection`-objektet i `configureServices`-funksjonen. Gjør det ved å kalle funksjonen `services.AddGiraffe()` i `configureServices`-funksjonen i `Program.fs`:
 
 ```f#
 let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
@@ -2539,7 +2539,7 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
     app.UseGiraffe webApp
 ```
 
-Legg merke til at `UseGiraffe`-funksjonen tar inn `webApp` som et argument. `webApp` er en `HttpHandler`, som er Giraffe sin funksjonelle ekvivalent til middleware i .NET. En `HttpHandler` i Giraffe er en funksjon med to parametere:
+I `configureApp`-funksjonen over har vi laget et endepunkt som svarer på `/ping` og returner tekststrengen `pong`. Legg merke til at `UseGiraffe`-funksjonen tar inn `webApp` som et argument. `webApp` er en `HttpHandler`, som er Giraffe sin funksjonelle ekvivalent til middleware i .NET. En `HttpHandler` i Giraffe er en funksjon med to parametere:
 
 - `next: HttpFunc` - Neste `HttpHandler` i Giraffe sin pipeline
 - `ctx: HttpContext` - Representasjon av HTTP-forespørslen
@@ -2551,14 +2551,12 @@ Legg merke til at `UseGiraffe`-funksjonen tar inn `webApp` som et argument. `web
 
 I `webApp` over setter vi sammen en `HttpHandler` av to funksjoner ved hjelp av `>=>`-operatoren:
 
-- `route` - Kaller `next` dersom `path`-delen i URL-en til den innkommende HTTP-forespørslen matcher tekststrengen den får oppgitt
-- `text` - Sørger for å skrive tekststrengen den får oppgitt til HTTP-responsen
+- `route` - Kaller `next` dersom `path`-delen i URL-en (`/ping`) til den innkommende HTTP-forespørslen matcher tekststrengen den får oppgitt
+- `text` - Sørger for å skrive tekststrengen den får oppgitt (`pong`) til HTTP-responsen
 
 `>=>` er F#-syntaks for å kombinere to funksjoner som returnerer [monader](https://en.wikipedia.org/wiki/Monad_(functional_programming)).
 
 > Merk at Giraffe sin pipeline kjører i én middlevare i .NET, og at middleware pipelinen til .NET kan inneholde flere middlewares enn Giraffe.
-
-I `configureApp`-funksjonen over har vi laget en `HttpHandler` `webApp` som svarer på `/ping` og returner tekststrengen `pong`.
 
 ##### Bygge og starte host
 
