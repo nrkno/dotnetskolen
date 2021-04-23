@@ -3293,7 +3293,7 @@ Her ser vi at vi har definert tittel som en egen type `Tittel`, som er en "singl
 
 ###### Kanal
 
-Vi kan gjenta samme mønster som over for kanal også:
+Vi kan gjenta samme mønster som vi gjorde for tittel for kanal også:
 
 ```f#
 type Kanal = private Kanal of string
@@ -3314,7 +3314,7 @@ module Kanal =
 
 ###### Start- og sluttidspunkt
 
-Vi kan følge samme prinsipp for start- og sluttidspunkt også, men ettersom man ikke kan si om start- og sluttidspunktene er gyldige med mindre man har begge to, må vi lage en type som har begge feltene:
+Vi kan følge de samme prinsippene som for tittel for start- og sluttidspunkt også, men ettersom man ikke kan si om start- og sluttidspunktene er gyldige med mindre man har begge to, må vi lage en type som har begge feltene:
 
 ```f#
 type Sendetidspunkt = private {
