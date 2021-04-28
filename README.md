@@ -1447,7 +1447,7 @@ let ``isTitleValid invalid title returns false`` (title: string) =
     Assert.False isTitleValid
 ```
 
-Her har vi definert to enhetstester som begge tester funksjonen `isTitleValid`. Den første testen verifiserer at `isTitleValid` returnerer `true` når tittelen _er_ gyldig, mens den andre verifiserer det motsatte tilfellet. I xUnit annoterer man testfunksjoner med enten `[<Fact>]` eller `[<Theory>]`. xUnit definerer `Fact`-tester som tester som alltid passerer, mens `Theory`-tester kun passerer for gitte input. Over har vi brukt `Theory`-attributtet på begge testene.
+Her har vi definert to enhetstester som begge tester funksjonen `isTitleValid`. Den første testen verifiserer at `isTitleValid` returnerer `true` når tittelen _er_ gyldig, mens den andre verifiserer det motsatte tilfellet. I xUnit annoterer man testfunksjoner med enten `[<Fact>]` eller `[<Theory>]`. Testfunksjoner annotert med `[<Fact>]` vil kjøre én gang uten noen inputparametere, mens i testfunksjoner annotert med `[<Theory>]` kan man ta inn parametere, og annotere testfunksjonen med `[<InlineData>]` for å sende inn gitte inputparametere. Da vil testfunksjonen bli kjørt én gang _per_ annotering med `[<InlineData>]`.
 
 Hvis du forsøker å kjøre testene, vil du se at testprosjektet ikke kompilerer fordi vi verken har referanse til API-prosjektet (hvor domenet vårt er definert) eller har definert funksjonen `isTitleValid` enda.
 
