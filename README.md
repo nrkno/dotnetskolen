@@ -275,8 +275,8 @@ For å kunne organisere kode i .NET bruker man _prosjekter_. Et prosjekt er en s
 
 Når man kompilerer .NET-prosjekter kan man velge mellom to typer output:
 
-- `.exe` - Kjørbar fil ("executable") - et program som kan kjøres
-- `.dll` - Klassebibliotek ("dynamically linked library") - en samling med funksjonalitet som kan benyttes av andre programmer
+- Kjørbar fil ("executable") - et program som kan kjøres
+- Klassebibliotek ("dynamically linked library") - en samling med funksjonalitet som kan benyttes av andre programmer
 
 #### Dotnet new
 
