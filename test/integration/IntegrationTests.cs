@@ -1,9 +1,8 @@
-using System;
 using Xunit;
 
 namespace NRK.Dotnetskolen.IntegrationTests
 {
-    public class UnitTest1
+    public class IntegrationTests
     {
         [Fact]
         public void Test1()

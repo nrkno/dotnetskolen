@@ -1,9 +1,8 @@
-using System;
 using Xunit;
 
-namespace NRK.Dotnetskolen.UniteTests
+namespace NRK.Dotnetskolen.UnitTests
 {
-    public class UnitTest1
+    public class UnitTests
     {
         [Fact]
         public void Test1()
