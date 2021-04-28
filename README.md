@@ -428,7 +428,7 @@ Som du ser av malene som er listet ut over, er det en innebygget mal for web-API
 Kjøre følgende kommando for å opprette API-prosjektet
 
 ```bash
-$ dotnet new console --language F# --output src\api --name NRK.Dotnetskolen.Api
+$ dotnet new console --language F# --output src/api --name NRK.Dotnetskolen.Api
 
 The template "Console Application" was created successfully.
 
@@ -522,7 +522,7 @@ I tillegg ser vi at programmet har to funksjoner:
 For å kjøre prosjektet som ble opprettet over kan du kjøre følgende kommando
 
 ```bash
-$ dotnet run --project src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 Hello world from F#
 ```
@@ -530,7 +530,7 @@ Hello world from F#
 Alternativt kan du gå til mappen hvor prosjektet ligger, og kjøre `dotnet run` derfra, slik som vist under
 
 ```bash
-$ cd src\api
+$ cd src/api
 $ dotnet run
 
 Hello world from F#
@@ -647,12 +647,12 @@ I dette kurset kommer vi til å bruke xUnit. Dette valget er litt vilkårlig ett
 Kjør følgende kommando for å opprette enhetstestprosjektet
 
 ```bash
-$ dotnet new xunit -lang F# -o test\unit -n NRK.Dotnetskolen.UnitTests
+$ dotnet new xunit -lang F# -o test/unit -n NRK.Dotnetskolen.UnitTests
 
 The template "xUnit Test Project" was created successfully.
 
 Processing post-creation actions...
-Running 'dotnet restore' on test\unit\NRK.Dotnetskolen.UnitTests.fsproj...
+Running 'dotnet restore' on test/unit/NRK.Dotnetskolen.UnitTests.fsproj...
   Determining projects to restore...
   Restored C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj (in 1.31 sec).
 Restore succeeded.
@@ -751,7 +751,7 @@ Forskjellen på disse blir nærmere forklart i [steget om enhetstester](#steg-6-
 For å kjøre testen i enhetstestprosjektet kan du kjøre følgende kommando
 
 ```bash
-$ dotnet test test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
@@ -769,7 +769,7 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 På lik linje med `dotnet run`, kan du alternativt gå inn i mappen til enhetstestprosjektet, og kjøre `dotnet test` derfra:
 
 ```bash
-$ cd test\unit
+$ cd test/unit
 $ dotnet test
 
   Determining projects to restore...
@@ -790,7 +790,7 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 For å opprette integrasjonstestprosjektet, kan du kjøre samme kommando som da du [opprettet enhetstestprosjektet](#opprette-enhetstestprosjekt), men bytt ut `Unit` med `Integration` i navnet på testprosjektet, som vist under:
 
 ```bash
-$ dotnet new xunit -lang F# -o test\integration -n NRK.Dotnetskolen.IntegrationTests
+$ dotnet new xunit -lang F# -o test/integration -n NRK.Dotnetskolen.IntegrationTests
 
 The template "xUnit Test Project" was created successfully.
 
@@ -826,7 +826,7 @@ Foreløpig er prosjekt- og test-filene til integrasjonstestprosjektet helt like 
 For å kjøre testene i integrasjonstestprosjektet kan du kjøre følgende kommando
 
 ```bash
-$ dotnet test test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
@@ -904,7 +904,7 @@ EndGlobal
 For å legge til referanser til prosjektene du har opprettet kan du kjøre følgende kommandoer
 
 ```bash
-$ dotnet sln add src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet sln add src/api/NRK.Dotnetskolen.Api.fsproj
 
 Project `src\api\NRK.Dotnetskolen.Api.fsproj` added to the solution.
 
@@ -1202,19 +1202,19 @@ Kjør følgende kommandoer for å legge til pakkereferansene i enhetstestprosjek
 
 ```bash
 
-$ dotnet paket add FSharp.Core --project test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet paket add FSharp.Core --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ...
 
 $ dotnet paket add Microsoft.NET.Test.Sdk --project test\unit\NRK.Dotnetskolen.UnitTests.fsproj
 ...
 
-$ dotnet paket add xunit --project test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet paket add xunit --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ...
 
-$ dotnet paket add xunit.runner.visualstudio --project test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet paket add xunit.runner.visualstudio --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ...
 
-$ dotnet paket add coverlet.collector --project test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet paket add coverlet.collector --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ...
 ```
 
@@ -1226,19 +1226,19 @@ Gjenta kommandoene for integrasjonstestprosjektet ved å bytte ut `test\unit\NRK
 
 ```bash
 
-$ dotnet paket add FSharp.Core --project test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet paket add FSharp.Core --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 
-$ dotnet paket add Microsoft.NET.Test.Sdk --project test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet paket add Microsoft.NET.Test.Sdk --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 
-$ dotnet paket add xunit --project test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet paket add xunit --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 
-$ dotnet paket add xunit.runner.visualstudio --project test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet paket add xunit.runner.visualstudio --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 
-$ dotnet paket add coverlet.collector --project test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet paket add coverlet.collector --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 ```
 
@@ -1390,7 +1390,7 @@ Her oppretter vi en variabel `epg` som er en liste med sendinger, slik vi define
 Kjør API-prosjektet igjen med følgende kommando, og se at `epg`-verdien blir skrevet til terminalen.
 
 ```bash
-$ dotnet run --project src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 [{ Tittel = "Dagsrevyen"
    Kanal = "NRK1"
@@ -1450,7 +1450,7 @@ Her har vi definert to enhetstester som begge tester funksjonen `isTitleValid`. 
 Hvis du forsøker å kjøre testene, vil du se at testprosjektet ikke kompilerer fordi vi verken har referanse til API-prosjektet (hvor domenet vårt er definert) eller har definert funksjonen `isTitleValid` enda.
 
 ```bash
-$ dotnet test test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
@@ -1489,7 +1489,7 @@ I tillegg spesifiserer `{5,100}` at vi tillater 5-100 av tegnene i gruppen over.
 For at enhetstestprosjektet skal få tilgang til funksjonen vi nettopp definerte i `Domain.fs` må vi legge til en prosjektreferanse til API-prosjektet i enhetstestprosjektet. Det kan vi gjøre vha. .NET CLI med følgende kommando:
 
 ```bash
-$ dotnet add .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj reference .\src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet add ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj reference ./src/api/NRK.Dotnetskolen.Api.fsproj
 
 Reference `..\..\src\api\NRK.Dotnetskolen.Api.fsproj` added to the project.
 ```
@@ -1530,7 +1530,7 @@ open NRK.Dotnetskolen.Domain
 Nå skal testene kjøre vellykket:
 
 ```bash
-$ dotnet test test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
@@ -1586,7 +1586,7 @@ let isChannelValid (channel: string) : bool =
 ☑️ Implementér `isChannelValid` slik at enhetstestene passerer.
 
 ```bash
-$ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
@@ -1639,7 +1639,7 @@ let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffse
 ☑️ Implementér `areStartAndEndTimesValid` og få enhetstestene til å passere.
 
 ```bash
-$ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
@@ -1678,7 +1678,7 @@ let isTransmissionValid (transmission: Sending) : bool =
 ☑️ Implementér `isTransmissionValid`, og få enhetstestene til å passere:
 
 ```bash
-$ dotnet test .\test\unit\NRK.Dotnetskolen.UnitTests.fsproj 
+$ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj 
 
   Determining projects to restore...
   All projects are up-to-date for restore.
@@ -2182,7 +2182,7 @@ For å få tilgang til webserveren vi skal kjøre under integrasjonstestene er v
 Kjør følgende kommando fra rotenmappen din for å installere pakken:
 
 ```bash
-$ dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 ```
 
@@ -2191,7 +2191,7 @@ $ dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project .\test\integration
 For å kunne validere at responsen fra web-API-et er i henhold til OpenAPI-kontrakten, skal vi benytte NuGet-pakken `JsonSchema.Net`. Installer denne pakken ved å kjøre følgende kommando fra rotmappen din:
 
 ```bash
-$ dotnet paket add JsonSchema.Net --project .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet paket add JsonSchema.Net --project ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 ```
 
@@ -2202,7 +2202,7 @@ For å kunne referere til startpunktet til API-prosjektet må vi legge til en pr
 Kjør følgende kommando fra rotmappen din:
 
 ```bash
-$ dotnet add .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj reference .\src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj reference ./src/api/NRK.Dotnetskolen.Api.fsproj
 ...
 ```
 
@@ -2292,7 +2292,7 @@ Her bruker vi `createWebHostBuilder`-funksjonen til å opprette en testserver, o
 Kjør integrasjonstesten med følgende kommando:
 
 ```bash
-$ dotnet test .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 Failed Tests.Get EPG today returns 200 OK [124 ms]
   Error Message:
@@ -2356,7 +2356,7 @@ Denne testen bygger på den første testen vi skrev, og validerer i tillegg at r
 Kjør integrasjonstestene igjen for å verifisere at integrasjonstestene kompilerer:
 
 ```bash
-$ dotnet test .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 [xUnit.net 00:00:01.20]     Tests.Get EPG today returns 200 OK [FAIL]
 [xUnit.net 00:00:01.31]     Tests.Get EPG today return valid response [FAIL]
@@ -2398,7 +2398,7 @@ Her sender vi inn en ugyldig dato, og forventer å få 400 Bad Request som respo
 Kjør integrasjonstestene igjen for å verifisere at de kompilerer:
 
 ```bash
-$ dotnet test .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 Failed!  - Failed:     3, Passed:     0, Skipped:     0, Total:     3, Duration: 212 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
@@ -2412,7 +2412,7 @@ Nå som vi har skrevet integrasjonstester som verifiserer at API-et oppfyller ko
 I [forrige steg](#steg-9---integrasjonstester-for-web-api) opprettet vi et skall for web-API-et gjennom funksjonene `configureApp` og `configureServices` i `Program.fs` slik at vi kunne opprette en testserver i integrasjonsprosjektet. Selve programmet i web-API-prosjektet har imidlertid ikke tatt i bruk disse funksjonene, og laget en host basert på dem. Det kan du verifisere ved å starte API-prosjektet med følgende kommando:
 
 ```bash
-$ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 
 [{ Tittel = "Dagsrevyen"
    Kanal = "NRK1"
@@ -2514,7 +2514,7 @@ Nå som vi har blitt kjent med de grunnleggende konseptene i .NET-applikasjoner,
 Giraffe er publisert som en NuGet-pakke, og for å installere den i API-prosjektet vårt kan du kjøre følgende kommando fra rotmappen din:
 
 ```bash
-$ dotnet paket add giraffe --project .\src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet paket add giraffe --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 ...
 ```
 
@@ -2580,7 +2580,7 @@ let main argv =
 Start API-et fra med følgende kommando:
 
 ```bash
-$ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 
 info: Microsoft.Hosting.Lifetime[0]
       Now listening on: https://localhost:5001
@@ -2644,14 +2644,14 @@ Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> 
 Start API-et igjen og se hva som skjer dersom du går til [http://localhost:5000/epg/2021-01-01](http://localhost:5000/epg/2021-01-01) i nettleseren.
 
 ```bash
-$ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 ...
 ```
 
 Vi kan også se at integrasjonstesten som verifiserer om API-et vårt svarer på `/epg/{dato}` nå passerer ved å kjøre følgende kommando:
 
 ```bash
-$ dotnet test .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 Failed!  - Failed:     2, Passed:     1, Skipped:     0, Total:     3, Duration: 214 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
@@ -2765,7 +2765,7 @@ let epgHandler (dateAsString : string) : HttpHandler =
 Kjør integrasjonstestene på nytt, og se at testen som verifiserer at API-et vårt responderer med `400 Bad Request` med en ugyldig dato også passerer nå:
 
 ```bash
-$ dotnet test .\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
 Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 244 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
@@ -2959,7 +2959,7 @@ let createHostBuilder args =
 Kjør web-API-et med følgende kommando, og gå til [http://localhost:5000/epg/2021-04-23](http://localhost:5000/epg/2021-04-23) for å se hva API-et returnerer.
 
 ```bash
-$ dotnet run --project src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 ...
 ```
 
@@ -3127,7 +3127,7 @@ let createWebHostBuilder () =
 Kjør testene på nytt med følgende kommando, og se om alle testene passerer nå:
 
 ```bash
-$ dotnet test test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 
 Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 214 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
@@ -3250,7 +3250,7 @@ Dette sørger for at `getAllTransmissions` blir hentet fra `Mock`-modulen vår i
 Dersom du kjører integrasjonstestene igjen, skal de fortsatt passere:
 
 ```bash
-$ dotnet test test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 
 Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 296 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
