@@ -1368,6 +1368,8 @@ Nå som vi har definert domenemodellen vår, skal vi se hvordan vi kan ta den i 
 open NRK.Dotnetskolen.Domain
 ```
 
+> Merk at noen har rapportert om problemer med feilmeldinger i Rider etter å ha lagt til denne `open`-statementen. Dersom du opplever det samme kan du høyreklikke på "Solution"-noden i Rider, og klikke på "Unload" etterfulgt av "Reload". Dette skal forhåpentligvis rette opp i problemet.
+
 Endre deretter `main`-funksjonen til å opprette en `EPG`-verdi slik:
 
 ```f#
