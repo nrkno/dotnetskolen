@@ -536,6 +536,8 @@ $ dotnet run
 Hello world from F#
 ```
 
+> For mer informasjon om hvordan du kan kompilere koden og kjøre executable-filene direkte, se [kjøre executables direkte](#kjøre-executables-direkte).
+
 #### Lagre endringer i Git (valgfritt)
 
 Nå som du har fullført det første steget i kurset er det en fin anledning til å lagre endringene du har gjort så langt i Git.
@@ -3712,3 +3714,13 @@ let getAllTransmissions () : Epg =
       (Sending.create "Testprogram" "NRK2" future (future.AddMinutes(30.))).Value
   ]
 ```
+
+## Ekstramateriale
+
+### Kjøre executables direkte
+
+[I veiledningen til steg 1](#kjøre-API-prosjektet) brukte vi kommandoen `dotnet run` for å kompilere og kjøre prosjektet. La oss se litt nærmere på hva det innebærer.
+
+#### Kompilere
+
+Når man kompilerer koden oversetter man kildekodefilene (`.fs` i dette tilfellet) fra høynivå, tekstbasert programmeringsspråk, til 
