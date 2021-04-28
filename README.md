@@ -1205,7 +1205,7 @@ Kjør følgende kommandoer for å legge til pakkereferansene i enhetstestprosjek
 $ dotnet paket add FSharp.Core --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ...
 
-$ dotnet paket add Microsoft.NET.Test.Sdk --project test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet paket add Microsoft.NET.Test.Sdk --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ...
 
 $ dotnet paket add xunit --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
