@@ -3125,7 +3125,6 @@ let createWebHostBuilder () =
         .UseEnvironment("Test")
         .Configure(Program.configureApp (getEpgForDate getAllTransmissions))
         .ConfigureServices(Program.configureServices)
-        .ConfigureServices(configureTestServices)
 ```
 
 Kjør testene på nytt med følgende kommando, og se om alle testene passerer nå:
