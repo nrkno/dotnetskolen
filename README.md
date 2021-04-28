@@ -2233,6 +2233,8 @@ let createWebHostBuilder () =
 
 Her definerer vi en funksjon `createWebHostBuilder` som returnerer en `IWebHostBuilder`. `IWebHostBuilder` returnerer et `IHost`-objekt i funksjonen `Build`, som vi skal bruke snart. I `createWebHostBuilder` konfigurerer vi `IWebHostBuilder` til å bruke `configureApp` og `configureServices`-funksjonene i web-API-et vårt. Vi skal bruke `createWebHostBuilder`-funksjonen til å opprette testserveren vår, og kjøre integrasjonstestene mot den.
 
+> Merk at dersom du forsøker å kjøre integrasjonstestprosjektet med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` nå, vil det feile fordi det ikke finnes noen tester i integrasjonstestprosjektet enda. Følg veiledningen i neste avsnitt for legge til tester. Deretter kan du kjøre testene med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`. 
+
 #### Test 1 - Verifisere at endepunktet finnes
 
 I den første integrasjonstesten skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement etter `open System.IO` i `Tests.fs`-filen.
