@@ -226,6 +226,8 @@ Receiving objects: 100% (9/9), done.
 Resolving deltas: 100% (2/2), done.
 ```
 
+> Kommandoen over forutsetter at man bruker SSH for autentisering overfor GitHub. Dersom man ønsker å klone med HTTPS istedenfor må man kjøre følgende kommando `https://github.com/nrkno/dotnetskolen.git` og oppgi brukernavn og passord.
+
 Da skal nå ha `main`-branchen sjekket ut lokalt på din maskin. Det kan du verifisere ved å gå inn i mappen til repoet og liste ut branchene i Git:
 
 ``` bash
