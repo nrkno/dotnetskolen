@@ -178,7 +178,7 @@ Når man installerer .NET har man valget mellom å installere
 
 Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med .NET Core, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
 
-``` bash
+```bash
 $ dotnet --version
 
 5.0.103
@@ -214,7 +214,7 @@ Velg den IDE-en som passer dine behov.
 
 Dersom du ønsker dette repoet lokalt på din maskin, kan du gjøre det slik:
 
-``` bash
+```bash
 $ git clone git@github.com:nrkno/dotnetskolen.git # Last ned repo fra GitHub til din maskin
 
 Cloning into 'dotnetskolen'...
@@ -230,7 +230,7 @@ Resolving deltas: 100% (2/2), done.
 
 Da skal nå ha `main`-branchen sjekket ut lokalt på din maskin. Det kan du verifisere ved å gå inn i mappen til repoet og liste ut branchene i Git:
 
-``` bash
+```bash
 $ cd dotnetskolen # Gå inn i mappen som repoet ligger i lokalt
 $ git branch # List ut alle brancher du har sjekket ut lokalt
 
@@ -241,7 +241,7 @@ $ git branch # List ut alle brancher du har sjekket ut lokalt
 
 Før du begynner å kode kan du gjerne lage din egen branch med `git checkout -b <branchnavn>`. På denne måten kan du holde dine endringer adskilt fra koden som ligger i repoet fra før, og det er lettere for kursholder å hjelpe deg dersom du har behov for det.
 
-``` bash
+```bash
 $ git checkout -b my-branch
 
 Switched to a new branch 'my-branch'
@@ -282,7 +282,7 @@ Når man kompilerer .NET-prosjekter kan man velge mellom to typer output:
 
 Som nevnt i [innledningen](#innledning) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange underkommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet)
 
-``` bash
+```bash
 $ dotnet --help
 
 .NET SDK (5.0.103)
@@ -348,7 +348,7 @@ Run 'dotnet [command] --help' for more information on a command.
 
 For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. `dotnet new` oppretter .NET-prosjekter, og som første parameter tar `new`-kommandoen inn hva slags mal prosjektet man oppretter skal følge. Når man installerer .NET SDK får man med et sett med forhåndsdefinerte prosjektmaler for vanlige formål. For å se malene som er installert på din maskin kan du kjøre `dotnet new` slik:
 
-``` bash
+```bash
 $ dotnet new
 
 Templates                                         Short Name               Language          Tags
@@ -399,7 +399,7 @@ Examples:
 
 I tillegg til å styre hva slags type prosjekt man vil opprette med `new`-kommandoen, har man mulighet til å styre ting som hvilket språk man ønsker prosjektet skal opprettes for, og i hvilken mappe prosjektet opprettes i. For å se alle valgene man har i `dotnet new` kan du kjøre følgende kommando
 
-``` bash
+```bash
 $ dotnet new --help
 
 Usage: new [options]
@@ -427,13 +427,13 @@ Som du ser av malene som er listet ut over, er det en innebygget mal for web-API
 
 Kjøre følgende kommando for å opprette API-prosjektet
 
-``` bash
-$ dotnet new console --language F# --output src/api --name NRK.Dotnetskolen.Api
+```bash
+$ dotnet new console --language F# --output src\api --name NRK.Dotnetskolen.Api
 
 The template "Console Application" was created successfully.
 
 Processing post-creation actions...
-Running 'dotnet restore' on src/api\NRK.Dotnetskolen.Api.fsproj...
+Running 'dotnet restore' on src\api\NRK.Dotnetskolen.Api.fsproj...
   Determining projects to restore...
   Restored C:\Dev\nrkno@github.com\dotnetskolen\src\api\NRK.Dotnetskolen.Api.fsproj (in 101 ms).
 Restore succeeded.
@@ -521,16 +521,16 @@ I tillegg ser vi at programmet har to funksjoner:
 
 For å kjøre prosjektet som ble opprettet over kan du kjøre følgende kommando
 
-``` bash
-$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
+```bash
+$ dotnet run --project src\api\NRK.Dotnetskolen.Api.fsproj
 
 Hello world from F#
 ```
 
 Alternativt kan du gå til mappen hvor prosjektet ligger, og kjøre `dotnet run` derfra, slik som vist under
 
-``` bash
-$ cd src/api
+```bash
+$ cd src\api
 $ dotnet run
 
 Hello world from F#
@@ -608,7 +608,7 @@ Tips! Gjenta de tre stegene over med å se endringer, legge dem til, og lagre de
 
 Dersom du ønsker å se den forventede tilstanden til repoet etter å ha utført de ulike stegene i kurset, kan du sjekke ut branchen med korresponderende navn som seksjonen du ønsker å se på. F.eks. hvis du vil se hvordan repoet ser ut etter første steg, kan du sjekke ut branchen `steg-1` slik:
 
-``` bash
+```bash
 $ git checkout steg-1
 
 Switched to branch 'steg-1'
@@ -646,13 +646,13 @@ I dette kurset kommer vi til å bruke xUnit. Dette valget er litt vilkårlig ett
 
 Kjør følgende kommando for å opprette enhetstestprosjektet
 
-``` bash
-$ dotnet new xunit -lang F# -o test/unit -n NRK.Dotnetskolen.UnitTests
+```bash
+$ dotnet new xunit -lang F# -o test\unit -n NRK.Dotnetskolen.UnitTests
 
 The template "xUnit Test Project" was created successfully.
 
 Processing post-creation actions...
-Running 'dotnet restore' on test/unit\NRK.Dotnetskolen.UnitTests.fsproj...
+Running 'dotnet restore' on test\unit\NRK.Dotnetskolen.UnitTests.fsproj...
   Determining projects to restore...
   Restored C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj (in 1.31 sec).
 Restore succeeded.
@@ -750,8 +750,8 @@ Forskjellen på disse blir nærmere forklart i [steget om enhetstester](#steg-6-
 
 For å kjøre testen i enhetstestprosjektet kan du kjøre følgende kommando
 
-``` bash
-$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+```bash
+$ dotnet test test\unit\NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
@@ -768,8 +768,8 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 
 På lik linje med `dotnet run`, kan du alternativt gå inn i mappen til enhetstestprosjektet, og kjøre `dotnet test` derfra:
 
-``` bash
-$ cd test/unit
+```bash
+$ cd test\unit
 $ dotnet test
 
   Determining projects to restore...
@@ -789,13 +789,13 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 
 For å opprette integrasjonstestprosjektet, kan du kjøre samme kommando som da du [opprettet enhetstestprosjektet](#opprette-enhetstestprosjekt), men bytt ut `Unit` med `Integration` i navnet på testprosjektet, som vist under:
 
-``` bash
-$ dotnet new xunit -lang F# -o test/integration -n NRK.Dotnetskolen.IntegrationTests
+```bash
+$ dotnet new xunit -lang F# -o test\integration -n NRK.Dotnetskolen.IntegrationTests
 
 The template "xUnit Test Project" was created successfully.
 
 Processing post-creation actions...
-Running 'dotnet restore' on test/integration\NRK.Dotnetskolen.IntegrationTests.fsproj...
+Running 'dotnet restore' on test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj...
   Determining projects to restore...
   Restored C:\Dev\nrkno@github.com\dotnetskolen\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj (in 580 ms).
 Restore succeeded.
@@ -825,8 +825,8 @@ Foreløpig er prosjekt- og test-filene til integrasjonstestprosjektet helt like 
 
 For å kjøre testene i integrasjonstestprosjektet kan du kjøre følgende kommando
 
-``` bash
-$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+```bash
+$ dotnet test test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
@@ -851,7 +851,7 @@ Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Ann
 
 For å opprette en solution med `dotnet` kan du kjøre følgende kommando:
 
-``` bash
+```bash
 $ dotnet new sln -n Dotnetskolen
 
 The template "Solution File" was created successfully.
@@ -903,8 +903,8 @@ EndGlobal
 
 For å legge til referanser til prosjektene du har opprettet kan du kjøre følgende kommandoer
 
-``` bash
-$ dotnet sln add src/api/NRK.Dotnetskolen.Api.fsproj
+```bash
+$ dotnet sln add src\api\NRK.Dotnetskolen.Api.fsproj
 
 Project `src\api\NRK.Dotnetskolen.Api.fsproj` added to the solution.
 
@@ -1031,7 +1031,7 @@ Paket finnes som en utvidelse (også kalt "tool") til .NET CLI. Utvidelser i .NE
 
 Lokale utvidelser av .NET CLI defineres i en egen fil `dotnet-tools.json` som ligger i en mappe `.config`. Ettersom denne filen ikke finnes enda, oppretter vi den ved å kjøre følgende kommando
 
-``` bash
+```bash
 $ dotnet new tool-manifest
 
 The template "Dotnet local tool manifest file" was created successfully.
@@ -1063,7 +1063,7 @@ test
 
 For å legge til Paket i listen over tools løsningen skal ha kan du kjøre følgende kommando
 
-``` bash
+```bash
 $ dotnet tool install paket
 
 You can invoke the tool from this directory using the following commands: 'dotnet tool run paket' or 'dotnet paket'.
@@ -1091,7 +1091,7 @@ Nå ser vi at Paket er lagt til i listen over tools i `dotnet-tools.json`
 
 For å installere Paket på maskinen din kan du kjøre følgende kommando
 
-``` bash
+```bash
 $ dotnet tool restore
 
 Tool 'paket' (version '5.257.0') was restored. Available commands: paket
@@ -1101,7 +1101,7 @@ Restore was successful.
 
 Paket bruker filen `paket.dependencies` til å holde oversikt over hvilken avhengigheter løsningen har. For å opprette denne kan du kjøre følgende kommando
 
-``` bash
+```bash
 $ dotnet paket init
 
 Paket version 5.257.0
@@ -1389,8 +1389,8 @@ Her oppretter vi en variabel `epg` som er en liste med sendinger, slik vi define
 
 Kjør API-prosjektet igjen med følgende kommando, og se at `epg`-verdien blir skrevet til terminalen.
 
-``` bash
-$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
+```bash
+$ dotnet run --project src\api\NRK.Dotnetskolen.Api.fsproj
 
 [{ Tittel = "Dagsrevyen"
    Kanal = "NRK1"
@@ -1450,7 +1450,7 @@ Her har vi definert to enhetstester som begge tester funksjonen `isTitleValid`. 
 Hvis du forsøker å kjøre testene, vil du se at testprosjektet ikke kompilerer fordi vi verken har referanse til API-prosjektet (hvor domenet vårt er definert) eller har definert funksjonen `isTitleValid` enda.
 
 ```bash
-$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet test test\unit\NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
@@ -1530,7 +1530,7 @@ open NRK.Dotnetskolen.Domain
 Nå skal testene kjøre vellykket:
 
 ```bash
-$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet test test\unit\NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
@@ -2959,7 +2959,7 @@ let createHostBuilder args =
 Kjør web-API-et med følgende kommando, og gå til [http://localhost:5000/epg/2021-04-23](http://localhost:5000/epg/2021-04-23) for å se hva API-et returnerer.
 
 ```bash
-$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
+$ dotnet run --project src\api\NRK.Dotnetskolen.Api.fsproj
 ...
 ```
 
@@ -3127,7 +3127,7 @@ let createWebHostBuilder () =
 Kjør testene på nytt med følgende kommando, og se om alle testene passerer nå:
 
 ```bash
-$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet test test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
 
 Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 214 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
@@ -3250,7 +3250,7 @@ Dette sørger for at `getAllTransmissions` blir hentet fra `Mock`-modulen vår i
 Dersom du kjører integrasjonstestene igjen, skal de fortsatt passere:
 
 ```bash
-$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+$ dotnet test test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj
 
 Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 296 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
