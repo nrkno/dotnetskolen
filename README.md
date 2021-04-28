@@ -477,7 +477,7 @@ Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med
 
 Her ser vi at prosjektet:
 
-- Har outputtypen `exe`
+- Har outputtypen `exe` - prosjektet kompileres til å bli en kjørbar fil
 - Skal kompileres til .NET 5
 - Består av én fil `Program.fs`
 
