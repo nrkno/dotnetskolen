@@ -3075,7 +3075,7 @@ let database =
     ]
 ```
 
-Nå kan vi implementere `getAllTransmissions`-funksjonen:
+Nå kan vi implementere `getAllTransmissions`-funksjonen ved å legge til følgende på slutten av `DataAccess.fs`:
 
 ```f#
 ...
@@ -3119,7 +3119,7 @@ Ettersom vi har innført `getEpgForDate` som parameter til `configureApp`-funksj
 
 ```f#
 ...
-open NRK.Dotnetskolen.Domain
+open NRK.Dotnetskolen.DataAccess
 open NRK.Dotnetskolen.Api.Services
 ...
 let createWebHostBuilder () =
