@@ -3831,7 +3831,7 @@ Legg merke til at linjen som starter med `<redoc spec-url=` (nesten helt nederst
 
 ```html
 ...
-<redoc spec-url='/documentation/openapi.html'></redoc>
+<redoc spec-url='/documentation/openapi.json'></redoc>
 ...
 ```
 
