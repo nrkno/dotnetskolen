@@ -717,7 +717,7 @@ I prosjektfilen kan vi se at enhetstestprosjektet:
   - `Microsoft.NET.Test.Sdk` - Pakke for å bygge .NET testprosjekter
   - `xunit` - Bibliotek for å skrive enhetstester
   - `xunit.runner.visualstudio` - Pakke for å kjøre Xunit-tester i "Test explorer" i Visual Studio [https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019](https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019)
-  - `coverlet.collector` - bibliotek
+  - `coverlet.collector` - bibliotek for å få code coverage statistikk for prosjekter [https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
 
 > Vi ser nærmere på hva NuGet-pakker er i [steg 4](#steg-4---pakkehåndtering).
 
