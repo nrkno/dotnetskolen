@@ -3116,7 +3116,7 @@ Ettersom vi har innført `getEpgForDate` som parameter til `configureApp`-funksj
 
 ```f#
 ...
-open NRK.Dotnetskolen.Domain
+open NRK.Dotnetskolen.DataAccess
 open NRK.Dotnetskolen.Api.Services
 ...
 let createWebHostBuilder () =
