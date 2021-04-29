@@ -3842,7 +3842,7 @@ Da vi [konfigurerte middleware pipelinen til web-API-et i steg 10](#legge-til-gi
 ```f#
 let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
     let webApp = GET >=> routef "/epg/%s" (epgHandler getEpgForDate)
-    app.UseStaticFiles
+    app.UseStaticFiles()
        .UseGiraffe webApp
 ```
 
