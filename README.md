@@ -3072,7 +3072,7 @@ let database =
     ]
 ```
 
-Nå kan vi implementere `getAllTransmissions`-funksjonen:
+Nå kan vi implementere `getAllTransmissions`-funksjonen ved å legge til følgende på slutten av `DataAccess.fs`:
 
 ```f#
 ...
