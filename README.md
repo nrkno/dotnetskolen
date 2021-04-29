@@ -100,6 +100,7 @@ Har du tilbakemeldinger til kurset? Opprett gjerne en tråd for det her:
   - [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
 - [Ekstraoppgaver](#ekstraoppgaver)
   - [Steg 11 - Følge prinsipper i domenedrevet design](#steg-11---følge-prinsipper-i-domenedrevet-design)
+  - [Steg 12 - Grafisk fremstilling av OpenAPI-dokumentasjon](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon)
 
 ## Hva er .NET?
 
@@ -1821,7 +1822,7 @@ Lim inn følgende JSON i `openapi.json`:
 
 ```json
 {
-    "openapi": "3.1.0",
+    "openapi": "3.0.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1834,7 +1835,7 @@ Her oppgir vi hvilken versjon av OpenAPI vi benytter, og litt metadata om API-et
 
 ```json
 {
-    "openapi": "3.1.0",
+    "openapi": "3.0.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1853,7 +1854,7 @@ Her har vi spesifisert at API-et vårt eksponerer URL-en `/epg/{dato}` for HTTP 
 
 ```json
 {
-    "openapi": "3.1.0",
+    "openapi": "3.0.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1891,7 +1892,7 @@ Nå kan vi legge til hvilke responser endepunktet har: `200 OK` med EPG eller `4
 
 ```json
 {
-    "openapi": "3.1.0",
+    "openapi": "3.0.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1946,7 +1947,7 @@ Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den
 
 ```json
 {
-    "openapi": "3.1.0",
+    "openapi": "3.0.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1999,11 +2000,13 @@ Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den
 }
 ```
 
+Dersom du ønsker å se hvordan man kan sette opp en grafisk fremstilling av OpenAPI-dokumentasjonen som en egen HTML-side i API-et, se [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon). Merk at det forutsetter at du har utført steg 1-10 først.
+
 > OpenAPI-kontrakten over er inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
 >
 > I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
 >
-> Merk at OpenAPI-kontrakten over benytter versjon `3.1.0` av OpenAPI. `OpenAPI 3.1.0` ble lansert 16. februar 2021, og det vil ta noe tid før det er støtte for denne i tooling som `WebGUI` og linting. Derfor vil f.eks. Visual Studio Code vise en valideringsfeil i filen `openapi.json`. Takk til [@laat](https://github.com/laat) som poengterte det.
+> Merk at i OpenAPI-kontrakten over benytter vi versjon `3.0.0` av OpenAPI. I denne versjonen er det ikke full støtte for JSON Schema. Man kan derfor ikke bruke alle features i JSON Schema i OpenAPI-kontrakten. Kontrakten vår bruker imidlertid kun features i JSON Schema som er støttet. `OpenAPI 3.1.0` ble lansert 16. februar 2021, som _har_ full støtte for alle features i JSON Schema. Det vil imidlertid ta noe tid før det er støtte for denne i tooling som `ReDoc` (brukt i [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon)) `WebGUI` og linting. Takk til [@laat](https://github.com/laat) som poengterte det.
 
 ### Steg 8 - Implementere kontraktstyper
 
@@ -2231,7 +2234,7 @@ let createWebHostBuilder () =
 
 Her definerer vi en funksjon `createWebHostBuilder` som returnerer en `IWebHostBuilder`. `IWebHostBuilder` returnerer et `IHost`-objekt i funksjonen `Build`, som vi skal bruke snart. I `createWebHostBuilder` konfigurerer vi `IWebHostBuilder` til å bruke `configureApp` og `configureServices`-funksjonene i web-API-et vårt. Vi skal bruke `createWebHostBuilder`-funksjonen til å opprette testserveren vår, og kjøre integrasjonstestene mot den.
 
-> Merk at dersom du forsøker å kjøre integrasjonstestprosjektet med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` nå, vil det feile fordi det ikke finnes noen tester i integrasjonstestprosjektet enda. Følg veiledningen i neste avsnitt for legge til tester. Deretter kan du kjøre testene med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`. 
+> Merk at dersom du forsøker å kjøre integrasjonstestprosjektet med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` nå, vil det feile fordi det ikke finnes noen tester i integrasjonstestprosjektet enda. Følg veiledningen i neste avsnitt for legge til tester. Deretter kan du kjøre testene med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`.
 
 #### Test 1 - Verifisere at endepunktet finnes
 
@@ -3713,3 +3716,140 @@ let getAllTransmissions () : Epg =
       (Sending.create "Testprogram" "NRK2" future (future.AddMinutes(30.))).Value
   ]
 ```
+
+#### Steg 12 - Grafisk fremstilling av OpenAPI-dokumentasjon
+
+I [steg 7](#steg-7---definere-api-kontrakt) innførte vi OpenAPI-kontrakt for API-et vårt, og la den i mappen `/docs`. Foreløpig er dokumentasjonen kun tilgjengelig for de som har tilgang til repoet til koden. For at de som skal integrere med API-et skal kunne se kontrakten, er det fint om den er publisert et sted. I dette steget skal vi se hvordan vi kan tilgjengeliggjøre OpenAPI-kontrakten som en egen nettside i API-et ved hjelp av [ReDoc](https://github.com/Redocly/redoc). Med ReDoc kan vi kopiere en [HTML-side fra dokumentasjonen deres](https://github.com/Redocly/redoc#tldr) og lime inn en referanse til OpenAPI-dokumentasjonen vår, så får vi en fin grafisk fremstilling av API-et vårt, som vist under:
+
+![redoc](./illustrasjoner/redoc.png)
+
+Kort oppsummert er dette stegene vi skal gjøre for å lage en egen ReDoc-side i API-et vårt:
+
+1. Flytte `docs/epg.schema.json` og `docs/openapi.json` til `src/api/wwwroot/documentation`
+2. Opprette HTML-fil `openapi.html` i `src/api/wwwroot` med innhold fra [dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr), og endre referansen til OpenAPI-dokumentet i `openapi.html`
+3. Konfigurere web-API-et til å serve statiske filer
+
+##### Flytte API-dokumentasjon
+
+I [steg 7](#steg-7---definere-api-kontrakt) la vi dokumentasjonen til API-et vårt i `docs`-mappen. Ettersom vi nå skal eksponere den på internett gjennom API-et vårt, må vi legge den et sted som er tilgjengelig for webserveren. Opprett derfor en ny mappe `wwwroot` med en ny mappe `documentation` i `src/api` slik:
+
+```txt
+...
+└── docs
+    └── epg.schema.json
+    └── openapi.json
+└── src
+    └── api
+        └── wwwroot
+            └── documentation
+...
+```
+
+Flytt deretter filene `epg.schema.json` og `openapi.json` fra `docs` til `src/api/wwwroot/documentation`:
+
+```txt
+...
+└── docs
+└── src
+    └── api
+        └── wwwroot
+            └── documentation
+                └── epg.schema.json
+                └── openapi.json
+...
+```
+
+Til slutt kan du slette mappen `docs`:
+
+```txt
+...
+└── src
+    └── api
+        └── wwwroot
+            └── documentation
+                └── epg.schema.json
+                └── openapi.json
+...
+```
+
+I [steg 9](#test-2---verifisere-format-på-epg-respons) la vi til en referanse til `epg.schema.json` i prosjektfilen til integrasjonstestprosjektet. Siden vi har flyttet denne filen, må vi oppdatere referansen. Åpne filen `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`, og endre referansen til JSON Schemaet:
+
+```xml
+...
+<Content Include="../../src/api/wwwroot/documentation/epg.schema.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+</Content>
+...
+```
+
+##### Opprette HTML-fil
+
+Opprett filen `openapi.html` i mappen `src/api/wwwroot`, slik:
+
+```txt
+...
+└── src
+    └── api
+        └── wwwroot
+            └── documentation
+                └── epg.schema.json
+                └── openapi.json
+            └── openapi.html
+...
+```
+
+Åpne `openapi.html`, og lim inn innholdet vist [i dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr), slik:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ReDoc</title>
+    <!-- needed for adaptive design -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+
+    <!--
+    ReDoc doesn't change outer page styles
+    -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <redoc spec-url='http://petstore.swagger.io/v2/swagger.json'></redoc>
+    <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"> </script>
+  </body>
+</html>
+```
+
+Legg merke til at linjen som starter med `<redoc spec-url=` (nesten helt nederst i filen) refererer til en eksempel-dokumentasjon `http://petstore.swagger.io/v2/swagger.json`. Denne skal vi nå endre til vår egen dokumentasjon. Endre `spec-url` i denne linja til `/documentation/openapi.json`, slik:
+
+```html
+...
+<redoc spec-url='/documentation/openapi.html'></redoc>
+...
+```
+
+##### Serve statiske filer
+
+Da vi [konfigurerte middleware pipelinen til web-API-et i steg 10](#legge-til-giraffe-i-middleware-pipeline) la vi kun til Giraffe. Det vil si at Giraffe er det eneste som behandler forespørsler til API-et vårt. Siden vi ønsker å kunne serve den statiske filen `openapi.html`, må vi legge til støtte for det i middleware pipelinen vår. Det gjør vi i funksjonen `configureApp` i `src/api/Program.fs`:
+
+```f#
+let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+    let webApp = GET >=> routef "/epg/%s" (epgHandler getEpgForDate)
+    app.UseStaticFiles
+       .UseGiraffe webApp
+```
+
+Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer blir servet av webserveren. Som default konfigureres serveren til å se etter statiske filer i `wwwroot`-mappen. Legg merke til at vi kaller `UseStaticFiles` _før_ `UseGiraffe`. Siden middlewares i .NET prosesserer innkommende forespørsler i den rekkefølgen de blir lagt til gjennom `IApplicationBuilder`, legger vi til serving av statiske filer før Giraffe, slik at dersom det finnes en statisk fil identifisert av path-en i HTTP-forespørslen returnerer vi den istedenfor å gå videre med å evaluere HttpHandlere i Giraffe.  Siden `UseStaticFiles` returnerer en `IApplicationBuilder` kan vi kalle `UseGiraffe webapp` etterpå.
+
+##### Se dokumentasjonen
+
+Dersom du nå starter web-API-et med `dotnet run`, og åpner `http://localhost:5000/openapi.html` skal du se noe liknende som skjermbildet under:
+
+![redoc](./illustrasjoner/redoc.png)
