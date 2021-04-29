@@ -1,14 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
+using NRK.Dotnetskolen.Api.Domain;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+
 
 namespace NRK.Dotnetskolen.Api
 {
-    class Program
+    public class Program
     {
+        public static void ConfigureApp(IApplicationBuilder app)
+        {
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            //app.Map("/ping", map => map.Run(async ctx => await ctx.Response.WriteAsync("pong")));
+            ////app.Map("/epg/{date}", map => map.
+        }
+
+        public static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers();
+            services.AddMvc();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder
+                        .Configure(ConfigureApp)
+                        .ConfigureServices(ConfigureServices);
+                });
+
         static void Main(string[] args)
         {
-            Epg epg = new Epg {
-                Sendinger = new List<Sending>()
+            CreateHostBuilder(args).Build().Run();
+
+            Epg epg = new() {
+                Sendinger = new ()
                 {
                     new Sending {
                         Tittel = "Dagsrevyen",
@@ -19,7 +55,7 @@ namespace NRK.Dotnetskolen.Api
                 }
             };
 
-            foreach(var sending in epg.Sendinger)
+            foreach(Sending sending in epg.Sendinger)
                 Console.WriteLine(sending.Tittel);
         }
     }

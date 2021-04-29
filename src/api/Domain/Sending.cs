@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace NRK.Dotnetskolen
+namespace NRK.Dotnetskolen.Api.Domain
 {
     public class Sending
     {
@@ -32,10 +31,5 @@ namespace NRK.Dotnetskolen
         {
             return IsTitleValid(transmission.Tittel) && IsChannelValid(transmission.Kanal) && IsStartAndEndTimeIsValid(transmission.StartTidspunkt, transmission.SluttTidspunkt);
         }
-    }
-
-    public class Epg
-    {
-        public List<Sending> Sendinger { get; set; }
     }
 }

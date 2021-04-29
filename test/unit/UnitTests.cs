@@ -1,4 +1,5 @@
 using System;
+using NRK.Dotnetskolen.Api.Domain;
 using Xunit;
 
 namespace NRK.Dotnetskolen.UnitTests
