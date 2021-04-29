@@ -3850,6 +3850,6 @@ Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer bli
 
 ##### Se dokumentasjonen
 
-Dersom du nå starter web-API-et med `dotnet run`, og åpner `http://localhost:5000/openapi.html` skal du se noe liknende som skjermbildet under:
+Dersom du nå starter web-API-et med `dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj`, og åpner `http://localhost:5000/openapi.html` skal du se noe liknende som skjermbildet under:
 
 ![redoc](./illustrasjoner/redoc.png)
