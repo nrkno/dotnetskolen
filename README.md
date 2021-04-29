@@ -2549,7 +2549,7 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
     app.UseGiraffe webApp
 ```
 
-I `configureApp`-funksjonen over har vi laget et endepunkt som svarer på `/ping` og returner tekststrengen `pong`. Legg merke til at `UseGiraffe`-funksjonen tar inn `webApp` som et argument. `webApp` er en `HttpHandler`, som er Giraffe sin funksjonelle ekvivalent til middleware i .NET. En `HttpHandler` i Giraffe er en funksjon med to parametere:
+I `configureApp`-funksjonen over har vi laget et endepunkt som svarer på `/ping` og returner `pong` som tekst. Legg merke til at `UseGiraffe`-funksjonen tar inn `webApp` som et argument. `webApp` er en `HttpHandler`, som er Giraffe sin funksjonelle ekvivalent til middleware i .NET. En `HttpHandler` i Giraffe er en funksjon med to parametere:
 
 - `next: HttpFunc` - Neste `HttpHandler` i Giraffe sin pipeline
 - `ctx: HttpContext` - Representasjon av HTTP-forespørslen
@@ -2639,11 +2639,11 @@ Dette kan vi bruke når vi skal definere operasjonen i Giraffe:
 
 ```f#
 let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = GET >=> routef "/epg/%s" (fun date -> text date)
+    let webApp = GET >=> routef "/epg/%s" (fun date -> json date)
     app.UseGiraffe webApp
 ```
 
-Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> text date` for HTTP `GET`-forespørsler til URL-en `/epg/%s`, hvor `%s` matcher tekststrengen oppgitt i URL-en etter `/epg/`.
+Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> json date` for HTTP `GET`-forespørsler til URL-en `/epg/%s`, hvor `%s` matcher tekststrengen oppgitt i URL-en etter `/epg/`. Legg merke til at her bruker vi funksjonen `json` istedenfor `text` for å formatere responsen til endepunktet som JSON istedenfor tekst.
 
 Start API-et igjen og se hva som skjer dersom du går til [http://localhost:5000/epg/2021-01-01](http://localhost:5000/epg/2021-01-01) i nettleseren.
 
@@ -2716,12 +2716,12 @@ module HttpHandlers =
 
     let epgHandler (dateAsString : string) : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            (text dateAsString) next ctx
+            (json dateAsString) next ctx
 ```
 
-Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til det vi nevnte tidligere: at Giraffe har sin egen middleware pipeline. På tilsvarende måte som .NET legger Giraffe opp til at vi: 
+Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til det vi nevnte tidligere: at Giraffe har sin egen middleware pipeline. På tilsvarende måte som .NET legger Giraffe opp til at vi:
 
-- Først spesifiserer hva vi ønsker å returnere i HTTP-responsen `text dateAsString`
+- Først spesifiserer hva vi ønsker å returnere i HTTP-responsen `json dateAsString`
 - Deretter kaller vi neste `HttpHandler` i pipelinen `next` hvor vi gir inn `HttpContext`-verdien `ctx`.
 
 Åpne modulen `HttpHandlers` i `Program.fs` og kall funksjonen `epgHandler` istedenfor den anonyme funksjonen vi hadde:
@@ -2752,7 +2752,7 @@ let parseAsDateTime (dateAsString : string) : DateTime option =
     | _ -> None
 ```
 
-`parseAsDateTime`-funksjonen forsøker å parse tekststrengen vi har fått inn i URL-en til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indikerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTime.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTime.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTime.ParseExact` kaster `Exception`, og `Some date` dersom funksjonkallet lykkes. 
+`parseAsDateTime`-funksjonen forsøker å parse tekststrengen vi har fått inn i URL-en til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indikerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTime.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTime.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTime.ParseExact` kaster `Exception`, og `Some date` dersom funksjonskallet lykkes.
 
 Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig:
 
@@ -2760,7 +2760,7 @@ Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `4
 let epgHandler (dateAsString : string) : HttpHandler =
     fun (next : HttpFunc) (ctx : HttpContext) ->
         match (parseAsDateTime dateAsString) with
-        | Some date -> (text dateAsString) next ctx
+        | Some date -> (json dateAsString) next ctx
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
@@ -2785,7 +2785,7 @@ open NRK.Dotnetskolen.Domain
 let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
     fun (next : HttpFunc) (ctx : HttpContext) ->
         match (parseAsDateTime dateAsString) with
-        | Some date -> (text dateAsString) next ctx
+        | Some date -> (json dateAsString) next ctx
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
@@ -2797,7 +2797,7 @@ let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHa
         match (parseAsDateTime dateAsString) with
         | Some date -> 
             let epg = getEpgForDate date
-            (text dateAsString) next ctx
+            (json dateAsString) next ctx
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
@@ -2834,11 +2834,11 @@ let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHa
         | Some date -> 
             let epg = getEpgForDate date
             let dto = fromDomain epg
-            (text dateAsString) next ctx
+            (json dateAsString) next ctx
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
-Det siste vi må gjøre er å serialisere kontraktstypen vår til JSON. Giraffe har en hjelpefunksjon `json` for å gjøre dette:
+Det siste vi må gjøre er å serialisere kontraktstypen vår til JSON:
 
 ```f#
 let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
