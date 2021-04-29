@@ -20,7 +20,8 @@ module Program =
                     routef "/epg/%s" (epgHandler getEpgForDate)
                 RequestErrors.NOT_FOUND "Not found"
             ]
-        app.UseGiraffe webApp
+        app.UseStaticFiles()
+           .UseGiraffe webApp
 
     let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
         services
