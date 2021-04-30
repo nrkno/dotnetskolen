@@ -2000,13 +2000,125 @@ Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den
 }
 ```
 
-Dersom du ønsker å se hvordan man kan sette opp en grafisk fremstilling av OpenAPI-dokumentasjonen som en egen HTML-side i API-et, se [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon). Merk at det forutsetter at du har utført steg 1-10 først.
-
 > OpenAPI-kontrakten over er inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
 >
 > I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
 >
 > Merk at i OpenAPI-kontrakten over benytter vi versjon `3.0.0` av OpenAPI. I denne versjonen er det ikke full støtte for JSON Schema. Man kan derfor ikke bruke alle features i JSON Schema i OpenAPI-kontrakten. Kontrakten vår bruker imidlertid kun features i JSON Schema som er støttet. `OpenAPI 3.1.0` ble lansert 16. februar 2021, som _har_ full støtte for alle features i JSON Schema. Det vil imidlertid ta noe tid før det er støtte for denne i tooling som `ReDoc` (brukt i [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon)) `WebGUI` og linting. Takk til [@laat](https://github.com/laat) som poengterte det.
+
+#### Grafisk fremstilling av Open-API-kontrakten
+
+I [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på hvordan man kan sette opp en grafisk fremstilling av OpenAPI-dokumentasjonen som en egen HTML-side i API-et,. Merk at det forutsetter at du har utført steg 1-10 først. Dersom du ønsker å se en grafisk fremstilling nå kan du lime inn koden under på [https://editor.swagger.io/](https://editor.swagger.io/).
+
+> Bare trykk "OK" dersom du blir spurt om å gjøre om fra JSON til YAML.
+
+```json
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dotnetskolen EPG-API",
+        "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/epg/{dato}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
+                        "in": "path",
+                        "name": "dato",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2021-11-15"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nrk1": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Sending"
+                                            }
+                                        },
+                                        "nrk2": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Sending"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "nrk1",
+                                        "nrk2"
+                                    ]
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    },
+                    "400": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "\"Ugyldig dato\""
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    }
+                },
+                "operationId": "hentEpgPåDato",
+                "description": "Henter EPG for NRK1 og NRK 2 på den oppgitte datoen. Returnerer 400 dersom dato er ugyldig. Listen med sendinger for en kanal er tom dersom det ikke finnes noen sendinger på den gitte dagen."
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Tittel": {
+                "type": "string",
+                "pattern": "^[\\p{L}0-9\\.,-:!]{5,100}$",
+                "example": "Dagsrevyen",
+                "description": "Programtittel"
+            },
+            "Sending": {
+                "type": "object",
+                "properties": {
+                    "tittel": {
+                        "$ref": "#/components/schemas/Tittel"
+                    },
+                    "startTidspunkt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Startdato- og tidspunkt for sendingen."
+                    },
+                    "sluttTidspunkt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Sluttdato- og tidspunkt for sendingen. Er alltid større enn sendingens startdato- og tidspunkt."
+                    }
+                },
+                "required": [
+                    "tittel",
+                    "startTidspunkt",
+                    "sluttTidspunkt"
+                ]
+            }
+        }
+    }
+}
+```
+
+> Merk at [https://editor.swagger.io/](https://editor.swagger.io/) ikke støtter at JSON Schema og Open-API-kontrakt er definert i to forskjelliege filer. Derfor er kontrakten over en sammenslåing av `epg.schema.json` og `openapi.json`.
 
 ### Steg 8 - Implementere kontraktstyper
 
