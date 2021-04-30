@@ -59,6 +59,13 @@ Lurer du på noe knyttet til kurset? Ta gjerne kontakt på `#dotnetskolen` på S
 - [https://nrk.slack.com/messages/dotnetskolen](https://nrk.slack.com/messages/dotnetskolen)
 - [https://github.com/nrkno/dotnetskolen/discussions/categories/q-a](https://github.com/nrkno/dotnetskolen/discussions/categories/q-a)
 
+### 💡 Tips!
+
+- Flere har meldt om at de har slitt med at IDE-ene deres viser kompileringsfeil i editoren etter de har lagt til nye avhengigheter eller opprettet nye moduler. Dersom prosjektet bygger vellykket, enten ved hjelp av IDE-en sin innebygde byggfunksjon eller ved å kjøre `dotnet build`, men slike feil fortsatt vises i editoren, kan det hjelpe å laste løsningen på nytt:
+  - Rider - høyreklikk på "Solution"-noden (`Dotnetskolen`), og velg `Reload projects`
+  - Visual Studio - høyreklikk på det aktuelle prosjektet, velg `Unload project`. Høyreklikk på det aktuelle prosjektet på nytt, og velg `Reload project`.
+  - Visual Studio Code - lukke editoren, kjøre `dotnet clean` etterfulgt av `dotnet build` fra terminalen, og åpne programmet på nytt
+
 ### 🔗 Nyttige lenker
 
 - Microsoft's offisielle dokumentasjon for .NET - [https://docs.microsoft.com/en-us/dotnet/](https://docs.microsoft.com/en-us/dotnet/)
@@ -100,6 +107,7 @@ Har du tilbakemeldinger til kurset? Opprett gjerne en tråd for det her:
   - [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
 - [Ekstraoppgaver](#ekstraoppgaver)
   - [Steg 11 - Følge prinsipper i domenedrevet design](#steg-11---følge-prinsipper-i-domenedrevet-design)
+  - [Steg 12 - Grafisk fremstilling av OpenAPI-dokumentasjon](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon)
 
 ## Hva er .NET?
 
@@ -719,7 +727,7 @@ I prosjektfilen kan vi se at enhetstestprosjektet:
   - `Microsoft.NET.Test.Sdk` - Pakke for å bygge .NET testprosjekter
   - `xunit` - Bibliotek for å skrive enhetstester
   - `xunit.runner.visualstudio` - Pakke for å kjøre Xunit-tester i "Test explorer" i Visual Studio [https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019](https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019)
-  - `coverlet.collector` - bibliotek
+  - `coverlet.collector` - bibliotek for å få code coverage statistikk for prosjekter [https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
 
 > Vi ser nærmere på hva NuGet-pakker er i [steg 4](#steg-4---pakkehåndtering).
 
@@ -1101,7 +1109,19 @@ Tool 'paket' (version '5.257.0') was restored. Available commands: paket
 Restore was successful.
 ```
 
-Paket bruker filen `paket.dependencies` til å holde oversikt over hvilken avhengigheter løsningen har. For å opprette denne kan du kjøre følgende kommando
+##### Paket-filer
+
+Paket bruker følgende filer for å holde styr på pakkene i en løsning:
+
+- `paket.dependencies` - en flat liste over alle avhengigheter som inngår på tvers av alle prosjektene i løsningen.
+- `<sti til prosjekt>/paket.references` - en flat liste over alle avhengigheter det gitte prosjektet har.
+- `paket.lock` - inneholder en liste over alle avhengigheter, både direkte og transitive, og hvilken versjon av dem som er brukt i løsningen.
+
+> Se forøvrig [https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit](https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit) for hvilke filer du skal inkludere i Git.
+
+##### Initialisere Paket
+
+Som nevnt over, bruker Paket filen `paket.dependencies` til å holde oversikt over hvilken avhengigheter løsningen har. For å opprette denne kan du kjøre følgende kommando
 
 ```bash
 $ dotnet paket init
@@ -1124,6 +1144,8 @@ test
 └── Dotnetskolen.sln
 └── paket.dependencies
 ```
+
+De øvrige filene `*/paket.references` og `paket.lock` blir opprettet når man begynner å legge til avhengigheter i prosjekter.
 
 ##### .NET 5
 
@@ -1207,7 +1229,7 @@ Kjør følgende kommandoer for å legge til pakkereferansene i enhetstestprosjek
 $ dotnet paket add FSharp.Core --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ...
 
-$ dotnet paket add Microsoft.NET.Test.Sdk --project test\unit\NRK.Dotnetskolen.UnitTests.fsproj
+$ dotnet paket add Microsoft.NET.Test.Sdk --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ...
 
 $ dotnet paket add xunit --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
@@ -1823,7 +1845,7 @@ Lim inn følgende JSON i `openapi.json`:
 
 ```json
 {
-    "openapi": "3.1.0",
+    "openapi": "3.0.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1836,7 +1858,7 @@ Her oppgir vi hvilken versjon av OpenAPI vi benytter, og litt metadata om API-et
 
 ```json
 {
-    "openapi": "3.1.0",
+    "openapi": "3.0.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1855,7 +1877,7 @@ Her har vi spesifisert at API-et vårt eksponerer URL-en `/epg/{dato}` for HTTP 
 
 ```json
 {
-    "openapi": "3.1.0",
+    "openapi": "3.0.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1893,7 +1915,7 @@ Nå kan vi legge til hvilke responser endepunktet har: `200 OK` med EPG eller `4
 
 ```json
 {
-    "openapi": "3.1.0",
+    "openapi": "3.0.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -1948,7 +1970,7 @@ Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den
 
 ```json
 {
-    "openapi": "3.1.0",
+    "openapi": "3.0.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
         "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
@@ -2005,7 +2027,121 @@ Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den
 >
 > I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
 >
-> Merk at OpenAPI-kontrakten over benytter versjon `3.1.0` av OpenAPI. `OpenAPI 3.1.0` ble lansert 16. februar 2021, og det vil ta noe tid før det er støtte for denne i tooling som `WebGUI` og linting. Derfor vil f.eks. Visual Studio Code vise en valideringsfeil i filen `openapi.json`. Takk til [@laat](https://github.com/laat) som poengterte det.
+> Merk at i OpenAPI-kontrakten over benytter vi versjon `3.0.0` av OpenAPI. I denne versjonen er det ikke full støtte for JSON Schema. Man kan derfor ikke bruke alle features i JSON Schema i OpenAPI-kontrakten. Kontrakten vår bruker imidlertid kun features i JSON Schema som er støttet. `OpenAPI 3.1.0` ble lansert 16. februar 2021, som _har_ full støtte for alle features i JSON Schema. Det vil imidlertid ta noe tid før det er støtte for denne i tooling som `ReDoc` (brukt i [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon)) `WebGUI` og linting. Takk til [@laat](https://github.com/laat) som poengterte det.
+
+#### Grafisk fremstilling av Open-API-kontrakten
+
+I [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på hvordan man kan sette opp en grafisk fremstilling av OpenAPI-dokumentasjonen som en egen HTML-side i API-et,. Merk at det forutsetter at du har utført steg 1-10 først. Dersom du ønsker å se en grafisk fremstilling nå kan du lime inn koden under på [https://editor.swagger.io/](https://editor.swagger.io/).
+
+> Bare trykk "OK" dersom du blir spurt om å gjøre om fra JSON til YAML.
+
+```json
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dotnetskolen EPG-API",
+        "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/epg/{dato}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
+                        "in": "path",
+                        "name": "dato",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2021-11-15"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nrk1": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Sending"
+                                            }
+                                        },
+                                        "nrk2": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Sending"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "nrk1",
+                                        "nrk2"
+                                    ]
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    },
+                    "400": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "\"Ugyldig dato\""
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    }
+                },
+                "operationId": "hentEpgPåDato",
+                "description": "Henter EPG for NRK1 og NRK 2 på den oppgitte datoen. Returnerer 400 dersom dato er ugyldig. Listen med sendinger for en kanal er tom dersom det ikke finnes noen sendinger på den gitte dagen."
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Tittel": {
+                "type": "string",
+                "pattern": "^[\\p{L}0-9\\.,-:!]{5,100}$",
+                "example": "Dagsrevyen",
+                "description": "Programtittel"
+            },
+            "Sending": {
+                "type": "object",
+                "properties": {
+                    "tittel": {
+                        "$ref": "#/components/schemas/Tittel"
+                    },
+                    "startTidspunkt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Startdato- og tidspunkt for sendingen."
+                    },
+                    "sluttTidspunkt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Sluttdato- og tidspunkt for sendingen. Er alltid større enn sendingens startdato- og tidspunkt."
+                    }
+                },
+                "required": [
+                    "tittel",
+                    "startTidspunkt",
+                    "sluttTidspunkt"
+                ]
+            }
+        }
+    }
+}
+```
+
+> Merk at [https://editor.swagger.io/](https://editor.swagger.io/) ikke støtter at JSON Schema og Open-API-kontrakt er definert i to forskjelliege filer. Derfor er kontrakten over en sammenslåing av `epg.schema.json` og `openapi.json`.
 
 ### Steg 8 - Implementere kontraktstyper
 
@@ -2088,7 +2224,7 @@ Siden vi gir hele web-API-et vårt som input til denne webserveren er responsene
 
 > Webserveren vi skal kjøre i integrasjonstestene er dokumentert her: [https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0)
 >
-> Inspirasjonen til å skrive integrasjonstestene på måten beskrevet over er hentet fra denne artikkelen skrevet av Microsoft: [https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0)
+> Inspirasjonen til å skrive integrasjonstestene på måten beskrevet over er fra [et kurs](https://github.com/erikly/FagkveldTesthost/tree/CompleteWithTestHost) som [@erikly](https://github.com/erikly) har arrangert. Metoden er også beskrevet i denne artikkelen skrevet av Microsoft: [https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0)
 
 #### Endre prosjekttyper
 
@@ -2233,7 +2369,7 @@ let createWebHostBuilder () =
 
 Her definerer vi en funksjon `createWebHostBuilder` som returnerer en `IWebHostBuilder`. `IWebHostBuilder` returnerer et `IHost`-objekt i funksjonen `Build`, som vi skal bruke snart. I `createWebHostBuilder` konfigurerer vi `IWebHostBuilder` til å bruke `configureApp` og `configureServices`-funksjonene i web-API-et vårt. Vi skal bruke `createWebHostBuilder`-funksjonen til å opprette testserveren vår, og kjøre integrasjonstestene mot den.
 
-> Merk at dersom du forsøker å kjøre integrasjonstestprosjektet med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` nå, vil det feile fordi det ikke finnes noen tester i integrasjonstestprosjektet enda. Følg veiledningen i neste avsnitt for legge til tester. Deretter kan du kjøre testene med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`. 
+> Merk at dersom du forsøker å kjøre integrasjonstestprosjektet med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` nå, vil det feile fordi det ikke finnes noen tester i integrasjonstestprosjektet enda. Følg veiledningen i neste avsnitt for legge til tester. Deretter kan du kjøre testene med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`.
 
 #### Test 1 - Verifisere at endepunktet finnes
 
@@ -2248,15 +2384,16 @@ Legg deretter til følgende test etter `createWebHostBuilder`-funksjonen i `Test
 
 ```f#
 [<Fact>]
-let ``Get EPG today returns 200 OK`` () =
+let ``Get EPG today returns 200 OK`` () = async {
     use testServer = new TestServer(createWebHostBuilder())
     use client = testServer.CreateClient()
     let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
     let url = sprintf "/epg/%s" todayAsString
 
-    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+    let! response = client.GetAsync(url) |> Async.AwaitTask
 
     response.EnsureSuccessStatusCode() |> ignore
+}
 ```
 
 `Tests.fs` i integrasjonstestprosjektet skal nå se slik ut:
@@ -2280,19 +2417,26 @@ let createWebHostBuilder () =
         .ConfigureServices(Program.configureServices)
 
 [<Fact>]
-let ``Get EPG today returns 200 OK`` () =
+let ``Get EPG today returns 200 OK`` () = async {
     use testServer = new TestServer(createWebHostBuilder())
     use client = testServer.CreateClient()
     let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
     let url = sprintf "/epg/%s" todayAsString
 
-    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+    let! response = client.GetAsync(url) |> Async.AwaitTask
 
     response.EnsureSuccessStatusCode() |> ignore
+}
 ```
 
 Her bruker vi `createWebHostBuilder`-funksjonen til å opprette en testserver, og benytter testserveren til å opprette en HTTP-klient. Videre benytter vi HTTP-klienten til å sende en GET-forespørsel til `/epg/<dagens dato>`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
 
+> Merk at funksjonen over returnerer et `async` "computation expression" (`async {...}`). Med slike blokker kan vi definere asynkrone handlinger som skal utføres. De asynkrone handlingene blir imidlertid ikke utført før man sender inn "computation expression"-et til `Async.RunSynchronously`-funksjonen. I vårt tilfelle er det xUnit som sørger for å sette igang den asynkrone blokken vår. Derfor ser vi ikke kallet til `Async.RunSynchronously`-funksjonen her.
+>
+> I tillegg bruker vi `let!` istedenfor `let` før `response = client.GetAsync(url) |> Async.AwaitTask`. Ved å bruke `let!` venter vi på at den asynkrone handlingen på høyresiden av `=` (`client.GetAsync(url) |> Async.AwaitTask`) returnerer før vi går videre.
+>
+> Ettersom `client.GetAsync(url)` er skrevet for C#, hvor asynkrone handlinger er modellert gjennom `Task`-objekter, returnerer den en `Task`. I F# blir asynkrone handlinger imidlertid representert gjennom `Async`-verdier. Derfor bruker vi `Async.AwaitTask` for å gjøre om `Task`-en som `client.GetAsync` returnerer til en `Async`-verdi før vi venter på den.
+>
 > Merk at vi bruke `use`-kodeordet når vi oppretter testserveren og HTTP-klienten. Dette sørger for at kompilatoren rydder opp ressursene som disse to objektene bruker når testen er ferdig.
 
 Kjør integrasjonstesten med følgende kommando:
@@ -2335,21 +2479,22 @@ Legg til slutt til følgende test i `Test.fs`-klassen:
 
 ```f#
 [<Fact>]
-let ``Get EPG today return valid response`` () =
+let ``Get EPG today return valid response`` () = async {
     use testServer = new TestServer(createWebHostBuilder())
     use client = testServer.CreateClient()
     let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
     let url = sprintf "/epg/%s" todayAsString
     let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
 
-    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+    let! response = client.GetAsync(url) |> Async.AwaitTask
 
     response.EnsureSuccessStatusCode() |> ignore
-    let bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+    let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
     let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
     let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
     
     Assert.True(isJsonValid)
+}
 ```
 
 Denne testen bygger på den første testen vi skrev, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten:
@@ -2388,15 +2533,16 @@ I den siste testen skal vi verifisere at API-et validerer datoen som oppgis i UR
 
 ```f#
 [<Fact>]
-let ``Get EPG invalid date returns bad request`` () =
+let ``Get EPG invalid date returns bad request`` () = async {
     use testServer = new TestServer(createWebHostBuilder())
     use client = testServer.CreateClient()
     let invalidDateAsString = "2021-13-32"
     let url = sprintf "/epg/%s" invalidDateAsString
 
-    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+    let! response = client.GetAsync(url) |> Async.AwaitTask
 
     Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
+}
 ```
 
 Her sender vi inn en ugyldig dato, og forventer å få 400 Bad Request som respons.
@@ -2551,7 +2697,7 @@ let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuild
     app.UseGiraffe webApp
 ```
 
-I `configureApp`-funksjonen over har vi laget et endepunkt som svarer på `/ping` og returner tekststrengen `pong`. Legg merke til at `UseGiraffe`-funksjonen tar inn `webApp` som et argument. `webApp` er en `HttpHandler`, som er Giraffe sin funksjonelle ekvivalent til middleware i .NET. En `HttpHandler` i Giraffe er en funksjon med to parametere:
+I `configureApp`-funksjonen over har vi laget et endepunkt som svarer på `/ping` og returner `pong` som tekst. Legg merke til at `UseGiraffe`-funksjonen tar inn `webApp` som et argument. `webApp` er en `HttpHandler`, som er Giraffe sin funksjonelle ekvivalent til middleware i .NET. En `HttpHandler` i Giraffe er en funksjon med to parametere:
 
 - `next: HttpFunc` - Neste `HttpHandler` i Giraffe sin pipeline
 - `ctx: HttpContext` - Representasjon av HTTP-forespørslen
@@ -2641,11 +2787,11 @@ Dette kan vi bruke når vi skal definere operasjonen i Giraffe:
 
 ```f#
 let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = GET >=> routef "/epg/%s" (fun date -> text date)
+    let webApp = GET >=> routef "/epg/%s" (fun date -> json date)
     app.UseGiraffe webApp
 ```
 
-Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> text date` for HTTP `GET`-forespørsler til URL-en `/epg/%s`, hvor `%s` matcher tekststrengen oppgitt i URL-en etter `/epg/`.
+Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> json date` for HTTP `GET`-forespørsler til URL-en `/epg/%s`, hvor `%s` matcher tekststrengen oppgitt i URL-en etter `/epg/`. Legg merke til at her bruker vi funksjonen `json` istedenfor `text` for å formatere responsen til endepunktet som JSON istedenfor tekst.
 
 Start API-et igjen og se hva som skjer dersom du går til [http://localhost:5000/epg/2021-01-01](http://localhost:5000/epg/2021-01-01) i nettleseren.
 
@@ -2718,12 +2864,12 @@ module HttpHandlers =
 
     let epgHandler (dateAsString : string) : HttpHandler =
         fun (next : HttpFunc) (ctx : HttpContext) ->
-            (text dateAsString) next ctx
+            (json dateAsString) next ctx
 ```
 
-Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til det vi nevnte tidligere: at Giraffe har sin egen middleware pipeline. På tilsvarende måte som .NET legger Giraffe opp til at vi: 
+Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til det vi nevnte tidligere: at Giraffe har sin egen middleware pipeline. På tilsvarende måte som .NET legger Giraffe opp til at vi:
 
-- Først spesifiserer hva vi ønsker å returnere i HTTP-responsen `text dateAsString`
+- Først spesifiserer hva vi ønsker å returnere i HTTP-responsen `json dateAsString`
 - Deretter kaller vi neste `HttpHandler` i pipelinen `next` hvor vi gir inn `HttpContext`-verdien `ctx`.
 
 Åpne modulen `HttpHandlers` i `Program.fs` og kall funksjonen `epgHandler` istedenfor den anonyme funksjonen vi hadde:
@@ -2754,7 +2900,7 @@ let parseAsDateTime (dateAsString : string) : DateTime option =
     | _ -> None
 ```
 
-`parseAsDateTime`-funksjonen forsøker å parse tekststrengen vi har fått inn i URL-en til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indkerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTime.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTime.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTime.ParseExact` kaster `Exception`, og `Some date` dersom funksjonkallet lykkes. 
+`parseAsDateTime`-funksjonen forsøker å parse tekststrengen vi har fått inn i URL-en til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indikerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTime.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTime.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTime.ParseExact` kaster `Exception`, og `Some date` dersom funksjonskallet lykkes.
 
 Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig:
 
@@ -2762,7 +2908,7 @@ Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `4
 let epgHandler (dateAsString : string) : HttpHandler =
     fun (next : HttpFunc) (ctx : HttpContext) ->
         match (parseAsDateTime dateAsString) with
-        | Some date -> (text dateAsString) next ctx
+        | Some date -> (json dateAsString) next ctx
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
@@ -2787,7 +2933,7 @@ open NRK.Dotnetskolen.Domain
 let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
     fun (next : HttpFunc) (ctx : HttpContext) ->
         match (parseAsDateTime dateAsString) with
-        | Some date -> (text dateAsString) next ctx
+        | Some date -> (json dateAsString) next ctx
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
@@ -2799,7 +2945,7 @@ let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHa
         match (parseAsDateTime dateAsString) with
         | Some date -> 
             let epg = getEpgForDate date
-            (text dateAsString) next ctx
+            (json dateAsString) next ctx
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
@@ -2836,11 +2982,11 @@ let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHa
         | Some date -> 
             let epg = getEpgForDate date
             let dto = fromDomain epg
-            (text dateAsString) next ctx
+            (json dateAsString) next ctx
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
-Det siste vi må gjøre er å serialisere kontraktstypen vår til JSON. Giraffe har en hjelpefunksjon `json` for å gjøre dette:
+Det siste vi må gjøre er å serialisere kontraktstypen vår til JSON:
 
 ```f#
 let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
@@ -3074,7 +3220,7 @@ let database =
     ]
 ```
 
-Nå kan vi implementere `getAllTransmissions`-funksjonen:
+Nå kan vi implementere `getAllTransmissions`-funksjonen ved å legge til følgende på slutten av `DataAccess.fs`:
 
 ```f#
 ...
@@ -3118,7 +3264,7 @@ Ettersom vi har innført `getEpgForDate` som parameter til `configureApp`-funksj
 
 ```f#
 ...
-open NRK.Dotnetskolen.Domain
+open NRK.Dotnetskolen.DataAccess
 open NRK.Dotnetskolen.Api.Services
 ...
 let createWebHostBuilder () =
@@ -3127,7 +3273,6 @@ let createWebHostBuilder () =
         .UseEnvironment("Test")
         .Configure(Program.configureApp (getEpgForDate getAllTransmissions))
         .ConfigureServices(Program.configureServices)
-        .ConfigureServices(configureTestServices)
 ```
 
 Kjør testene på nytt med følgende kommando, og se om alle testene passerer nå:
@@ -3716,6 +3861,143 @@ let getAllTransmissions () : Epg =
       (Sending.create "Testprogram" "NRK2" future (future.AddMinutes(30.))).Value
   ]
 ```
+
+#### Steg 12 - Grafisk fremstilling av OpenAPI-dokumentasjon
+
+I [steg 7](#steg-7---definere-api-kontrakt) innførte vi OpenAPI-kontrakt for API-et vårt, og la den i mappen `/docs`. Foreløpig er dokumentasjonen kun tilgjengelig for de som har tilgang til repoet til koden. For at de som skal integrere med API-et skal kunne se kontrakten, er det fint om den er publisert et sted. I dette steget skal vi se hvordan vi kan tilgjengeliggjøre OpenAPI-kontrakten som en egen nettside i API-et ved hjelp av [ReDoc](https://github.com/Redocly/redoc). Med ReDoc kan vi kopiere en [HTML-side fra dokumentasjonen deres](https://github.com/Redocly/redoc#tldr) og lime inn en referanse til OpenAPI-dokumentasjonen vår, så får vi en fin grafisk fremstilling av API-et vårt, som vist under:
+
+![redoc](./illustrasjoner/redoc.png)
+
+Kort oppsummert er dette stegene vi skal gjøre for å lage en egen ReDoc-side i API-et vårt:
+
+1. Flytte `docs/epg.schema.json` og `docs/openapi.json` til `src/api/wwwroot/documentation`
+2. Opprette HTML-fil `openapi.html` i `src/api/wwwroot` med innhold fra [dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr), og endre referansen til OpenAPI-dokumentet i `openapi.html`
+3. Konfigurere web-API-et til å serve statiske filer
+
+##### Flytte API-dokumentasjon
+
+I [steg 7](#steg-7---definere-api-kontrakt) la vi dokumentasjonen til API-et vårt i `docs`-mappen. Ettersom vi nå skal eksponere den på internett gjennom API-et vårt, må vi legge den et sted som er tilgjengelig for webserveren. Opprett derfor en ny mappe `wwwroot` med en ny mappe `documentation` i `src/api` slik:
+
+```txt
+...
+└── docs
+    └── epg.schema.json
+    └── openapi.json
+└── src
+    └── api
+        └── wwwroot
+            └── documentation
+...
+```
+
+Flytt deretter filene `epg.schema.json` og `openapi.json` fra `docs` til `src/api/wwwroot/documentation`:
+
+```txt
+...
+└── docs
+└── src
+    └── api
+        └── wwwroot
+            └── documentation
+                └── epg.schema.json
+                └── openapi.json
+...
+```
+
+Til slutt kan du slette mappen `docs`:
+
+```txt
+...
+└── src
+    └── api
+        └── wwwroot
+            └── documentation
+                └── epg.schema.json
+                └── openapi.json
+...
+```
+
+I [steg 9](#test-2---verifisere-format-på-epg-respons) la vi til en referanse til `epg.schema.json` i prosjektfilen til integrasjonstestprosjektet. Siden vi har flyttet denne filen, må vi oppdatere referansen. Åpne filen `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`, og endre referansen til JSON Schemaet:
+
+```xml
+...
+<Content Include="../../src/api/wwwroot/documentation/epg.schema.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+</Content>
+...
+```
+
+##### Opprette HTML-fil
+
+Opprett filen `openapi.html` i mappen `src/api/wwwroot`, slik:
+
+```txt
+...
+└── src
+    └── api
+        └── wwwroot
+            └── documentation
+                └── epg.schema.json
+                └── openapi.json
+            └── openapi.html
+...
+```
+
+Åpne `openapi.html`, og lim inn innholdet vist [i dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr), slik:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ReDoc</title>
+    <!-- needed for adaptive design -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+
+    <!--
+    ReDoc doesn't change outer page styles
+    -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <redoc spec-url='http://petstore.swagger.io/v2/swagger.json'></redoc>
+    <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"> </script>
+  </body>
+</html>
+```
+
+Legg merke til at linjen som starter med `<redoc spec-url=` (nesten helt nederst i filen) refererer til en eksempel-dokumentasjon `http://petstore.swagger.io/v2/swagger.json`. Denne skal vi nå endre til vår egen dokumentasjon. Endre `spec-url` i denne linja til `/documentation/openapi.json`, slik:
+
+```html
+...
+<redoc spec-url='/documentation/openapi.json'></redoc>
+...
+```
+
+##### Serve statiske filer
+
+Da vi [konfigurerte middleware pipelinen til web-API-et i steg 10](#legge-til-giraffe-i-middleware-pipeline) la vi kun til Giraffe. Det vil si at Giraffe er det eneste som behandler forespørsler til API-et vårt. Siden vi ønsker å kunne serve den statiske filen `openapi.html`, må vi legge til støtte for det i middleware pipelinen vår. Det gjør vi i funksjonen `configureApp` i `src/api/Program.fs`:
+
+```f#
+let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+    let webApp = GET >=> routef "/epg/%s" (epgHandler getEpgForDate)
+    app.UseStaticFiles()
+       .UseGiraffe webApp
+```
+
+Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer blir servet av webserveren. Som default konfigureres serveren til å se etter statiske filer i `wwwroot`-mappen. Legg merke til at vi kaller `UseStaticFiles` _før_ `UseGiraffe`. Siden middlewares i .NET prosesserer innkommende forespørsler i den rekkefølgen de blir lagt til gjennom `IApplicationBuilder`, legger vi til serving av statiske filer før Giraffe, slik at dersom det finnes en statisk fil identifisert av path-en i HTTP-forespørslen returnerer vi den istedenfor å gå videre med å evaluere HttpHandlere i Giraffe.  Siden `UseStaticFiles` returnerer en `IApplicationBuilder` kan vi kalle `UseGiraffe webapp` etterpå.
+
+##### Se dokumentasjonen
+
+Dersom du nå starter web-API-et med `dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj`, og åpner [http://localhost:5000/openapi.html](http://localhost:5000/openapi.html) skal du se noe liknende som skjermbildet under:
+
+![redoc](./illustrasjoner/redoc.png)
 
 ## Ekstramateriale
 
