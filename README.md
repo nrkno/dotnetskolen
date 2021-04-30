@@ -2361,15 +2361,16 @@ Legg deretter til følgende test etter `createWebHostBuilder`-funksjonen i `Test
 
 ```f#
 [<Fact>]
-let ``Get EPG today returns 200 OK`` () =
+let ``Get EPG today returns 200 OK`` () = async {
     use testServer = new TestServer(createWebHostBuilder())
     use client = testServer.CreateClient()
     let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
     let url = sprintf "/epg/%s" todayAsString
 
-    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+    let! response = client.GetAsync(url) |> Async.AwaitTask
 
     response.EnsureSuccessStatusCode() |> ignore
+}
 ```
 
 `Tests.fs` i integrasjonstestprosjektet skal nå se slik ut:
@@ -2393,19 +2394,26 @@ let createWebHostBuilder () =
         .ConfigureServices(Program.configureServices)
 
 [<Fact>]
-let ``Get EPG today returns 200 OK`` () =
+let ``Get EPG today returns 200 OK`` () = async {
     use testServer = new TestServer(createWebHostBuilder())
     use client = testServer.CreateClient()
     let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
     let url = sprintf "/epg/%s" todayAsString
 
-    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+    let! response = client.GetAsync(url) |> Async.AwaitTask
 
     response.EnsureSuccessStatusCode() |> ignore
+}
 ```
 
 Her bruker vi `createWebHostBuilder`-funksjonen til å opprette en testserver, og benytter testserveren til å opprette en HTTP-klient. Videre benytter vi HTTP-klienten til å sende en GET-forespørsel til `/epg/<dagens dato>`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
 
+> Merk at funksjonen over returnerer et `async` "computation expression" (`async {...}`). Med slike blokker kan vi definere asynkrone handlinger som skal utføres. De asynkrone handlingene blir imidlertid ikke utført før man sender inn "computation expression"-et til `Async.RunSynchronously`-funksjonen. I vårt tilfelle er det xUnit som sørger for å sette igang den asynkrone blokken vår. Derfor ser vi ikke kallet til `Async.RunSynchronously`-funksjonen her.
+>
+> I tillegg bruker vi `let!` istedenfor `let` før `response = client.GetAsync(url) |> Async.AwaitTask`. Ved å bruke `let!` venter vi på at den asynkrone handlingen på høyresiden av `=` (`client.GetAsync(url) |> Async.AwaitTask`) returnerer før vi går videre.
+>
+> Ettersom `client.GetAsync(url)` er skrevet for C#, hvor asynkrone handlinger er modellert gjennom `Task`-objekter, returnerer den en `Task`. I F# blir asynkrone handlinger imidlertid representert gjennom `Async`-verdier. Derfor bruker vi `Async.AwaitTask` for å gjøre om `Task`-en som `client.GetAsync` returnerer til en `Async`-verdi før vi venter på den.
+>
 > Merk at vi bruke `use`-kodeordet når vi oppretter testserveren og HTTP-klienten. Dette sørger for at kompilatoren rydder opp ressursene som disse to objektene bruker når testen er ferdig.
 
 Kjør integrasjonstesten med følgende kommando:
@@ -2448,21 +2456,22 @@ Legg til slutt til følgende test i `Test.fs`-klassen:
 
 ```f#
 [<Fact>]
-let ``Get EPG today return valid response`` () =
+let ``Get EPG today return valid response`` () = async {
     use testServer = new TestServer(createWebHostBuilder())
     use client = testServer.CreateClient()
     let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
     let url = sprintf "/epg/%s" todayAsString
     let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
 
-    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+    let! response = client.GetAsync(url) |> Async.AwaitTask
 
     response.EnsureSuccessStatusCode() |> ignore
-    let bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously
+    let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
     let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
     let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
     
     Assert.True(isJsonValid)
+}
 ```
 
 Denne testen bygger på den første testen vi skrev, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten:
@@ -2501,15 +2510,16 @@ I den siste testen skal vi verifisere at API-et validerer datoen som oppgis i UR
 
 ```f#
 [<Fact>]
-let ``Get EPG invalid date returns bad request`` () =
+let ``Get EPG invalid date returns bad request`` () = async {
     use testServer = new TestServer(createWebHostBuilder())
     use client = testServer.CreateClient()
     let invalidDateAsString = "2021-13-32"
     let url = sprintf "/epg/%s" invalidDateAsString
 
-    let response = client.GetAsync(url) |> Async.AwaitTask |> Async.RunSynchronously
+    let! response = client.GetAsync(url) |> Async.AwaitTask
 
     Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
+}
 ```
 
 Her sender vi inn en ugyldig dato, og forventer å få 400 Bad Request som respons.
