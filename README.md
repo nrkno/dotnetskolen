@@ -88,7 +88,7 @@ Har du tilbakemeldinger til kurset? Opprett gjerne en tråd for det her:
 
 - Takk til alle som har kommet med konstruktiv kritikk og nyttige tilbakemeldinger under interne gjennomføringer av dette kurset.
 
-### Lisens
+### 📝 Lisens
 
 All dokumentasjon (inkludert denne veiledningen) og kildekoden i dette repoet er åpent tilgjengelig under [MIT-lisensen](/LICENCE).
 
