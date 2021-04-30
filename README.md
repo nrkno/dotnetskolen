@@ -1107,7 +1107,19 @@ Tool 'paket' (version '5.257.0') was restored. Available commands: paket
 Restore was successful.
 ```
 
-Paket bruker filen `paket.dependencies` til å holde oversikt over hvilken avhengigheter løsningen har. For å opprette denne kan du kjøre følgende kommando
+##### Paket-filer
+
+Paket bruker følgende filer for å holde styr på pakkene i en løsning:
+
+- `paket.dependencies` - en flat liste over alle avhengigheter som inngår på tvers av alle prosjektene i løsningen.
+- `<sti til prosjekt>/paket.references` - en flat liste over alle avhengigheter det gitte prosjektet har.
+- `paket.lock` - inneholder en liste over alle avhengigheter, både direkte og transitive, og hvilken versjon av dem som er brukt i løsningen.
+
+> Se forøvrig [https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit](https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit) for hvilke filer du skal inkludere i Git.
+
+##### Initialisere Paket
+
+Som nevnt over, bruker Paket filen `paket.dependencies` til å holde oversikt over hvilken avhengigheter løsningen har. For å opprette denne kan du kjøre følgende kommando
 
 ```bash
 $ dotnet paket init
@@ -1130,6 +1142,8 @@ test
 └── Dotnetskolen.sln
 └── paket.dependencies
 ```
+
+De øvrige filene `*/paket.references` og `paket.lock` blir opprettet når man begynner å legge til avhengigheter i prosjekter.
 
 ##### .NET 5
 
