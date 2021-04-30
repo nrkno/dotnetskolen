@@ -54,9 +54,8 @@ Deretter kan du begynne på selve kurset:
 
 ### ❓ Spørsmål
 
-Lurer du på noe knyttet til kurset? Ta gjerne kontakt på `#dotnetskolen` på Slack, eller opprett tråd på "Discussions" på GitHub:
+Lurer du på noe knyttet til kurset? Opprett gjerne en tråd under "Discussions" i dette repoet:
 
-- [https://nrk.slack.com/messages/dotnetskolen](https://nrk.slack.com/messages/dotnetskolen)
 - [https://github.com/nrkno/dotnetskolen/discussions/categories/q-a](https://github.com/nrkno/dotnetskolen/discussions/categories/q-a)
 
 ### 💡 Tips!
