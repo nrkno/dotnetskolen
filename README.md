@@ -84,6 +84,10 @@ Har du tilbakemeldinger til kurset? Opprett gjerne en tråd for det her:
 - [@heidisu](https://github.com/heidisu) - Idé og kvalitetssikring
 - [@thomaswolff](https://github.com/thomaswolff) - Primus motor og forfatter
 
+### 🙌 Takk
+
+- Takk til alle som har kommet med konstruktiv kritikk og nyttige tilbakemeldinger under interne gjennomføringer av dette kurset.
+
 ## 📖 Innholdsfortegnelse
 
 - [Hva er .NET?](#hva-er-net)
