@@ -2287,7 +2287,7 @@ module Program =
         0
 ```
 
-I `createHostBuilder`-funksjonen kaller vi funksjonen `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter gitt inn gjennom `args`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
+Her oppretter vi en modul, `Program`, i namespacet `NRK.Dotnetskolen.Api`. I `Program`-modulen åpner vi `Microsoft.Extensions.Hosting` for å få tilgang til `CreateDefaulBuilder`. I `createHostBuilder`-funksjonen kaller vi funksjonen `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter gitt inn gjennom `args`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
 
 Til slutt bygger vi hosten vår, og starter den slik med `createHostBuilder(argv).Build().Run()` i `main`-funksjonen.
 
@@ -2305,7 +2305,15 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: C:\Dev\nrkno@github.com\dotnetskolen\src\api
 ```
 
-I outputen over ser vi tre logginnslag av typen `info`. De forteller at applikasjonen er startet, at miljøet er `Production`, og hva filstien til "content root" er.
+Foreløpig gjør ikke hosten vår noen ting. Den bare starter, og kjører helt til vi avslutter den ved å trykke `Ctrl+C`. I outputen over ser vi imidlertid tre logginnslag av typen `info` som er blitt skrevet av hosten. De forteller at applikasjonen har startet, at miljøet er `Production`, og hva filstien til "content root" er.
+
+Trykk `Ctrl+C` for å stoppe hosten:
+
+```bash
+$ // Trykker `Ctrl+C`
+info: Microsoft.Hosting.Lifetime[0]  
+      Application is shutting down...
+```
 
 > `Production` er default miljø i .NET med mindre annet er spesifisert. Du kan lese mer om miljøer i .NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-5.0)
 >
@@ -2345,14 +2353,14 @@ let createHostBuilder args =
 
 Legg merke til at vi ikke lagt til noen middleware i pipelinen vår enda. Det gjør vi imidlertid noe med i avsnittet om [Giraffe](#legge-til-giraffe-i-middleware-pipeline).
 
-> Ettersom `webHostBuilder.Configure` returnerer funksjonen `webHostBuilder` igjen slik at vi kan kjede flere kall til funksjoner på `webHostBuilder`. Ettersom vi ikke skal bruke det returnerte `webHostBuilder`-objektet legger vi til `|> ignore` for å ignorere verdien.
+> `webHostBuilder.Configure` returnerer objektet `webHostBuilder` igjen slik at vi kan kjede flere kall til andre funksjoner på `webHostBuilder`. Ettersom vi ikke skal bruke det returnerte `webHostBuilder`-objektet legger vi til `|> ignore` for å ignorere verdien.
 
 ###### Kjøre web host
 
 Hvis du nå kjører hosten igjen, vil du se to nye logginnslag:
 
 ```bash
-$ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 info: Microsoft.Hosting.Lifetime[0]
       Now listening on: http://localhost:5000
 info: Microsoft.Hosting.Lifetime[0]
@@ -2360,7 +2368,7 @@ info: Microsoft.Hosting.Lifetime[0]
 ...
 ```
 
-Fra logginnslagene over ser vi at hosten vår lytter på HTTP-forespørsler på port `5000` og `5001` for hhv. HTTP og HTTPS. I og med at vi ikke har lagt til noen middlewares i pipelinen vår enda, svarer API-et med `404 Not Found` på alle forespørsler.
+Fra logginnslagene over ser vi at hosten vår lytter på HTTP-forespørsler på port `5000` og `5001` for hhv. HTTP og HTTPS. I og med at vi ikke har lagt til noen middlewares i pipelinen vår enda, svarer API-et med `404 Not Found` på alle forespørsler. Det kan du verifisere ved å åpne [http://localhost:5000/](http://localhost:5000/) i en nettleser.
 
 > Du kan lese mer om middleware i .NET-web-applikasjoner her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0)
 
@@ -2405,7 +2413,7 @@ let createHostBuilder args =
 Hvis du kjører API-et nå, vil du ikke se noen forskjell fra sist ettersom vi ikke har lagt til noen tjenester i `configureServices`. Det gjør vi imidlertid noe med i neste avsnitt. 
 
 ```bash
-$ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 info: Microsoft.Hosting.Lifetime[0]
       Now listening on: http://localhost:5000
 info: Microsoft.Hosting.Lifetime[0]
@@ -2433,7 +2441,7 @@ $ dotnet paket add giraffe --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 
 ##### Legge til Giraffe i middleware pipeline
 
-Nå som Giraffe er installert, kan vi ta det i bruk i web-API-et vårt. Start med å åpne `Giraffe`-modulen i `Program.fs` ved å legge til følgende linje under de andre "open"-statementene:
+Nå som Giraffe er installert, kan vi ta det i bruk i web-API-et vårt. Start med å åpne `Giraffe`-modulen i `Program.fs` i API-prosjektet ved å legge til følgende linje under de andre "open"-statementene:
 
 ```f#
 ...
@@ -2546,7 +2554,6 @@ Nå er vi klare til å kunne sette opp integrasjonstestene. Åpne `Tests.fs` i i
 ```f#
 module Tests
 
-open System
 open System.IO
 open Microsoft.AspNetCore.Hosting
 open Xunit
@@ -2560,7 +2567,7 @@ let createWebHostBuilder () =
         .ConfigureServices(Program.configureServices)
 ```
 
-Her definerer vi en funksjon `createWebHostBuilder` som returnerer en `IWebHostBuilder`. `IWebHostBuilder` returnerer et `IHost`-objekt i funksjonen `Build`, som vi skal bruke snart. I `createWebHostBuilder` konfigurerer vi `IWebHostBuilder` til å bruke `configureApp` og `configureServices`-funksjonene i web-API-et vårt. Vi skal bruke `createWebHostBuilder`-funksjonen til å opprette testserveren vår, og kjøre integrasjonstestene mot den.
+Her definerer vi en funksjon `createWebHostBuilder` som returnerer en `IWebHostBuilder`. `IWebHostBuilder` returnerer et `IHost`-objekt i funksjonen `Build`, som vi skal bruke snart. I `createWebHostBuilder` konfigurerer vi `IWebHostBuilder` til å bruke `configureApp` og `configureServices`-funksjonene i web-API-et vårt. Vi skal bruke `createWebHostBuilder`-funksjonen til å opprette testserveren vår, og kjøre integrasjonstestene mot den. Legg merke til at `createWebHostBuilder`-funksjonen er veldig lik `createHostBuilder` i `Program.fs` i API-prosjektet.
 
 > Merk at dersom du forsøker å kjøre integrasjonstestprosjektet med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` nå, vil det feile fordi det ikke finnes noen tester i integrasjonstestprosjektet enda. Følg veiledningen i under for legge til den første integrasjonstesten. Deretter kan du kjøre testene med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`.
 
@@ -2641,7 +2648,7 @@ I [forrige steg](#steg-9---sette-opp-skall-for-api) opprettet vi et skall for we
 
 #### Test 1 - Verifisere at endepunktet finnes
 
-I den første integrasjonstesten skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement etter `open System.IO` i `Tests.fs`-filen.
+I den første integrasjonstesten skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement før `open System.IO` i `Tests.fs`-filen.
 
 ```f#
 open System
@@ -2710,7 +2717,7 @@ Det er to ting som definerer operasjonen i API-et vårt:
 1. URL-en `/epg/{dato}`
 2. At den er tilgjengelig gjennom HTTP `GET`-verbet
 
-Dette kan vi bruke når vi skal definere operasjonen i Giraffe. Endre `configureApp` i `Program.fs` i API-prosjektet til å være slik:
+Dette kan vi bruke når vi skal definere operasjonen i Giraffe. Utvid `configureApp` i `Program.fs` i API-prosjektet slik:
 
 ```f#
 let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
@@ -2726,9 +2733,9 @@ Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> 
 I tillegg har vi benyttet to funksjoner i Giraffe:
 
 - `GET` - en funksjon som kun kaller `next` dersom HTTP-verbet som er brukt i forespørslen er `GET`. Det finnes tilsvarende funksjoner for andre HTTP-verb: [https://github.com/giraffe-fsharp/Giraffe/blob/master/DOCUMENTATION.md#http-verbs](https://github.com/giraffe-fsharp/Giraffe/blob/master/DOCUMENTATION.md#http-verbs)
-- `choose` - en funksjon som tar inn en liste med `HttpHandler`-funksjoner, og kaller hver av dem helt til den første returnerer et vellykket resultat
+- `choose` - en funksjon som tar inn en liste med `HttpHandler`-funksjoner, og kaller hver av dem etter tur helt til den første returnerer et vellykket resultat
 
-Ved å anvende `GET` og `choose` funksjonene slik som over oppnår vi at API-et kun svarer på `GET`-forespørsler, og vi svarer både på `/ping` og `/epg/{dato}`.
+Ved å anvende `GET` og `choose` funksjonene slik som over oppnår vi at API-et kun svarer på `GET`-forespørsler, og at vi svarer både på `/ping` og `/epg/{dato}`.
 
 ##### Kjøre API-et
 
@@ -2844,7 +2851,7 @@ module HttpHandlers =
             (json dateAsString) next ctx
 ```
 
-Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til det vi nevnte tidligere: at Giraffe har sin egen middleware pipeline. På tilsvarende måte som .NET legger Giraffe opp til at vi:
+Her oppretter vi en modul `HttpHandlers` i namespacet `NRK.Dotnetskolen.Api`. I modulen har vi en funksjon `epgHandler`, som tar inn en tekststreng, og returnerer en `HttpHandler`-funksjon. Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til det vi nevnte tidligere: at Giraffe har sin egen middleware pipeline. På tilsvarende måte som .NET legger Giraffe opp til at vi:
 
 - Først spesifiserer hva vi ønsker å returnere i HTTP-responsen `json dateAsString`
 - Deretter kaller vi neste `HttpHandler` i pipelinen `next` hvor vi gir inn `HttpContext`-verdien `ctx`.
@@ -2856,7 +2863,10 @@ Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi had
 open NRK.Dotnetskolen.Api.HttpHandlers
 
 let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = GET >=> routef "/epg/%s" epgHandler
+    let webApp = GET >=> choose [
+                    route "/ping" >=> text "pong"
+                    routef "/epg/%s" epgHandler 
+                ]
     app.UseGiraffe webApp
 ```
 
@@ -2885,11 +2895,22 @@ Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `4
 let epgHandler (dateAsString : string) : HttpHandler =
     fun (next : HttpFunc) (ctx : HttpContext) ->
         match (parseAsDateTime dateAsString) with
-        | Some date -> (json dateAsString) next ctx
+        | Some date -> (json date) next ctx
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
 `None`-casen i koden over illustrerer et tilfelle hvor vi _ikke_ kaller neste middleware i pipelinen. Dersom den oppgitte datoen er ugyldig, setter vi statuskoden til `400` og skriver `Invalid date` til response body, før vi bryter videre prosessering av middleware i Giraffe ved å lage en tom middleware `Some >> Task.FromResult` som returnerer umiddelbart.
+
+##### Kjøre API-et
+
+Start API-et igjen og se hva som skjer dersom du går til [http://localhost:5000/epg/2021-01-01](http://localhost:5000/epg/2021-01-01) i nettleseren.
+
+```bash
+$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
+...
+```
+
+Det vi nå får tilbake er Giraffe sin serialisering av det validerte datoobjektet vårt.
 
 ##### Se at testen passerer
 
@@ -2976,7 +2997,7 @@ Testen feiler. La oss implementere ferdig API-et.
 
 ##### Hente EPG
 
-Neste steg i å implementere API-et nå er å hente EPG for den validerte datoen. Siden det å hente sendinger for en gitt dato kan implementeres på flere måter (kalle web-tjeneste, spørre database, hente fra fil), benytter vi IoC-prinsippet, og sier at dette er en funksjon vi må få inn til `epgHandler`. Vi definerer denne funksjonen som `getEpgForDate: DateTime -> Epg` hvor `Epg` er typen fra domenemodellen vår. Utvid `epgHandler` med denne avhengigheten slik som vist under:
+Neste steg i å implementere API-et nå er å hente EPG for den validerte datoen. Siden det å hente sendinger for en gitt dato kan implementeres på flere måter (kalle web-tjeneste, spørre database, hente fra fil), benytter vi IoC-prinsippet, og sier at dette er en funksjon vi må få inn til `epgHandler`. Vi definerer denne funksjonen som `getEpgForDate: DateTime -> Epg` hvor `Epg` er typen fra domenemodellen vår. Utvid `epgHandler` i `HttpHandlers.fs` med denne avhengigheten slik som vist under:
 
 ```f#
 ...
@@ -2997,7 +3018,7 @@ let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHa
         match (parseAsDateTime dateAsString) with
         | Some date -> 
             let epg = getEpgForDate date
-            (json dateAsString) next ctx
+            (json date) next ctx
         | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
 ```
 
@@ -3135,7 +3156,9 @@ Legg til følgende `open`-statement i `Program.fs` i API-prosjektet:
 
 ```f#
 ...
+open System
 open NRK.Dotnetskolen.Api.Services
+open NRK.Dotnetskolen.Domain
 ...
 ```
 
@@ -3167,7 +3190,7 @@ $ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 ...
 ```
 
-La oss gå videre med å implementere `getEpgForDate`.
+La oss gå videre med å implementere `getEpgForDate` i `Services.fs`.
 
 Oppgaven til `getEpgForDate` er å filtrere sendinger på den oppgitte datoen, men hvor skal den få sendingene fra? På tilsvarende måte som vi gjorde i `epgHandler`-funksjonen i `HttpHandlers`, kan vi her si at vi ønsker å delegere ansvaret til å faktisk hente sendinger til noen andre. Dette kan vi gjøre ved å ta inn en funksjon `getAllTransmissions: () -> Epg` i `getEpgForDate`:
 
@@ -3272,7 +3295,7 @@ let database =
     ]
 ```
 
-Nå kan vi implementere `getAllTransmissions`-funksjonen ved å legge til følgende på slutten av `DataAccess.fs`:
+Nå kan vi implementere `getAllTransmissions`-funksjonen ved å legge til følgende `open`-statement, og funksjonen `getAllTransmissions` på slutten av `DataAccess.fs`:
 
 ```f#
 ...
@@ -3316,7 +3339,7 @@ Ettersom vi har innført `getEpgForDate` som parameter til `configureApp`-funksj
 
 ```f#
 ...
-open NRK.Dotnetskolen.DataAccess
+open NRK.Dotnetskolen.Api.DataAccess
 open NRK.Dotnetskolen.Api.Services
 ...
 let createWebHostBuilder () =
@@ -3520,7 +3543,7 @@ Her ser vi at istedenfor å bruke `string` for tittel, bruker vi den nye typen v
 Dersom vi forsøker å kompilere API-prosjektet vårt nå, vil det feile fordi vi har endret typen til feltet `Tittel` i `Sending`-typen vår. La oss fikse kompileringsfeilene.
 
 ```bash
-$ dotnet build .\src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet build ./src/api/NRK.Dotnetskolen.Api.fsproj
 ...
 Build FAILED.
 ...
@@ -3614,7 +3637,7 @@ let fromDomain (domain : Domain.Epg) : EpgDto =
 Dersom du forsøker å bygge API-prosjektet igjen nå, skal det lykkes:
 
 ```bash
-$ dotnet build .\src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet build ./src/api/NRK.Dotnetskolen.Api.fsproj
 ...
 Build succeeded.
 ...
@@ -3627,7 +3650,7 @@ $ dotnet build
 ...
 Build FAILED.
 ...
-7 Error(s)
+8 Error(s)
 ...
 ```
 
@@ -3818,10 +3841,6 @@ $ dotnet build
 ...
 Build FAILED.
 ...
-0 Warning(s)
-7 Error(s)
-
-Time Elapsed 00:00:03.87
 ```
 
 La oss starte med `toDomain`-funksjonen i `DataAccess.fs`:
@@ -4035,6 +4054,12 @@ I [steg 9](#test-2---verifisere-format-på-epg-respons) la vi til en referanse t
 ...
 ```
 
+Verifiser at integrasjonstestene kjører med følgende kommando:
+
+```bash
+$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+```
+
 ##### Opprette HTML-fil
 
 Opprett filen `openapi.html` i mappen `src/api/wwwroot`, slik:
@@ -4093,9 +4118,12 @@ Legg merke til at linjen som starter med `<redoc spec-url=` (nesten helt nederst
 Da vi [konfigurerte middleware pipelinen til web-API-et i steg 10](#legge-til-giraffe-i-middleware-pipeline) la vi kun til Giraffe. Det vil si at Giraffe er det eneste som behandler forespørsler til API-et vårt. Siden vi ønsker å kunne serve den statiske filen `openapi.html`, må vi legge til støtte for det i middleware pipelinen vår. Det gjør vi i funksjonen `configureApp` i `src/api/Program.fs`:
 
 ```f#
-let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = GET >=> routef "/epg/%s" (epgHandler getEpgForDate)
-    app.UseStaticFiles()
+let configureApp (getEpgForDate: DateTime -> Epg)  (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+    let webApp = GET >=> choose [
+                    route "/ping" >=> text "pong"
+                    routef "/epg/%s" (epgHandler getEpgForDate)
+                ]
+    app.UseStaticFiles
        .UseGiraffe webApp
 ```
 
