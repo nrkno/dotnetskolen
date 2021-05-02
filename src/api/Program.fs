@@ -15,13 +15,11 @@ module Program =
 
     let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
         let webApp =
-            choose [
-                GET  >=> 
+            GET >=> choose [
+                    route "/ping" >=> text "pong"
                     routef "/epg/%s" (epgHandler getEpgForDate)
-                RequestErrors.NOT_FOUND "Not found"
             ]
-        app.UseStaticFiles()
-           .UseGiraffe webApp
+        app.UseGiraffe webApp
 
     let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
         services
