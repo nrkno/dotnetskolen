@@ -96,7 +96,7 @@ All dokumentasjon (inkludert denne veiledningen) og kildekoden i dette repoet er
 
 - [Hva er .NET?](#hva-er-net)
 - [Hva er F#?](#hva-er-f)
-- [Hvordan komme i gang med kurset](#hvordan-komme-i-gang)
+- [Hvordan komme i gang med kurset](#hvordan-komme-i-gang-med-kurset)
   - [Nødvendige verktøy](#verktøy)
   - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden-valgfritt)
   - [Se løsningsforslag](#se-løsningsforslag)
@@ -2027,9 +2027,7 @@ Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den
 }
 ```
 
-> OpenAPI-kontrakten over er inspirert av kontrakten til `PSINT Transmissions API` som er definert her: [https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json](https://github.com/nrkno/psint-documentation/blob/master/public/documentation/openapi/psint-transmissions-api/openapi.json)
->
-> I tillegg er den validert ved hjelp av dette verktøyet: [https://editor.swagger.io/](https://editor.swagger.io/)
+> Kontrakten over er validert ved hjelp av [https://editor.swagger.io/](https://editor.swagger.io/)
 >
 > Merk at i OpenAPI-kontrakten over benytter vi versjon `3.0.0` av OpenAPI. I denne versjonen er det ikke full støtte for JSON Schema. Man kan derfor ikke bruke alle features i JSON Schema i OpenAPI-kontrakten. Kontrakten vår bruker imidlertid kun features i JSON Schema som er støttet. `OpenAPI 3.1.0` ble lansert 16. februar 2021, som _har_ full støtte for alle features i JSON Schema. Det vil imidlertid ta noe tid før det er støtte for denne i tooling som `ReDoc` (brukt i [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon)) `WebGUI` og linting. Takk til [@laat](https://github.com/laat) som poengterte det.
 
