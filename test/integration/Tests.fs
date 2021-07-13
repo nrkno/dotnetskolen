@@ -1,20 +1,23 @@
 module Tests
 
+open Json.Schema
+open Microsoft.AspNetCore.Hosting
+open Microsoft.AspNetCore.TestHost
 open System
 open System.IO
 open System.Net
-open Microsoft.AspNetCore.TestHost
-open Microsoft.AspNetCore.Hosting
-open Xunit
-open NRK.Dotnetskolen.Api
-open Json.Schema
 open System.Text.Json
+open Xunit
+
+open NRK.Dotnetskolen.Api
+open NRK.Dotnetskolen.DataAccess
+open NRK.Dotnetskolen.Api.Services
 
 let createWebHostBuilder () =
     WebHostBuilder()
         .UseContentRoot(Directory.GetCurrentDirectory())
         .UseEnvironment("Test")
-        .Configure(Program.configureApp)
+        .Configure(Program.configureApp (getEpgForDate getAllTransmissions))
         .ConfigureServices(Program.configureServices)
 
 [<Fact>]
