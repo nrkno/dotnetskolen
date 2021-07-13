@@ -4,7 +4,7 @@
 
 Velkommen til Dotnetskolen!
 
-Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp og implementere en .NET-løsning fra bunnen av, steg for steg. Målet med kurset er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
+Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp, og implementere, en .NET-løsning fra bunnen av, steg for steg. Målet med kurset er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
 
 - Opprette prosjekter og mappestruktur
 - Sette opp pakkehåndtering
@@ -86,7 +86,7 @@ Har du tilbakemeldinger til kurset? Opprett gjerne en tråd for det her:
 
 ### 🙌 Takk
 
-- Takk til alle som har kommet med konstruktiv kritikk og nyttige tilbakemeldinger under interne gjennomføringer av dette kurset.
+- Takk til alle som har kommet med konstruktiv kritikk og nyttige tilbakemeldinger til dette kurset.
 
 ### 📝 Lisens
 
@@ -121,7 +121,7 @@ All dokumentasjon (inkludert denne veiledningen) og kildekoden i dette repoet er
 
 - Programmeringsspråk - som f.eks. C# og F#
 - Kompilatorer - programmer som kompilerer kode skrevet i et .NET-programmeringsspråk til CIL ("common intermediate language")
-- CIL ("common intermediate language") - et felles lavnivåspråk som alle .NET-programmer blir kompilert til
+- CIL ("common intermediate language") - et felles lavnivåspråk som all .NET-kode blir kompilert til
 - CLR ("common language runtime") - kjøretidsmiljø for .NET-programmer som oversetter instruksjonene definert i CIL til maskinkode, og kjører maskinkoden
 - BCL ("base class library") - en stor samling biblioteker skrevet av Microsoft som tilbyr standard funksjonalitet som f.eks. datastrukturer (lister, datoer etc.), IO (lesing og skriving av filer, nettverkshåndtering) og sikkerhet (kryptering, sertifikater).
 
@@ -144,7 +144,7 @@ For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Micros
 
 ## Hva er F#?
 
-F# er et funksjonelt programmeringsspråk for .NET, og er mye brukt i NRK TV og NRK Radio siden det egner seg godt til å drive modellering i [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design). Når man [installerer .NET SDK](#net-sdk) følger kompilator for F# med, og man kan utvikle og kjøre F#-kode. Som nevnt i innledningen skal all koding i dette kurset gjøres i F#.
+F# er et funksjonelt programmeringsspråk for .NET, og er mye brukt i NRK TV og NRK Radio siden språkets typesystem egner seg godt til å drive modellering i [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design). Når man [installerer .NET SDK](#net-sdk) følger kompilator for F# med, og man kan dermed utvikle og kjøre F#-kode. Som nevnt i innledningen skal all koding i dette kurset gjøres i F#.
 
 Dersom F# er nytt for deg, eller du ønsker å friske opp minnet om språket finner du noen nyttige lenker under:
 
@@ -190,7 +190,7 @@ Når man installerer .NET har man valget mellom å installere
   - Kompilatorer
   - .NET CLI - kommandolinjeverktøy for å bygge, kjøre og publisere .NET-applikasjoner
 
-Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med .NET Core, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
+Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med en versjon av .NET Core, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
 
 ```bash
 $ dotnet --version
@@ -200,7 +200,7 @@ $ dotnet --version
 
 Dersom du ikke har .NET installert på maskinen din, kan du laste det ned her: [https://dotnet.microsoft.com/download/dotnet](https://dotnet.microsoft.com/download/dotnet)
 
-Som nevnt over inkluderer .NET SDK også .NET CLI som gir oss muligheten til å bygge, kjøre og publisere .NET-applikasjoner. For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bruke .NET CLI til oppsett av løsningen vår. 
+Som nevnt over inkluderer .NET SDK også .NET CLI som gir oss muligheten til å bygge, kjøre og publisere .NET-applikasjoner. Etter å ha installert .NET CLI kan man kjøre `dotnet`-kommandoer i terminalen. For at kurset skal kunne gjennomføres uavhengig av plattform og IDE skal vi bruke .NET CLI til oppsett av løsningen vår.
 
 Veiledningen forklarer det grunnleggende om kommandoene vi kommer til å bruke i .NET CLI. Dersom du ønsker mer utfyllende informasjon eller oversikt over alle kommandoene kan du lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
 
@@ -285,12 +285,12 @@ I dette steget starter vi med en mappe helt uten kode, og bruker .NET CLI til å
 
 #### .NET-prosjekter
 
-For å kunne organisere kode i .NET bruker man _prosjekter_. Et prosjekt er en samling med kildekodefiler og eventuelle andre ressursfiler, og alle filene som inngår i prosjektet er referert til i en _prosjektfil_. For F#-prosjekter har slike prosjektfiler filendelsen `.fsproj`.
+For å kunne organisere kode i .NET bruker man _prosjekter_. Et prosjekt er en samling med kildekodefiler, og eventuelle andre ressursfiler, og alle filene som inngår i prosjektet er referert til i en _prosjektfil_. For F#-prosjekter har slike prosjektfiler filendelsen `.fsproj`.
 
 Når man kompilerer .NET-prosjekter kan man velge mellom to typer output:
 
-- Kjørbar fil ("executable") - et program som kan kjøres
-- Klassebibliotek ("dynamically linked library") - en samling med funksjonalitet som kan benyttes av andre programmer
+- Kjørbar fil (_executable_) - et program som kan kjøres
+- Klassebibliotek (_dynamically linked library_) - en samling med funksjonalitet som kan benyttes av andre programmer
 
 #### Dotnet new
 
@@ -437,9 +437,9 @@ Options:
 
 #### Opprette API-prosjektet
 
-Som du ser av malene som er listet ut over, er det en innebygget mal for web-API som heter `webapi`. For å komme raskt i gang med et prosjekt, eller se hvordan ting er satt opp, kan man bruke `webapi` som mal. Vi kommer imidlertid til å opprette API-et vårt ved å bruke malen `console` for å lære mest mulig om å sette opp prosjektet helt fra bunnen av.
+Som du ser av malene som er listet ut over, er det en innebygget mal for web-API som heter `webapi`. For å komme raskt i gang med et prosjekt, eller se hvordan et default .NET API er satt opp, kan man bruke `webapi` som mal. Vi kommer imidlertid til å opprette API-et vårt fra bunnen av ved å bruke malen `console` for å lære mest mulig om de ulike bestanddelene.
 
-Kjøre følgende kommando for å opprette API-prosjektet
+Kjør følgende kommando for å opprette API-prosjektet
 
 ```bash
 $ dotnet new console --language F# --output src/api --name NRK.Dotnetskolen.Api
@@ -616,7 +616,7 @@ Date:   Fri Apr 16 13:43:40 2021 +0200
 ...
 ```
 
-Tips! Gjenta de tre stegene over med å se endringer, legge dem til, og lagre dem etter å ha fullført hvert steg for å ha bedre oversikt over hva du har vært gjennom i kurset.
+> 💡 Tips! Gjenta de tre stegene over med å se endringer, legge dem til, og lagre dem etter å ha fullført hvert steg for å ha bedre oversikt over hva du har vært gjennom i kurset.
 
 #### Se løsningsforslag
 
@@ -637,9 +637,9 @@ Tester er en viktig del av systemutvikling fordi de hjelper oss med å verifiser
 - Enhetstester
 - Integrasjonstester
 
-Enhetstester verifiserer at små, isolerte deler av koden fungerer slik den skal. Gjerne én og én funksjon. I dette kurset skal vi bruke enhetstester til å verifisere valideringsregler i domenet vårt
+Enhetstester verifiserer at små, isolerte deler av koden fungerer slik den skal. Gjerne én og én funksjon. I dette kurset skal vi bruke enhetstester til å verifisere valideringsregler i domenet vårt.
 
-Integrasjonstester verifiserer imidlertid at større deler av systemet fungerer slik det skal, og kan til og med dekke samspill med andre systemer. I dette kurset skal vi bruke integrasjonstester til å verifisere at web-API-et oppfører seg i henhold til [kontrakten vi definerer i steg 7](#steg-7---definere-api-kontrakt).
+Integrasjonstester verifiserer at større deler av systemet fungerer slik det skal, og kan til og med dekke samspill med andre systemer. I dette kurset skal vi bruke integrasjonstester til å verifisere at web-API-et oppfører seg i henhold til [kontrakten vi definerer i steg 7](#steg-7---definere-api-kontrakt).
 
 #### Dotnet new
 
@@ -762,7 +762,7 @@ Forskjellen på disse blir nærmere forklart i [steget om enhetstester](#steg-6-
 
 ##### Kjøre enhetstestprosjektet
 
-For å kjøre testen i enhetstestprosjektet kan du kjøre følgende kommando
+For å kjøre testen i enhetstestprosjektet kan du bruke følgende kommando
 
 ```bash
 $ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
@@ -837,7 +837,7 @@ Foreløpig er prosjekt- og test-filene til integrasjonstestprosjektet helt like 
 
 ##### Kjøre integrasjonstester
 
-For å kjøre testene i integrasjonstestprosjektet kan du kjøre følgende kommando
+For å kjøre testene i integrasjonstestprosjektet kan du bruke følgende kommando
 
 ```bash
 $ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
@@ -859,7 +859,7 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 
 **Steg 3 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-2---opprette-testprosjekter) [⬇ Neste steg](#steg-4---pakkehåndtering)
 
-Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme mappe, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker og kjøre alle testene for systemet vårt, kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
+Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme mappe, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker, og kjøre alle testene for systemet vårt, kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
 
 #### Dotnet sln
 
@@ -1023,7 +1023,7 @@ Siden vi har behov for å installere NuGet-pakker senere i kurset, skal vi sette
 
 Basebiblioteket i .NET inneholder mye grunnleggende funksjonalitet, men det inneholder ikke alt. For å slippe å skrive kode for mye brukt funksjonalitet på nytt hver gang man trenger den, er det en fordel om utviklere over hele verden kan dele kode med hverandre. De facto måte å dele kode i .NET på er via "NuGet". NuGet er både et offentlig repo for kode utviklet av tredjeparter (tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/)), og et verktøy for å laste opp og ned "NuGet-pakker" fra dette repoet.
 
-Nuget som verktøy for å håndtere pakker i et prosjekt har imidlertid noen utfordringer:
+NuGet som verktøy for å håndtere pakker i et prosjekt har imidlertid noen utfordringer:
 
 - Transitive avhengigheter - Dersom et prosjekt har en avhengighet til `SomeNuGetPackage`, og `SomeNuGetPackage` har en avhengighet til `SomeOtherNuGetPackage`, er `SomeOtherNuGetPackage` en transitiv avhengighet i prosjektet. NuGet skiller ikke transitive avhengigheter fra direkte avhengigheter i `packages.config`. Dermed har man ikke kontroll på hvilke avhengigheter i `packages.config` som er direkte, og hvilke som er transitive.
 - En annen utfordring med NuGet er at dersom to pakker refererer ulike versjoner av en annen pakke, vil NuGet velge den nyeste versjonen av de to pakkereferansene.
@@ -1065,7 +1065,7 @@ test
 
 ##### Legge til Paket som tool i dotnet
 
-`dotnet-tools.json` inneholder imidlertid ingen tools enda
+`dotnet-tools.json` inneholder imidlertid ingen utvidelser til .NET CLI enda
 
 ``` json
 {
@@ -1075,7 +1075,7 @@ test
 }
 ```
 
-For å legge til Paket i listen over tools løsningen skal ha kan du kjøre følgende kommando
+For å legge til Paket i listen over utvidelser løsningen skal ha kan du kjøre følgende kommando
 
 ```bash
 $ dotnet tool install paket
@@ -1103,7 +1103,7 @@ Nå ser vi at Paket er lagt til i listen over tools i `dotnet-tools.json`
 
 ##### Installere Paket
 
-For å installere Paket på maskinen din kan du kjøre følgende kommando
+For å installere Paket kan du kjøre følgende kommando
 
 ```bash
 $ dotnet tool restore
@@ -1119,7 +1119,7 @@ Paket bruker følgende filer for å holde styr på pakkene i en løsning:
 
 - `paket.dependencies` - en flat liste over alle avhengigheter som inngår på tvers av alle prosjektene i løsningen.
 - `<sti til prosjekt>/paket.references` - en flat liste over alle avhengigheter det gitte prosjektet har.
-- `paket.lock` - inneholder en liste over alle avhengigheter, både direkte og transitive, og hvilken versjon av dem som er brukt i løsningen.
+- `paket.lock` - inneholder en oversikt over alle avhengigheter, både direkte og transitive, og hvilken versjon av dem som er brukt i løsningen.
 
 > Se forøvrig [https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit](https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit) for hvilke filer du skal inkludere i Git.
 
@@ -1175,7 +1175,7 @@ framework: net5, netcoreapp3.1, netstandard2.0, netstandard2.1
 
 #### Migrere pakker fra NuGet til Paket
 
-Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til nødvendige NuGet-pakker. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene. 
+Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til NuGet-pakker som testprosjektene er avhengige av. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene.
 
 `test\unit\NRK.Dotnetskolen.UnitTests.fsproj`:
 
@@ -1309,7 +1309,7 @@ Vi skal lage et API for å hente ut en forenklet elektronisk programguide (EPG) 
 
 > Modellen vi bruker for EPG i dette kurset er forenklet sammenliknet med [den som benyttes i PS API](http://psapi-granitt-prod-we.cloudapp.net/swagger/ui/index#/Epg), og er kun brukt som eksempel.
 
-En EPG kan sees på som en liste med sendinger, og for vårt eksempel inneholder en sending følgende felter:
+En EPG kan sees på som en liste med sendinger, og for vårt eksempel i dette kurset inneholder en sending følgende felter:
 
 - Tittel - Tittelen til programmet. Må være mellom 5 og 100 tegn (inklusiv), og kan kun bestå av store og små bokstaver, tall, og enkelte spesialtegn: `, . : - !`
 - Kanal - Kanalen sendingen går på. I vårt tilfelle begrenses mulige kanaler til NRK1 og NRK2, og må skrives med store bokstaver.
@@ -1386,7 +1386,7 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
 
 > Merk at rekkefølgen filer blir inkludert i F#-prosjektfiler på har betydning. Dersom `modul A` er definert i `ModulA.fs` og `modul B` er definert i `ModulB.fs`, og `modul A` skal kunne åpne `modul B` må `ModulB.fs` ligge før `ModulA.fs` i prosjektfilen.
 >
-> Moduler i F# blir kompilert til det samme som statiske klasser i C#.
+> Moduler i F# blir kompilert til det samme i CIL som statiske klasser i C#.
 
 #### Opprette en EPG
 
@@ -1575,6 +1575,8 @@ A total of 1 test files matched the specified pattern.
 
 Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 6 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
 ```
+
+> Legg merke til at testrapporten viser at seks tester ble kjørt. Foreløpig har vi kun definert to tester. Dette illustrerer at `xUnit` kjører tester en gang per annotasjon med `[<InlineData>]`.
 
 #### Kanal
 
@@ -1841,9 +1843,9 @@ test
     └── ...
 └── Dotnetskolen.sln
 └── paket.dependencies
-``` definere litt metadata for kontrakten:
-
 ```
+
+La oss begynne med å definere litt metadata for kontrakten vår.
 
 Lim inn følgende JSON i `openapi.json`:
 
@@ -2303,7 +2305,7 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: C:\Dev\nrkno@github.com\dotnetskolen\src\api
 ```
 
-Foreløpig gjør ikke hosten vår noen ting. Den bare starter, og kjører helt til vi avslutter den ved å trykke `Ctrl+C`. I outputen over ser vi imidlertid tre logginnslag av typen `info` som er blitt skrevet av hosten. De forteller at applikasjonen har startet, at miljøet er `Production`, og hva filstien til "content root" er.
+Foreløpig gjør ikke hosten vår noen ting. Den bare starter, og kjører helt til vi avslutter den ved å trykke `Ctrl+C` i terminalen. I outputen over ser vi imidlertid tre logginnslag av typen `info` som er blitt skrevet av hosten. Dette illustrerer at `CreateDefaulBuilder` har satt opp logging til konsoll. Logginnslagene forteller at applikasjonen har startet, at miljøet er `Production`, og hva filstien til "content root" er.
 
 Trykk `Ctrl+C` for å stoppe hosten:
 
@@ -2321,7 +2323,9 @@ info: Microsoft.Hosting.Lifetime[0]
 
 Microsoft har laget et rammeverk for web-applikasjoner i .NET, ASP.NET (ASP står for "active server pages"). Web-applikasjoner i ASP.NET er konfigurerbare og modulære, og gjennom å konfigurere modulene i den har man kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren, og til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørslen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline".
 
-Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørslen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørslen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørslen videre i pipelinen dersom den ikke er tilstrekkelig autentisert.
+> Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0#create-a-middleware-pipeline-with-iapplicationbuilder](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0#create-a-middleware-pipeline-with-iapplicationbuilder)
+
+Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørslen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørslen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørslen videre i pipelinen dersom den ikke er tilstrekkelig autentisert. Pga. denne kortslutningen ligger autentisering tidlig i listen over mellomvarer.
 
 Hosten vi opprettet i forrige avsnitt er et utgangspunkt for hvilken som helst applikasjon. Det kan bli f.eks. en bakgrunnstjeneste eller en web-applikasjon. Siden vi skal lage et web-API skal vi gå videre med å tilpasse hosten til å bli en web-server. Det kan vi gjøre ved å kalle funksjonen `ConfigureWebHostDefaults` på `Host`, slik:
 
@@ -2331,7 +2335,7 @@ let createHostBuilder args =
         .ConfigureWebHostDefaults(fun webHostBuilder -> ())
 ```
 
-`ConfigureWebHostDefaults` sørger bl.a. for å sette opp Kestrel som web-server for applikasjonen vår. I tillegg tar den som argument en funksjon som gir oss tilgang til `IWebHostBuilder`-objektet som vi kan bruke til å konfigurere web-applikasjonen etter våre behov. `IWebHostBuilder`-objektet har flere funksjoner, men den som er mest relevante for oss i denne omgang er `Configure`, hvor vi kan sette opp vår middleware pipeline. Legg til følgende `open`-statements, opprett funksjonen `configureApp`, og kall den fra `ConfigureWebHostDefaults` slik:
+`ConfigureWebHostDefaults` sørger bl.a. for å sette opp [Kestrel](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-5.0) som web-server for applikasjonen vår. I tillegg tar den som argument en funksjon som gir oss tilgang til `IWebHostBuilder`-objektet som vi kan bruke til å konfigurere web-applikasjonen etter våre behov. `IWebHostBuilder`-objektet har flere funksjoner, men den som er mest relevante for oss i denne omgang er `Configure`, hvor vi kan sette opp vår middleware pipeline. Legg til følgende `open`-statements, opprett funksjonen `configureApp`, og kall den fra `ConfigureWebHostDefaults` slik:
 
 ```f#
 ...
@@ -2366,13 +2370,13 @@ info: Microsoft.Hosting.Lifetime[0]
 ...
 ```
 
-Fra logginnslagene over ser vi at hosten vår lytter på HTTP-forespørsler på port `5000` og `5001` for hhv. HTTP og HTTPS. I og med at vi ikke har lagt til noen middlewares i pipelinen vår enda, svarer API-et med `404 Not Found` på alle forespørsler. Det kan du verifisere ved å åpne [http://localhost:5000/](http://localhost:5000/) i en nettleser.
+Fra logginnslagene over ser vi at hosten vår nå lytter på HTTP-forespørsler på port `5000` og `5001` for hhv. HTTP og HTTPS. I og med at vi ikke har lagt til noen middlewares i pipelinen vår enda, svarer API-et med `404 Not Found` på alle forespørsler. Det kan du verifisere ved å åpne [http://localhost:5000/](http://localhost:5000/) i en nettleser.
 
 > Du kan lese mer om middleware i .NET-web-applikasjoner her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0)
 
 ##### Dependency injection
 
-Et mye brukt prinsipp i programvareutvikling er "Inversion of control" (IoC), som kort fortalt går ut på at man skal la kontrollen over implementasjonen av avhengighetene man har i koden sin ligge på utsiden av der man har behov for avhengigheten. På denne måten kan man endre hva som implementerer avhengigheten man har, og man kan enklere enhetsteste koden sin fordi man kan sende inn fiktive implementasjoner av avhengighetene.
+Et mye brukt prinsipp i programvareutvikling er "Inversion of control" (IoC), som kort fortalt går ut på at man lar kontrollen over implementasjonen av avhengighetene man har i koden sin ligge på utsiden av der man har behov for avhengigheten. På denne måten kan man endre hva som implementerer avhengigheten man har, og man kan enklere enhetsteste koden sin fordi man kan sende inn fiktive implementasjoner av avhengighetene.
 
 Et eksempel på dette er dersom man har en funksjon `isLoginValid` for å validere brukernavn og passord som kommer inn fra et innloggingsskjema, har man behov for å hente entiteten som korresponderer til det oppgitte brukernavnet fra brukerdatabasen. Ved å ta inn en egen funksjon `getUser` i `ValidateLogin` har man gitt kontrollen over hvordan `getUser` skal implementeres til utsiden av `ValidateLogin`-funksjonen.
 
@@ -2381,11 +2385,11 @@ let isLoginValid (getUser: string -> UserEntity) (username: string) (password: s
 ...
 ```
 
-En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender man inn de nødvendige avhengighetene til de ulike delene av koden sin fra utsiden. Dersom en funksjon `A` har avhengiheter funksjonene `B` og `C`, og `B` og `C` har hhv. avhengiheter til funksjonene `D` og `E`, må man ha implementasjoner for `B`, `C`, `D` og `E` for å kunne kalle funksjon `A`. Disse avhengighetene danner et avhengighetstre, og dersom man skal kalle en funksjon man på toppen treet er nødt til å ha implementasjoner av alle de interne nodene og alle løvnodene i avhengighetstreet. For hver toppnivåfunksjon (som `A`) man har i applikasjonen sin, vil man ha et avhengighetstre.
+En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender man inn de nødvendige avhengighetene til de ulike delene av koden sin fra utsiden. Dersom en funksjon `A` har avhengiheter funksjonene `B` og `C`, og `B` og `C` har hhv. avhengiheter til funksjonene `D` og `E`, må man ha implementasjoner for `B`, `C`, `D` og `E` for å kunne kalle funksjon `A`. Disse avhengighetene danner et avhengighetstre, og dersom man skal kalle en funksjon på toppen av treet er man nødt til å ha implementasjoner av alle de interne nodene og alle løvnodene i avhengighetstreet. For hver toppnivåfunksjon (slik som `A`) man har i applikasjonen sin, vil man ha et avhengighetstre.
 
 Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root". Vi ser nærmere på hva man kan bruke som "composition root" i .NET i [avsnittet om å implemetere avhengighetene til API-et vårt i steg 10](#implementere-avhengigheter).
 
-For å konfigurere depdenency injection i ASP.NET-applikasjoner bruker man funksjonen `ConfigureServices` i `IWebHostBuilder`-objektet. Utvid `Program.fs` i API-prosjektet med følgende `open`-statement, funksjonen `configureServices`, og et kall til `configureServices` i `ConfigureWebHostDefaults`, slik:
+For å konfigurere depdenency injection, og sette opp en "composition root", i ASP.NET-applikasjoner bruker man funksjonen `ConfigureServices` i `IWebHostBuilder`-objektet. Utvid `Program.fs` i API-prosjektet med følgende `open`-statement, funksjonen `configureServices`, og et kall til `configureServices` i `ConfigureWebHostDefaults`, slik:
 
 ```f#
 ...
@@ -2408,7 +2412,7 @@ let createHostBuilder args =
 
 ###### Kjøre webhost
 
-Hvis du kjører API-et nå, vil du ikke se noen forskjell fra sist ettersom vi ikke har lagt til noen tjenester i `configureServices`. Det gjør vi imidlertid noe med i neste avsnitt. 
+Hvis du kjører API-et nå, vil du ikke se noen forskjell fra sist ettersom vi ikke har lagt til noen tjenester i `configureServices`. Det gjør vi imidlertid noe med i neste avsnitt.
 
 ```bash
 $ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
@@ -2426,7 +2430,7 @@ info: Microsoft.Hosting.Lifetime[0]
 
 #### Ping
 
-Nå som vi har blitt kjent med de grunnleggende konseptene i .NET-applikasjoner, kan vi starte å sette sammen vårt eget web-API. For å gjøre det trenger vi en middleware pipeline som kan behandle HTTP-forespørslene som kommer inn til API-et vårt. .NET sitt standard rammeverk for web-applikasjoner er ASP.NET MVC. Vi kunne brukt ASP.NET MVC, men det er objektorientert, og siden vi bruker F# og skriver funksjonell kode skal vi benytte Giraffe istedenfor, som er et tredjeparts funksjonelt web-rammeverk for .NET.
+Nå som vi har blitt kjent med noen grunnleggende konsepter i .NET-applikasjoner, kan vi starte å sette sammen vårt eget web-API. For å gjøre det trenger vi en middleware pipeline som kan behandle HTTP-forespørslene som kommer inn til API-et vårt. .NET sitt standard rammeverk for web-applikasjoner er ASP.NET MVC. Vi kunne brukt ASP.NET MVC, men det er objektorientert, og siden vi bruker F# og skriver funksjonell kode i dette kurset skal vi benytte Giraffe istedenfor, som er et tredjeparts funksjonelt web-rammeverk for .NET.
 
 ##### Installere Giraffe
 
@@ -2481,7 +2485,7 @@ I `webApp` over setter vi sammen en `HttpHandler` av to funksjoner ved hjelp av 
 
 `>=>` er F#-syntaks for å kombinere to funksjoner som returnerer [monader](https://en.wikipedia.org/wiki/Monad_(functional_programming)).
 
-> Merk at Giraffe sin pipeline kjører i én middlevare i .NET, og at middleware pipelinen til .NET kan inneholde flere middlewares enn Giraffe.
+> Merk at både Giraffe og .NET har hver sine pipelines med mellomvarer, og at Giraffe sin pipeline kun er én mellomvare i .NET sin pipeline. Det vil si at Giraffe-pipelinen vår kan bestå av flere HTTP-handlere enn vi har nå, og .NET-web-serveren vår kan bestå av flere mellomvarer enn Giraffe.
 
 ##### Kjøre API-et
 
@@ -2504,11 +2508,11 @@ info: Microsoft.Hosting.Lifetime[0]
 
 Dette starter web-API-et på `http://localhost:5000`. Verifiser at API-et fungerer ved å gå til [http://localhost:5000/ping](http://localhost:5000/ping) i nettleseren din og se at svaret er `pong`.
 
-> Merk at dersom du forsøker å åpne applikasjonen på [https://localhost:5001](https://localhost:5001) kan du få beskjed om at nettleseren din ikke stoler på sertifikatet. For å komme rundt dette må man sette opp "self signed"-sertifikat på maskinen. Microsoft har skrevet en artikkel om hvordan å gjøre det [her](https://docs.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide). Merk at å sette opp "self signed"-sertifikat er ikke en del av dette kurset.
+> Merk at dersom du forsøker å åpne applikasjonen på [https://localhost:5001](https://localhost:5001) kan du få beskjed om at nettleseren din ikke stoler på sertifikatet. For å komme rundt dette må man sette opp "self signed"-sertifikat på maskinen. Microsoft har skrevet en artikkel om hvordan å gjøre det [her](https://docs.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide), men det å sette opp "self signed"-sertifikat er ikke en del av dette kurset.
 
 #### Integrasjonstester
 
-Før vi fortsetter med å implementere web-API-et skal vi sette opp en integrasjonstest som verifiserer at API-et er oppe og kjører. Det skal vi gjøre ved å
+Før vi fortsetter med å implementere web-API-et skal vi sette opp en integrasjonstest som verifiserer at API-et er oppe og kjører, og at det svarer på HTTP-forespørsler. Det skal vi gjøre ved å
 
 1. Kjøre web-API-et vårt på en webserver som kjører i minnet under testen
 2. Sende forespørsler mot denne webserveren
@@ -2567,7 +2571,7 @@ let createWebHostBuilder () =
 
 Her definerer vi en funksjon `createWebHostBuilder` som returnerer en `IWebHostBuilder`. `IWebHostBuilder` returnerer et `IHost`-objekt i funksjonen `Build`, som vi skal bruke snart. I `createWebHostBuilder` konfigurerer vi `IWebHostBuilder` til å bruke `configureApp` og `configureServices`-funksjonene i web-API-et vårt. Vi skal bruke `createWebHostBuilder`-funksjonen til å opprette testserveren vår, og kjøre integrasjonstestene mot den. Legg merke til at `createWebHostBuilder`-funksjonen er veldig lik `createHostBuilder` i `Program.fs` i API-prosjektet.
 
-> Merk at dersom du forsøker å kjøre integrasjonstestprosjektet med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` nå, vil det feile fordi det ikke finnes noen tester i integrasjonstestprosjektet enda. Følg veiledningen i under for legge til den første integrasjonstesten. Deretter kan du kjøre testene med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`.
+> Merk at dersom du forsøker å kjøre integrasjonstestprosjektet med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` nå, vil det feile fordi det ikke finnes noen tester i integrasjonstestprosjektet enda. Følg veiledningen under for legge til den første integrasjonstesten. Deretter kan du kjøre testene med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`.
 
 I den første integrasjonstesten skal vi sende en forespørsel til `ping`-endepunktet i API-et vårt. Start med å legg til følgende "open"-statement etter `open System.IO` i `Tests.fs`-filen.
 
@@ -2589,6 +2593,8 @@ let ``Get ping returns 200 OK`` () = async {
     response.EnsureSuccessStatusCode() |> ignore
 }
 ```
+
+Her bruker vi `createWebHostBuilder`-funksjonen til å opprette en testserver, og benytter testserveren til å opprette en HTTP-klient. Videre benytter vi HTTP-klienten til å sende en GET-forespørsel til `/ping`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
 
 `Tests.fs` i integrasjonstestprosjektet skal nå se slik ut:
 
@@ -2619,8 +2625,6 @@ let ``Get ping returns 200 OK`` () = async {
     response.EnsureSuccessStatusCode() |> ignore
 }
 ```
-
-Her bruker vi `createWebHostBuilder`-funksjonen til å opprette en testserver, og benytter testserveren til å opprette en HTTP-klient. Videre benytter vi HTTP-klienten til å sende en GET-forespørsel til `/ping`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
 
 Kjør integrasjonstesten med følgende kommando:
 
