@@ -3168,7 +3168,11 @@ Utvid deretter `configureApp`-funksjonen til å ta inn et parameter `getEpgForDa
 
 ```f#
 let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = GET >=> routef "/epg/%s" (epgHandler getEpgForDate)
+    let webApp =
+        GET >=> choose [
+                route "/ping" >=> text "pong"
+                routef "/epg/%s" (epgHandler getEpgForDate)
+        ]
     app.UseGiraffe webApp
 ```
 
