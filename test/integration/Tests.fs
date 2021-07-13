@@ -10,7 +10,7 @@ open System.Text.Json
 open Xunit
 
 open NRK.Dotnetskolen.Api
-open NRK.Dotnetskolen.DataAccess
+open NRK.Dotnetskolen.Api.DataAccess
 open NRK.Dotnetskolen.Api.Services
 
 let createWebHostBuilder () =

@@ -27,7 +27,7 @@ module Program =
         Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(fun webBuilder ->
                 webBuilder
-                    .Configure(configureApp (getEpgForDate GetAllTransmissions))
+                    .Configure(configureApp (getEpgForDate getAllTransmissions))
                     .ConfigureServices(configureServices)
                 |> ignore
             )

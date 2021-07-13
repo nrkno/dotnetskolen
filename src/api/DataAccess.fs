@@ -51,6 +51,6 @@ module DataAccess =
         // Ikkje gje noko feilmelding sjølv om nokon eller alle sendingar er ugyldige.
         |> List.filter isTransmissionValid
 
-    let GetAllTransmissions () : Epg =
+    let getAllTransmissions () : Epg =
         database
         |> toDomain
