@@ -1599,7 +1599,7 @@ let ``isChannelValid valid channel returns true`` (channel: string) =
 [<Theory>]
 [<InlineData("nrk1")>]
 [<InlineData("NRK3")>]
-let ``isChannelValid invalid channelr returns false`` (channel: string) =
+let ``isChannelValid invalid channel returns false`` (channel: string) =
     let isChannelValid = isChannelValid channel
 
     Assert.False isChannelValid
