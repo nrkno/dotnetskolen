@@ -3958,7 +3958,6 @@ let ``Sending.create valid transmission returns Some`` () =
 
     match transmission with
     | Some t ->
-        Assert.True true
         Assert.Equal("Dagsrevyen", Tittel.value t.Tittel)
         Assert.Equal("NRK1", Kanal.value t.Kanal)
         Assert.Equal(now, Sendetidspunkt.startTidspunkt t.Sendetidspunkt)
