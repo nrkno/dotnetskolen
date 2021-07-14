@@ -2241,7 +2241,7 @@ Fra og med .NET Core opererer .NET med ulike SDK-prosjekttyper avhengig av hva s
 </Project>
 ```
 
-Gjenta steget over for `test/unit/NRK.Dotnetskolen.IntegrationTests.fsproj` for å endre SDK-prosjekttypen til integrasjonstestprosjektet:
+Gjenta steget over for `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` for å endre SDK-prosjekttypen til integrasjonstestprosjektet:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
