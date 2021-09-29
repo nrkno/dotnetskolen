@@ -289,6 +289,66 @@ For å sette opp `.gitignore` i ditt lokale repo:
 2. Lim inn innholdet i denne filen: [https://github.com/github/gitignore/blob/master/VisualStudio.gitignore](https://github.com/github/gitignore/blob/master/VisualStudio.gitignore) 
 3. Lagre og commite `.gitignore`-filen.
 
+##### Hvordan commite `.gitignore`
+
+###### Se Git-status
+
+For å vise status i Git, kjør følgende kommando:
+
+```bash
+$ git status
+
+On branch my-branch
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+Over ser vi at Git har oppdaget at `.gitignore` er en ny fil som Git ikke sporer.
+
+###### Legg til .gitignore i Git
+
+For å legge til `.gitignore` i Git slik at Git kan spore ev. endringer i den filen i fremtiden, kjør følgende kommando:
+
+```bash
+$ git add .gitignore
+```
+
+For å se status i Git igjen, kjør følgende kommando:
+
+```bash
+$ git status
+
+On branch my-branch
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   .gitignore
+```
+
+##### Commite i Git
+
+For å lagre nåværende versjon av `.gitignore` i Git, kjør følgende kommando:
+
+```bash
+$ git commit -m "La til .gitignore"
+
+[my-branch 478fb9b] La til .gitignore
+ 1 file changed, 1 insertion(+)
+ create mode 100644 .gitignore
+```
+
+Nå er innholdet i `.gitignore` lagret i Git. Dersom du nå kjører `git status` på nytt, vil du se at det ikke er noen gjenstående endringer i repoet som Git ikke har fått med seg:
+
+```bash
+$ git status
+
+On branch my-branch
+nothing to commit, working tree clean
+```
+
 ## Steg
 
 Nå som du har installert alle verktøyene du trenger er du klar til å begynne på selve kurset!
