@@ -204,6 +204,21 @@ Som nevnt over inkluderer .NET SDK også .NET CLI som gir oss muligheten til å 
 
 Veiledningen forklarer det grunnleggende om kommandoene vi kommer til å bruke i .NET CLI. Dersom du ønsker mer utfyllende informasjon eller oversikt over alle kommandoene kan du lese mer om .NET CLI her: [https://docs.microsoft.com/en-us/dotnet/core/tools/](https://docs.microsoft.com/en-us/dotnet/core/tools/)
 
+#### NuGet (kun for Windows)
+
+Som vi skal se nøyere på i [steg 4](#steg-4---pakkehåndtering) bruker man "NuGet"-pakker for å dele kode mellom .NET-prosjekter. NuGet har en offentlig repo med pakker som er tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/). Dersom du ikke har brukt NuGet på Windows-maskinen din før kan det være at du må instruere NuGet til å hente pakker derfra.
+
+Åpne filen `C:\Users\<ditt brukernavn>\AppData\Roaming\NuGet\NuGet.Config`, og lim inn følgende innhold:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+  </packageSources>
+</configuration>
+```
+
 #### IDE
 
 For å kunne debugge kode, få syntax highlighting og visning av kompileringsfeil, autocomplete, og kodenavigering er det kjekt å ha en IDE. De mest brukte IDE-ene for .NET er oppsummert i tabellen under.
