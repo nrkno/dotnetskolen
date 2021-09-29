@@ -167,7 +167,7 @@ For å gjennomføre kurset må du ha satt opp følgende:
 
 - [Git (valgfritt)](#Git)
 - [.NET SDK](#NET-SDK)
-- [Konfigurasjon for NuGet (kun for Windows)](#konfigurere-nuget-kun-for-windows)
+- [Konfigurasjon av NuGet (kun for Windows)](#konfigurere-nuget-kun-for-windows)
 - [En IDE](#IDE)
   - [Rider](https://www.jetbrains.com/rider/download)
   - [Visual Studio](https://visualstudio.microsoft.com/vs/community)
