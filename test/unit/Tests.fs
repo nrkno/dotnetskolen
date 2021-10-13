@@ -15,6 +15,7 @@ let ``isTitleValid valid title returns true`` (title: string) =
 
 [<Theory>]
 [<InlineData("abcd")>]
+[<InlineData("cdefg")>]
 [<InlineData("@$%&/")>]
 [<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
 let ``isTitleValid invalid title returns false`` (title: string) =
