@@ -209,7 +209,7 @@ Veiledningen forklarer det grunnleggende om kommandoene vi kommer til å bruke i
 
 Som vi skal se nøyere på i [steg 4](#steg-4---pakkehåndtering) bruker man "NuGet"-pakker for å dele kode mellom .NET-prosjekter. NuGet har en offentlig repo med pakker som er tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/). Dersom du ikke har brukt NuGet på Windows-maskinen din før kan det være at du må instruere NuGet til å hente pakker derfra.
 
-Åpne filen `C:\Users\<ditt brukernavn>\AppData\Roaming\NuGet\NuGet.Config`, og lim inn følgende innhold:
+Åpne filen `C:/Users/<ditt brukernavn>/AppData/Roaming/NuGet/NuGet.Config`, og lim inn følgende innhold:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -1253,7 +1253,7 @@ framework: net5, netcoreapp3.1, netstandard2.0, netstandard2.1
 
 Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til NuGet-pakker som testprosjektene er avhengige av. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene.
 
-`test\unit\NRK.Dotnetskolen.UnitTests.fsproj`:
+`test/unit/NRK.Dotnetskolen.UnitTests.fsproj`:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -1292,11 +1292,11 @@ Siden vi ønsker å benytte Paket til å håndtere pakkene i løsningen vår, m�
 
 For å fjerne pakkereferansene fra enhetstestprosjektet
 
-1. Åpne filen `test\unit\NRK.Dotnetskolen.UnitTests.fsproj`
+1. Åpne filen `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`
 2. Fjern det siste `<ItemGroup>`-elementet - det som inneholder referanser til `Microsoft.NET.Test.Sdk`, `xunit`, `xunit.runner.visualstudio` og `coverlet.collector`
 3. Lagre prosjektfilen
 
-Gjenta stegene over for `test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj` for å fjerne pakkereferansene fra integrasjonstestprosjektet.
+Gjenta stegene over for `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` for å fjerne pakkereferansene fra integrasjonstestprosjektet.
 
 ##### Legge til pakkereferanser via Paket
 
@@ -1326,7 +1326,7 @@ $ dotnet paket add coverlet.collector --project test/unit/NRK.Dotnetskolen.UnitT
 
 ###### Integrasjontestprosjektet
 
-Gjenta kommandoene for integrasjonstestprosjektet ved å bytte ut `test\unit\NRK.Dotnetskolen.UnitTests.fsproj` med `test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj`:
+Gjenta kommandoene for integrasjonstestprosjektet ved å bytte ut `test/unit/NRK.Dotnetskolen.UnitTests.fsproj` med `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`:
 
 ```bash
 
@@ -1442,7 +1442,7 @@ Vi åpnet også modulen `System` for å få tilgang til typen `DateTimeOffset`.
 
 > Legg merke til innrykket på linjene etter `module Domain =`. Dette inntrykket er påkrevd av F# for at koden skal kompilere riktig.
 
-Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain.fs" />` i `src\api\NRK.Dotnetskolen.Api.fsproj` slik som vist under:
+Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain.fs" />` i `src/api/NRK.Dotnetskolen.Api.fsproj` slik som vist under:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -1600,7 +1600,7 @@ $ dotnet add ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj reference ./src/api/N
 Reference `..\..\src\api\NRK.Dotnetskolen.Api.fsproj` added to the project.
 ```
 
-Du kan se effekten av kommandoen over ved å åpne `test\unit\NRK.Dotnetskolen.UnitTests.fsproj`:
+Du kan se effekten av kommandoen over ved å åpne `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -2372,7 +2372,7 @@ Til slutt bygger vi hosten vår, og starter den slik med `createHostBuilder(argv
 Du kan kjøre hosten med følgende kommando:
 
 ```bash
-$ dotnet run --project .\src\api\NRK.Dotnetskolen.Api.fsproj
+$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 info: Microsoft.Hosting.Lifetime[0]
       Application started. Press Ctrl+C to shut down.
 info: Microsoft.Hosting.Lifetime[0]
