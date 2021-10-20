@@ -4204,7 +4204,7 @@ let configureApp (getEpgForDate: DateTime -> Epg)  (webHostContext: WebHostBuild
                     route "/ping" >=> text "pong"
                     routef "/epg/%s" (epgHandler getEpgForDate)
                 ]
-    app.UseStaticFiles
+    app.UseStaticFiles()
        .UseGiraffe webApp
 ```
 
