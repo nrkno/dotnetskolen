@@ -19,7 +19,8 @@ module Program =
                     route "/ping" >=> text "pong"
                     routef "/epg/%s" (epgHandler getEpgForDate)
             ]
-        app.UseGiraffe webApp
+        app.UseStaticFiles()
+           .UseGiraffe webApp
 
     let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
         services
