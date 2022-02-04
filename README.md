@@ -1,3 +1,3 @@
-# Steg 2 - Opprette testprosjekter
+# Steg 3 - Opprette solution
 
-Løsningsforslag for [steg 2](https://github.com/nrkno/dotnetskolen/tree/main#steg-2---opprette-testprosjekter).
+Løsningsforslag for [steg 3](https://github.com/nrkno/dotnetskolen/tree/main#steg-3---opprette-solution).
