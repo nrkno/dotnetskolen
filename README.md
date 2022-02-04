@@ -2269,15 +2269,18 @@ Fra og med .NET Core opererer .NET med ulike SDK-prosjekttyper avhengig av hva s
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Web">
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="Domain.fs" />
     <Compile Include="Dto.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+
 </Project>
 ```
 
@@ -2287,7 +2290,7 @@ Gjenta steget over for `test/integration/NRK.Dotnetskolen.IntegrationTests.fspro
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
@@ -2331,6 +2334,8 @@ Her oppretter vi en modul, `Program`, i namespacet `NRK.Dotnetskolen.Api`. I `Pr
 
 Til slutt bygger vi hosten vår, og starter den slik med `createHostBuilder(argv).Build().Run()` i `main`-funksjonen.
 
+> Husk at vi i [avsnittet om programfilen](#programfilen) nevnte at F# har støtte for implisitt og eksplisitt startpunkt for et program. I `Program.fs` har vi nå gått over fra implisitt til eksplisitt startpunkt. For flere detaljer se: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point)
+
 ###### Kjøre host
 
 Du kan kjøre hosten med følgende kommando:
@@ -2357,13 +2362,13 @@ info: Microsoft.Hosting.Lifetime[0]
 
 > `Production` er default miljø i .NET med mindre annet er spesifisert. Du kan lese mer om miljøer i .NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-5.0)
 >
-> Du kan lese mer om `Host`-konseptet og hva det innebærer her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-5.0)
+> Du kan lese mer om `Host`-konseptet og hva det innebærer her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-6.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-6.0)
 
 ##### Middleware pipeline
 
 Microsoft har laget et rammeverk for web-applikasjoner i .NET, ASP.NET (ASP står for "active server pages"). Web-applikasjoner i ASP.NET er konfigurerbare og modulære, og gjennom å konfigurere modulene i den har man kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren, og til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørslen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline".
 
-> Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0#create-a-middleware-pipeline-with-iapplicationbuilder](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0#create-a-middleware-pipeline-with-iapplicationbuilder)
+> Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-iapplicationbuilder](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-iapplicationbuilder)
 
 Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørslen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørslen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørslen videre i pipelinen dersom den ikke er tilstrekkelig autentisert. Pga. denne kortslutningen ligger autentisering tidlig i listen over mellomvarer.
 
@@ -2393,7 +2398,7 @@ let createHostBuilder args =
 ...
 ```
 
-Legg merke til at vi ikke lagt til noen middleware i pipelinen vår enda. Det gjør vi imidlertid noe med i avsnittet om [Giraffe](#legge-til-giraffe-i-middleware-pipeline).
+Legg merke til at vi ikke lagt til noen middleware i pipelinen vår enda. Det gjør vi imidlertid noe med i avsnittet om TODO: legg inn referanse til avsnitt om middleware her.
 
 > `webHostBuilder.Configure` returnerer objektet `webHostBuilder` igjen slik at vi kan kjede flere kall til andre funksjoner på `webHostBuilder`. Ettersom vi ikke skal bruke det returnerte `webHostBuilder`-objektet legger vi til `|> ignore` for å ignorere verdien.
 
@@ -2412,7 +2417,7 @@ info: Microsoft.Hosting.Lifetime[0]
 
 Fra logginnslagene over ser vi at hosten vår nå lytter på HTTP-forespørsler på port `5000` og `5001` for hhv. HTTP og HTTPS. I og med at vi ikke har lagt til noen middlewares i pipelinen vår enda, svarer API-et med `404 Not Found` på alle forespørsler. Det kan du verifisere ved å åpne [http://localhost:5000/](http://localhost:5000/) i en nettleser.
 
-> Du kan lese mer om middleware i .NET-web-applikasjoner her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0)
+> Du kan lese mer om middleware i .NET-web-applikasjoner her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0)
 
 ##### Dependency injection
 
@@ -2448,7 +2453,7 @@ let createHostBuilder args =
 ...
 ```
 
-> Du kan lese mer om "dependency injection" her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0)
+> Du kan lese mer om "dependency injection" her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0)
 
 ###### Kjøre webhost
 
