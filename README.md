@@ -359,6 +359,23 @@ Nå som du har installert alle verktøyene du trenger er du klar til å begynne 
 
 I dette steget starter vi med en mappe helt uten kode, og bruker .NET CLI til å opprette vårt første prosjekt `NRK.Dotnetskolen.Api`.
 
+#### .NET-versjon
+
+Siden denne veiledningen er skrevet for .NET 5, og det er mulig at du har flere .NET-versjoner installert på maskinen din, må vi instruere .NET CLI til å benytte .NET 5 når vi kjører kommandoene i veiledningen. For å gjøre dette oppretter vi en konfigurasjonsfil `global.json` i roten av repoet med følgende innhold:
+
+```json¨
+{
+    "sdk": {
+        "version": "5.0.0",
+        "rollForward": "latestMinor"
+    }
+}
+```
+
+Her oppgir vi at vi i utgangspunktet ønsker å bruke version `5.0.0` av .NET SDK. I tillegg sier vi gjennom `rollForward: latestMinor` at vi ønsker at den høyeste versjonen av .NET 5 skal brukes dersom versjon `5.0.0` av .NET SDK ikke finnes på maskinen. .NET leser `global.json` ved kjøring av kommandoer i .NET CLI.
+
+> Du kan lese mer om `global.json` her: [https://docs.microsoft.com/en-us/dotnet/core/tools/global-json](https://docs.microsoft.com/en-us/dotnet/core/tools/global-json)
+
 #### .NET-prosjekter
 
 For å kunne organisere kode i .NET bruker man _prosjekter_. Et prosjekt er en samling med kildekodefiler, og eventuelle andre ressursfiler, og alle filene som inngår i prosjektet er referert til i en _prosjektfil_. For F#-prosjekter har slike prosjektfiler filendelsen `.fsproj`.
