@@ -129,7 +129,7 @@ All dokumentasjon (inkludert denne veiledningen) og kildekoden i dette repoet er
 
 ### Versjoner av .NET
 
-Opprinnelig var .NET kun tilgjengelig på Windows. Denne versjonen av .NET omtales som .NET Framework. Etter hvert kom implementasjoner av kjøretidsmiljøet til andre plattformer også, som Mono til Linux og Mac, og Xamarin til Android og iOS. Både Mono og Xamarin var opprinnelig drevet av andre selskaper enn Microsoft. I 2016 lanserte Microsoft en ny versjon av .NET, .NET Core, som er en implementasjon av .NET for alle plattformer (Windows, Mac og Linux). .NET Core gikk gjennom tre hovedversjoner, i parallell med .NET Framework som nådde sin siste versjon, 4.8, i 2019. .NET Framework blir ikke videreutviklet, og i 2020 lanserte Microsoft .NET 5 som er den nyeste versjon av .NET Core. .NET 5 er den versjonen Microsoft vil fortsette å utvikle fremover.
+Opprinnelig var .NET kun tilgjengelig på Windows. Denne versjonen av .NET omtales som .NET Framework. Etter hvert kom implementasjoner av kjøretidsmiljøet til andre plattformer også, som Mono til Linux og Mac, og Xamarin til Android og iOS. Både Mono og Xamarin var opprinnelig drevet av andre selskaper enn Microsoft. I 2016 lanserte Microsoft en ny versjon av .NET, .NET Core, som er en implementasjon av .NET for alle plattformer (Windows, Mac og Linux). .NET Core gikk gjennom tre hovedversjoner, i parallell med .NET Framework som nådde sin siste versjon, 4.8, i 2019. .NET Framework blir ikke videreutviklet, og i 2020 lanserte Microsoft .NET 5 som er den versjonen Microsoft vil fortsette å utvikle fremover. I skrivende stund (2022-02-04) er .NET 6 den nyeste versjonen av .NET.
 
 For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Microsoft laget en spesifikasjon, .NET Standard. .NET Standard har flere versjoner, og de ulike versjonene av .NET (.NET Framework, .NET Core, Mono etc.) følger spesifikasjonen i en gitt versjon av .NET Standard. Les mer om .NET Standard, og kompatibilitet på tvers av .NET-versjoner her: [https://docs.microsoft.com/en-us/dotnet/standard/net-standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
 
@@ -191,12 +191,12 @@ Når man installerer .NET har man valget mellom å installere
   - Kompilatorer
   - .NET CLI - kommandolinjeverktøy for å bygge, kjøre og publisere .NET-applikasjoner
 
-Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med en versjon av .NET Core, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
+Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 6, men de fleste kommandoene fungerer nok med en versjon av .NET Core, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
 
 ```bash
 $ dotnet --version
 
-5.0.103
+6.0.101
 ```
 
 Dersom du ikke har .NET installert på maskinen din, kan du laste det ned her: [https://dotnet.microsoft.com/download/dotnet](https://dotnet.microsoft.com/download/dotnet)
@@ -361,18 +361,18 @@ I dette steget starter vi med en mappe helt uten kode, og bruker .NET CLI til å
 
 #### .NET-versjon
 
-Siden denne veiledningen er skrevet for .NET 5, og det er mulig at du har flere .NET-versjoner installert på maskinen din, må vi instruere .NET CLI til å benytte .NET 5 når vi kjører kommandoene i veiledningen. Dette gjør vi ved å opprette en konfigurasjonsfil `global.json` i roten av repoet med følgende innhold:
+Siden denne veiledningen er skrevet for .NET 6, og det er mulig at du har flere .NET-versjoner installert på maskinen din, må vi instruere .NET CLI til å benytte .NET 6 når vi kjører kommandoene i veiledningen. Dette gjør vi ved å opprette en konfigurasjonsfil `global.json` i roten av repoet med følgende innhold:
 
 ```json¨
 {
     "sdk": {
-        "version": "5.0.0",
+        "version": "6.0.0",
         "rollForward": "latestMinor"
     }
 }
 ```
 
-Her oppgir vi at vi i utgangspunktet ønsker å bruke version `5.0.0` av .NET SDK. I tillegg sier vi gjennom `rollForward: latestMinor` at vi ønsker at den høyeste tilgjengelige versjonen av .NET 5 på maskinen din skal brukes. 
+Her oppgir vi at vi i utgangspunktet ønsker å bruke version `6.0.0` av .NET SDK. I tillegg sier vi gjennom `rollForward: latestMinor` at vi ønsker at den høyeste tilgjengelige versjonen av .NET 6 på maskinen din skal brukes.
 
 > Du kan lese mer om `global.json` her: [https://docs.microsoft.com/en-us/dotnet/core/tools/global-json](https://docs.microsoft.com/en-us/dotnet/core/tools/global-json)
 
@@ -392,7 +392,7 @@ Som nevnt i [innledningen](#innledning) er .NET CLI et kommandolinjeverktøy lag
 ```bash
 $ dotnet --help
 
-.NET SDK (5.0.103)
+.NET SDK (6.0.101)
 Usage: dotnet [runtime-options] [path-to-application] [arguments]
 
 Execute a .NET application.
@@ -425,6 +425,7 @@ SDK commands:
   build             Build a .NET project.
   build-server      Interact with servers started by a build.
   clean             Clean build outputs of a .NET project.
+  format            Apply style preferences to a project or solution.
   help              Show command line help.
   list              List project references of a .NET project.
   msbuild           Run Microsoft Build Engine (MSBuild) commands.
@@ -435,11 +436,13 @@ SDK commands:
   remove            Remove a package or reference from a .NET project.
   restore           Restore dependencies specified in a .NET project.
   run               Build and run a .NET project output.
+  sdk               Manage .NET SDK installation.
   sln               Modify Visual Studio solution files.
   store             Store the specified assemblies in the runtime package store.
   test              Run unit tests using the test runner specified in a .NET project.
   tool              Install or manage tools that extend the .NET experience.
   vstest            Run Microsoft Test Engine (VSTest) commands.
+  workload          Manage optional workloads.
 
 Additional commands from bundled tools:
   dev-certs         Create and manage development certificates.
@@ -453,55 +456,52 @@ Run 'dotnet [command] --help' for more information on a command.
 
 #### Maler
 
-For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. `dotnet new` oppretter .NET-prosjekter, og som første parameter tar `new`-kommandoen inn hva slags mal prosjektet man oppretter skal følge. Når man installerer .NET SDK får man med et sett med forhåndsdefinerte prosjektmaler for vanlige formål. For å se malene som er installert på din maskin kan du kjøre `dotnet new` slik:
+For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. `dotnet new` oppretter .NET-prosjekter, og som første parameter tar `new`-kommandoen inn hva slags mal prosjektet man oppretter skal følge. Når man installerer .NET SDK får man med et sett med forhåndsdefinerte prosjektmaler for vanlige formål. For å se malene som er installert på din maskin kan du kjøre `dotnet new --list` slik:
 
 ```bash
-$ dotnet new
+$ dotnet new --list
 
-Templates                                         Short Name               Language          Tags
---------------------------------------------      -------------------      ------------      ----------------------
-Console Application                               console                  [C#], F#, VB      Common/Console        
-Class library                                     classlib                 [C#], F#, VB      Common/Library        
-WPF Application                                   wpf                      [C#], VB          Common/WPF
-WPF Class library                                 wpflib                   [C#], VB          Common/WPF
-WPF Custom Control Library                        wpfcustomcontrollib      [C#], VB          Common/WPF
-WPF User Control Library                          wpfusercontrollib        [C#], VB          Common/WPF
-Windows Forms App                                 winforms                 [C#], VB          Common/WinForms       
-Windows Forms Control Library                     winformscontrollib       [C#], VB          Common/WinForms       
-Windows Forms Class Library                       winformslib              [C#], VB          Common/WinForms       
-Worker Service                                    worker                   [C#], F#          Common/Worker/Web     
-Unit Test Project                                 mstest                   [C#], F#, VB      Test/MSTest
-NUnit 3 Test Project                              nunit                    [C#], F#, VB      Test/NUnit
-NUnit 3 Test Item                                 nunit-test               [C#], F#, VB      Test/NUnit
-xUnit Test Project                                xunit                    [C#], F#, VB      Test/xUnit
-Razor Component                                   razorcomponent           [C#]              Web/ASP.NET
-Razor Page                                        page                     [C#]              Web/ASP.NET
-MVC ViewImports                                   viewimports              [C#]              Web/ASP.NET
-MVC ViewStart                                     viewstart                [C#]              Web/ASP.NET
-Blazor Server App                                 blazorserver             [C#]              Web/Blazor
-Blazor WebAssembly App                            blazorwasm               [C#]              Web/Blazor/WebAssembly
-ASP.NET Core Empty                                web                      [C#], F#          Web/Empty
-ASP.NET Core Web App (Model-View-Controller)      mvc                      [C#], F#          Web/MVC
-ASP.NET Core Web App                              webapp                   [C#]              Web/MVC/Razor Pages
-ASP.NET Core with Angular                         angular                  [C#]              Web/MVC/SPA
-ASP.NET Core with React.js                        react                    [C#]              Web/MVC/SPA
-ASP.NET Core with React.js and Redux              reactredux               [C#]              Web/MVC/SPA
-Razor Class Library                               razorclasslib            [C#]              Web/Razor/Library
-ASP.NET Core Web API                              webapi                   [C#], F#          Web/WebAPI
-ASP.NET Core gRPC Service                         grpc                     [C#]              Web/gRPC
-dotnet gitignore file                             gitignore                                  Config
-global.json file                                  globaljson                                 Config
-NuGet Config                                      nugetconfig                                Config
-Dotnet local tool manifest file                   tool-manifest                              Config
-Web Config                                        webconfig                                  Config
-Solution File                                     sln                                        Solution
-Protocol Buffer File                              proto                                      Web/gRPC
+These templates matched your input:
 
-Examples:
-    dotnet new mvc --auth Individual
-    dotnet new mstest
-    dotnet new --help
-    dotnet new nunit --help
+Template Name                                 Short Name           Language    Tags
+--------------------------------------------  -------------------  ----------  -------------------------------------
+ASP.NET Core Empty                            web                  [C#],F#     Web/Empty
+ASP.NET Core gRPC Service                     grpc                 [C#]        Web/gRPC
+ASP.NET Core Web API                          webapi               [C#],F#     Web/WebAPI
+ASP.NET Core Web App                          razor,webapp         [C#]        Web/MVC/Razor Pages
+ASP.NET Core Web App (Model-View-Controller)  mvc                  [C#],F#     Web/MVC
+ASP.NET Core with Angular                     angular              [C#]        Web/MVC/SPA
+ASP.NET Core with React.js                    react                [C#]        Web/MVC/SPA
+ASP.NET Core with React.js and Redux          reactredux           [C#]        Web/MVC/SPA
+Blazor Server App                             blazorserver         [C#]        Web/Blazor
+Blazor WebAssembly App                        blazorwasm           [C#]        Web/Blazor/WebAssembly/PWA
+Class Library                                 classlib             [C#],F#,VB  Common/Library
+Console App                                   console              [C#],F#,VB  Common/Console
+dotnet gitignore file                         gitignore                        Config
+Dotnet local tool manifest file               tool-manifest                    Config
+EditorConfig file                             editorconfig                     Config
+global.json file                              globaljson                       Config
+MSTest Test Project                           mstest               [C#],F#,VB  Test/MSTest
+MVC ViewImports                               viewimports          [C#]        Web/ASP.NET
+MVC ViewStart                                 viewstart            [C#]        Web/ASP.NET
+NuGet Config                                  nugetconfig                      Config
+NUnit 3 Test Item                             nunit-test           [C#],F#,VB  Test/NUnit
+NUnit 3 Test Project                          nunit                [C#],F#,VB  Test/NUnit
+Protocol Buffer File                          proto                            Web/gRPC
+Razor Class Library                           razorclasslib        [C#]        Web/Razor/Library/Razor Class Library
+Razor Component                               razorcomponent       [C#]        Web/ASP.NET
+Razor Page                                    page                 [C#]        Web/ASP.NET
+Solution File                                 sln                              Solution
+Web Config                                    webconfig                        Config
+Windows Forms App                             winforms             [C#],VB     Common/WinForms
+Windows Forms Class Library                   winformslib          [C#],VB     Common/WinForms
+Windows Forms Control Library                 winformscontrollib   [C#],VB     Common/WinForms
+Worker Service                                worker               [C#],F#     Common/Worker/Web
+WPF Application                               wpf                  [C#],VB     Common/WPF
+WPF Class library                             wpflib               [C#],VB     Common/WPF
+WPF Custom Control Library                    wpfcustomcontrollib  [C#],VB     Common/WPF
+WPF User Control Library                      wpfusercontrollib    [C#],VB     Common/WPF
+xUnit Test Project                            xunit                [C#],F#,VB  Test/xUnit
 ```
 
 I tillegg til å styre hva slags type prosjekt man vil opprette med `new`-kommandoen, har man mulighet til å styre ting som hvilket språk man ønsker prosjektet skal opprettes for, og i hvilken mappe prosjektet opprettes i. For å se alle valgene man har i `dotnet new` kan du kjøre følgende kommando
@@ -572,7 +572,7 @@ Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -585,7 +585,7 @@ Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med
 Her ser vi at prosjektet:
 
 - Har outputtypen `exe` - prosjektet kompileres til å bli en kjørbar fil
-- Skal kompileres til .NET 5
+- Skal kompileres til .NET 6
 - Består av én fil `Program.fs`
 
 ##### Programfilen
@@ -593,32 +593,11 @@ Her ser vi at prosjektet:
 For å se hva programmet gjør kan vi åpne `Program.fs` og se på koden:
 
 ```f#
-// Learn more about F# at http://docs.microsoft.com/dotnet/fsharp
-
-open System
-
-// Define a function to construct a message to print
-let from whom =
-    sprintf "from %s" whom
-
-[<EntryPoint>]
-let main argv =
-    let message = from "F#" // Call the function
-    printfn "Hello world %s" message
-    0 // return an integer exit code
+// For more information see https://aka.ms/fsharp-console-apps
+printfn "Hello from F#"
 ```
 
-Helt i starten av filen ser vi at programmet åpner en modul `System`. Denne modulen er definert i .NET sitt "base class library" - en samling biblioteker som tilbyr mye brukt funksjonalitet, skrevet av Microsoft.
-
-I tillegg ser vi at programmet har to funksjoner:
-
-- `from`
-  - Tar inn et parameter `whom`, og returnerer en tekststreng `from <whom>`
-- `main`
-  - Annotert med `[<EntryPoint>]` - Det er slik .NET vet hvilken funksjon den skal kalle når programmet starter
-  - Får inn argumenter gitt til programmet gjennom parmeteret `argv`
-  - Deklarerer en verdi `message` som er lik resultatet av å kalle `from`-funksjonen med `F#` som input
-  - Skriver tekststrengen `Hello world from F#` til output
+Malen la inn kun én linje i `Program.fs` som skriver tekststrengen `Hello world from F#` til output. Fra andre programmeringsspråk er du kanskje vant til å se en `main`-funksjon eller liknende, men det ser vi ikke her. Grunnen til det er at F# bruker et implisitt startpunkt som er på toppen av filen. Deretter utføres koden linje for linje slik som spesifisert i filen. Det er også mulig å bruke eksplisitte startpunkter i F#-programmer. Les mer om det her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point)
 
 > Navnet til prosjektet `NRK.Dotnetskolen.Api.fsproj` følger Microsoft sin navnekonvensjon for programmer og biblioteker i .NET. For å lese mer om denne, og andre navnekonvensjoner i .NET, kan du se her: [https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls)
 >
@@ -787,7 +766,7 @@ test
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
@@ -799,13 +778,13 @@ test
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="1.3.0">
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -816,7 +795,7 @@ test
 
 I prosjektfilen kan vi se at enhetstestprosjektet:
 
-- Skal kompileres til .NET 5
+- Skal kompileres til .NET 6
 - Inneholder to kildekodefiler
   - `Tests.fs`
   - `Program.fs`
