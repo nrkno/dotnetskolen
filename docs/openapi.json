@@ -1,0 +1,52 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dotnetskolen EPG-API",
+        "description": "API for å hente ut EPG for kanalene NRK1 og NRK2 i NRKTV",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/epg/{dato}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
+                        "in": "path",
+                        "name": "dato",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2021-11-15"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "./epg.schema.json"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    },
+                    "400": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "\"Ugyldig dato\""
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    }
+                },
+                "operationId": "hentEpgPåDato",
+                "description": "Henter EPG for NRK1 og NRK 2 på den oppgitte datoen. Returnerer 400 dersom dato er ugyldig. Listen med sendinger for en kanal er tom dersom det ikke finnes noen sendinger på den gitte dagen."
+            }
+        }
+    }
+}
