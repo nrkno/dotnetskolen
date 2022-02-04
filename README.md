@@ -1438,21 +1438,21 @@ open NRK.Dotnetskolen.Domain
 
 > Merk at noen har rapportert om problemer med feilmeldinger i Rider etter å ha lagt til denne `open`-statementen. Dersom du opplever det samme kan du høyreklikke på "Solution"-noden i Rider, og klikke på "Unload" etterfulgt av "Reload". Dette skal forhåpentligvis rette opp i problemet.
 
-Endre deretter `main`-funksjonen til å opprette en `EPG`-verdi slik:
+Endre deretter `Program.fs` til å opprette en `EPG`-verdi slik:
 
 ```f#
-[<EntryPoint>]
-let main argv =
-    let epg = [
-        {
-            Tittel = "Dagsrevyen"
-            Kanal = "NRK1"
-            StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
-            SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
-        }
-    ]
-    printfn "%A" epg
-    0 // return an integer exit code
+open System
+open NRK.Dotnetskolen.Domain
+
+let epg = [
+    {
+        Tittel = "Dagsrevyen"
+        Kanal = "NRK1"
+        StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+        SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
+    }
+]
+printfn "%A" epg
 ```
 
 Her oppretter vi en variabel `epg` som er en liste med sendinger, slik vi definerte i `Domain.fs`.
