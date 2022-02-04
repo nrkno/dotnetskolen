@@ -1,12 +1,26 @@
-﻿open System
-open NRK.Dotnetskolen.Domain
+﻿namespace NRK.Dotnetskolen.Api
 
-let epg = [
-    {
-        Tittel = "Dagsrevyen"
-        Kanal = "NRK1"
-        StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
-        SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
-    }
-]
-printfn "%A" epg
+module Program =
+
+    open Microsoft.Extensions.Hosting
+    open Microsoft.AspNetCore.Hosting
+    open Microsoft.AspNetCore.Builder
+    open Microsoft.Extensions.DependencyInjection
+
+    let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) = ()
+
+    let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) = ()
+
+    let createHostBuilder args =
+        Host
+            .CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(fun webHostBuilder ->
+                webHostBuilder
+                    .Configure(configureApp)
+                    .ConfigureServices(configureServices)
+                |> ignore)
+
+    [<EntryPoint>]
+    let main argv =
+        createHostBuilder(argv).Build().Run()
+        0
