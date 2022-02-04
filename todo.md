@@ -1,0 +1,6 @@
+# To do
+
+Lese gjennom disse artiklene og oppdatér veiledning og løsningsforslag for steg 9 og utover.
+
+- <https://docs.microsoft.com/en-us/aspnet/core/migration/50-to-60?view=aspnetcore-6.0&tabs=visual-studio>
+- <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0>
