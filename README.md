@@ -2243,7 +2243,7 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
