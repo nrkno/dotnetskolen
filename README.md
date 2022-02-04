@@ -1134,7 +1134,7 @@ Nå ser vi at Paket er lagt til i listen over tools i `dotnet-tools.json`
   "isRoot": true,
   "tools": {
     "paket": {
-      "version": "5.257.0",
+      "version": "6.2.1",
       "commands": [
         "paket"
       ]
@@ -1150,7 +1150,7 @@ For å installere Paket kan du kjøre følgende kommando
 ```bash
 $ dotnet tool restore
 
-Tool 'paket' (version '5.257.0') was restored. Available commands: paket
+Tool 'paket' (version '6.2.1') was restored. Available commands: paket
 
 Restore was successful.
 ```
@@ -1172,10 +1172,8 @@ Som nevnt over, bruker Paket filen `paket.dependencies` til å holde oversikt ov
 ```bash
 $ dotnet paket init
 
-Paket version 5.257.0
-Saving file C:\Dev\nrkno@github.com\dotnetskolen\paket.dependencies
-Performance:
- - Runtime: 500 milliseconds
+Paket version 6.2.1+c82f25d6c324024cbd231df154a447a117c2546e
+Total time taken: 0 milliseconds
 ```
 
 Du skal nå ha følgende filer i mappen din
@@ -1193,26 +1191,26 @@ test
 
 De øvrige filene `*/paket.references` og `paket.lock` blir opprettet når man begynner å legge til avhengigheter i prosjekter.
 
-##### .NET 5
+##### .NET 6
 
-På tidspunktet dette kurset ble skrevet legger ikke Paket inn .NET 5 i `paket.dependencies` ved kjøring av `dotnet paket init`. Dette kan vi se ved å åpne `paket.dependencies` og se på hva som er lagt inn for `framework`:
+På tidspunktet denne veiledningen ble skrevet legger ikke Paket inn .NET 6 i `paket.dependencies` ved kjøring av `dotnet paket init`. Dette kan vi se ved å åpne `paket.dependencies` og se på hva som er lagt inn for `framework`:
 
 ```txt
 
 source https://api.nuget.org/v3/index.json
 
 storage: none
-framework: netcoreapp3.1, netstandard2.0, netstandard2.1
+framework: net5.0, netstandard2.0, netstandard2.1
 ```
 
-Dersom du kjører .NET 5 på din maskin, sørg for å legge til `net5` på starten av verdien for `framework`, slik:
+Dersom du kjører .NET 6 på din maskin, sørg for å legge til `net6.0` på starten av verdien for `framework`, slik:
 
 ```txt
 
 source https://api.nuget.org/v3/index.json
 
 storage: none
-framework: net5, netcoreapp3.1, netstandard2.0, netstandard2.1
+framework: net6.0, netcoreapp3.1, netstandard2.0, netstandard2.1
 ```
 
 #### Migrere pakker fra NuGet til Paket
@@ -1225,7 +1223,7 @@ Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), b
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
@@ -1237,13 +1235,13 @@ Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), b
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="1.3.0">
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
