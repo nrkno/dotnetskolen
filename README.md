@@ -1,3 +1,3 @@
-# Steg 4 - Pakkehåndtering
+# Steg 6 - Enhetstester for domenemodell
 
-Løsningsforslag for [steg 4](https://github.com/nrkno/dotnetskolen/tree/main#steg-4---pakkehåndtering).
+Løsningsforslag for [steg 6](https://github.com/nrkno/dotnetskolen/tree/main#steg6---enhetstester-for-domenemodell).
