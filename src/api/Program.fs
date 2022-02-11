@@ -1,26 +1,23 @@
 ﻿namespace NRK.Dotnetskolen.Api
 
-module Program =
+module Program = 
 
-    open Microsoft.Extensions.Hosting
-    open Microsoft.AspNetCore.Hosting
+    open System
     open Microsoft.AspNetCore.Builder
-    open Microsoft.Extensions.DependencyInjection
 
-    let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) = ()
+    let createBuilder (argv: string []) =
+        let builder = WebApplication.CreateBuilder(argv)
+        // Do stuff with builder here
+        builder
 
-    let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) = ()
-
-    let createHostBuilder args =
-        Host
-            .CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(fun webHostBuilder ->
-                webHostBuilder
-                    .Configure(configureApp)
-                    .ConfigureServices(configureServices)
-                |> ignore)
+    let createApp (builder: WebApplicationBuilder) =
+        let app = builder.Build()
+        app.MapGet("/", Func<string>(fun () -> "Hello World!")) |> ignore
+        app
 
     [<EntryPoint>]
     let main argv =
-        createHostBuilder(argv).Build().Run()
+        let builder = createBuilder argv
+        let app = builder.Build()
+        app.Run()
         0
