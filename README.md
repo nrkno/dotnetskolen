@@ -1235,6 +1235,7 @@ Du kan lese mer om hvordan `convert-from-nuget`-kommandoen fungerer her: [https:
 Nå er du klar til å legge til avhengigheter i prosjektet ditt!
 
 > Merk at vi kunne ha latt være å opprette testprosjektene med malen `xunit`, og heller satt opp testprosjektene fra bunnen av ved å bruke `console`-malen. Da hadde vi unngått å måtte migrere NuGet-pakkene til Paket. Kurset er imidlertid lagt opp på denne måten for å illustrere bruken av ulike maler i .NET SDK.
+
 > Takk til [@laat](https://github.com/laat) som tipset om `convert-from-nuget`-kommandoen i Paket!
 
 ### Steg 5 - Definere domenemodell
