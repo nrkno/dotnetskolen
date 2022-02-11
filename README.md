@@ -1,3 +1,3 @@
-# Steg 3 - Opprette solution
+# Steg 4 - Pakkehåndtering
 
-Løsningsforslag for [steg 3](https://github.com/nrkno/dotnetskolen/tree/main#steg-3---opprette-solution).
+Løsningsforslag for [steg 4](https://github.com/nrkno/dotnetskolen/tree/main#steg-4---pakkehåndtering).
