@@ -1,9 +1,9 @@
+source "C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\"
+source https://www.myget.org/F/nrk/auth/c64eb6ac-a674-493a-9099-320dee35da47/api/v3/index.json
 source https://api.nuget.org/v3/index.json
 
-storage: none
-framework: net6.0, netstandard2.0, netstandard2.1
-nuget coverlet.collector
 nuget FSharp.Core
-nuget Microsoft.NET.Test.Sdk
-nuget xunit
-nuget xunit.runner.visualstudio
+nuget coverlet.collector 3.1.0
+nuget Microsoft.NET.Test.Sdk 16.11.0
+nuget xunit 2.4.1
+nuget xunit.runner.visualstudio 2.4.3
