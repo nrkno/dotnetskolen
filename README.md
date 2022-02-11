@@ -1215,9 +1215,7 @@ framework: net6.0, netcoreapp3.1, netstandard2.0, netstandard2.1
 
 #### Migrere pakker fra NuGet til Paket
 
-Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til NuGet-pakker som testprosjektene er avhengige av. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene.
-
-`test/unit/NRK.Dotnetskolen.UnitTests.fsproj`:
+Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til NuGet-pakker som testprosjektene er avhengige av. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene. Dette ser vi under i `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`. Det samme gjelder prosjektfilen til integrasjonstestprosjektet.
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -1250,96 +1248,42 @@ Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), b
 </Project>
 ```
 
-Siden vi ønsker å benytte Paket til å håndtere pakkene i løsningen vår, må vi migrere disse pakkene til Paket. Det gjør vi ved å fjerne pakkereferansene fra `.fsproj`-filene, og legge dem til via Paket istedenfor.
-
-##### Fjerne pakkereferanser via NuGet
-
-For å fjerne pakkereferansene fra enhetstestprosjektet
-
-1. Åpne filen `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`
-2. Fjern det siste `<ItemGroup>`-elementet - det som inneholder referanser til `Microsoft.NET.Test.Sdk`, `xunit`, `xunit.runner.visualstudio` og `coverlet.collector`
-3. Lagre prosjektfilen
-
-Gjenta stegene over for `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` for å fjerne pakkereferansene fra integrasjonstestprosjektet.
-
-##### Legge til pakkereferanser via Paket
-
-###### Enhetstestprosjektet
-
-Kjør følgende kommandoer for å legge til pakkereferansene i enhetstestprosjektet via Paket:
+Siden vi ønsker å benytte Paket til å håndtere pakkene i løsningen vår, må vi migrere disse pakkene fra NuGet til Paket. Dette kan vi gjøre ved å bruke den innebygde kommandoen `convert-from-nuget` i Paket, slik:
 
 ```bash
-
-$ dotnet paket add FSharp.Core --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
-...
-
-$ dotnet paket add Microsoft.NET.Test.Sdk --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
-...
-
-$ dotnet paket add xunit --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
-...
-
-$ dotnet paket add xunit.runner.visualstudio --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
-...
-
-$ dotnet paket add coverlet.collector --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
-...
+dotnet paket convert-from-nuget
 ```
 
-> Merk at NuGet-pakken `FSharp.Core` ikke var listet ut i `.fsproj`-filene til enhets- og integrasjonstestprosjektene. Vi er imidlertid avhengig av å ha denne pakken for å få kjørt testene. Derfor er den lagt til eksplisitt via Paket over.
+Nå skal alle pakkene som er brukt på tvers av alle prosjektene i løsningen være lagt til i en ny fil `paket.dependencies`:
 
-###### Integrasjontestprosjektet
+```txt
+source "C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\"
+source https://www.myget.org/F/nrk/auth/c64eb6ac-a674-493a-9099-320dee35da47/api/v3/index.json
+source https://api.nuget.org/v3/index.json
 
-Gjenta kommandoene for integrasjonstestprosjektet ved å bytte ut `test/unit/NRK.Dotnetskolen.UnitTests.fsproj` med `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`:
-
-```bash
-
-$ dotnet paket add FSharp.Core --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
-
-$ dotnet paket add Microsoft.NET.Test.Sdk --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
-
-$ dotnet paket add xunit --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
-
-$ dotnet paket add xunit.runner.visualstudio --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
-
-$ dotnet paket add coverlet.collector --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+nuget FSharp.Core
+nuget coverlet.collector 3.1.0
+nuget Microsoft.NET.Test.Sdk 16.11.0
+nuget xunit 2.4.1
+nuget xunit.runner.visualstudio 2.4.3
 ```
 
-Verifiser at testprosjektene fortsatt kjører ved å kjøre `dotnet test` i rotmappen din:
+I tillegg skal pakkereferansene i et prosjekt være flyttet til en ny fil `paket.references` i roten av prosjektmappen. Under ser vi hvordan `paket.references`-filen ser ut for enhetstestprosjektet. Det samme gjelder integrasjonstestprosjektet.
 
-```bash
-$ dotnet test
-
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
-  NRK.Dotnetskolen.IntegrationTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\integration\bin\Debug\net5.0\NRK.Dotnetskolen.IntegrationTests.dll
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\integration\bin\Debug\net5.0\NRK.Dotnetskolen.IntegrationTests.dll (.NETCoreApp,Version=v5.0)
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.   
-
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.   
-
-Starting test execution, please wait...
-Starting test execution, please wait...
-A total of 1 test files matched the specified pattern.
-A total of 1 test files matched the specified pattern.
-
-
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 1 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)       
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 1 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+```txt
+Microsoft.NET.Test.Sdk
+xunit
+xunit.runner.visualstudio
+coverlet.collector
+FSharp.Core
 ```
+
+Du kan lese mer om hvordan `convert-from-nuget`-kommandoen fungerer her: [https://fsprojects.github.io/Paket/convert-from-nuget-tutorial.html](https://fsprojects.github.io/Paket/convert-from-nuget-tutorial.html)
 
 Nå er du klar til å legge til avhengigheter i prosjektet ditt!
 
 > Merk at vi kunne ha latt være å opprette testprosjektene med malen `xunit`, og heller satt opp testprosjektene fra bunnen av ved å bruke `console`-malen. Da hadde vi unngått å måtte migrere NuGet-pakkene til Paket. Kurset er imidlertid lagt opp på denne måten for å illustrere bruken av ulike maler i .NET SDK.
+> Takk til [@laat](https://github.com/laat) som tipset om `convert-from-nuget`-kommandoen i Paket!
 
 ### Steg 5 - Definere domenemodell
 
