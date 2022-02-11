@@ -1165,54 +1165,6 @@ Paket bruker følgende filer for å holde styr på pakkene i en løsning:
 
 > Se forøvrig [https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit](https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit) for hvilke filer du skal inkludere i Git.
 
-##### Initialisere Paket
-
-Som nevnt over, bruker Paket filen `paket.dependencies` til å holde oversikt over hvilken avhengigheter løsningen har. For å opprette denne kan du kjøre følgende kommando
-
-```bash
-$ dotnet paket init
-
-Paket version 6.2.1+c82f25d6c324024cbd231df154a447a117c2546e
-Total time taken: 0 milliseconds
-```
-
-Du skal nå ha følgende filer i mappen din
-
-```txt
-└── .config
-    └── dotnet-tools.json
-src
-└── ...
-test
-└── ...
-└── Dotnetskolen.sln
-└── paket.dependencies
-```
-
-De øvrige filene `*/paket.references` og `paket.lock` blir opprettet når man begynner å legge til avhengigheter i prosjekter.
-
-##### .NET 6
-
-På tidspunktet denne veiledningen ble skrevet legger ikke Paket inn .NET 6 i `paket.dependencies` ved kjøring av `dotnet paket init`. Dette kan vi se ved å åpne `paket.dependencies` og se på hva som er lagt inn for `framework`:
-
-```txt
-
-source https://api.nuget.org/v3/index.json
-
-storage: none
-framework: net5.0, netstandard2.0, netstandard2.1
-```
-
-Dersom du kjører .NET 6 på din maskin, sørg for å legge til `net6.0` på starten av verdien for `framework`, slik:
-
-```txt
-
-source https://api.nuget.org/v3/index.json
-
-storage: none
-framework: net6.0, netcoreapp3.1, netstandard2.0, netstandard2.1
-```
-
 #### Migrere pakker fra NuGet til Paket
 
 Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til NuGet-pakker som testprosjektene er avhengige av. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene. Dette ser vi under i `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`. Det samme gjelder prosjektfilen til integrasjonstestprosjektet.
