@@ -2156,7 +2156,7 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 
 **Steg 9 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-8---implementere-kontraktstyper) [⬇ Neste steg](#steg-10---implementere-web-api)
 
-I dette steget skal vi sette opp et skall for web-API-et, og verifisere at vi når API-et ved å skrive en integrasjonstest.
+I dette steget skal vi sette opp et skall for web-API-et, og verifisere at vi når API-et ved å skrive en integrasjonstest. Før vi begynner å kode skal vi se på et par relevante konsepter i .NET.
 
 #### Prosjekttyper
 
@@ -2224,9 +2224,9 @@ module Program =
         0
 ```
 
-Her oppretter vi en modul, `Program`, i namespacet `NRK.Dotnetskolen.Api`. I `Program`-modulen åpner vi `Microsoft.Extensions.Hosting` for å få tilgang til `CreateDefaulBuilder`. Vi kaller funksjonen `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter gitt på kommandolinjen inn gjennom `argb`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
+Her oppretter vi en modul, `Program`, i namespacet `NRK.Dotnetskolen.Api`. I `Program`-modulen åpner vi `Microsoft.Extensions.Hosting` for å få tilgang til `CreateDefaultBuilder`. Vi kaller funksjonen `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter gitt på kommandolinjen inn gjennom `argv`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
 
-Til slutt bygger vi hosten vår, og starter den slik med `Host.CreateDefaultBuilder(argv).Build().Run()` i `main`-funksjonen.
+Til slutt bygger vi hosten vår, og starter den slik `Host.CreateDefaultBuilder(argv).Build().Run()` i `main`-funksjonen.
 
 > Husk at vi i [avsnittet om programfilen](#programfilen) nevnte at F# har støtte for implisitt og eksplisitt startpunkt for et program. I `Program.fs` har vi nå gått over fra implisitt til eksplisitt startpunkt. For flere detaljer se: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point)
 
