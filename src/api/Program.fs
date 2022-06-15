@@ -18,6 +18,6 @@ module Program =
     [<EntryPoint>]
     let main argv =
         let builder = createBuilder argv
-        let app = builder.Build()
+        let app = createApp builder
         app.Run()
         0
