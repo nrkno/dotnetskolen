@@ -1,73 +1,74 @@
 module Tests
 
 open System
-open System.IO
 open System.Net
+open System.Net.Http
 open System.Text.Json
-open Microsoft.AspNetCore.Hosting
-open Microsoft.AspNetCore.TestHost
 open Xunit
 open Json.Schema
-open NRK.Dotnetskolen.Api
+open Microsoft.AspNetCore.TestHost
+open NRK.Dotnetskolen.Api.Program
 open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.IntegrationTests.Mock
 
-let createWebHostBuilder () =
-    WebHostBuilder()
-        .UseContentRoot(Directory.GetCurrentDirectory()) 
-        .UseEnvironment("Test")
-        .Configure(Program.configureApp (getEpgForDate getAllTransmissions))
-        .ConfigureServices(Program.configureServices)
+let runWithTestClient (test: HttpClient -> Async<unit>) = 
+    async {
+        let builder = createWebApplicationBuilder()
+        builder.WebHost.UseTestServer() |> ignore
+
+        use app = createWebApplication builder (getEpgForDate getAllTransmissions)
+        do! app.StartAsync() |> Async.AwaitTask
+
+        let testClient = app.GetTestClient()
+        do! test testClient
+    } |> Async.RunSynchronously
 
 [<Fact>]
-let ``Get ping returns 200 OK`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let url = "/ping"
-
-    let! response = client.GetAsync(url) |> Async.AwaitTask
-
-    response.EnsureSuccessStatusCode() |> ignore
-}
+let ``Get "ping" returns "pong"`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let! response = httpClient.GetStringAsync("/ping") |> Async.AwaitTask
+            Assert.Equal(response, "pong")
+        }
+    )
 
 [<Fact>]
-let ``Get EPG today returns 200 OK`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
-    let url = sprintf "/epg/%s" todayAsString
-
-    let! response = client.GetAsync(url) |> Async.AwaitTask
-
-    response.EnsureSuccessStatusCode() |> ignore
-}
+let ``Get EPG today returns 200 OK`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+            let url = $"/epg/{todayAsString}" 
+            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            response.EnsureSuccessStatusCode() |> ignore
+        }
+    )
 
 [<Fact>]
-let ``Get EPG invalid date returns bad request`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let invalidDateAsString = "2021-13-32"
-    let url = sprintf "/epg/%s" invalidDateAsString
+let ``Get EPG invalid date returns bad request`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let invalidDateAsString = "2021-13-32"
+            let url = $"/epg/{invalidDateAsString}"
+            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
+        }
+    )
 
-    let! response = client.GetAsync(url) |> Async.AwaitTask
-
-    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
-}
-    
 [<Fact>]
-let ``Get EPG today return valid response`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
-    let url = sprintf "/epg/%s" todayAsString
-    let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
+let ``Get EPG today return valid response`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+            let url = $"/epg/{todayAsString}"
+            let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
 
-    let! response = client.GetAsync(url) |> Async.AwaitTask
+            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
 
-    response.EnsureSuccessStatusCode() |> ignore
-    let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-    let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
-    let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
-    
-    Assert.True(isJsonValid)
-}
+            response.EnsureSuccessStatusCode() |> ignore
+            let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+            let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
+            let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
+            
+            Assert.True(isJsonValid)
+        }
+    )
