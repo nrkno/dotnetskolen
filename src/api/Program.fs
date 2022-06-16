@@ -3,39 +3,22 @@ namespace NRK.Dotnetskolen.Api
 module Program = 
 
     open System
-    open Microsoft.AspNetCore.Hosting
-    open Microsoft.Extensions.Hosting
-    open Microsoft.Extensions.DependencyInjection
+    open Microsoft.AspNetCore.Http
     open Microsoft.AspNetCore.Builder
-    open Giraffe
     open NRK.Dotnetskolen.Domain
     open NRK.Dotnetskolen.Api.Services
     open NRK.Dotnetskolen.Api.DataAccess
     open NRK.Dotnetskolen.Api.HttpHandlers
 
-    let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-        let webApp =
-            GET >=> choose [
-                    route "/ping" >=> text "pong"
-                    routef "/epg/%s" (epgHandler getEpgForDate)
-            ]
-        app.UseGiraffe webApp
+    let createWebApplicationBuilder () =
+        WebApplication.CreateBuilder()
 
-    let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-        services
-            .AddGiraffe()
-            |> ignore
+    let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTime -> Epg) =
+        let app = builder.Build()
+        app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+        app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
+        app
 
-    let createHostBuilder args =
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(fun webBuilder -> 
-                webBuilder
-                    .Configure(configureApp (getEpgForDate getAllTransmissions))
-                    .ConfigureServices(configureServices)
-                |> ignore
-            )
-
-    [<EntryPoint>]
-    let main argv =
-        createHostBuilder(argv).Build().Run()
-        0
+    let builder = createWebApplicationBuilder()
+    let app = createWebApplication builder (getEpgForDate getAllTransmissions)
+    app.Run()
