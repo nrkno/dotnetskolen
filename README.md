@@ -1,3 +1,3 @@
-# Steg 9 - Sette opp skall for API
+# Steg 11 - Følge prinsipper i domenedrevet design
 
-Løsningsforslag for [steg 9](https://github.com/nrkno/dotnetskolen/tree/main#steg-9---sette-opp-skall-for-api).
+Løsningsforslag for [steg 11](https://github.com/nrkno/dotnetskolen/tree/main#steg-11---følge-prinsipper-i-domenedrevet-design).
