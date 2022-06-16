@@ -1,9 +1,11 @@
 namespace NRK.Dotnetskolen
 
+open System
+open System.Text.RegularExpressions
+
 module Domain = 
 
     open System
-    open System.Text.RegularExpressions
 
     type Sending = {
         Tittel: string
