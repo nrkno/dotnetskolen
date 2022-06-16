@@ -256,7 +256,11 @@ Receiving objects: 100% (9/9), done.
 Resolving deltas: 100% (2/2), done.
 ```
 
-> Kommandoen over forutsetter at man bruker SSH for autentisering overfor GitHub. Dersom man ønsker å klone med HTTPS istedenfor må man kjøre følgende kommando `https://github.com/nrkno/dotnetskolen.git` og oppgi brukernavn og passord.
+> Kommandoen over forutsetter at man bruker SSH for autentisering overfor GitHub. For mer informasjon om SSH-autentisering i GitHub se <https://docs.github.com/en/authentication/connecting-to-github-with-ssh>
+>
+> Dersom man ønsker å klone med HTTPS istedenfor må man kjøre følgende kommando `https://github.com/nrkno/dotnetskolen.git` og oppgi brukernavn og passord.
+>
+> Ev. kan man bruke [GitHub sin desktopklient](https://desktop.github.com/)
 
 Da skal nå ha `main`-branchen sjekket ut lokalt på din maskin. Det kan du verifisere ved å gå inn i mappen til repoet og liste ut branchene i Git:
 
@@ -286,7 +290,7 @@ GitHub har et eget repo som inneholder `.gitignore`-filer for ulike typer prosje
 For å sette opp `.gitignore` i ditt lokale repo:
 
 1. Opprett en tekstfil med navn `.gitignore` i roten av repoet
-2. Lim inn innholdet i denne filen: [https://github.com/github/gitignore/blob/master/VisualStudio.gitignore](https://github.com/github/gitignore/blob/master/VisualStudio.gitignore) 
+2. Lim inn innholdet i denne filen: [https://github.com/github/gitignore/blob/master/VisualStudio.gitignore](https://github.com/github/gitignore/blob/master/VisualStudio.gitignore)
 3. Lagre og commite `.gitignore`-filen.
 
 ##### Hvordan commite `.gitignore`
