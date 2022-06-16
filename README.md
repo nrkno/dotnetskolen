@@ -2665,13 +2665,13 @@ Dette kan vi bruke når vi skal definere operasjonen i `WebApplication`-objektet
 let createWebApplication (builder: WebApplicationBuilder) =
     let app = builder.Build()
     app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
-    app.MapGet("/epg/{date}", Func<string, string>(fun (date) -> date)) |> ignore
+    app.MapGet("/epg/{date}", Func<string, string>(fun date -> date)) |> ignore
     app
 ```
 
-Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun (date) -> date)` for HTTP `GET`-forespørsler til URL-en `epg/{date}`, hvor `{date}` matcher tekststrengen oppgitt i URL-en etter `/epg/`.
+Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> date)` for HTTP `GET`-forespørsler til URL-en `epg/{date}`, hvor `{date}` matcher tekststrengen oppgitt i URL-en etter `/epg/`.
 
-> Legg merke til bruken av delegates her også gjennom `Func<string, string>(fun (date) -> date)`. Her ser vi at delegaten vår tar inn et parameter av typen `string`, og returnerer en verdi av typen `string`.
+> Legg merke til bruken av delegates her også gjennom `Func<string, string>(fun date -> date)`. Her ser vi at delegaten vår tar inn et parameter av typen `string`, og returnerer en verdi av typen `string`.
 
 ##### Kjøre API-et
 
@@ -2782,7 +2782,7 @@ namespace NRK.Dotnetskolen.Api
 
 module HttpHandlers =
 
-    let epgHandler (date: string) =
+    let epgHandler (dateAsString: string) =
         date
 ```
 
@@ -2823,13 +2823,13 @@ let parseAsDateTime (dateAsString : string) : DateTime option =
 Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig:
 
 ```f#
-let epgHandler date =
-    match (parseAsDateTime date) with
-    | Some parsedDate -> Results.Ok(parsedDate)
+let epgHandler (dateAsString: string) =
+    match (parseAsDateTime dateAsString) with
+    | Some date -> Results.Ok(date)
     | None -> Results.BadRequest("Invalid date")
 ```
 
-Her bruker vi et `match`-statement i F# som sammenlikner resultatet av å kalle `parseAsDateTime date` med `Some parsedDate` (i tilfellet datoen ble vellykket parset som en dato på formatet vi har spesifisert i `parseAsDateTime`) eller `None` i motsatt fall. Dersom datoen ble vellykket parset som en dato returnerer vi `Results.Ok(parsedDate)` som setter statuskoden til `200 OK` og returnerer datoen. I motsatt fall returnerer vi `Results.BadRequest("Invalid date")` som setter statuskoden til `400 Bad Request`, og returnerer teksten `Invalid date`.
+Her bruker vi et `match`-statement i F# som sammenlikner resultatet av å kalle `parseAsDateTime dateAsString` med `Some date` (i tilfellet datoen ble vellykket parset som en dato på formatet vi har spesifisert i `parseAsDateTime`) eller `None` i motsatt fall. Dersom datoen ble vellykket parset som en dato returnerer vi `Results.Ok(date)` som setter statuskoden til `200 OK` og returnerer datoen. I motsatt fall returnerer vi `Results.BadRequest("Invalid date")` som setter statuskoden til `400 Bad Request`, og returnerer teksten `Invalid date`.
 
 Siden vi nå har endret returtypen til `epgHandler` fra `string` til `IResult` (samleinterface for de blant annet `Ok` og `BadRequest`), må vi også endre typen til delegaten i `MapGet("/epg/{date}"` slik:
 
@@ -2895,22 +2895,23 @@ Legg til slutt til følgende test i `Test.fs`-klassen:
 
 ```f#
 [<Fact>]
-let ``Get EPG today return valid response`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
-    let url = sprintf "/epg/%s" todayAsString
-    let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
+let ``Get EPG today return valid response`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+            let url = $"/epg/{todayAsString}"
+            let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
 
-    let! response = client.GetAsync(url) |> Async.AwaitTask
+            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
 
-    response.EnsureSuccessStatusCode() |> ignore
-    let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-    let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
-    let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
-    
-    Assert.True(isJsonValid)
-}
+            response.EnsureSuccessStatusCode() |> ignore
+            let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+            let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
+            let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
+            
+            Assert.True(isJsonValid)
+        }
+    )
 ```
 
 Denne testen bygger på de foregående testene vi har skrevet, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten:
@@ -2927,10 +2928,34 @@ Kjør integrasjonstestene igjen med følgende kommando.
 ```bash
 $ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
+[xUnit.net 00:00:01.13]     Tests.Get EPG today return valid response [FAIL]
+  Failed Tests.Get EPG today return valid response [98 ms]
+  Error Message:
+   Assert.True() Failure
+Expected: True
+Actual:   False
+...
 Failed!  - Failed:     1, Passed:     3, Skipped:     0, Total:     4, Duration: 408 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
 
 Testen feiler. La oss implementere ferdig API-et.
+
+##### Dependency injection
+
+Før vi koder videre skal vi ta en snartur innom et mye brukt prinsipp i programvareutvikling: "Inversion of control" (IoC). Inversion of control går kort fortalt ut på at man lar kontrollen over implementasjonen av avhengighetene man har i koden sin ligge på utsiden av der man har behov for avhengigheten. På denne måten kan man endre hva som implementerer avhengigheten man har, og man kan enklere enhetsteste koden sin fordi man kan sende inn fiktive implementasjoner av avhengighetene.
+
+Et eksempel på dette er dersom man har en funksjon `isLoginValid` for å validere brukernavn og passord som kommer inn fra et innloggingsskjema, har man behov for å hente entiteten som korresponderer til det oppgitte brukernavnet fra brukerdatabasen. Ved å ta inn en egen funksjon `getUser` i `ValidateLogin` har man gitt kontrollen over hvordan `getUser` skal implementeres til utsiden av `ValidateLogin`-funksjonen.
+
+```f#
+let isLoginValid (getUser: string -> UserEntity) (username: string) (password: string) : bool ->
+...
+```
+
+En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender man inn de nødvendige avhengighetene til de ulike delene av koden sin fra utsiden. Dersom en funksjon `A` har avhengiheter funksjonene `B` og `C`, og `B` og `C` har hhv. avhengiheter til funksjonene `D` og `E`, må man ha implementasjoner for `B`, `C`, `D` og `E` for å kunne kalle funksjon `A`. Disse avhengighetene danner et avhengighetstre, og dersom man skal kalle en funksjon på toppen av treet er man nødt til å ha implementasjoner av alle de interne nodene og alle løvnodene i avhengighetstreet. For hver toppnivåfunksjon (slik som `A`) man har i applikasjonen sin, vil man ha et avhengighetstre.
+
+Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root".
+
+> Du kan lese mer om "dependency injection" her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0)
 
 ##### Hente EPG
 
@@ -2940,23 +2965,21 @@ Neste steg i å implementere API-et nå er å hente EPG for den validerte datoen
 ...
 open NRK.Dotnetskolen.Domain
 ...
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date -> (json dateAsString) next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+    match (parseAsDateTime dateAsString) with
+    | Some date -> Results.Ok(date)
+    | None -> Results.BadRequest("Invalid date")
 ```
 
 Nå kan vi kalle `getEpgForDate` med den validerte datoen for å få alle sendingene for den gitte datoen slik som vist under:
 
 ```f#
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date -> 
-            let epg = getEpgForDate date
-            (json date) next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+    match (parseAsDateTime dateAsString) with
+    | Some date -> 
+        let epg = getEpgForDate date
+        Results.Ok(epg)
+    | None -> Results.BadRequest("Invalid date")
 ```
 
 ##### Returnere JSON som oppfyller API-kontrakten
@@ -2986,54 +3009,34 @@ Nå som vi har implementert `fromDomain`-funksjonen kan vi bruke den i `epgHandl
 ...
 open NRK.Dotnetskolen.Dto
 ...
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date -> 
-            let epg = getEpgForDate date
-            let dto = fromDomain epg
-            (json dateAsString) next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
-```
-
-Det siste vi må gjøre er å serialisere kontraktstypen vår til JSON:
-
-```f#
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date ->
-            let epg = getEpgForDate date
-            let dto = fromDomain epg
-            (json dto) next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+    match (parseAsDateTime dateAsString) with
+    | Some date -> 
+        let epg = getEpgForDate date
+        let dto = fromDomain epg
+        Results.Ok(dto)
+    | None -> Results.BadRequest("Invalid date")
 ```
 
 Skrevet med `|>`-operatoren i F# ser `epgHandler`-funksjonen slik ut:
 
 ```f#
-let epgHandler (getEpgForDate : DateTime -> Epg) (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date -> 
-            let response = date
-                            |> getEpgForDate 
-                            |> fromDomain
-                            |> json
-            response next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+    match (parseAsDateTime dateAsString) with
+    | Some date -> 
+        let response =
+            date
+            |> getEpgForDate
+            |> fromDomain
+        Results.Ok(response)
+    | None -> Results.BadRequest("Invalid date")
 ```
 
 ##### Implementere avhengigheter
 
 I steget [hente EPG](#hente-epg) definerte vi at funksjonen `epgHandler` hadde en avhengighet til en funksjon `getEpgForDate: DateTime -> Epg`. Husk fra [kapitlet om "dependency injection"](#dependency-injection) at vi må sørge for at slike avhengigheter er tilfredsstilt når vi kaller funksjonen.
 
-`epgHandler`-funksjonen blir kalt av Giraffe, og vi oppgir `epgHandler` til Giraffe i `configureApp`-funksjonen i `Program.fs`. Dermed må vi også sende inn implementasjonen av `getEpgForDate`-funksjonen her. Gitt en implementasjon av `getEpgForDate` har vi i alle fall to måter å få tak i den i `configureApp`-funksjonen, og sende den inn som parameter til `epgHandler`:
-
-1. Sende inn implementasjonen av `getEpgForDate` som parameter til `configureApp`-funksjonen.
-2. Registrere `getEpgForDate`-funksjonen i `IServiceCollection` i `configureServices`, og bruke `ApplicationServices`-feltet i `IApplicationBuilder`-parameteret til `configureApp` for å hente ut `getEpgForDate`-funksjonen derfra.
-
-Ettersom `getEpgForDate` kun er en funksjon, og vi lager en såpass liten og enkel applikasjon i dette kurset, kommer vi til å gå videre med alternativ #1. Dersom man har et større prosjekt med flere avhengigheter, eller har avhengigheter som er sterkt knyttet til hvordan dependency injection er løst i .NET (slik som Azure-bibliotekene til Microsoft), er det mer hensiktsmessig å gå for alternativ #2.
+`epgHandler`-funksjonen blir kalt av `MapGet` i `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet. Dermed er det her vi må sende inn implementasjonen av `getEpgForDate`-funksjonen.
 
 ###### Implementere `getEpgForDate`
 
@@ -3055,13 +3058,11 @@ src
 Husk å legg til `Services.fs` i prosjektfilen til API-prosjektet:
 
 ```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Domain.fs" />
     <Compile Include="Dto.fs" />
@@ -3069,7 +3070,7 @@ Husk å legg til `Services.fs` i prosjektfilen til API-prosjektet:
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
 
@@ -3093,35 +3094,14 @@ Legg til følgende `open`-statement i `Program.fs` i API-prosjektet:
 
 ```f#
 ...
-open System
 open NRK.Dotnetskolen.Api.Services
-open NRK.Dotnetskolen.Domain
 ...
 ```
 
-Utvid deretter `configureApp`-funksjonen til å ta inn et parameter `getEpgForDate` og send det inn til `epgHandler`, slik:
+Send deretter inn `getEpgForDate` fra `NRK.Dotnetskolen.Api.Services` til `epgHandler` i `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet slik:
 
 ```f#
-let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp =
-        GET >=> choose [
-                route "/ping" >=> text "pong"
-                routef "/epg/%s" (epgHandler getEpgForDate)
-        ]
-    app.UseGiraffe webApp
-```
-
-Til slutt må vi utvide `createHostBuilder`-funksjonen til å sende inn implementasjonen av `getEpgForDate` til `configureApp`, slik:
-
-```f#
-let createHostBuilder args =
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(fun webBuilder -> 
-            webBuilder
-                .Configure(configureApp getEpgForDate)
-                .ConfigureServices(configureServices)
-            |> ignore
-        )
+app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
 ```
 
 Kjør web-API-et med følgende kommando, og gå til [http://localhost:5000/epg/2021-04-23](http://localhost:5000/epg/2021-04-23) for å se hva API-et returnerer.
@@ -3171,13 +3151,11 @@ src
 Husk å legg til `DataAccess.fs` i prosjektfilen til API-prosjektet:
 
 ```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Domain.fs" />
     <Compile Include="DataAccess.fs" />
@@ -3186,7 +3164,7 @@ Husk å legg til `DataAccess.fs` i prosjektfilen til API-prosjektet:
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
 
@@ -3254,49 +3232,27 @@ Legg merke til at `getAllTransmissions`-funksjonen skal returnere en verdi av ty
 
 ###### Registrere avhengigheter
 
-Ettersom vi innførte `getAllTransmissions` som en avhengighet til `getEpgForDate`, må vi endre `createHostBuilder` slik at `getEpgForDate` får inn denne avhengigheten.
+Ettersom vi innførte `getAllTransmissions` som en avhengighet til `getEpgForDate`, må vi endre `createWebApplication` slik at `getEpgForDate` får inn denne avhengigheten.
 
-Legg til følgende `open`-statement, og utvid `createHostBuilder` i `Program.fs` i web-API-prosjektet til å sende inn `getAllTransmissions` fra `DataAccess`-modulen til `getEpgForDate`:
+Legg til følgende `open`-statement, og utvid kallet til `app.MapGet("/epg/{date}"` i `createWebApplication` i `Program.fs` i web-API-prosjektet slik:
 
 ```f#
 ...
 open NRK.Dotnetskolen.Api.DataAccess
 ...
-let createHostBuilder args =
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(fun webBuilder -> 
-            webBuilder
-                .Configure(configureApp (getEpgForDate getAllTransmissions))
-                .ConfigureServices(configureServices)
-            |> ignore
-        )
+let createWebApplication (builder: WebApplicationBuilder) =
+    let app = builder.Build()
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAllTransmissions) date)) |> ignore
+    app
 ```
 
 Merk at over har vi kalt `getEpgForDate` med `getAllTransmissions`, og fått en ny funksjon i retur som tar inn en `DateTime` og returnerer en `Epg`-verdi. Det å sende inn et subsett av parameterene til en funksjon, og få en funksjon i retur som tar inn de resterende parameterene kalles "partial application". Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
 
-##### Fikse tester
-
-Ettersom vi har innført `getEpgForDate` som parameter til `configureApp`-funksjonen, må vi sende inn det parameteret når vi lager `IWebHostBuilder` i `createWebHostBuilder`-funksjonen i `Tests.fs` i integrasjonstestprosjektet. Legg til følgende `open`-statements, og utvid `createWebHostBuilder`-funksjonen slik:
-
-```f#
-...
-open NRK.Dotnetskolen.Api.DataAccess
-open NRK.Dotnetskolen.Api.Services
-...
-let createWebHostBuilder () =
-    WebHostBuilder()
-        .UseContentRoot(Directory.GetCurrentDirectory()) 
-        .UseEnvironment("Test")
-        .Configure(Program.configureApp (getEpgForDate getAllTransmissions))
-        .ConfigureServices(Program.configureServices)
-```
-
-Kjør testene på nytt med følgende kommando, og se om alle testene passerer nå:
+Kjør API-et med følgende kommando, gå til <http://http://localhost:5000/epg/2021-04-12>, og se hva du får i retur.
 
 ```bash
-$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-
-Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 214 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 ```
 
 #### Benytte egne avhengigheter i integrasjonstester
@@ -3305,7 +3261,7 @@ Et problem med integrasjonstestene våre slik de er nå er at vi ikke har kontro
 
 ##### Implementere mock av getAllTransmissions
 
-La oss implementere vår egen `getAllTransmissions`-funksjon i integrasjonstestprosjektet, og få `getEpgForDate` til å bruke den istedenfor.
+La oss implementere vår egen `getAllTransmissions`-funksjon i integrasjonstestprosjektet, og få API-et vårt til å bruke den istedenfor.
 
 Opprett filen `Mock.fs` i mappen `/test/integration`:
 
@@ -3328,7 +3284,7 @@ Husk å legg til `Mock.fs` i prosjektfilen til integrasjonstestprosjektet:
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
@@ -3404,22 +3360,125 @@ module Mock =
 
 ##### Benytte mock av getAllTransmissions
 
-Nå som vi har vår egen implementasjon av `getAllTransmissions`, kan vi konfigurere `getEpgForDate` til å bruke denne implementasjonen istedenfor den fra web-API-prosjektet. Det gjør vi ved å bytte ut `open`-statementen `open NRK.Dotnetskolen.Api.DataAccess` med `open NRK.Dotnetskolen.IntegrationTests.Mock`, slik:
+Nå har vi en egen implementasjon av `getAllTransmissions` som vi ønsker å bruke kun når integrasjonstestene kjører. Hvordan får vi til det? La oss se nøyere på hvordan `Program.fs` i API-prosjektet ser ut:
+
+```f#
+namespace NRK.Dotnetskolen.Api
+
+module Program = 
+
+    open System
+    open Microsoft.AspNetCore.Http
+    open Microsoft.AspNetCore.Builder
+    open NRK.Dotnetskolen.Api.Services
+    open NRK.Dotnetskolen.Api.DataAccess
+    open NRK.Dotnetskolen.Api.HttpHandlers
+
+    let createWebApplicationBuilder () =
+        WebApplication.CreateBuilder()
+
+    let createWebApplication (builder: WebApplicationBuilder) =
+        let app = builder.Build()
+        app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+        app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAllTransmissions) date)) |> ignore
+        app
+
+    let builder = createWebApplicationBuilder()
+    let app = createWebApplication builder
+    app.Run()
+```
+
+Her ser vi at `epgHandler` tar inn `getEpgForDate` "partially applied" med `getAllTransmissions` som første parameter. `getEpgForDate` og `getAllTransmissions` her er tatt fra hhv. `Services`- og `DataAccess`-modulene i API-prosjektet, men vi ønsker å sende med egne implementasjoner av disse i integrasjonstestene slik at vi har kontroll på avhengighetene til API-et under kjøring av integrasjonstestene. Husk at `runWithTestClient`-funksjonen i `Tests.fs` i integrasjonstestprosjektet kaller `createWebApplication`-funksjonen fra `Program.fs` i API-prosjektet. Dersom vi hadde utvidet `createWebApplication`-funksjonen til å ta inn `getEpgForDate` som et eget parameter kunne vi sendt én implementasjon av funksjonen fra API-et, og en annen implementasjon fra integrasjonstestene. La oss gjøre det.
+
+Legg til følgende `open`-statement, og utvid `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet med et parameter til `getEpgForDate`, og send dette inn til `epgHandler` slik:
 
 ```f#
 ...
+open NRK.Dotnetskolen.Domain
+...
+let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTime -> Epg) =
+    let app = builder.Build()
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
+    app
+```
+
+Send deretter `getEpgForDate` fra `Services`-modulen "partially applied" med `getAllTransmissions` fra `DataAccess`-modulen inn som andre parameter til `createWebApplication`, slik:
+
+```f#
+...
+let app = createWebApplication builder (getEpgForDate getAllTransmissions)
+...
+```
+
+`Program.fs` i API-prosjektet skal nå se slik ut:
+
+```f#
+namespace NRK.Dotnetskolen.Api
+
+module Program = 
+
+    open System
+    open Microsoft.AspNetCore.Http
+    open Microsoft.AspNetCore.Builder
+    open NRK.Dotnetskolen.Domain
+    open NRK.Dotnetskolen.Api.Services
+    open NRK.Dotnetskolen.Api.DataAccess
+    open NRK.Dotnetskolen.Api.HttpHandlers
+
+    let createWebApplicationBuilder () =
+        WebApplication.CreateBuilder()
+
+    let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTime -> Epg) =
+        let app = builder.Build()
+        app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+        app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
+        app
+
+    let builder = createWebApplicationBuilder()
+    let app = createWebApplication builder (getEpgForDate getAllTransmissions)
+    app.Run()
+```
+
+Nå som kan styre implementasjonen av `getEpgForDate` fra utsiden av `createWebApplication`-funksjonen kan vi lage en egen `getEpgForDate` i integrasjonstestprosjektet som bruker mock-implementasjonen av `getAllTransmissions`. Start med å åpne `Services`-modulen fra API-prosjektet, og `Mock`-modulen fra integrasjonstestprosjektet i `Tests.fs` i integrasjonstestprosjektet, slik:
+
+```f#
+...
+open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.IntegrationTests.Mock
 ...
 ```
 
-Dette sørger for at `getAllTransmissions` blir hentet fra `Mock`-modulen vår i integrasjonstestprosjektet istedenfor å bruke `DataAccess`-modulen i API-et vårt.
+Endre deretter kallet til `createWebApplication` fra `runWithTestClient` i `Tests.fs` i integrasjonstestprosjektet til å sende med en "partially applied" versjon av `getEpgForDate` fra `Services` med `getAllTransmissions` fra `Mock`-modulen slik:
+
+```f#
+...
+use app = createWebApplication builder (getEpgForDate getAllTransmissions)
+...
+```
+
+Hele `runWithTestClient`-funksjonen skal nå se slik ut:
+
+```f#
+let runWithTestClient (test: HttpClient -> Async<unit>) = 
+    async {
+        let builder = createWebApplicationBuilder()
+        builder.WebHost.UseTestServer() |> ignore
+
+        use app = createWebApplication builder (getEpgForDate getAllTransmissions)
+        do! app.StartAsync() |> Async.AwaitTask
+
+        let testClient = app.GetTestClient()
+        do! test testClient
+    } |> Async.RunSynchronously
+```
 
 Dersom du kjører integrasjonstestene igjen, skal de fortsatt passere:
 
 ```bash
 $ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-
-Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 296 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+...
+Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 124 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
 Gratulerer! 🎉
