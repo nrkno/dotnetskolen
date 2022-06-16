@@ -1,5 +1,7 @@
 module Tests
 
+open System
+open System.Net
 open System.Net.Http
 open Xunit
 open Microsoft.AspNetCore.TestHost
@@ -21,7 +23,29 @@ let runWithTestClient (test: HttpClient -> Async<unit>) =
 let ``Get "ping" returns "pong"`` () =
     runWithTestClient (fun httpClient -> 
         async {
-            let! response = httpClient.GetStringAsync("ping") |> Async.AwaitTask
+            let! response = httpClient.GetStringAsync("/ping") |> Async.AwaitTask
             Assert.Equal(response, "pong")
+        }
+    )
+
+[<Fact>]
+let ``Get EPG today returns 200 OK`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+            let url = $"/epg/{todayAsString}" 
+            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            response.EnsureSuccessStatusCode() |> ignore
+        }
+    )
+
+[<Fact>]
+let ``Get EPG invalid date returns bad request`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let invalidDateAsString = "2021-13-32"
+            let url = $"/epg/{invalidDateAsString}"
+            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
         }
     )
