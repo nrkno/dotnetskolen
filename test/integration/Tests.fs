@@ -7,7 +7,7 @@ open NRK.Dotnetskolen.Api.Program
 
 let runWithTestClient (test: HttpClient -> Async<unit>) = 
     async {
-        let builder = createWebApplicationBuilder([||])
+        let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
         use app = createWebApplication builder
