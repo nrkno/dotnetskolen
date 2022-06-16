@@ -8,3 +8,4 @@ nuget Microsoft.NET.Test.Sdk 16.11.0
 nuget xunit 2.4.1
 nuget xunit.runner.visualstudio 2.4.3
 nuget Microsoft.AspNetCore.Mvc.Testing
+nuget JsonSchema.Net

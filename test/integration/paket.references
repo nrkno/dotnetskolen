@@ -4,3 +4,4 @@ xunit.runner.visualstudio
 coverlet.collector
 FSharp.Core
 Microsoft.AspNetCore.Mvc.Testing
+JsonSchema.Net
