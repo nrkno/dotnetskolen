@@ -10,7 +10,7 @@ module Program =
 
     let createWebApplication (builder: WebApplicationBuilder) =
         let app = builder.Build()
-        app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
+        app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
         app
 
     let builder = createWebApplicationBuilder()
