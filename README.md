@@ -129,7 +129,7 @@ All dokumentasjon (inkludert denne veiledningen) og kildekoden i dette repoet er
 
 ### Versjoner av .NET
 
-Opprinnelig var .NET kun tilgjengelig på Windows. Denne versjonen av .NET omtales som .NET Framework. Etter hvert kom implementasjoner av kjøretidsmiljøet til andre plattformer også, som Mono til Linux og Mac, og Xamarin til Android og iOS. Både Mono og Xamarin var opprinnelig drevet av andre selskaper enn Microsoft. I 2016 lanserte Microsoft en ny versjon av .NET, .NET Core, som er en implementasjon av .NET for alle plattformer (Windows, Mac og Linux). .NET Core gikk gjennom tre hovedversjoner, i parallell med .NET Framework som nådde sin siste versjon, 4.8, i 2019. .NET Framework blir ikke videreutviklet, og i 2020 lanserte Microsoft .NET 5 som er den nyeste versjon av .NET Core. .NET 5 er den versjonen Microsoft vil fortsette å utvikle fremover.
+Opprinnelig var .NET kun tilgjengelig på Windows. Denne versjonen av .NET omtales som .NET Framework. Etter hvert kom implementasjoner av kjøretidsmiljøet til andre plattformer også, som Mono til Linux og Mac, og Xamarin til Android og iOS. Både Mono og Xamarin var opprinnelig drevet av andre selskaper enn Microsoft. I 2016 lanserte Microsoft en ny versjon av .NET, .NET Core, som er en implementasjon av .NET for alle plattformer (Windows, Mac og Linux). .NET Core gikk gjennom tre hovedversjoner, i parallell med .NET Framework som nådde sin siste versjon, 4.8, i 2019. .NET Framework blir ikke videreutviklet, og i 2020 lanserte Microsoft .NET 5 som er den versjonen Microsoft vil fortsette å utvikle fremover. I skrivende stund (2022-02-04) er .NET 6 den nyeste versjonen av .NET.
 
 For å definere hva som er tilgjengelig i de ulike versjonene av .NET har Microsoft laget en spesifikasjon, .NET Standard. .NET Standard har flere versjoner, og de ulike versjonene av .NET (.NET Framework, .NET Core, Mono etc.) følger spesifikasjonen i en gitt versjon av .NET Standard. Les mer om .NET Standard, og kompatibilitet på tvers av .NET-versjoner her: [https://docs.microsoft.com/en-us/dotnet/standard/net-standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
 
@@ -191,12 +191,12 @@ Når man installerer .NET har man valget mellom å installere
   - Kompilatorer
   - .NET CLI - kommandolinjeverktøy for å bygge, kjøre og publisere .NET-applikasjoner
 
-Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 5, men de fleste kommandoene fungerer nok med en versjon av .NET Core, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
+Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 6, men de fleste kommandoene fungerer nok med en versjon av .NET Core, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
 
 ```bash
 $ dotnet --version
 
-5.0.103
+6.0.101
 ```
 
 Dersom du ikke har .NET installert på maskinen din, kan du laste det ned her: [https://dotnet.microsoft.com/download/dotnet](https://dotnet.microsoft.com/download/dotnet)
@@ -361,18 +361,18 @@ I dette steget starter vi med en mappe helt uten kode, og bruker .NET CLI til å
 
 #### .NET-versjon
 
-Siden denne veiledningen er skrevet for .NET 5, og det er mulig at du har flere .NET-versjoner installert på maskinen din, må vi instruere .NET CLI til å benytte .NET 5 når vi kjører kommandoene i veiledningen. Dette gjør vi ved å opprette en konfigurasjonsfil `global.json` i roten av repoet med følgende innhold:
+Siden denne veiledningen er skrevet for .NET 6, og det er mulig at du har flere .NET-versjoner installert på maskinen din, må vi instruere .NET CLI til å benytte .NET 6 når vi kjører kommandoene i veiledningen. Dette gjør vi ved å opprette en konfigurasjonsfil `global.json` i roten av repoet med følgende innhold:
 
 ```json¨
 {
     "sdk": {
-        "version": "5.0.0",
+        "version": "6.0.0",
         "rollForward": "latestMinor"
     }
 }
 ```
 
-Her oppgir vi at vi i utgangspunktet ønsker å bruke version `5.0.0` av .NET SDK. I tillegg sier vi gjennom `rollForward: latestMinor` at vi ønsker at den høyeste tilgjengelige versjonen av .NET 5 på maskinen din skal brukes. 
+Her oppgir vi at vi i utgangspunktet ønsker å bruke version `6.0.0` av .NET SDK. I tillegg sier vi gjennom `rollForward: latestMinor` at vi ønsker at den høyeste tilgjengelige versjonen av .NET 6 på maskinen din skal brukes.
 
 > Du kan lese mer om `global.json` her: [https://docs.microsoft.com/en-us/dotnet/core/tools/global-json](https://docs.microsoft.com/en-us/dotnet/core/tools/global-json)
 
@@ -392,7 +392,7 @@ Som nevnt i [innledningen](#innledning) er .NET CLI et kommandolinjeverktøy lag
 ```bash
 $ dotnet --help
 
-.NET SDK (5.0.103)
+.NET SDK (6.0.101)
 Usage: dotnet [runtime-options] [path-to-application] [arguments]
 
 Execute a .NET application.
@@ -425,6 +425,7 @@ SDK commands:
   build             Build a .NET project.
   build-server      Interact with servers started by a build.
   clean             Clean build outputs of a .NET project.
+  format            Apply style preferences to a project or solution.
   help              Show command line help.
   list              List project references of a .NET project.
   msbuild           Run Microsoft Build Engine (MSBuild) commands.
@@ -435,11 +436,13 @@ SDK commands:
   remove            Remove a package or reference from a .NET project.
   restore           Restore dependencies specified in a .NET project.
   run               Build and run a .NET project output.
+  sdk               Manage .NET SDK installation.
   sln               Modify Visual Studio solution files.
   store             Store the specified assemblies in the runtime package store.
   test              Run unit tests using the test runner specified in a .NET project.
   tool              Install or manage tools that extend the .NET experience.
   vstest            Run Microsoft Test Engine (VSTest) commands.
+  workload          Manage optional workloads.
 
 Additional commands from bundled tools:
   dev-certs         Create and manage development certificates.
@@ -453,55 +456,52 @@ Run 'dotnet [command] --help' for more information on a command.
 
 #### Maler
 
-For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. `dotnet new` oppretter .NET-prosjekter, og som første parameter tar `new`-kommandoen inn hva slags mal prosjektet man oppretter skal følge. Når man installerer .NET SDK får man med et sett med forhåndsdefinerte prosjektmaler for vanlige formål. For å se malene som er installert på din maskin kan du kjøre `dotnet new` slik:
+For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. `dotnet new` oppretter .NET-prosjekter, og som første parameter tar `new`-kommandoen inn hva slags mal prosjektet man oppretter skal følge. Når man installerer .NET SDK får man med et sett med forhåndsdefinerte prosjektmaler for vanlige formål. For å se malene som er installert på din maskin kan du kjøre `dotnet new --list` slik:
 
 ```bash
-$ dotnet new
+$ dotnet new --list
 
-Templates                                         Short Name               Language          Tags
---------------------------------------------      -------------------      ------------      ----------------------
-Console Application                               console                  [C#], F#, VB      Common/Console        
-Class library                                     classlib                 [C#], F#, VB      Common/Library        
-WPF Application                                   wpf                      [C#], VB          Common/WPF
-WPF Class library                                 wpflib                   [C#], VB          Common/WPF
-WPF Custom Control Library                        wpfcustomcontrollib      [C#], VB          Common/WPF
-WPF User Control Library                          wpfusercontrollib        [C#], VB          Common/WPF
-Windows Forms App                                 winforms                 [C#], VB          Common/WinForms       
-Windows Forms Control Library                     winformscontrollib       [C#], VB          Common/WinForms       
-Windows Forms Class Library                       winformslib              [C#], VB          Common/WinForms       
-Worker Service                                    worker                   [C#], F#          Common/Worker/Web     
-Unit Test Project                                 mstest                   [C#], F#, VB      Test/MSTest
-NUnit 3 Test Project                              nunit                    [C#], F#, VB      Test/NUnit
-NUnit 3 Test Item                                 nunit-test               [C#], F#, VB      Test/NUnit
-xUnit Test Project                                xunit                    [C#], F#, VB      Test/xUnit
-Razor Component                                   razorcomponent           [C#]              Web/ASP.NET
-Razor Page                                        page                     [C#]              Web/ASP.NET
-MVC ViewImports                                   viewimports              [C#]              Web/ASP.NET
-MVC ViewStart                                     viewstart                [C#]              Web/ASP.NET
-Blazor Server App                                 blazorserver             [C#]              Web/Blazor
-Blazor WebAssembly App                            blazorwasm               [C#]              Web/Blazor/WebAssembly
-ASP.NET Core Empty                                web                      [C#], F#          Web/Empty
-ASP.NET Core Web App (Model-View-Controller)      mvc                      [C#], F#          Web/MVC
-ASP.NET Core Web App                              webapp                   [C#]              Web/MVC/Razor Pages
-ASP.NET Core with Angular                         angular                  [C#]              Web/MVC/SPA
-ASP.NET Core with React.js                        react                    [C#]              Web/MVC/SPA
-ASP.NET Core with React.js and Redux              reactredux               [C#]              Web/MVC/SPA
-Razor Class Library                               razorclasslib            [C#]              Web/Razor/Library
-ASP.NET Core Web API                              webapi                   [C#], F#          Web/WebAPI
-ASP.NET Core gRPC Service                         grpc                     [C#]              Web/gRPC
-dotnet gitignore file                             gitignore                                  Config
-global.json file                                  globaljson                                 Config
-NuGet Config                                      nugetconfig                                Config
-Dotnet local tool manifest file                   tool-manifest                              Config
-Web Config                                        webconfig                                  Config
-Solution File                                     sln                                        Solution
-Protocol Buffer File                              proto                                      Web/gRPC
+These templates matched your input:
 
-Examples:
-    dotnet new mvc --auth Individual
-    dotnet new mstest
-    dotnet new --help
-    dotnet new nunit --help
+Template Name                                 Short Name           Language    Tags
+--------------------------------------------  -------------------  ----------  -------------------------------------
+ASP.NET Core Empty                            web                  [C#],F#     Web/Empty
+ASP.NET Core gRPC Service                     grpc                 [C#]        Web/gRPC
+ASP.NET Core Web API                          webapi               [C#],F#     Web/WebAPI
+ASP.NET Core Web App                          razor,webapp         [C#]        Web/MVC/Razor Pages
+ASP.NET Core Web App (Model-View-Controller)  mvc                  [C#],F#     Web/MVC
+ASP.NET Core with Angular                     angular              [C#]        Web/MVC/SPA
+ASP.NET Core with React.js                    react                [C#]        Web/MVC/SPA
+ASP.NET Core with React.js and Redux          reactredux           [C#]        Web/MVC/SPA
+Blazor Server App                             blazorserver         [C#]        Web/Blazor
+Blazor WebAssembly App                        blazorwasm           [C#]        Web/Blazor/WebAssembly/PWA
+Class Library                                 classlib             [C#],F#,VB  Common/Library
+Console App                                   console              [C#],F#,VB  Common/Console
+dotnet gitignore file                         gitignore                        Config
+Dotnet local tool manifest file               tool-manifest                    Config
+EditorConfig file                             editorconfig                     Config
+global.json file                              globaljson                       Config
+MSTest Test Project                           mstest               [C#],F#,VB  Test/MSTest
+MVC ViewImports                               viewimports          [C#]        Web/ASP.NET
+MVC ViewStart                                 viewstart            [C#]        Web/ASP.NET
+NuGet Config                                  nugetconfig                      Config
+NUnit 3 Test Item                             nunit-test           [C#],F#,VB  Test/NUnit
+NUnit 3 Test Project                          nunit                [C#],F#,VB  Test/NUnit
+Protocol Buffer File                          proto                            Web/gRPC
+Razor Class Library                           razorclasslib        [C#]        Web/Razor/Library/Razor Class Library
+Razor Component                               razorcomponent       [C#]        Web/ASP.NET
+Razor Page                                    page                 [C#]        Web/ASP.NET
+Solution File                                 sln                              Solution
+Web Config                                    webconfig                        Config
+Windows Forms App                             winforms             [C#],VB     Common/WinForms
+Windows Forms Class Library                   winformslib          [C#],VB     Common/WinForms
+Windows Forms Control Library                 winformscontrollib   [C#],VB     Common/WinForms
+Worker Service                                worker               [C#],F#     Common/Worker/Web
+WPF Application                               wpf                  [C#],VB     Common/WPF
+WPF Class library                             wpflib               [C#],VB     Common/WPF
+WPF Custom Control Library                    wpfcustomcontrollib  [C#],VB     Common/WPF
+WPF User Control Library                      wpfusercontrollib    [C#],VB     Common/WPF
+xUnit Test Project                            xunit                [C#],F#,VB  Test/xUnit
 ```
 
 I tillegg til å styre hva slags type prosjekt man vil opprette med `new`-kommandoen, har man mulighet til å styre ting som hvilket språk man ønsker prosjektet skal opprettes for, og i hvilken mappe prosjektet opprettes i. For å se alle valgene man har i `dotnet new` kan du kjøre følgende kommando
@@ -572,7 +572,7 @@ Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -585,7 +585,7 @@ Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med
 Her ser vi at prosjektet:
 
 - Har outputtypen `exe` - prosjektet kompileres til å bli en kjørbar fil
-- Skal kompileres til .NET 5
+- Skal kompileres til .NET 6
 - Består av én fil `Program.fs`
 
 ##### Programfilen
@@ -593,32 +593,11 @@ Her ser vi at prosjektet:
 For å se hva programmet gjør kan vi åpne `Program.fs` og se på koden:
 
 ```f#
-// Learn more about F# at http://docs.microsoft.com/dotnet/fsharp
-
-open System
-
-// Define a function to construct a message to print
-let from whom =
-    sprintf "from %s" whom
-
-[<EntryPoint>]
-let main argv =
-    let message = from "F#" // Call the function
-    printfn "Hello world %s" message
-    0 // return an integer exit code
+// For more information see https://aka.ms/fsharp-console-apps
+printfn "Hello from F#"
 ```
 
-Helt i starten av filen ser vi at programmet åpner en modul `System`. Denne modulen er definert i .NET sitt "base class library" - en samling biblioteker som tilbyr mye brukt funksjonalitet, skrevet av Microsoft.
-
-I tillegg ser vi at programmet har to funksjoner:
-
-- `from`
-  - Tar inn et parameter `whom`, og returnerer en tekststreng `from <whom>`
-- `main`
-  - Annotert med `[<EntryPoint>]` - Det er slik .NET vet hvilken funksjon den skal kalle når programmet starter
-  - Får inn argumenter gitt til programmet gjennom parmeteret `argv`
-  - Deklarerer en verdi `message` som er lik resultatet av å kalle `from`-funksjonen med `F#` som input
-  - Skriver tekststrengen `Hello world from F#` til output
+Malen la inn kun én linje i `Program.fs` som skriver tekststrengen `Hello world from F#` til output. Fra andre programmeringsspråk er du kanskje vant til å se en `main`-funksjon eller liknende, men det ser vi ikke her. Grunnen til det er at F# bruker et implisitt startpunkt som er på toppen av filen. Deretter utføres koden linje for linje slik som spesifisert i filen. Det er også mulig å bruke eksplisitte startpunkter i F#-programmer. Les mer om det her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point)
 
 > Navnet til prosjektet `NRK.Dotnetskolen.Api.fsproj` følger Microsoft sin navnekonvensjon for programmer og biblioteker i .NET. For å lese mer om denne, og andre navnekonvensjoner i .NET, kan du se her: [https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls)
 >
@@ -787,7 +766,7 @@ test
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
@@ -799,13 +778,13 @@ test
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="1.3.0">
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -816,7 +795,7 @@ test
 
 I prosjektfilen kan vi se at enhetstestprosjektet:
 
-- Skal kompileres til .NET 5
+- Skal kompileres til .NET 6
 - Inneholder to kildekodefiler
   - `Tests.fs`
   - `Program.fs`
@@ -989,21 +968,18 @@ Hvis vi ser på innholdet i `Dotnetskolen.sln` ser vi at det ikke er noen refera
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.6.30114.105
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|Any CPU = Release|Any CPU
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
+ GlobalSection(SolutionConfigurationPlatforms) = preSolution
+  Debug|Any CPU = Debug|Any CPU
+  Release|Any CPU = Release|Any CPU
+ EndGlobalSection
+ GlobalSection(SolutionProperties) = preSolution
+  HideSolutionNode = FALSE
+ EndGlobalSection
 EndGlobal
+
 ```
 
 #### Legge til prosjekter i solution
@@ -1030,74 +1006,47 @@ Nå ser vi at `Dotnetskolen.sln` inneholder referanser til prosjektene våre
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.6.30114.105
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B029A5BA-0144-4C70-92FB-626C6348BD46}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E9AA01D7-D310-46F7-B383-06FE72E1AD22}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.Api", "src\api\NRK.Dotnetskolen.Api.fsproj", "{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.Api", "src\api\NRK.Dotnetskolen.Api.fsproj", "{08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A53A8A2E-FED1-4E9A-801B-56F9DEB5BC41}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{66EF0E86-AB2C-4969-A41E-84D88D553785}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.UnitTests", "test\unit\NRK.Dotnetskolen.UnitTests.fsproj", "{B469E9C6-8E0D-4129-86BE-3A31F0853361}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.UnitTests", "test\unit\NRK.Dotnetskolen.UnitTests.fsproj", "{CB49FB6A-9415-4F77-A438-479A056C96D6}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.IntegrationTests", "test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj", "{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.IntegrationTests", "test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj", "{4EFF064D-031F-4D0B-A6A9-560DDA1347C1}"
 EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|Any CPU = Release|Any CPU
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Debug|x64.Build.0 = Debug|Any CPU
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Debug|x86.Build.0 = Debug|Any CPU
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Release|x64.ActiveCfg = Release|Any CPU
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Release|x64.Build.0 = Release|Any CPU
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Release|x86.ActiveCfg = Release|Any CPU
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77}.Release|x86.Build.0 = Release|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Debug|x64.Build.0 = Debug|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Debug|x86.Build.0 = Debug|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Release|x64.ActiveCfg = Release|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Release|x64.Build.0 = Release|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Release|x86.ActiveCfg = Release|Any CPU
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361}.Release|x86.Build.0 = Release|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Debug|x64.Build.0 = Debug|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Debug|x86.Build.0 = Debug|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Release|x64.ActiveCfg = Release|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Release|x64.Build.0 = Release|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Release|x86.ActiveCfg = Release|Any CPU
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D}.Release|x86.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{65DD6510-FFD6-4B5D-B6A0-4D6C94969D77} = {B029A5BA-0144-4C70-92FB-626C6348BD46}
-		{B469E9C6-8E0D-4129-86BE-3A31F0853361} = {A53A8A2E-FED1-4E9A-801B-56F9DEB5BC41}
-		{A7B1B28B-6889-4E4B-B266-ADE3A294A39D} = {A53A8A2E-FED1-4E9A-801B-56F9DEB5BC41}
-	EndGlobalSection
+ GlobalSection(SolutionConfigurationPlatforms) = preSolution
+  Debug|Any CPU = Debug|Any CPU
+  Release|Any CPU = Release|Any CPU
+ EndGlobalSection
+ GlobalSection(SolutionProperties) = preSolution
+  HideSolutionNode = FALSE
+ EndGlobalSection
+ GlobalSection(ProjectConfigurationPlatforms) = postSolution
+  {08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+  {08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+  {08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+  {08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7}.Release|Any CPU.Build.0 = Release|Any CPU
+  {CB49FB6A-9415-4F77-A438-479A056C96D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+  {CB49FB6A-9415-4F77-A438-479A056C96D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+  {CB49FB6A-9415-4F77-A438-479A056C96D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+  {CB49FB6A-9415-4F77-A438-479A056C96D6}.Release|Any CPU.Build.0 = Release|Any CPU
+  {4EFF064D-031F-4D0B-A6A9-560DDA1347C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+  {4EFF064D-031F-4D0B-A6A9-560DDA1347C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+  {4EFF064D-031F-4D0B-A6A9-560DDA1347C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+  {4EFF064D-031F-4D0B-A6A9-560DDA1347C1}.Release|Any CPU.Build.0 = Release|Any CPU
+ EndGlobalSection
+ GlobalSection(NestedProjects) = preSolution
+  {08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7} = {E9AA01D7-D310-46F7-B383-06FE72E1AD22}
+  {CB49FB6A-9415-4F77-A438-479A056C96D6} = {66EF0E86-AB2C-4969-A41E-84D88D553785}
+  {4EFF064D-031F-4D0B-A6A9-560DDA1347C1} = {66EF0E86-AB2C-4969-A41E-84D88D553785}
+ EndGlobalSection
 EndGlobal
+
 ```
 
 #### Solution i Visual Studio
@@ -1185,7 +1134,7 @@ Nå ser vi at Paket er lagt til i listen over tools i `dotnet-tools.json`
   "isRoot": true,
   "tools": {
     "paket": {
-      "version": "5.257.0",
+      "version": "6.2.1",
       "commands": [
         "paket"
       ]
@@ -1201,7 +1150,7 @@ For å installere Paket kan du kjøre følgende kommando
 ```bash
 $ dotnet tool restore
 
-Tool 'paket' (version '5.257.0') was restored. Available commands: paket
+Tool 'paket' (version '6.2.1') was restored. Available commands: paket
 
 Restore was successful.
 ```
@@ -1216,67 +1165,15 @@ Paket bruker følgende filer for å holde styr på pakkene i en løsning:
 
 > Se forøvrig [https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit](https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit) for hvilke filer du skal inkludere i Git.
 
-##### Initialisere Paket
-
-Som nevnt over, bruker Paket filen `paket.dependencies` til å holde oversikt over hvilken avhengigheter løsningen har. For å opprette denne kan du kjøre følgende kommando
-
-```bash
-$ dotnet paket init
-
-Paket version 5.257.0
-Saving file C:\Dev\nrkno@github.com\dotnetskolen\paket.dependencies
-Performance:
- - Runtime: 500 milliseconds
-```
-
-Du skal nå ha følgende filer i mappen din
-
-```txt
-└── .config
-    └── dotnet-tools.json
-src
-└── ...
-test
-└── ...
-└── Dotnetskolen.sln
-└── paket.dependencies
-```
-
-De øvrige filene `*/paket.references` og `paket.lock` blir opprettet når man begynner å legge til avhengigheter i prosjekter.
-
-##### .NET 5
-
-På tidspunktet dette kurset ble skrevet legger ikke Paket inn .NET 5 i `paket.dependencies` ved kjøring av `dotnet paket init`. Dette kan vi se ved å åpne `paket.dependencies` og se på hva som er lagt inn for `framework`:
-
-```txt
-
-source https://api.nuget.org/v3/index.json
-
-storage: none
-framework: netcoreapp3.1, netstandard2.0, netstandard2.1
-```
-
-Dersom du kjører .NET 5 på din maskin, sørg for å legge til `net5` på starten av verdien for `framework`, slik:
-
-```txt
-
-source https://api.nuget.org/v3/index.json
-
-storage: none
-framework: net5, netcoreapp3.1, netstandard2.0, netstandard2.1
-```
-
 #### Migrere pakker fra NuGet til Paket
 
-Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til NuGet-pakker som testprosjektene er avhengige av. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene.
-
-`test/unit/NRK.Dotnetskolen.UnitTests.fsproj`:
+Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til NuGet-pakker som testprosjektene er avhengige av. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene. Dette ser vi under i `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`. Det samme gjelder prosjektfilen til integrasjonstestprosjektet.
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
@@ -1288,13 +1185,13 @@ Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), b
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="1.3.0">
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -1303,96 +1200,43 @@ Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), b
 </Project>
 ```
 
-Siden vi ønsker å benytte Paket til å håndtere pakkene i løsningen vår, må vi migrere disse pakkene til Paket. Det gjør vi ved å fjerne pakkereferansene fra `.fsproj`-filene, og legge dem til via Paket istedenfor.
-
-##### Fjerne pakkereferanser via NuGet
-
-For å fjerne pakkereferansene fra enhetstestprosjektet
-
-1. Åpne filen `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`
-2. Fjern det siste `<ItemGroup>`-elementet - det som inneholder referanser til `Microsoft.NET.Test.Sdk`, `xunit`, `xunit.runner.visualstudio` og `coverlet.collector`
-3. Lagre prosjektfilen
-
-Gjenta stegene over for `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` for å fjerne pakkereferansene fra integrasjonstestprosjektet.
-
-##### Legge til pakkereferanser via Paket
-
-###### Enhetstestprosjektet
-
-Kjør følgende kommandoer for å legge til pakkereferansene i enhetstestprosjektet via Paket:
+Siden vi ønsker å benytte Paket til å håndtere pakkene i løsningen vår, må vi migrere disse pakkene fra NuGet til Paket. Dette kan vi gjøre ved å bruke den innebygde kommandoen `convert-from-nuget` i Paket, slik:
 
 ```bash
-
-$ dotnet paket add FSharp.Core --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
-...
-
-$ dotnet paket add Microsoft.NET.Test.Sdk --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
-...
-
-$ dotnet paket add xunit --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
-...
-
-$ dotnet paket add xunit.runner.visualstudio --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
-...
-
-$ dotnet paket add coverlet.collector --project test/unit/NRK.Dotnetskolen.UnitTests.fsproj
-...
+dotnet paket convert-from-nuget
 ```
 
-> Merk at NuGet-pakken `FSharp.Core` ikke var listet ut i `.fsproj`-filene til enhets- og integrasjonstestprosjektene. Vi er imidlertid avhengig av å ha denne pakken for å få kjørt testene. Derfor er den lagt til eksplisitt via Paket over.
+Nå skal alle pakkene som er brukt på tvers av alle prosjektene i løsningen være lagt til i en ny fil `paket.dependencies`:
 
-###### Integrasjontestprosjektet
+```txt
+source "C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\"
+source https://www.myget.org/F/nrk/auth/c64eb6ac-a674-493a-9099-320dee35da47/api/v3/index.json
+source https://api.nuget.org/v3/index.json
 
-Gjenta kommandoene for integrasjonstestprosjektet ved å bytte ut `test/unit/NRK.Dotnetskolen.UnitTests.fsproj` med `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`:
-
-```bash
-
-$ dotnet paket add FSharp.Core --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
-
-$ dotnet paket add Microsoft.NET.Test.Sdk --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
-
-$ dotnet paket add xunit --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
-
-$ dotnet paket add xunit.runner.visualstudio --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
-
-$ dotnet paket add coverlet.collector --project test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+nuget FSharp.Core
+nuget coverlet.collector 3.1.0
+nuget Microsoft.NET.Test.Sdk 16.11.0
+nuget xunit 2.4.1
+nuget xunit.runner.visualstudio 2.4.3
 ```
 
-Verifiser at testprosjektene fortsatt kjører ved å kjøre `dotnet test` i rotmappen din:
+I tillegg skal pakkereferansene i et prosjekt være flyttet til en ny fil `paket.references` i roten av prosjektmappen. Under ser vi hvordan `paket.references`-filen ser ut for enhetstestprosjektet. Det samme gjelder integrasjonstestprosjektet.
 
-```bash
-$ dotnet test
-
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
-  NRK.Dotnetskolen.IntegrationTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\integration\bin\Debug\net5.0\NRK.Dotnetskolen.IntegrationTests.dll
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\integration\bin\Debug\net5.0\NRK.Dotnetskolen.IntegrationTests.dll (.NETCoreApp,Version=v5.0)
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.   
-
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.   
-
-Starting test execution, please wait...
-Starting test execution, please wait...
-A total of 1 test files matched the specified pattern.
-A total of 1 test files matched the specified pattern.
-
-
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 1 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)       
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 1 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+```txt
+Microsoft.NET.Test.Sdk
+xunit
+xunit.runner.visualstudio
+coverlet.collector
+FSharp.Core
 ```
+
+Du kan lese mer om hvordan `convert-from-nuget`-kommandoen fungerer her: [https://fsprojects.github.io/Paket/convert-from-nuget-tutorial.html](https://fsprojects.github.io/Paket/convert-from-nuget-tutorial.html)
 
 Nå er du klar til å legge til avhengigheter i prosjektet ditt!
 
 > Merk at vi kunne ha latt være å opprette testprosjektene med malen `xunit`, og heller satt opp testprosjektene fra bunnen av ved å bruke `console`-malen. Da hadde vi unngått å måtte migrere NuGet-pakkene til Paket. Kurset er imidlertid lagt opp på denne måten for å illustrere bruken av ulike maler i .NET SDK.
+
+> Takk til [@laat](https://github.com/laat) som tipset om `convert-from-nuget`-kommandoen i Paket!
 
 ### Steg 5 - Definere domenemodell
 
@@ -1491,21 +1335,21 @@ open NRK.Dotnetskolen.Domain
 
 > Merk at noen har rapportert om problemer med feilmeldinger i Rider etter å ha lagt til denne `open`-statementen. Dersom du opplever det samme kan du høyreklikke på "Solution"-noden i Rider, og klikke på "Unload" etterfulgt av "Reload". Dette skal forhåpentligvis rette opp i problemet.
 
-Endre deretter `main`-funksjonen til å opprette en `EPG`-verdi slik:
+Endre deretter `Program.fs` til å opprette en `EPG`-verdi slik:
 
 ```f#
-[<EntryPoint>]
-let main argv =
-    let epg = [
-        {
-            Tittel = "Dagsrevyen"
-            Kanal = "NRK1"
-            StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
-            SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
-        }
-    ]
-    printfn "%A" epg
-    0 // return an integer exit code
+open System
+open NRK.Dotnetskolen.Domain
+
+let epg = [
+    {
+        Tittel = "Dagsrevyen"
+        Kanal = "NRK1"
+        StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+        SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
+    }
+]
+printfn "%A" epg
 ```
 
 Her oppretter vi en variabel `epg` som er en liste med sendinger, slik vi definerte i `Domain.fs`.
@@ -1623,7 +1467,7 @@ Du kan se effekten av kommandoen over ved å åpne `test/unit/NRK.Dotnetskolen.U
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
@@ -2238,7 +2082,7 @@ I [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på
 }
 ```
 
-> Merk at [https://editor.swagger.io/](https://editor.swagger.io/) ikke støtter at JSON Schema og Open-API-kontrakt er definert i to forskjelliege filer. Derfor er kontrakten over en sammenslåing av `epg.schema.json` og `openapi.json`.
+> Merk at [https://editor.swagger.io/](https://editor.swagger.io/) ikke støtter at JSON Schema og Open-API-kontrakt er definert i to forskjellige filer. Derfor er kontrakten over en sammenslåing av `epg.schema.json` og `openapi.json`.
 
 ### Steg 8 - Implementere kontraktstyper
 
@@ -2296,7 +2140,7 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -2312,7 +2156,7 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 
 **Steg 9 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-8---implementere-kontraktstyper) [⬇ Neste steg](#steg-10---implementere-web-api)
 
-I dette steget skal vi sette opp et skall for web-API-et, og verifisere at vi når API-et ved å skrive en integrasjonstest.
+I dette steget skal vi sette opp et skall for web-API-et, og verifisere at vi når API-et ved å skrive en integrasjonstest. Før vi begynner å kode skal vi se på et par relevante konsepter i .NET.
 
 #### Prosjekttyper
 
@@ -2322,15 +2166,18 @@ Fra og med .NET Core opererer .NET med ulike SDK-prosjekttyper avhengig av hva s
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Web">
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="Domain.fs" />
     <Compile Include="Dto.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+
 </Project>
 ```
 
@@ -2340,7 +2187,7 @@ Gjenta steget over for `test/integration/NRK.Dotnetskolen.IntegrationTests.fspro
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
@@ -2360,29 +2207,19 @@ Før vi setter opp skallet til web-API-et, skal vi se på noen grunnleggende kon
 
 ##### Host
 
-Når vi utvikler og kjører en applikasjon har vi behov for tilgang til felles ressurser som konfigurasjon, avhengigheter og logging. I tillegg ønsker vi å ha kontroll på hvordan prosessen til applikasjonen vår starter og slutter. Microsoft tilbyr et objekt, `IHost`, som holder styr på disse tingene for oss. Typisk bygger man opp og starter et `IHost`-objekt i `Program.fs`. Det skal vi gjøre nå i en ny funksjon vi kaller `createHostBuilder`.
+Når vi utvikler og kjører en applikasjon har vi behov for tilgang til felles ressurser som konfigurasjon, avhengigheter og logging. I tillegg ønsker vi å ha kontroll på hvordan prosessen til applikasjonen vår starter og slutter. Microsoft tilbyr et objekt, `IHost`, som holder styr på disse tingene for oss. Typisk bygger man opp og starter et `IHost`-objekt i `Program.fs`. Det skal vi gjøre nå ved å kalle en innebygd funksjon i Microsoft sitt bibliotek `Host.CreateDefaultBuilder`.
 
 Åpne `Program.fs` i web-API-prosjektet og erstatt innholdet med følgende:
 
 ```f#
-namespace NRK.Dotnetskolen.Api
+open Microsoft.Extensions.Hosting
 
-module Program = 
-
-    open Microsoft.Extensions.Hosting
-
-    let createHostBuilder args =
-        Host.CreateDefaultBuilder(args)
-
-    [<EntryPoint>]
-    let main argv =
-        createHostBuilder(argv).Build().Run()
-        0
+Host.CreateDefaultBuilder().Build().Run()
 ```
 
-Her oppretter vi en modul, `Program`, i namespacet `NRK.Dotnetskolen.Api`. I `Program`-modulen åpner vi `Microsoft.Extensions.Hosting` for å få tilgang til `CreateDefaulBuilder`. I `createHostBuilder`-funksjonen kaller vi funksjonen `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter gitt inn gjennom `args`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
+Her åpner vi `Microsoft.Extensions.Hosting` for å få tilgang til `CreateDefaultBuilder`. Vi kaller funksjonen `Host.CreateDefaultBuilder`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
 
-Til slutt bygger vi hosten vår, og starter den slik med `createHostBuilder(argv).Build().Run()` i `main`-funksjonen.
+Til slutt bygger vi hosten vår, og starter den slik `Host.CreateDefaultBuilder().Build().Run()`.
 
 ###### Kjøre host
 
@@ -2398,7 +2235,7 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: C:\Dev\nrkno@github.com\dotnetskolen\src\api
 ```
 
-Foreløpig gjør ikke hosten vår noen ting. Den bare starter, og kjører helt til vi avslutter den ved å trykke `Ctrl+C` i terminalen. I outputen over ser vi imidlertid tre logginnslag av typen `info` som er blitt skrevet av hosten. Dette illustrerer at `CreateDefaulBuilder` har satt opp logging til konsoll. Logginnslagene forteller at applikasjonen har startet, at miljøet er `Production`, og hva filstien til "content root" er.
+Foreløpig gjør ikke hosten vår noen ting. Den bare starter, og kjører helt til vi avslutter den ved å trykke `Ctrl+C` i terminalen. I outputen over ser vi imidlertid tre logginnslag av typen `info` som er blitt skrevet av hosten. Dette illustrerer at `CreateDefaultBuilder` har satt opp logging til konsoll. Logginnslagene forteller at applikasjonen har startet, at miljøet er `Production`, og hva filstien til "content root" er.
 
 Trykk `Ctrl+C` for å stoppe hosten:
 
@@ -2410,45 +2247,25 @@ info: Microsoft.Hosting.Lifetime[0]
 
 > `Production` er default miljø i .NET med mindre annet er spesifisert. Du kan lese mer om miljøer i .NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-5.0)
 >
-> Du kan lese mer om `Host`-konseptet og hva det innebærer her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-5.0)
+> Du kan lese mer om `Host`-konseptet og hva det innebærer her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-6.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-6.0)
 
 ##### Middleware pipeline
 
 Microsoft har laget et rammeverk for web-applikasjoner i .NET, ASP.NET (ASP står for "active server pages"). Web-applikasjoner i ASP.NET er konfigurerbare og modulære, og gjennom å konfigurere modulene i den har man kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren, og til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørslen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline".
 
-> Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0#create-a-middleware-pipeline-with-iapplicationbuilder](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0#create-a-middleware-pipeline-with-iapplicationbuilder)
+> Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-iapplicationbuilder](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-iapplicationbuilder)
 
 Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørslen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørslen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørslen videre i pipelinen dersom den ikke er tilstrekkelig autentisert. Pga. denne kortslutningen ligger autentisering tidlig i listen over mellomvarer.
 
-Hosten vi opprettet i forrige avsnitt er et utgangspunkt for hvilken som helst applikasjon. Det kan bli f.eks. en bakgrunnstjeneste eller en web-applikasjon. Siden vi skal lage et web-API skal vi gå videre med å tilpasse hosten til å bli en web-server. Det kan vi gjøre ved å kalle funksjonen `ConfigureWebHostDefaults` på `Host`, slik:
+Hosten vi opprettet i forrige avsnitt er et utgangspunkt for hvilken som helst applikasjon. Det kan bli f.eks. en bakgrunnstjeneste eller en web-applikasjon. Siden vi skal lage et web-API skal vi gå videre med å tilpasse hosten til å bli en web-server. Microsoft har laget en spesiell funksjon akkurat til dette formålet: `WebApplication.CreateBuilder`. Denne likner på `Host.CreateDefaultBuilder` som vi brukte i tidligere i avsnittet om [host](#Host), bare at hosten den lager er en web-server som har mulighet til å konfigurere en "middleware pipeline". For å lage en web-applikasjon istedenfor en generisk applikasjon, åpne `Microsoft.AspNetCore.Builder`, og bytt ut linjen `Host.CreateDefaultBuilder().Build().Run()` med `WebApplication.CreateBuilder().Build().Run()` slik at `Program.fs` i API-prosjektet nå ser slik ut:
 
 ```f#
-let createHostBuilder args =
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(fun webHostBuilder -> ())
-```
-
-`ConfigureWebHostDefaults` sørger bl.a. for å sette opp [Kestrel](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-5.0) som web-server for applikasjonen vår. I tillegg tar den som argument en funksjon som gir oss tilgang til `IWebHostBuilder`-objektet som vi kan bruke til å konfigurere web-applikasjonen etter våre behov. `IWebHostBuilder`-objektet har flere funksjoner, men den som er mest relevante for oss i denne omgang er `Configure`, hvor vi kan sette opp vår middleware pipeline. Legg til følgende `open`-statements, opprett funksjonen `configureApp`, og kall den fra `ConfigureWebHostDefaults` slik:
-
-```f#
-...
-open Microsoft.AspNetCore.Hosting
 open Microsoft.AspNetCore.Builder
 
-let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    ()
-
-let createHostBuilder args =
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(fun webHostBuilder ->
-            webHostBuilder.Configure(configureApp) |> ignore
-        )
-...
+WebApplication.CreateBuilder().Build().Run()
 ```
 
-Legg merke til at vi ikke lagt til noen middleware i pipelinen vår enda. Det gjør vi imidlertid noe med i avsnittet om [Giraffe](#legge-til-giraffe-i-middleware-pipeline).
-
-> `webHostBuilder.Configure` returnerer objektet `webHostBuilder` igjen slik at vi kan kjede flere kall til andre funksjoner på `webHostBuilder`. Ettersom vi ikke skal bruke det returnerte `webHostBuilder`-objektet legger vi til `|> ignore` for å ignorere verdien.
+`WebApplication.CreateBuilder` sørger bl.a. for å sette opp [Kestrel](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-6.0) som web-server for applikasjonen vår. I tillegg returnerer den et objekt av typen `WebApplicationBuilder` som vi kan bruke til å konfigurere web-applikasjonen etter våre behov. Vi kaller umiddelbart på `WebApplicationBuilder` sin funksjon `Build` for å bytte web-applikasjonen vår. `Build` returnerer et objekt av typen `WebApplication`, og vi kaller til slutt `Run`-metoden på `WebApplication`-objektet for å starte web-applikasjonen.
 
 ###### Kjøre web host
 
@@ -2465,124 +2282,37 @@ info: Microsoft.Hosting.Lifetime[0]
 
 Fra logginnslagene over ser vi at hosten vår nå lytter på HTTP-forespørsler på port `5000` og `5001` for hhv. HTTP og HTTPS. I og med at vi ikke har lagt til noen middlewares i pipelinen vår enda, svarer API-et med `404 Not Found` på alle forespørsler. Det kan du verifisere ved å åpne [http://localhost:5000/](http://localhost:5000/) i en nettleser.
 
-> Du kan lese mer om middleware i .NET-web-applikasjoner her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-5.0)
-
-##### Dependency injection
-
-Et mye brukt prinsipp i programvareutvikling er "Inversion of control" (IoC), som kort fortalt går ut på at man lar kontrollen over implementasjonen av avhengighetene man har i koden sin ligge på utsiden av der man har behov for avhengigheten. På denne måten kan man endre hva som implementerer avhengigheten man har, og man kan enklere enhetsteste koden sin fordi man kan sende inn fiktive implementasjoner av avhengighetene.
-
-Et eksempel på dette er dersom man har en funksjon `isLoginValid` for å validere brukernavn og passord som kommer inn fra et innloggingsskjema, har man behov for å hente entiteten som korresponderer til det oppgitte brukernavnet fra brukerdatabasen. Ved å ta inn en egen funksjon `getUser` i `ValidateLogin` har man gitt kontrollen over hvordan `getUser` skal implementeres til utsiden av `ValidateLogin`-funksjonen.
-
-```f#
-let isLoginValid (getUser: string -> UserEntity) (username: string) (password: string) : bool ->
-...
-```
-
-En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender man inn de nødvendige avhengighetene til de ulike delene av koden sin fra utsiden. Dersom en funksjon `A` har avhengiheter funksjonene `B` og `C`, og `B` og `C` har hhv. avhengiheter til funksjonene `D` og `E`, må man ha implementasjoner for `B`, `C`, `D` og `E` for å kunne kalle funksjon `A`. Disse avhengighetene danner et avhengighetstre, og dersom man skal kalle en funksjon på toppen av treet er man nødt til å ha implementasjoner av alle de interne nodene og alle løvnodene i avhengighetstreet. For hver toppnivåfunksjon (slik som `A`) man har i applikasjonen sin, vil man ha et avhengighetstre.
-
-Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root". Vi ser nærmere på hva man kan bruke som "composition root" i .NET i [avsnittet om å implemetere avhengighetene til API-et vårt i steg 10](#implementere-avhengigheter).
-
-For å konfigurere depdenency injection, og sette opp en "composition root", i ASP.NET-applikasjoner bruker man funksjonen `ConfigureServices` i `IWebHostBuilder`-objektet. Utvid `Program.fs` i API-prosjektet med følgende `open`-statement, funksjonen `configureServices`, og et kall til `configureServices` i `ConfigureWebHostDefaults`, slik:
-
-```f#
-...
-open Microsoft.Extensions.DependencyInjection
-...
-let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-    ()
-
-let createHostBuilder args =
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(fun webHostBuilder ->
-            webHostBuilder
-                .Configure(configureApp)
-                .ConfigureServices(configureServices) |> ignore
-        )
-...
-```
-
-> Du kan lese mer om "dependency injection" her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0)
-
-###### Kjøre webhost
-
-Hvis du kjører API-et nå, vil du ikke se noen forskjell fra sist ettersom vi ikke har lagt til noen tjenester i `configureServices`. Det gjør vi imidlertid noe med i neste avsnitt.
-
-```bash
-$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
-info: Microsoft.Hosting.Lifetime[0]
-      Now listening on: http://localhost:5000
-info: Microsoft.Hosting.Lifetime[0]
-      Now listening on: https://localhost:5001
-info: Microsoft.Hosting.Lifetime[0]
-      Application started. Press Ctrl+C to shut down.
-info: Microsoft.Hosting.Lifetime[0]
-      Hosting environment: Production
-info: Microsoft.Hosting.Lifetime[0]
-      Content root path: C:\Dev\nrkno@github.com\dotnetskolen\src\api
-```
+> Du kan lese mer om middleware i .NET-web-applikasjoner her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0)
 
 #### Ping
 
-Nå som vi har blitt kjent med noen grunnleggende konsepter i .NET-applikasjoner, kan vi starte å sette sammen vårt eget web-API. For å gjøre det trenger vi en middleware pipeline som kan behandle HTTP-forespørslene som kommer inn til API-et vårt. .NET sitt standard rammeverk for web-applikasjoner er ASP.NET MVC. Vi kunne brukt ASP.NET MVC, men det er objektorientert, og siden vi bruker F# og skriver funksjonell kode i dette kurset skal vi benytte Giraffe istedenfor, som er et tredjeparts funksjonelt web-rammeverk for .NET.
+Nå som vi har blitt kjent med noen grunnleggende konsepter i .NET-applikasjoner, kan vi starte å sette sammen vårt eget web-API. For å gjøre det trenger vi en middleware pipeline som kan behandle HTTP-forespørslene som kommer inn til API-et vårt.
 
-##### Installere Giraffe
+I .NET 6 innførte Microsoft "minimal APIs" som er en rekke metoder som gjør det enklere å komme i gang med å definere oppførslen til en host. For web-applikasjoner har Microsoft laget "minimal APIs" som gjør det enkelt å legge til funksjoner i "middleware pipelinen" til en web-applikasjon som håndterer innkommende HTTP-forespørsler for en gitt sti. Dette kan vi bruke for å lage et "ping"-endepunkt.
 
-Giraffe er publisert som en NuGet-pakke, og for å installere den i API-prosjektet vårt kan du kjøre følgende kommando fra rotmappen din:
-
-```bash
-$ dotnet paket add giraffe --project ./src/api/NRK.Dotnetskolen.Api.fsproj
-...
-```
-
-##### Legge til Giraffe i middleware pipeline
-
-Nå som Giraffe er installert, kan vi ta det i bruk i web-API-et vårt. Start med å åpne `Giraffe`-modulen i `Program.fs` i API-prosjektet ved å legge til følgende linje under de andre "open"-statementene:
+Åpne `Program.fs` i API-prosjektet, og bytt ut innholdet i filen med koden under:
 
 ```f#
-...
-open Giraffe
-...
+open System
+open Microsoft.AspNetCore.Builder
+
+let app = WebApplication.CreateBuilder().Build()
+app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+app.Run()
 ```
 
-For at Giraffe skal ha tilgang til sine avhengigheter må vi registrere dem i `IServiceCollection`-objektet i `configureServices`-funksjonen. Gjør det ved å kalle funksjonen `services.AddGiraffe()` i `configureServices`-funksjonen i `Program.fs`:
+Her har vi tatt vare på `WebApplication`-objektet, som `WebApplication.CreateBuilder().Build()` returnerer, i en egen variabel `app`. Dette har vi gjort for å få tilgang til "minimal API"-metodene Microsoft har definert for `WebApplication`. Videre har vi brukt én av dem, nemlig `MapGet`, som tar inn to argumenter:
 
-```f#
-let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-    services.AddGiraffe() |> ignore
-```
+1. En tekststreng som spesifiserer hvilken sti i URL-en som leder til denne funksjonen. I dette tilfellet `ping`.
+2. En funksjon uten parametere som returnerer en tekststreng. I dette tilfellet `pong`.
 
-> `services.AddGiraffe()` returnerer `IServiceCollection`-objektet. Ettersom `configureServices`-funksjonen ikke skal returnere noe legger vi til `|> ignore` for å overse returverdien til `AddGiraffe`
-
-Nå kan vi legge til Giraffe i middleware pipelinen vår. Det gjør vi ved å kalle `UseGiraffe`-funksjonen på `IApplicationBuilder`-objektet i `configureApp`-funksjonen:
-
-```f#
-let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = route "/ping" >=> text "pong"
-    app.UseGiraffe webApp
-```
-
-I `configureApp`-funksjonen over har vi laget et endepunkt som svarer på `/ping` og returner `pong` som tekst. Legg merke til at `UseGiraffe`-funksjonen tar inn `webApp` som et argument. `webApp` er en `HttpHandler`, som er Giraffe sin funksjonelle ekvivalent til middleware i .NET. En `HttpHandler` i Giraffe er en funksjon med to parametere:
-
-- `next: HttpFunc` - Neste `HttpHandler` i Giraffe sin pipeline
-- `ctx: HttpContext` - Representasjon av HTTP-forespørslen
-
-`HttpHandler` i Giraffe har samme ansvar som middleware i .NET:
-
-- Håndtere innkommende HTTP-forespørsler, og konstruere aktuell respons
-- Ev. kalle neste `HttpHandler` i Giraffe-pipelinen
-
-I `webApp` over setter vi sammen en `HttpHandler` av to funksjoner ved hjelp av `>=>`-operatoren:
-
-- `route` - Kaller `next` dersom `path`-delen i URL-en (`/ping`) til den innkommende HTTP-forespørslen matcher tekststrengen den får oppgitt
-- `text` - Sørger for å skrive tekststrengen den får oppgitt (`pong`) til HTTP-responsen
-
-`>=>` er F#-syntaks for å kombinere to funksjoner som returnerer [monader](https://en.wikipedia.org/wiki/Monad_(functional_programming)).
-
-> Merk at både Giraffe og .NET har hver sine pipelines med mellomvarer, og at Giraffe sin pipeline kun er én mellomvare i .NET sin pipeline. Det vil si at Giraffe-pipelinen vår kan bestå av flere HTTP-handlere enn vi har nå, og .NET-web-serveren vår kan bestå av flere mellomvarer enn Giraffe.
+> Merk at som andre parameter til `MapGet` har vi oppgitt `Func<string>(fun () -> "pong")` som strengt tatt ikke er en funksjon. `Func` er F# sin måte å opprette et `Delegate` på. Delegates er .NET sin måte å pakke inn funksjoner som objekter på. Siden "Minimal APIs" er skrevet for å fungere for hvilket som helst programmeringsspråk i .NET har Microsoft vært nødt til å velge en modell som passer både for både det objektorienterte programmeringsparadigmet så vel som det funksjonelle programmeringsparadigmet. Dermed tar `MapGet` strengt tatt inn et `Delegate`-objekt som andre parameter, og måten man oppretter et `Delegate`-objekt i F# på er ved å kalle `Func` sin konstruktør. I kontstruktøren til `Func` sender vi inn den anonyme F#-funksjonen `fun () -> "pong"`. `<string>` delen av `Func<string>` definerer hva slags type returverdien til den anonyme funksjonen har. Ettersom den anonyme funksjonen ikke tar inn noen parametere er det ikke spesifisert noe mer i `Func<string>` for det. Dersom den anonyme funksjonen hadde tatt inn et parameter av typen `int`, hadde kallet til `Func` sett slik ut: `Func<int, string>`. Du kan lese mer om delegates i F# her: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/delegates>
+>
+> Du kan lese mer om "minimal APIs" her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0>
 
 ##### Kjøre API-et
 
-Start API-et fra med følgende kommando:
+Start API-et med følgende kommando:
 
 ```bash
 $ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
@@ -2605,16 +2335,19 @@ Dette starter web-API-et på `http://localhost:5000`. Verifiser at API-et funger
 
 #### Integrasjonstester
 
-Før vi fortsetter med å implementere web-API-et skal vi sette opp en integrasjonstest som verifiserer at API-et er oppe og kjører, og at det svarer på HTTP-forespørsler. Det skal vi gjøre ved å
+Før vi fortsetter med å implementere web-API-et skal vi sette opp en integrasjonstest som verifiserer at API-et er oppe og kjører, og at det svarer på HTTP-forespørsler. Det skal vi gjøre ved å:
 
-1. Kjøre web-API-et vårt på en webserver som kjører i minnet under testen
-2. Sende forespørsler mot denne webserveren
+1. Kjøre web-API-et vårt på en webserver som kjører i minnet under testen, en såkalt `TestServer`.
+2. Sende forespørsler mot denne testserveren
+3. Verifisere at testserveren svarer med de verdiene vi forventer
 
-Siden vi gir hele web-API-et vårt som input til denne webserveren er responsene vi får på samme format som web-API-et svarer med i et deployet miljø, og dermed kan vi være trygge på at API-et oppfyller kontrakten vi har definert også når det deployes.
+Siden vi gir hele web-API-et vårt som input til testserveren er responsene vi får tilsvarende de web-API-et svarer med i et deployet miljø, og dermed kan vi være trygge på at API-et oppfyller kontrakten vi har definert også når det deployes.
 
-> Webserveren vi skal kjøre i integrasjonstestene er dokumentert her: [https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-5.0)
+> Webserveren vi skal kjøre i integrasjonstestene er dokumentert her: <https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-6.0>
 >
-> Inspirasjonen til å skrive integrasjonstestene på måten beskrevet over er fra [et kurs](https://github.com/erikly/FagkveldTesthost/tree/CompleteWithTestHost) som [@erikly](https://github.com/erikly) har arrangert. Metoden er også beskrevet i denne artikkelen skrevet av Microsoft: [https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-5.0)
+> Inspirasjonen til å skrive integrasjonstestene på måten beskrevet over er fra [et kurs](https://github.com/erikly/FagkveldTesthost/tree/CompleteWithTestHost) som [@erikly](https://github.com/erikly) har arrangert.
+>
+> En liknende metode er også beskrevet i denne artikkelen skrevet av Microsoft: <https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-6.0>. Artikkelen belager seg imidlertid på konsepter fra objektorientert programmering, og siden dette kurset fokuserer på F# og funksjonell programmering er det valgt å skrive integrasjonstestene med en mer funksjonell tilnærming.
 
 ##### Legge til avhengigheter
 
@@ -2622,7 +2355,7 @@ For å kunne kjøre integrasjonstestene våre er vi avhengig av et par NuGet-pak
 
 ###### Microsoft.AspNetCore.Mvc.Testing
 
-For å få tilgang til webserveren vi skal kjøre under integrasjonstestene er vi avhengig av NuGet-pakken `Microsoft.AspNetCore.Mvc.Testing`.
+For å få tilgang til testserverem vi skal kjøre under integrasjonstestene er vi avhengig av NuGet-pakken `Microsoft.AspNetCore.Mvc.Testing`.
 
 Kjør følgende kommando fra rotenmappen din for å installere pakken:
 
@@ -2633,14 +2366,97 @@ $ dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project ./test/integration
 
 ###### Referanse til API-prosjektet
 
-For å kunne referere til startpunktet til API-prosjektet må vi legge til en prosjektreferanse fra integrasjonstestprosjektet.
+For å kunne referere til API-et vårt fra testprosjektet må vi legge til en referanse til API-prosjektet fra integrasjonstestprosjektet.
 
-Kjør følgende kommando fra rotmappen din:
+Gjør dette ved å kjør følgende kommando fra rotmappen din:
 
 ```bash
 $ dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj reference ./src/api/NRK.Dotnetskolen.Api.fsproj
 ...
 ```
+
+##### Klargjøre API-et for testing
+
+###### WebApplicationBuilder
+
+For å kunne lage en testserver som representerer API-et vårt når vi kjører testene må vi konfiguerere API-et vårt til å bruke en testserver, men kun når vi faktisk kjører testene, og ikke når API-et kjører ellers. For å få til dette må vi kalle en funksjon på `WebApplicationBuilder`-objektet (som vi oppretter i `main`-funksjonen i `Program.fs` i API-prosjektet) når vi setter opp testserveren i testene.
+
+Husk at `Program.fs` i API-prosjektet nå ser slik ut:
+
+```f#
+open System
+open Microsoft.AspNetCore.Builder
+
+let app = WebApplication.CreateBuilder().Build()
+app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+app.Run()
+```
+
+For å få tak i `WebApplicationBuilder`-objektet som `WebApplication.CreateBuilder` returnerer fra integrasjonstesten, trekker vi ut oppretting av `WebApplicationBuilder`-objektet til en egen funksjon `createWebApplicationBuilder` slik:
+
+```f#
+open System
+open Microsoft.AspNetCore.Builder
+
+let createWebApplicationBuilder () =
+    WebApplication.CreateBuilder()
+
+let app = createWebApplicationBuilder().Build()
+app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+app.Run()
+```
+
+Ved å bruke funksjonen `createWebApplicationBuilder` fra integrasjonstestprosjektet kan vi konfiguerere `WebApplicationBuilder`-objektet til å bruke testserveren når testene kjører.
+
+###### WebApplication
+
+I tillegg til å konfigurere `WebApplicationBuilder`-objektet til å bruke en testserver trenger vi å få tak i `app`-objektet fra `main`-funksjonen i API-prosjektet for å opprette en HTTP-klient som sender HTTP-forespørsler til testserveren. For å få til dette trekker vi ut koden som oppretter og konfigurerer `WebApplication`-objektet i API-et slik:
+
+```f#
+open System
+open Microsoft.AspNetCore.Builder
+
+let createWebApplicationBuilder () =
+    WebApplication.CreateBuilder()
+
+let createWebApplication (builder: WebApplicationBuilder) =
+    let app = builder.Build()
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app
+
+let builder = createWebApplicationBuilder()
+let app = createWebApplication builder
+app.Run()
+```
+
+Ved å bruke funksjonen `createWebApplication` fra integrasjonstestprosjektet kan vi hente ut `WebApplication`-objektet som representerer hele web-API-et vårt, og sende HTTP-forespørsler mot det fra integrasjonstestene våre.
+
+###### Namespace og modul
+
+For å kunne referere til de to nye funksjonene vi lagde i API-prosjektet, `createWebApplicationBuilder` og `createWebApplication`, fra integrasjonstestprosjektet må vi legge dem i en egen modul, slik:
+
+```f#
+namespace NRK.Dotnetskolen.Api
+
+module Program = 
+
+    open System
+    open Microsoft.AspNetCore.Builder
+
+    let createWebApplicationBuilder () =
+        WebApplication.CreateBuilder()
+
+    let createWebApplication (builder: WebApplicationBuilder) =
+        let app = builder.Build()
+        app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+        app
+
+    let builder = createWebApplicationBuilder()
+    let app = createWebApplication builder
+    app.Run()
+```
+
+> Merk at vi her også la til linjen `namespace NRK.Dotnetskolen.Api` øverst. Dette setter modulen `Program` i kontekst av `NRK.Dotnetskolen.Api`, og gjør at når vi skal referere til funksjonene `createWebApplicationBuilder` og `createWebApplication` må vi åpne `NRK.Dotnetskolen.Api.Program`.
 
 ##### Test for ping
 
@@ -2649,91 +2465,118 @@ Nå er vi klare til å kunne sette opp integrasjonstestene. Åpne `Tests.fs` i i
 ```f#
 module Tests
 
-open System.IO
-open Microsoft.AspNetCore.Hosting
+open System.Net.Http
 open Xunit
-open NRK.Dotnetskolen.Api
-
-let createWebHostBuilder () =
-    WebHostBuilder()
-        .UseContentRoot(Directory.GetCurrentDirectory()) 
-        .UseEnvironment("Test")
-        .Configure(Program.configureApp)
-        .ConfigureServices(Program.configureServices)
-```
-
-Her definerer vi en funksjon `createWebHostBuilder` som returnerer en `IWebHostBuilder`. `IWebHostBuilder` returnerer et `IHost`-objekt i funksjonen `Build`, som vi skal bruke snart. I `createWebHostBuilder` konfigurerer vi `IWebHostBuilder` til å bruke `configureApp` og `configureServices`-funksjonene i web-API-et vårt. Vi skal bruke `createWebHostBuilder`-funksjonen til å opprette testserveren vår, og kjøre integrasjonstestene mot den. Legg merke til at `createWebHostBuilder`-funksjonen er veldig lik `createHostBuilder` i `Program.fs` i API-prosjektet.
-
-> Merk at dersom du forsøker å kjøre integrasjonstestprosjektet med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` nå, vil det feile fordi det ikke finnes noen tester i integrasjonstestprosjektet enda. Følg veiledningen under for legge til den første integrasjonstesten. Deretter kan du kjøre testene med `dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`.
-
-I den første integrasjonstesten skal vi sende en forespørsel til `ping`-endepunktet i API-et vårt. Start med å legg til følgende "open"-statement etter `open System.IO` i `Tests.fs`-filen.
-
-```f#
 open Microsoft.AspNetCore.TestHost
-```
+open NRK.Dotnetskolen.Api.Program
 
-Legg deretter til følgende test etter `createWebHostBuilder`-funksjonen i `Tests.fs`-filen:
+let runWithTestClient (test: HttpClient -> Async<unit>) = 
+    async {
+        let builder = createWebApplicationBuilder()
+        builder.WebHost.UseTestServer() |> ignore
 
-```f#
+        use app = createWebApplication builder
+        do! app.StartAsync() |> Async.AwaitTask
+
+        let testClient = app.GetTestClient()
+        do! test testClient
+    } |> Async.RunSynchronously
+
 [<Fact>]
-let ``Get ping returns 200 OK`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let url = "/ping"
-
-    let! response = client.GetAsync(url) |> Async.AwaitTask
-
-    response.EnsureSuccessStatusCode() |> ignore
-}
+let ``Get "ping" returns "pong"`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let! response = httpClient.GetStringAsync("/ping") |> Async.AwaitTask
+            Assert.Equal(response, "pong")
+        }
+    )
 ```
 
-Her bruker vi `createWebHostBuilder`-funksjonen til å opprette en testserver, og benytter testserveren til å opprette en HTTP-klient. Videre benytter vi HTTP-klienten til å sende en GET-forespørsel til `/ping`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
+La oss se litt nærmere på hva denne koden gjør.
 
-`Tests.fs` i integrasjonstestprosjektet skal nå se slik ut:
+###### Definere modul
+
+Først definerer vi en modul som heter `Tests`:
 
 ```f#
 module Tests
-
-open System.IO
-open Microsoft.AspNetCore.Hosting
-open Microsoft.AspNetCore.TestHost
-open Xunit
-open NRK.Dotnetskolen.Api
-
-let createWebHostBuilder () =
-    WebHostBuilder()
-        .UseContentRoot(Directory.GetCurrentDirectory()) 
-        .UseEnvironment("Test")
-        .Configure(Program.configureApp)
-        .ConfigureServices(Program.configureServices)
-
-[<Fact>]
-let ``Get ping returns 200 OK`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let url = "/ping"
-
-    let! response = client.GetAsync(url) |> Async.AwaitTask
-
-    response.EnsureSuccessStatusCode() |> ignore
-}
+...
 ```
+
+###### Åpne namespaces
+
+Deretter åpner vi de namespacene vi er avhengige av:
+
+```f#
+open System.Net.Http
+open Xunit
+open Microsoft.AspNetCore.TestHost
+open NRK.Dotnetskolen.Api.Program
+```
+
+- `System.Net.Http` for å ha tilgang til `HttpClient`
+- `Xunit` for å ha tilgang til `[<Fact>]` som attributt til test-funksjonene våre
+- `Microsoft.AspNetCore.TestHost` for å ha tilgang til funksjonene `UseTestServer` og `GetTestClient` som lar hhv. lar oss konfigurere `WebApplicationBuilder` til å bruke testserveren, samt hente ut en `HttpClient` som sender forespørsler til testserveren.
+- `NRK.Dotnetskolen.Api.Program` for å ha tilgang til funksjonene `createWebApplicationBuilder` og `createWebApplication` for å kunne hente ut hhv. `WebApplicationBuilder`-objektet og `WebApplication`-objektet til API-et vårt.
+
+###### Funksjon for å kalle test med test-HTTP-klient
+
+Deretter definerer vi en funksjon `runWithTestClient`. Hensikten med denne funksjonen er å samle koden som konfigurerer testserveren og henter ut `HttpClient`-objektet som kan sende HTTP-forespørsler til denne.
+
+```f#
+let runWithTestClient (test: HttpClient -> Async<unit>) = 
+    async {
+        let builder = createWebApplicationBuilder()
+        builder.WebHost.UseTestServer() |> ignore
+
+        use app = createWebApplication builder
+        do! app.StartAsync() |> Async.AwaitTask
+
+        let testClient = app.GetTestClient()
+        do! test testClient
+    } |> Async.RunSynchronously
+```
+
+`runWithTestClient` kaller `createWebApplicationBuilder` fra API-prosjektet, og konfigurerer `WebHost`-objektet til å bruke testserveren.
+
+Deretter kaller `runWithTestClient` `createWebApplication` med `WebApplicationBuilder` som argument for å få `WebApplication`-objektet som representerer API-et vårt, og starter web-API-et.
+
+Videre henter `runWithTestClient` ut et `HttpClient`-objekt fra `WebApplication`-objektet. Det er dette `HttpClient`-objektet som kan sende HTTP-forespørsler til testserveren.
+
+Til slutt kaller `runWithTestClient` `test`-funksjonen og sender med `testClient` som parameter.
+
+> Merk at `runWithTestClient` lager et `async` "computation expression" (`async {...}`). Med slike blokker kan vi definere asynkrone handlinger som skal utføres. De asynkrone handlingene blir imidlertid ikke utført før man sender inn "computation expression"-et til `Async.RunSynchronously`-funksjonen. Derfor sender vi "computation expression"-et vårt videre inn i `Async.RunSynchronously`.
+>
+> Merk at vi bruker `use`-kodeordet når vi oppretter test-HTTP-klienten. Dette sørger for at kompilatoren rydder opp ressursene som objektet bruker når testen er ferdig.
+
+###### Definere test
+
+Til slutt definerer vi en test `Get "ping" returns "pong"` som kaller `runWithTestClient` med en anonym funksjon. Den anonyme funksjonen tar inn `HttpClient`-objektet som sender HTTP-forespørsler til testserveren vår. Deretter kaller den `httpClient.GetStringAsync("/ping")` for å sende en HTTP GET til testserveren med `ping` som sti i URL-en. Til slutt verifiserer den at responsen fra testserveren var `pong`.
+
+```f#
+[<Fact>]
+let ``Get "ping" returns "pong"`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let! response = httpClient.GetStringAsync("/ping") |> Async.AwaitTask
+            Assert.Equal(response, "pong")
+        }
+    )
+```
+
+> Merk at her bruker vi `let!` istedenfor `let` før `httpClient.GetStringAsync(/ping") |> Async.AwaitTask`. Ved å bruke `let!` venter vi på at den asynkrone handlingen på høyresiden av `=` (`httpClient.GetStringAsync("/ping") |> Async.AwaitTask`) returnerer før vi går videre.
+>
+> Ettersom `httpClient.GetStringAsync(url)` er skrevet for C#, hvor asynkrone handlinger er modellert gjennom `Task`-objekter, returnerer den en `Task`. I F# blir asynkrone handlinger imidlertid representert gjennom `Async`-verdier. Derfor bruker vi `Async.AwaitTask` for å gjøre om `Task`-en som `httpClient.GetStringAsync(url)` returnerer til en `Async`-verdi før vi venter på den.
+
+###### Kjør tester
 
 Kjør integrasjonstesten med følgende kommando:
 
 ```bash
 $ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 139 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0) (net5.0)
+Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: < 1 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
-
-> Merk at funksjonen over returnerer et `async` "computation expression" (`async {...}`). Med slike blokker kan vi definere asynkrone handlinger som skal utføres. De asynkrone handlingene blir imidlertid ikke utført før man sender inn "computation expression"-et til `Async.RunSynchronously`-funksjonen. I vårt tilfelle er det xUnit som sørger for å sette igang den asynkrone blokken vår. Derfor ser vi ikke kallet til `Async.RunSynchronously`-funksjonen her.
->
-> I tillegg bruker vi `let!` istedenfor `let` før `response = client.GetAsync(url) |> Async.AwaitTask`. Ved å bruke `let!` venter vi på at den asynkrone handlingen på høyresiden av `=` (`client.GetAsync(url) |> Async.AwaitTask`) returnerer før vi går videre.
->
-> Ettersom `client.GetAsync(url)` er skrevet for C#, hvor asynkrone handlinger er modellert gjennom `Task`-objekter, returnerer den en `Task`. I F# blir asynkrone handlinger imidlertid representert gjennom `Async`-verdier. Derfor bruker vi `Async.AwaitTask` for å gjøre om `Task`-en som `client.GetAsync` returnerer til en `Async`-verdi før vi venter på den.
->
-> Merk at vi bruke `use`-kodeordet når vi oppretter testserveren og HTTP-klienten. Dette sørger for at kompilatoren rydder opp ressursene som disse to objektene bruker når testen er ferdig.
 
 ### Steg 10 - Implementere web-API
 
@@ -2743,7 +2586,7 @@ I [forrige steg](#steg-9---sette-opp-skall-for-api) opprettet vi et skall for we
 
 #### Test 1 - Verifisere at endepunktet finnes
 
-I den første integrasjonstesten skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement før `open System.IO` i `Tests.fs`-filen.
+I den første integrasjonstesten skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement før `open System.Net.Http` i `Tests.fs`-filen i integrasjonstestprosjektet.
 
 ```f#
 open System
@@ -2753,19 +2596,18 @@ Legg deretter til følgende test etter `ping`-testen i `Tests.fs`-filen:
 
 ```f#
 [<Fact>]
-let ``Get EPG today returns 200 OK`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
-    let url = sprintf "/epg/%s" todayAsString
-
-    let! response = client.GetAsync(url) |> Async.AwaitTask
-
-    response.EnsureSuccessStatusCode() |> ignore
-}
+let ``Get EPG today returns 200 OK`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+            let url = $"/epg/{todayAsString}" 
+            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            response.EnsureSuccessStatusCode() |> ignore
+        }
+    )
 ```
 
-På tilsvarende måte som `ping`-testen vår, bruker vi `createWebHostBuilder`-funksjonen til å opprette en testserver, og benytter testserveren til å opprette en HTTP-klient. Deretter benytter vi HTTP-klienten til å sende en GET-forespørsel til `/epg/<dagens dato>`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
+På tilsvarende måte som `ping`-testen vår, bruker vi `runWithTestClient`-funksjonen til å få en HTTP-klient som sender HTTP-forespørsler til testserveren vår. Deretter benytter vi HTTP-klienten til å sende en GET-forespørsel til `/epg/<dagens dato>`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
 
 ##### Se at testen feiler
 
@@ -2774,7 +2616,12 @@ Kjør integrasjonstesten med følgende kommando:
 ```bash
 $ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
-Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 301 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+[xUnit.net 00:00:00.73]     Tests.Get EPG today returns 200 OK [FAIL]
+  Failed Tests.Get EPG today returns 200 OK [102 ms]
+  Error Message:
+   System.Net.Http.HttpRequestException : Response status code does not indicate success: 404 (Not Found).
+...
+Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 10 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
 Som vi ser over feiler testen foreløpig ettersom web-API-et returnerer `404 (Not Found)`. La oss endre API-et slik at integrasjonstesten passerer.
@@ -2812,25 +2659,19 @@ Det er to ting som definerer operasjonen i API-et vårt:
 1. URL-en `/epg/{dato}`
 2. At den er tilgjengelig gjennom HTTP `GET`-verbet
 
-Dette kan vi bruke når vi skal definere operasjonen i Giraffe. Utvid `configureApp` i `Program.fs` i API-prosjektet slik:
+Dette kan vi bruke når vi skal definere operasjonen i `WebApplication`-objektet vårt. Utvid `createWebApplication` i `Program.fs` i API-prosjektet med linjen `app.MapGet("/epg/{date}", Func<string, string>(fun (date) -> date)) |> ignore` slik:
 
 ```f#
-let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = GET >=> choose [
-                    route "/ping" >=> text "pong"
-                    routef "/epg/%s" (fun date -> json date) 
-                ]
-    app.UseGiraffe webApp
+let createWebApplication (builder: WebApplicationBuilder) =
+    let app = builder.Build()
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/epg/{date}", Func<string, string>(fun date -> date)) |> ignore
+    app
 ```
 
-Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> json date` for HTTP `GET`-forespørsler til URL-en `/epg/%s`, hvor `%s` matcher tekststrengen oppgitt i URL-en etter `/epg/`. Legg merke til at her bruker vi funksjonen `json` istedenfor `text` for å formatere responsen til endepunktet som JSON istedenfor tekst.
+Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> date)` for HTTP `GET`-forespørsler til URL-en `epg/{date}`, hvor `{date}` matcher tekststrengen oppgitt i URL-en etter `/epg/`.
 
-I tillegg har vi benyttet to funksjoner i Giraffe:
-
-- `GET` - en funksjon som kun kaller `next` dersom HTTP-verbet som er brukt i forespørslen er `GET`. Det finnes tilsvarende funksjoner for andre HTTP-verb: [https://github.com/giraffe-fsharp/Giraffe/blob/master/DOCUMENTATION.md#http-verbs](https://github.com/giraffe-fsharp/Giraffe/blob/master/DOCUMENTATION.md#http-verbs)
-- `choose` - en funksjon som tar inn en liste med `HttpHandler`-funksjoner, og kaller hver av dem etter tur helt til den første returnerer et vellykket resultat
-
-Ved å anvende `GET` og `choose` funksjonene slik som over oppnår vi at API-et kun svarer på `GET`-forespørsler, og at vi svarer både på `/ping` og `/epg/{dato}`.
+> Legg merke til bruken av delegates her også gjennom `Func<string, string>(fun date -> date)`. Her ser vi at delegaten vår tar inn et parameter av typen `string`, og returnerer en verdi av typen `string`.
 
 ##### Kjøre API-et
 
@@ -2843,34 +2684,32 @@ $ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 
 ##### Se at testen passerer
 
-Nå skal også integrasjonstesten som verifiserer om API-et vårt svarer på `/epg/{dato}` passere. Det kan vi se ved å kjøre følgende kommando:    
+Nå skal også integrasjonstesten som verifiserer om API-et vårt svarer på `/epg/{dato}` passere. Det kan vi se ved å kjøre følgende kommando:
 
 ```bash
 $ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
-Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 435 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 9 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
 #### Test 2 - Verifisere at dato valideres
 
-I den neste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid `Tests.fs` med følgende `open`-statement og testfunksjon:
+I den neste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid `Tests.fs` i integrasjonstestprosjektet med følgende `open`-statement og testfunksjon:
 
 ```f#
 ...
 open System.Net
 ...
-
 [<Fact>]
-let ``Get EPG invalid date returns bad request`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let invalidDateAsString = "2021-13-32"
-    let url = sprintf "/epg/%s" invalidDateAsString
-
-    let! response = client.GetAsync(url) |> Async.AwaitTask
-
-    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
-}
+let ``Get EPG invalid date returns bad request`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let invalidDateAsString = "2021-13-32"
+            let url = $"/epg/{invalidDateAsString}"
+            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
+        }
+    )
 ```
 
 Her sender vi inn en ugyldig dato, og forventer å få 400 Bad Request som respons.
@@ -2882,10 +2721,17 @@ Kjør integrasjonstestene igjen med følgende kommando:
 ```bash
 $ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
-Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 173 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+[xUnit.net 00:00:00.81]     Tests.Get EPG invalid date returns bad request [FAIL]
+  Failed Tests.Get EPG invalid date returns bad request [10 ms]
+  Error Message:
+   Assert.Equal() Failure
+Expected: BadRequest
+Actual:   OK
+...
+Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 37 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
-Den nye testen vi la til feiler. La oss endre implementasjonen av web-API-et slik at testen passerer.
+Den nye testen vi la til feiler fordi API-et ikke validerer den oppgitte datoen. La oss endre implementasjonen av web-API-et slik at testen passerer.
 
 ##### Implementere HTTP Handler for /epg/{dato}
 
@@ -2914,20 +2760,18 @@ src
 Husk å legg til `HttpHandlers.fs` i prosjektfilen til API-prosjektet:
 
 ```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Domain.fs" />
     <Compile Include="Dto.fs" />
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
 
@@ -2938,36 +2782,28 @@ namespace NRK.Dotnetskolen.Api
 
 module HttpHandlers =
 
-    open Microsoft.AspNetCore.Http
-    open Giraffe
-
-    let epgHandler (dateAsString : string) : HttpHandler =
-        fun (next : HttpFunc) (ctx : HttpContext) ->
-            (json dateAsString) next ctx
+    let epgHandler (dateAsString: string) =
+        date
 ```
 
-Her oppretter vi en modul `HttpHandlers` i namespacet `NRK.Dotnetskolen.Api`. I modulen har vi en funksjon `epgHandler`, som tar inn en tekststreng, og returnerer en `HttpHandler`-funksjon. Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til det vi nevnte tidligere: at Giraffe har sin egen middleware pipeline. På tilsvarende måte som .NET legger Giraffe opp til at vi:
-
-- Først spesifiserer hva vi ønsker å returnere i HTTP-responsen `json dateAsString`
-- Deretter kaller vi neste `HttpHandler` i pipelinen `next` hvor vi gir inn `HttpContext`-verdien `ctx`.
+Her oppretter vi en modul `HttpHandlers` i namespacet `NRK.Dotnetskolen.Api`. I modulen har vi en funksjon `epgHandler`, som tar inn en tekststreng, og foreløpig returnerer funksjonen den samme tekststrengen. Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig.
 
 Åpne modulen `HttpHandlers` i `Program.fs` og kall funksjonen `epgHandler` istedenfor den anonyme funksjonen vi hadde:
 
 ```f#
 ...
 open NRK.Dotnetskolen.Api.HttpHandlers
-
-let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = GET >=> choose [
-                    route "/ping" >=> text "pong"
-                    routef "/epg/%s" epgHandler 
-                ]
-    app.UseGiraffe webApp
+...
+let createWebApplication (builder: WebApplicationBuilder) =
+    let app = builder.Build()
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/epg/{date}", Func<string, string>(fun date -> epgHandler date)) |> ignore
+    app
 ```
 
 ###### Validere dato
 
-La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. Lim inn følgende `open`-statements, og `parseAsDateTIme`-funksjonen under før `epgHandler`-funksjonen i `HttpHandlers.fs`:
+La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. Lim inn følgende `open`-statements, og `parseAsDateTime`-funksjonen under før `epgHandler`-funksjonen i `HttpHandlers.fs`:
 
 ```f#
 open System
@@ -2982,19 +2818,25 @@ let parseAsDateTime (dateAsString : string) : DateTime option =
     | _ -> None
 ```
 
-`parseAsDateTime`-funksjonen forsøker å parse tekststrengen vi har fått inn i URL-en til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indikerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTime.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTime.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTime.ParseExact` kaster `Exception`, og `Some date` dersom funksjonskallet lykkes.
+`parseAsDateTime`-funksjonen forsøker å parse tekststrengen den får som parameter til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indikerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTime.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTime.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTime.ParseExact` kaster `Exception`, og `Some date` dersom funksjonskallet lykkes.
 
 Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig:
 
 ```f#
-let epgHandler (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date -> (json date) next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+let epgHandler (dateAsString: string) =
+    match (parseAsDateTime dateAsString) with
+    | Some date -> Results.Ok(date)
+    | None -> Results.BadRequest("Invalid date")
 ```
 
-`None`-casen i koden over illustrerer et tilfelle hvor vi _ikke_ kaller neste middleware i pipelinen. Dersom den oppgitte datoen er ugyldig, setter vi statuskoden til `400` og skriver `Invalid date` til response body, før vi bryter videre prosessering av middleware i Giraffe ved å lage en tom middleware `Some >> Task.FromResult` som returnerer umiddelbart.
+Her bruker vi et `match`-statement i F# som sammenlikner resultatet av å kalle `parseAsDateTime dateAsString` med `Some date` (i tilfellet datoen ble vellykket parset som en dato på formatet vi har spesifisert i `parseAsDateTime`) eller `None` i motsatt fall. Dersom datoen ble vellykket parset som en dato returnerer vi `Results.Ok(date)` som setter statuskoden til `200 OK` og returnerer datoen. I motsatt fall returnerer vi `Results.BadRequest("Invalid date")` som setter statuskoden til `400 Bad Request`, og returnerer teksten `Invalid date`.
+
+Siden vi nå har endret returtypen til `epgHandler` fra `string` til `IResult` (samleinterface for de blant annet `Ok` og `BadRequest`), må vi også endre typen til delegaten i `MapGet("/epg/{date}"` slik:
+
+```f#
+...
+app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler date)) |> ignore
+```
 
 ##### Kjøre API-et
 
@@ -3005,7 +2847,7 @@ $ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 ...
 ```
 
-Det vi nå får tilbake er Giraffe sin serialisering av det validerte datoobjektet vårt.
+Det vi nå får tilbake er ASP.NET sin serialisering av det parsede datoobjektet.
 
 ##### Se at testen passerer
 
@@ -3014,12 +2856,12 @@ Kjør integrasjonstestene på nytt, og se at testen som verifiserer at API-et v�
 ```bash
 $ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
-Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 244 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 16 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
 #### Test 3 - Verifisere format på EPG-respons
 
-I den siste testen skal vi verifisere at responsen API-et gir følger formatet vi har spesifisert i OpenAPI-kontrakten vår. 
+I den siste testen skal vi verifisere at responsen API-et gir følger formatet vi har spesifisert i OpenAPI-kontrakten vår.
 
 ##### JsonSchema.Net
 
@@ -3053,22 +2895,23 @@ Legg til slutt til følgende test i `Test.fs`-klassen:
 
 ```f#
 [<Fact>]
-let ``Get EPG today return valid response`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
-    let url = sprintf "/epg/%s" todayAsString
-    let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
+let ``Get EPG today return valid response`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+            let url = $"/epg/{todayAsString}"
+            let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
 
-    let! response = client.GetAsync(url) |> Async.AwaitTask
+            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
 
-    response.EnsureSuccessStatusCode() |> ignore
-    let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-    let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
-    let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
-    
-    Assert.True(isJsonValid)
-}
+            response.EnsureSuccessStatusCode() |> ignore
+            let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+            let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
+            let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
+            
+            Assert.True(isJsonValid)
+        }
+    )
 ```
 
 Denne testen bygger på de foregående testene vi har skrevet, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten:
@@ -3085,10 +2928,34 @@ Kjør integrasjonstestene igjen med følgende kommando.
 ```bash
 $ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
+[xUnit.net 00:00:01.13]     Tests.Get EPG today return valid response [FAIL]
+  Failed Tests.Get EPG today return valid response [98 ms]
+  Error Message:
+   Assert.True() Failure
+Expected: True
+Actual:   False
+...
 Failed!  - Failed:     1, Passed:     3, Skipped:     0, Total:     4, Duration: 408 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
 ```
 
 Testen feiler. La oss implementere ferdig API-et.
+
+##### Dependency injection
+
+Før vi koder videre skal vi ta en snartur innom et mye brukt prinsipp i programvareutvikling: "Inversion of control" (IoC). Inversion of control går kort fortalt ut på at man lar kontrollen over implementasjonen av avhengighetene man har i koden sin ligge på utsiden av der man har behov for avhengigheten. På denne måten kan man endre hva som implementerer avhengigheten man har, og man kan enklere enhetsteste koden sin fordi man kan sende inn fiktive implementasjoner av avhengighetene.
+
+Et eksempel på dette er dersom man har en funksjon `isLoginValid` for å validere brukernavn og passord som kommer inn fra et innloggingsskjema, har man behov for å hente entiteten som korresponderer til det oppgitte brukernavnet fra brukerdatabasen. Ved å ta inn en egen funksjon `getUser` i `ValidateLogin` har man gitt kontrollen over hvordan `getUser` skal implementeres til utsiden av `ValidateLogin`-funksjonen.
+
+```f#
+let isLoginValid (getUser: string -> UserEntity) (username: string) (password: string) : bool ->
+...
+```
+
+En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender man inn de nødvendige avhengighetene til de ulike delene av koden sin fra utsiden. Dersom en funksjon `A` har avhengiheter funksjonene `B` og `C`, og `B` og `C` har hhv. avhengiheter til funksjonene `D` og `E`, må man ha implementasjoner for `B`, `C`, `D` og `E` for å kunne kalle funksjon `A`. Disse avhengighetene danner et avhengighetstre, og dersom man skal kalle en funksjon på toppen av treet er man nødt til å ha implementasjoner av alle de interne nodene og alle løvnodene i avhengighetstreet. For hver toppnivåfunksjon (slik som `A`) man har i applikasjonen sin, vil man ha et avhengighetstre.
+
+Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root".
+
+> Du kan lese mer om "dependency injection" her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0)
 
 ##### Hente EPG
 
@@ -3098,23 +2965,21 @@ Neste steg i å implementere API-et nå er å hente EPG for den validerte datoen
 ...
 open NRK.Dotnetskolen.Domain
 ...
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date -> (json dateAsString) next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+    match (parseAsDateTime dateAsString) with
+    | Some date -> Results.Ok(date)
+    | None -> Results.BadRequest("Invalid date")
 ```
 
 Nå kan vi kalle `getEpgForDate` med den validerte datoen for å få alle sendingene for den gitte datoen slik som vist under:
 
 ```f#
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date -> 
-            let epg = getEpgForDate date
-            (json date) next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+    match (parseAsDateTime dateAsString) with
+    | Some date -> 
+        let epg = getEpgForDate date
+        Results.Ok(epg)
+    | None -> Results.BadRequest("Invalid date")
 ```
 
 ##### Returnere JSON som oppfyller API-kontrakten
@@ -3144,54 +3009,34 @@ Nå som vi har implementert `fromDomain`-funksjonen kan vi bruke den i `epgHandl
 ...
 open NRK.Dotnetskolen.Dto
 ...
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date -> 
-            let epg = getEpgForDate date
-            let dto = fromDomain epg
-            (json dateAsString) next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
-```
-
-Det siste vi må gjøre er å serialisere kontraktstypen vår til JSON:
-
-```f#
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date ->
-            let epg = getEpgForDate date
-            let dto = fromDomain epg
-            (json dto) next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+    match (parseAsDateTime dateAsString) with
+    | Some date -> 
+        let epg = getEpgForDate date
+        let dto = fromDomain epg
+        Results.Ok(dto)
+    | None -> Results.BadRequest("Invalid date")
 ```
 
 Skrevet med `|>`-operatoren i F# ser `epgHandler`-funksjonen slik ut:
 
 ```f#
-let epgHandler (getEpgForDate : DateTime -> Epg) (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date -> 
-            let response = date
-                            |> getEpgForDate 
-                            |> fromDomain
-                            |> json
-            response next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+    match (parseAsDateTime dateAsString) with
+    | Some date -> 
+        let response =
+            date
+            |> getEpgForDate
+            |> fromDomain
+        Results.Ok(response)
+    | None -> Results.BadRequest("Invalid date")
 ```
 
 ##### Implementere avhengigheter
 
 I steget [hente EPG](#hente-epg) definerte vi at funksjonen `epgHandler` hadde en avhengighet til en funksjon `getEpgForDate: DateTime -> Epg`. Husk fra [kapitlet om "dependency injection"](#dependency-injection) at vi må sørge for at slike avhengigheter er tilfredsstilt når vi kaller funksjonen.
 
-`epgHandler`-funksjonen blir kalt av Giraffe, og vi oppgir `epgHandler` til Giraffe i `configureApp`-funksjonen i `Program.fs`. Dermed må vi også sende inn implementasjonen av `getEpgForDate`-funksjonen her. Gitt en implementasjon av `getEpgForDate` har vi i alle fall to måter å få tak i den i `configureApp`-funksjonen, og sende den inn som parameter til `epgHandler`:
-
-1. Sende inn implementasjonen av `getEpgForDate` som parameter til `configureApp`-funksjonen.
-2. Registrere `getEpgForDate`-funksjonen i `IServiceCollection` i `configureServices`, og bruke `ApplicationServices`-feltet i `IApplicationBuilder`-parameteret til `configureApp` for å hente ut `getEpgForDate`-funksjonen derfra.
-
-Ettersom `getEpgForDate` kun er en funksjon, og vi lager en såpass liten og enkel applikasjon i dette kurset, kommer vi til å gå videre med alternativ #1. Dersom man har et større prosjekt med flere avhengigheter, eller har avhengigheter som er sterkt knyttet til hvordan dependency injection er løst i .NET (slik som Azure-bibliotekene til Microsoft), er det mer hensiktsmessig å gå for alternativ #2.
+`epgHandler`-funksjonen blir kalt av `MapGet` i `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet. Dermed er det her vi må sende inn implementasjonen av `getEpgForDate`-funksjonen.
 
 ###### Implementere `getEpgForDate`
 
@@ -3213,13 +3058,11 @@ src
 Husk å legg til `Services.fs` i prosjektfilen til API-prosjektet:
 
 ```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Domain.fs" />
     <Compile Include="Dto.fs" />
@@ -3227,7 +3070,7 @@ Husk å legg til `Services.fs` i prosjektfilen til API-prosjektet:
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
 
@@ -3251,35 +3094,14 @@ Legg til følgende `open`-statement i `Program.fs` i API-prosjektet:
 
 ```f#
 ...
-open System
 open NRK.Dotnetskolen.Api.Services
-open NRK.Dotnetskolen.Domain
 ...
 ```
 
-Utvid deretter `configureApp`-funksjonen til å ta inn et parameter `getEpgForDate` og send det inn til `epgHandler`, slik:
+Send deretter inn `getEpgForDate` fra `NRK.Dotnetskolen.Api.Services` til `epgHandler` i `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet slik:
 
 ```f#
-let configureApp (getEpgForDate: DateTime -> Epg) (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp =
-        GET >=> choose [
-                route "/ping" >=> text "pong"
-                routef "/epg/%s" (epgHandler getEpgForDate)
-        ]
-    app.UseGiraffe webApp
-```
-
-Til slutt må vi utvide `createHostBuilder`-funksjonen til å sende inn implementasjonen av `getEpgForDate` til `configureApp`, slik:
-
-```f#
-let createHostBuilder args =
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(fun webBuilder -> 
-            webBuilder
-                .Configure(configureApp getEpgForDate)
-                .ConfigureServices(configureServices)
-            |> ignore
-        )
+app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
 ```
 
 Kjør web-API-et med følgende kommando, og gå til [http://localhost:5000/epg/2021-04-23](http://localhost:5000/epg/2021-04-23) for å se hva API-et returnerer.
@@ -3329,13 +3151,11 @@ src
 Husk å legg til `DataAccess.fs` i prosjektfilen til API-prosjektet:
 
 ```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Domain.fs" />
     <Compile Include="DataAccess.fs" />
@@ -3344,7 +3164,7 @@ Husk å legg til `DataAccess.fs` i prosjektfilen til API-prosjektet:
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
 
@@ -3412,49 +3232,27 @@ Legg merke til at `getAllTransmissions`-funksjonen skal returnere en verdi av ty
 
 ###### Registrere avhengigheter
 
-Ettersom vi innførte `getAllTransmissions` som en avhengighet til `getEpgForDate`, må vi endre `createHostBuilder` slik at `getEpgForDate` får inn denne avhengigheten.
+Ettersom vi innførte `getAllTransmissions` som en avhengighet til `getEpgForDate`, må vi endre `createWebApplication` slik at `getEpgForDate` får inn denne avhengigheten.
 
-Legg til følgende `open`-statement, og utvid `createHostBuilder` i `Program.fs` i web-API-prosjektet til å sende inn `getAllTransmissions` fra `DataAccess`-modulen til `getEpgForDate`:
+Legg til følgende `open`-statement, og utvid kallet til `app.MapGet("/epg/{date}"` i `createWebApplication` i `Program.fs` i web-API-prosjektet slik:
 
 ```f#
 ...
 open NRK.Dotnetskolen.Api.DataAccess
 ...
-let createHostBuilder args =
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(fun webBuilder -> 
-            webBuilder
-                .Configure(configureApp (getEpgForDate getAllTransmissions))
-                .ConfigureServices(configureServices)
-            |> ignore
-        )
+let createWebApplication (builder: WebApplicationBuilder) =
+    let app = builder.Build()
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAllTransmissions) date)) |> ignore
+    app
 ```
 
 Merk at over har vi kalt `getEpgForDate` med `getAllTransmissions`, og fått en ny funksjon i retur som tar inn en `DateTime` og returnerer en `Epg`-verdi. Det å sende inn et subsett av parameterene til en funksjon, og få en funksjon i retur som tar inn de resterende parameterene kalles "partial application". Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
 
-##### Fikse tester
-
-Ettersom vi har innført `getEpgForDate` som parameter til `configureApp`-funksjonen, må vi sende inn det parameteret når vi lager `IWebHostBuilder` i `createWebHostBuilder`-funksjonen i `Tests.fs` i integrasjonstestprosjektet. Legg til følgende `open`-statements, og utvid `createWebHostBuilder`-funksjonen slik:
-
-```f#
-...
-open NRK.Dotnetskolen.Api.DataAccess
-open NRK.Dotnetskolen.Api.Services
-...
-let createWebHostBuilder () =
-    WebHostBuilder()
-        .UseContentRoot(Directory.GetCurrentDirectory()) 
-        .UseEnvironment("Test")
-        .Configure(Program.configureApp (getEpgForDate getAllTransmissions))
-        .ConfigureServices(Program.configureServices)
-```
-
-Kjør testene på nytt med følgende kommando, og se om alle testene passerer nå:
+Kjør API-et med følgende kommando, gå til <http://http://localhost:5000/epg/2021-04-12>, og se hva du får i retur.
 
 ```bash
-$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-
-Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 214 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 ```
 
 #### Benytte egne avhengigheter i integrasjonstester
@@ -3463,7 +3261,7 @@ Et problem med integrasjonstestene våre slik de er nå er at vi ikke har kontro
 
 ##### Implementere mock av getAllTransmissions
 
-La oss implementere vår egen `getAllTransmissions`-funksjon i integrasjonstestprosjektet, og få `getEpgForDate` til å bruke den istedenfor.
+La oss implementere vår egen `getAllTransmissions`-funksjon i integrasjonstestprosjektet, og få API-et vårt til å bruke den istedenfor.
 
 Opprett filen `Mock.fs` i mappen `/test/integration`:
 
@@ -3486,7 +3284,7 @@ Husk å legg til `Mock.fs` i prosjektfilen til integrasjonstestprosjektet:
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
@@ -3562,22 +3360,125 @@ module Mock =
 
 ##### Benytte mock av getAllTransmissions
 
-Nå som vi har vår egen implementasjon av `getAllTransmissions`, kan vi konfigurere `getEpgForDate` til å bruke denne implementasjonen istedenfor den fra web-API-prosjektet. Det gjør vi ved å bytte ut `open`-statementen `open NRK.Dotnetskolen.Api.DataAccess` med `open NRK.Dotnetskolen.IntegrationTests.Mock`, slik:
+Nå har vi en egen implementasjon av `getAllTransmissions` som vi ønsker å bruke kun når integrasjonstestene kjører. Hvordan får vi til det? La oss se nøyere på hvordan `Program.fs` i API-prosjektet ser ut:
+
+```f#
+namespace NRK.Dotnetskolen.Api
+
+module Program = 
+
+    open System
+    open Microsoft.AspNetCore.Http
+    open Microsoft.AspNetCore.Builder
+    open NRK.Dotnetskolen.Api.Services
+    open NRK.Dotnetskolen.Api.DataAccess
+    open NRK.Dotnetskolen.Api.HttpHandlers
+
+    let createWebApplicationBuilder () =
+        WebApplication.CreateBuilder()
+
+    let createWebApplication (builder: WebApplicationBuilder) =
+        let app = builder.Build()
+        app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+        app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAllTransmissions) date)) |> ignore
+        app
+
+    let builder = createWebApplicationBuilder()
+    let app = createWebApplication builder
+    app.Run()
+```
+
+Her ser vi at `epgHandler` tar inn `getEpgForDate` "partially applied" med `getAllTransmissions` som første parameter. `getEpgForDate` og `getAllTransmissions` her er tatt fra hhv. `Services`- og `DataAccess`-modulene i API-prosjektet, men vi ønsker å sende med egne implementasjoner av disse i integrasjonstestene slik at vi har kontroll på avhengighetene til API-et under kjøring av integrasjonstestene. Husk at `runWithTestClient`-funksjonen i `Tests.fs` i integrasjonstestprosjektet kaller `createWebApplication`-funksjonen fra `Program.fs` i API-prosjektet. Dersom vi hadde utvidet `createWebApplication`-funksjonen til å ta inn `getEpgForDate` som et eget parameter kunne vi sendt én implementasjon av funksjonen fra API-et, og en annen implementasjon fra integrasjonstestene. La oss gjøre det.
+
+Legg til følgende `open`-statement, og utvid `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet med et parameter til `getEpgForDate`, og send dette inn til `epgHandler` slik:
 
 ```f#
 ...
+open NRK.Dotnetskolen.Domain
+...
+let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTime -> Epg) =
+    let app = builder.Build()
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
+    app
+```
+
+Send deretter `getEpgForDate` fra `Services`-modulen "partially applied" med `getAllTransmissions` fra `DataAccess`-modulen inn som andre parameter til `createWebApplication`, slik:
+
+```f#
+...
+let app = createWebApplication builder (getEpgForDate getAllTransmissions)
+...
+```
+
+`Program.fs` i API-prosjektet skal nå se slik ut:
+
+```f#
+namespace NRK.Dotnetskolen.Api
+
+module Program = 
+
+    open System
+    open Microsoft.AspNetCore.Http
+    open Microsoft.AspNetCore.Builder
+    open NRK.Dotnetskolen.Domain
+    open NRK.Dotnetskolen.Api.Services
+    open NRK.Dotnetskolen.Api.DataAccess
+    open NRK.Dotnetskolen.Api.HttpHandlers
+
+    let createWebApplicationBuilder () =
+        WebApplication.CreateBuilder()
+
+    let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTime -> Epg) =
+        let app = builder.Build()
+        app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+        app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
+        app
+
+    let builder = createWebApplicationBuilder()
+    let app = createWebApplication builder (getEpgForDate getAllTransmissions)
+    app.Run()
+```
+
+Nå som kan styre implementasjonen av `getEpgForDate` fra utsiden av `createWebApplication`-funksjonen kan vi lage en egen `getEpgForDate` i integrasjonstestprosjektet som bruker mock-implementasjonen av `getAllTransmissions`. Start med å åpne `Services`-modulen fra API-prosjektet, og `Mock`-modulen fra integrasjonstestprosjektet i `Tests.fs` i integrasjonstestprosjektet, slik:
+
+```f#
+...
+open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.IntegrationTests.Mock
 ...
 ```
 
-Dette sørger for at `getAllTransmissions` blir hentet fra `Mock`-modulen vår i integrasjonstestprosjektet istedenfor å bruke `DataAccess`-modulen i API-et vårt.
+Endre deretter kallet til `createWebApplication` fra `runWithTestClient` i `Tests.fs` i integrasjonstestprosjektet til å sende med en "partially applied" versjon av `getEpgForDate` fra `Services` med `getAllTransmissions` fra `Mock`-modulen slik:
+
+```f#
+...
+use app = createWebApplication builder (getEpgForDate getAllTransmissions)
+...
+```
+
+Hele `runWithTestClient`-funksjonen skal nå se slik ut:
+
+```f#
+let runWithTestClient (test: HttpClient -> Async<unit>) = 
+    async {
+        let builder = createWebApplicationBuilder()
+        builder.WebHost.UseTestServer() |> ignore
+
+        use app = createWebApplication builder (getEpgForDate getAllTransmissions)
+        do! app.StartAsync() |> Async.AwaitTask
+
+        let testClient = app.GetTestClient()
+        do! test testClient
+    } |> Async.RunSynchronously
+```
 
 Dersom du kjører integrasjonstestene igjen, skal de fortsatt passere:
 
 ```bash
 $ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-
-Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 296 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+...
+Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 124 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
 Gratulerer! 🎉
@@ -3681,7 +3582,7 @@ let toDomain (epgEntity : EpgEntity) : Epg =
     |> List.filter(fun d -> isTransmissionValid d)
 ```
 
-Her forsøker vi å sette `Sending.Tittel` direkte til `Tittel`-feltet fra `SendingEntity`-typen. Siden `Tittel`-feltet i `SendingEntity`-typen er `string`, og `Sending.Tittel` er av typen `Tittel` feiler typesjekken. For å fikse dette må vi kalle `Tittel.create`-funksjonen med `SendingEntity` sin `Tittel` som input, slik: 
+Her forsøker vi å sette `Sending.Tittel` direkte til `Tittel`-feltet fra `SendingEntity`-typen. Siden `Tittel`-feltet i `SendingEntity`-typen er `string`, og `Sending.Tittel` er av typen `Tittel` feiler typesjekken. For å fikse dette må vi kalle `Tittel.create`-funksjonen med `SendingEntity` sin `Tittel` som input, slik:
 
 ```f#
 let toDomain (epgEntity : EpgEntity) : Epg =
@@ -3757,7 +3658,7 @@ Det første vi må rette opp er opprettelsen av `Sending`-verdier i `Tests.fs` i
 
 ☑️ Fiks kompileringsfeilene i `Tests.fs` i enhetstestprosjektet på samme måte som vi gjorde for `DataAccess.fs`.
 
-Opprettelsen av `Sending`-verdier i `Mock.fs` i integrasjonstestprosjektet feiler av samme grunn som over. 
+Opprettelsen av `Sending`-verdier i `Mock.fs` i integrasjonstestprosjektet feiler av samme grunn som over.
 
 ☑️ Fiks kompileringsfeilene på samme måte.
 
@@ -4096,7 +3997,7 @@ I [steg 7](#steg-7---definere-api-kontrakt) innførte vi OpenAPI-kontrakt for AP
 Kort oppsummert er dette stegene vi skal gjøre for å lage en egen ReDoc-side i API-et vårt:
 
 1. Flytte `docs/epg.schema.json` og `docs/openapi.json` til `src/api/wwwroot/documentation`
-2. Opprette HTML-fil `openapi.html` i `src/api/wwwroot` med innhold fra [dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr), og endre referansen til OpenAPI-dokumentet i `openapi.html`
+2. Opprette HTML-fil `openapi.html` i `src/api/wwwroot` med innhold fra [dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr-final-code-example), og endre referansen til OpenAPI-dokumentet i `openapi.html`
 3. Konfigurere web-API-et til å serve statiske filer
 
 ##### Flytte API-dokumentasjon
@@ -4174,32 +4075,35 @@ Opprett filen `openapi.html` i mappen `src/api/wwwroot`, slik:
 ...
 ```
 
-Åpne `openapi.html`, og lim inn innholdet vist [i dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr), slik:
+Åpne `openapi.html`, og lim inn innholdet vist [i dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr-final-code-example), slik:
 
 ```html
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>ReDoc</title>
+
+<head>
+    <title>Redoc</title>
     <!-- needed for adaptive design -->
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
 
     <!--
-    ReDoc doesn't change outer page styles
+    Redoc doesn't change outer page styles
     -->
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
+        body {
+            margin: 0;
+            padding: 0;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <redoc spec-url='http://petstore.swagger.io/v2/swagger.json'></redoc>
-    <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"> </script>
-  </body>
+    <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"> </script>
+</body>
+
 </html>
 ```
 
@@ -4213,19 +4117,18 @@ Legg merke til at linjen som starter med `<redoc spec-url=` (nesten helt nederst
 
 ##### Serve statiske filer
 
-Da vi [konfigurerte middleware pipelinen til web-API-et i steg 10](#legge-til-giraffe-i-middleware-pipeline) la vi kun til Giraffe. Det vil si at Giraffe er det eneste som behandler forespørsler til API-et vårt. Siden vi ønsker å kunne serve den statiske filen `openapi.html`, må vi legge til støtte for det i middleware pipelinen vår. Det gjør vi i funksjonen `configureApp` i `src/api/Program.fs`:
+I utgangspunktet kan ikke web-applikasjonen slik vi har konfigurert den nå servere statiske filer (slik som `openapi.html` som nettopp opprettet). For å kunne serve statiske filer må vi legge til en egen "middleware" i "middleware pipelinen" til web-API-et vårt som gjør akkurat dette. For å legge til denne "middlewaren" kaller vi `app.UseStaticFiles()` på `WebApplication`-objektet som vi oppretter i `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet vårt, slik:
 
 ```f#
-let configureApp (getEpgForDate: DateTime -> Epg)  (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = GET >=> choose [
-                    route "/ping" >=> text "pong"
-                    routef "/epg/%s" (epgHandler getEpgForDate)
-                ]
-    app.UseStaticFiles()
-       .UseGiraffe webApp
+let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTime -> Epg) =
+    let app = builder.Build()
+    app.UseStaticFiles() |> ignore
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
+    app
 ```
 
-Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer blir servet av webserveren. Som default konfigureres serveren til å se etter statiske filer i `wwwroot`-mappen. Legg merke til at vi kaller `UseStaticFiles` _før_ `UseGiraffe`. Siden middlewares i .NET prosesserer innkommende forespørsler i den rekkefølgen de blir lagt til gjennom `IApplicationBuilder`, legger vi til serving av statiske filer før Giraffe, slik at dersom det finnes en statisk fil identifisert av path-en i HTTP-forespørslen returnerer vi den istedenfor å gå videre med å evaluere HttpHandlere i Giraffe.  Siden `UseStaticFiles` returnerer en `IApplicationBuilder` kan vi kalle `UseGiraffe webapp` etterpå.
+Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer blir servet av webserveren. Som default konfigureres serveren til å se etter statiske filer i `wwwroot`-mappen. Legg merke til at vi kaller `UseStaticFiles` _før_ `MapGet`-funksjonene. Siden middlewares i .NET prosesserer innkommende forespørsler i den rekkefølgen de blir lagt til i "middleware pipelinen", legger vi til serving av statiske filer før håndtering av andre HTTP-forespørsler, slik at dersom det finnes en statisk fil identifisert av path-en i HTTP-forespørslen returnerer vi den istedenfor å gå videre med å evaluere endepunktene vi har satt opp.
 
 ##### Se dokumentasjonen
 
