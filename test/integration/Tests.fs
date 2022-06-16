@@ -1,25 +1,27 @@
 module Tests
 
-open System.IO
-open Microsoft.AspNetCore.Hosting
-open Microsoft.AspNetCore.TestHost
+open System.Net.Http
 open Xunit
-open NRK.Dotnetskolen.Api
+open Microsoft.AspNetCore.TestHost
+open NRK.Dotnetskolen.Api.Program
 
-let createWebHostBuilder () =
-    WebHostBuilder()
-        .UseContentRoot(Directory.GetCurrentDirectory()) 
-        .UseEnvironment("Test")
-        .Configure(Program.configureApp)
-        .ConfigureServices(Program.configureServices)
+let runWithTestClient (test: HttpClient -> Async<unit>) = 
+    async {
+        let builder = createWebApplicationBuilder()
+        builder.WebHost.UseTestServer() |> ignore
+
+        use app = createWebApplication builder
+        do! app.StartAsync() |> Async.AwaitTask
+
+        let testClient = app.GetTestClient()
+        do! test testClient
+    } |> Async.RunSynchronously
 
 [<Fact>]
-let ``Get ping returns 200 OK`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let url = "/ping"
-
-    let! response = client.GetAsync(url) |> Async.AwaitTask
-
-    response.EnsureSuccessStatusCode() |> ignore
-}
+let ``Get "ping" returns "pong"`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let! response = httpClient.GetStringAsync("ping") |> Async.AwaitTask
+            Assert.Equal(response, "pong")
+        }
+    )

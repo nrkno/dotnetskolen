@@ -2,28 +2,17 @@ namespace NRK.Dotnetskolen.Api
 
 module Program = 
 
-    open Microsoft.Extensions.Hosting
-    open Microsoft.AspNetCore.Hosting
+    open System
     open Microsoft.AspNetCore.Builder
-    open Microsoft.Extensions.DependencyInjection
-    open Giraffe
 
-    let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-        let webApp = route "/ping" >=> text "pong"
-        app.UseGiraffe webApp
+    let createWebApplicationBuilder () =
+        WebApplication.CreateBuilder()
 
-    let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-        services.AddGiraffe() |> ignore
+    let createWebApplication (builder: WebApplicationBuilder) =
+        let app = builder.Build()
+        app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+        app
 
-    let createHostBuilder args =
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(fun webHostBuilder ->
-                webHostBuilder
-                    .Configure(configureApp)
-                    .ConfigureServices(configureServices) |> ignore
-            )
-
-    [<EntryPoint>]
-    let main argv =
-        createHostBuilder(argv).Build().Run()
-        0
+    let builder = createWebApplicationBuilder()
+    let app = createWebApplication builder
+    app.Run()
