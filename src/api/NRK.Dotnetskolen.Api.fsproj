@@ -10,7 +10,6 @@
     <Compile Include="Dto.fs" />
     <Compile Include="Services.fs" />
     <Compile Include="HttpHandlers.fs" />
-    <Compile Include="EntryPoint.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
