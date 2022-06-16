@@ -1,3 +1,3 @@
-# Steg 11 - Følge prinsipper i domenedrevet design
+# Steg 12 - Grafisk fremstilling av OpenAPI-dokumentasjon
 
-Løsningsforslag for [steg 11](https://github.com/nrkno/dotnetskolen/tree/main#steg-11---følge-prinsipper-i-domenedrevet-design).
+Løsningsforslag for [steg 12](https://github.com/nrkno/dotnetskolen/tree/main#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon).
