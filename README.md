@@ -3582,7 +3582,7 @@ let toDomain (epgEntity : EpgEntity) : Epg =
     |> List.filter(fun d -> isTransmissionValid d)
 ```
 
-Her forsøker vi å sette `Sending.Tittel` direkte til `Tittel`-feltet fra `SendingEntity`-typen. Siden `Tittel`-feltet i `SendingEntity`-typen er `string`, og `Sending.Tittel` er av typen `Tittel` feiler typesjekken. For å fikse dette må vi kalle `Tittel.create`-funksjonen med `SendingEntity` sin `Tittel` som input, slik: 
+Her forsøker vi å sette `Sending.Tittel` direkte til `Tittel`-feltet fra `SendingEntity`-typen. Siden `Tittel`-feltet i `SendingEntity`-typen er `string`, og `Sending.Tittel` er av typen `Tittel` feiler typesjekken. For å fikse dette må vi kalle `Tittel.create`-funksjonen med `SendingEntity` sin `Tittel` som input, slik:
 
 ```f#
 let toDomain (epgEntity : EpgEntity) : Epg =
@@ -3658,7 +3658,7 @@ Det første vi må rette opp er opprettelsen av `Sending`-verdier i `Tests.fs` i
 
 ☑️ Fiks kompileringsfeilene i `Tests.fs` i enhetstestprosjektet på samme måte som vi gjorde for `DataAccess.fs`.
 
-Opprettelsen av `Sending`-verdier i `Mock.fs` i integrasjonstestprosjektet feiler av samme grunn som over. 
+Opprettelsen av `Sending`-verdier i `Mock.fs` i integrasjonstestprosjektet feiler av samme grunn som over.
 
 ☑️ Fiks kompileringsfeilene på samme måte.
 
@@ -3997,7 +3997,7 @@ I [steg 7](#steg-7---definere-api-kontrakt) innførte vi OpenAPI-kontrakt for AP
 Kort oppsummert er dette stegene vi skal gjøre for å lage en egen ReDoc-side i API-et vårt:
 
 1. Flytte `docs/epg.schema.json` og `docs/openapi.json` til `src/api/wwwroot/documentation`
-2. Opprette HTML-fil `openapi.html` i `src/api/wwwroot` med innhold fra [dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr), og endre referansen til OpenAPI-dokumentet i `openapi.html`
+2. Opprette HTML-fil `openapi.html` i `src/api/wwwroot` med innhold fra [dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr-final-code-example), og endre referansen til OpenAPI-dokumentet i `openapi.html`
 3. Konfigurere web-API-et til å serve statiske filer
 
 ##### Flytte API-dokumentasjon
@@ -4075,32 +4075,35 @@ Opprett filen `openapi.html` i mappen `src/api/wwwroot`, slik:
 ...
 ```
 
-Åpne `openapi.html`, og lim inn innholdet vist [i dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr), slik:
+Åpne `openapi.html`, og lim inn innholdet vist [i dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr-final-code-example), slik:
 
 ```html
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>ReDoc</title>
+
+<head>
+    <title>Redoc</title>
     <!-- needed for adaptive design -->
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
 
     <!--
-    ReDoc doesn't change outer page styles
+    Redoc doesn't change outer page styles
     -->
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
+        body {
+            margin: 0;
+            padding: 0;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <redoc spec-url='http://petstore.swagger.io/v2/swagger.json'></redoc>
-    <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"> </script>
-  </body>
+    <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"> </script>
+</body>
+
 </html>
 ```
 
@@ -4114,19 +4117,18 @@ Legg merke til at linjen som starter med `<redoc spec-url=` (nesten helt nederst
 
 ##### Serve statiske filer
 
-Da vi [konfigurerte middleware pipelinen til web-API-et i steg 10](#legge-til-giraffe-i-middleware-pipeline) la vi kun til Giraffe. Det vil si at Giraffe er det eneste som behandler forespørsler til API-et vårt. Siden vi ønsker å kunne serve den statiske filen `openapi.html`, må vi legge til støtte for det i middleware pipelinen vår. Det gjør vi i funksjonen `configureApp` i `src/api/Program.fs`:
+I utgangspunktet kan ikke web-applikasjonen slik vi har konfigurert den nå servere statiske filer (slik som `openapi.html` som nettopp opprettet). For å kunne serve statiske filer må vi legge til en egen "middleware" i "middleware pipelinen" til web-API-et vårt som gjør akkurat dette. For å legge til denne "middlewaren" kaller vi `app.UseStaticFiles()` på `WebApplication`-objektet som vi oppretter i `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet vårt, slik:
 
 ```f#
-let configureApp (getEpgForDate: DateTime -> Epg)  (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = GET >=> choose [
-                    route "/ping" >=> text "pong"
-                    routef "/epg/%s" (epgHandler getEpgForDate)
-                ]
-    app.UseStaticFiles()
-       .UseGiraffe webApp
+let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTime -> Epg) =
+    let app = builder.Build()
+    app.UseStaticFiles() |> ignore
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
+    app
 ```
 
-Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer blir servet av webserveren. Som default konfigureres serveren til å se etter statiske filer i `wwwroot`-mappen. Legg merke til at vi kaller `UseStaticFiles` _før_ `UseGiraffe`. Siden middlewares i .NET prosesserer innkommende forespørsler i den rekkefølgen de blir lagt til gjennom `IApplicationBuilder`, legger vi til serving av statiske filer før Giraffe, slik at dersom det finnes en statisk fil identifisert av path-en i HTTP-forespørslen returnerer vi den istedenfor å gå videre med å evaluere HttpHandlere i Giraffe.  Siden `UseStaticFiles` returnerer en `IApplicationBuilder` kan vi kalle `UseGiraffe webapp` etterpå.
+Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer blir servet av webserveren. Som default konfigureres serveren til å se etter statiske filer i `wwwroot`-mappen. Legg merke til at vi kaller `UseStaticFiles` _før_ `MapGet`-funksjonene. Siden middlewares i .NET prosesserer innkommende forespørsler i den rekkefølgen de blir lagt til i "middleware pipelinen", legger vi til serving av statiske filer før håndtering av andre HTTP-forespørsler, slik at dersom det finnes en statisk fil identifisert av path-en i HTTP-forespørslen returnerer vi den istedenfor å gå videre med å evaluere endepunktene vi har satt opp.
 
 ##### Se dokumentasjonen
 
