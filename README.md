@@ -2082,7 +2082,7 @@ I [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på
 }
 ```
 
-> Merk at [https://editor.swagger.io/](https://editor.swagger.io/) ikke støtter at JSON Schema og Open-API-kontrakt er definert i to forskjelliege filer. Derfor er kontrakten over en sammenslåing av `epg.schema.json` og `openapi.json`.
+> Merk at [https://editor.swagger.io/](https://editor.swagger.io/) ikke støtter at JSON Schema og Open-API-kontrakt er definert i to forskjellige filer. Derfor er kontrakten over en sammenslåing av `epg.schema.json` og `openapi.json`.
 
 ### Steg 8 - Implementere kontraktstyper
 
@@ -2297,7 +2297,7 @@ open System
 open Microsoft.AspNetCore.Builder
 
 let app = WebApplication.CreateBuilder().Build()
-app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
+app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
 app.Run()
 ```
 
@@ -2306,6 +2306,8 @@ Her har vi tatt vare på `WebApplication`-objektet, som `WebApplication.CreateBu
 1. En tekststreng som spesifiserer hvilken sti i URL-en som leder til denne funksjonen. I dette tilfellet `ping`.
 2. En funksjon uten parametere som returnerer en tekststreng. I dette tilfellet `pong`.
 
+> Merk at som andre parameter til `MapGet` har vi oppgitt `Func<string>(fun () -> "pong")` som strengt tatt ikke er en funksjon. `Func` er F# sin måte å opprette et `Delegate` på. Delegates er .NET sin måte å pakke inn funksjoner som objekter på. Siden "Minimal APIs" er skrevet for å fungere for hvilket som helst programmeringsspråk i .NET har Microsoft vært nødt til å velge en modell som passer både for både det objektorienterte programmeringsparadigmet så vel som det funksjonelle programmeringsparadigmet. Dermed tar `MapGet` strengt tatt inn et `Delegate`-objekt som andre parameter, og måten man oppretter et `Delegate`-objekt i F# på er ved å kalle `Func` sin konstruktør. I kontstruktøren til `Func` sender vi inn den anonyme F#-funksjonen `fun () -> "pong"`. `<string>` delen av `Func<string>` definerer hva slags type returverdien til den anonyme funksjonen har. Ettersom den anonyme funksjonen ikke tar inn noen parametere er det ikke spesifisert noe mer i `Func<string>` for det. Dersom den anonyme funksjonen hadde tatt inn et parameter av typen `int`, hadde kallet til `Func` sett slik ut: `Func<int, string>`. Du kan lese mer om delegates i F# her: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/delegates>
+>
 > Du kan lese mer om "minimal APIs" her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0>
 
 ##### Kjøre API-et
@@ -2386,7 +2388,7 @@ open System
 open Microsoft.AspNetCore.Builder
 
 let app = WebApplication.CreateBuilder().Build()
-app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
+app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
 app.Run()
 ```
 
@@ -2400,7 +2402,7 @@ let createWebApplicationBuilder () =
     WebApplication.CreateBuilder()
 
 let app = createWebApplicationBuilder().Build()
-app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
+app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
 app.Run()
 ```
 
@@ -2419,7 +2421,7 @@ let createWebApplicationBuilder () =
 
 let createWebApplication (builder: WebApplicationBuilder) =
     let app = builder.Build()
-    app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
     app
 
 let builder = createWebApplicationBuilder()
@@ -2446,7 +2448,7 @@ module Program =
 
     let createWebApplication (builder: WebApplicationBuilder) =
         let app = builder.Build()
-        app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
+        app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
         app
 
     let builder = createWebApplicationBuilder()
@@ -2484,7 +2486,7 @@ let runWithTestClient (test: HttpClient -> Async<unit>) =
 let ``Get "ping" returns "pong"`` () =
     runWithTestClient (fun httpClient -> 
         async {
-            let! response = httpClient.GetStringAsync("ping") |> Async.AwaitTask
+            let! response = httpClient.GetStringAsync("/ping") |> Async.AwaitTask
             Assert.Equal(response, "pong")
         }
     )
@@ -2549,20 +2551,20 @@ Til slutt kaller `runWithTestClient` `test`-funksjonen og sender med `testClient
 
 ###### Definere test
 
-Til slutt definerer vi en test `Get "ping" returns "pong"` som kaller `runWithTestClient` med en anonym funksjon. Den anonyme funksjonen tar inn `HttpClient`-objektet som sender HTTP-forespørsler til testserveren vår. Deretter kaller den `httpClient.GetStringAsync("ping")` for å sende en HTTP GET til testserveren med `ping` som sti i URL-en. Til slutt verifiserer den at responsen fra testserveren var `pong`.
+Til slutt definerer vi en test `Get "ping" returns "pong"` som kaller `runWithTestClient` med en anonym funksjon. Den anonyme funksjonen tar inn `HttpClient`-objektet som sender HTTP-forespørsler til testserveren vår. Deretter kaller den `httpClient.GetStringAsync("/ping")` for å sende en HTTP GET til testserveren med `ping` som sti i URL-en. Til slutt verifiserer den at responsen fra testserveren var `pong`.
 
 ```f#
 [<Fact>]
 let ``Get "ping" returns "pong"`` () =
     runWithTestClient (fun httpClient -> 
         async {
-            let! response = httpClient.GetStringAsync("ping") |> Async.AwaitTask
+            let! response = httpClient.GetStringAsync("/ping") |> Async.AwaitTask
             Assert.Equal(response, "pong")
         }
     )
 ```
 
-> Merk at her bruker vi `let!` istedenfor `let` før `httpClient.GetStringAsync("ping") |> Async.AwaitTask`. Ved å bruke `let!` venter vi på at den asynkrone handlingen på høyresiden av `=` (`httpClient.GetStringAsync("ping") |> Async.AwaitTask`) returnerer før vi går videre.
+> Merk at her bruker vi `let!` istedenfor `let` før `httpClient.GetStringAsync(/ping") |> Async.AwaitTask`. Ved å bruke `let!` venter vi på at den asynkrone handlingen på høyresiden av `=` (`httpClient.GetStringAsync("/ping") |> Async.AwaitTask`) returnerer før vi går videre.
 >
 > Ettersom `httpClient.GetStringAsync(url)` er skrevet for C#, hvor asynkrone handlinger er modellert gjennom `Task`-objekter, returnerer den en `Task`. I F# blir asynkrone handlinger imidlertid representert gjennom `Async`-verdier. Derfor bruker vi `Async.AwaitTask` for å gjøre om `Task`-en som `httpClient.GetStringAsync(url)` returnerer til en `Async`-verdi før vi venter på den.
 
@@ -2584,7 +2586,7 @@ I [forrige steg](#steg-9---sette-opp-skall-for-api) opprettet vi et skall for we
 
 #### Test 1 - Verifisere at endepunktet finnes
 
-I den første integrasjonstesten skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement før `open System.IO` i `Tests.fs`-filen.
+I den første integrasjonstesten skal vi sende en forespørsel til API-et vårt som henter ut EPG-en for dagen i dag, og validere at vi får 200 OK tilbake. Start med å legg til følgende "open"-statement før `open System.Net.Http` i `Tests.fs`-filen i integrasjonstestprosjektet.
 
 ```f#
 open System
@@ -2594,19 +2596,18 @@ Legg deretter til følgende test etter `ping`-testen i `Tests.fs`-filen:
 
 ```f#
 [<Fact>]
-let ``Get EPG today returns 200 OK`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
-    let url = sprintf "/epg/%s" todayAsString
-
-    let! response = client.GetAsync(url) |> Async.AwaitTask
-
-    response.EnsureSuccessStatusCode() |> ignore
-}
+let ``Get EPG today returns 200 OK`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+            let url = $"/epg/{todayAsString}" 
+            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            response.EnsureSuccessStatusCode() |> ignore
+        }
+    )
 ```
 
-På tilsvarende måte som `ping`-testen vår, bruker vi `createWebHostBuilder`-funksjonen til å opprette en testserver, og benytter testserveren til å opprette en HTTP-klient. Deretter benytter vi HTTP-klienten til å sende en GET-forespørsel til `/epg/<dagens dato>`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
+På tilsvarende måte som `ping`-testen vår, bruker vi `runWithTestClient`-funksjonen til å få en HTTP-klient som sender HTTP-forespørsler til testserveren vår. Deretter benytter vi HTTP-klienten til å sende en GET-forespørsel til `/epg/<dagens dato>`. Vi forventer å få 200 OK i respons, og verifiserer dette ved å kalle `response.EnsureSuccessStatusCode()`.
 
 ##### Se at testen feiler
 
@@ -2615,7 +2616,12 @@ Kjør integrasjonstesten med følgende kommando:
 ```bash
 $ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
-Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 301 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+[xUnit.net 00:00:00.73]     Tests.Get EPG today returns 200 OK [FAIL]
+  Failed Tests.Get EPG today returns 200 OK [102 ms]
+  Error Message:
+   System.Net.Http.HttpRequestException : Response status code does not indicate success: 404 (Not Found).
+...
+Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 10 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
 Som vi ser over feiler testen foreløpig ettersom web-API-et returnerer `404 (Not Found)`. La oss endre API-et slik at integrasjonstesten passerer.
@@ -2653,25 +2659,19 @@ Det er to ting som definerer operasjonen i API-et vårt:
 1. URL-en `/epg/{dato}`
 2. At den er tilgjengelig gjennom HTTP `GET`-verbet
 
-Dette kan vi bruke når vi skal definere operasjonen i Giraffe. Utvid `configureApp` i `Program.fs` i API-prosjektet slik:
+Dette kan vi bruke når vi skal definere operasjonen i `WebApplication`-objektet vårt. Utvid `createWebApplication` i `Program.fs` i API-prosjektet med linjen `app.MapGet("/epg/{date}", Func<string, string>(fun (date) -> date)) |> ignore` slik:
 
 ```f#
-let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = GET >=> choose [
-                    route "/ping" >=> text "pong"
-                    routef "/epg/%s" (fun date -> json date) 
-                ]
-    app.UseGiraffe webApp
+let createWebApplication (builder: WebApplicationBuilder) =
+    let app = builder.Build()
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/epg/{date}", Func<string, string>(fun (date) -> date)) |> ignore
+    app
 ```
 
-Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> json date` for HTTP `GET`-forespørsler til URL-en `/epg/%s`, hvor `%s` matcher tekststrengen oppgitt i URL-en etter `/epg/`. Legg merke til at her bruker vi funksjonen `json` istedenfor `text` for å formatere responsen til endepunktet som JSON istedenfor tekst.
+Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun (date) -> date)` for HTTP `GET`-forespørsler til URL-en `epg/{date}`, hvor `{date}` matcher tekststrengen oppgitt i URL-en etter `/epg/`.
 
-I tillegg har vi benyttet to funksjoner i Giraffe:
-
-- `GET` - en funksjon som kun kaller `next` dersom HTTP-verbet som er brukt i forespørslen er `GET`. Det finnes tilsvarende funksjoner for andre HTTP-verb: [https://github.com/giraffe-fsharp/Giraffe/blob/master/DOCUMENTATION.md#http-verbs](https://github.com/giraffe-fsharp/Giraffe/blob/master/DOCUMENTATION.md#http-verbs)
-- `choose` - en funksjon som tar inn en liste med `HttpHandler`-funksjoner, og kaller hver av dem etter tur helt til den første returnerer et vellykket resultat
-
-Ved å anvende `GET` og `choose` funksjonene slik som over oppnår vi at API-et kun svarer på `GET`-forespørsler, og at vi svarer både på `/ping` og `/epg/{dato}`.
+> Legg merke til bruken av delegates her også gjennom `Func<string, string>(fun (date) -> date)`. Her ser vi at delegaten vår tar inn et parameter av typen `string`, og returnerer en verdi av typen `string`.
 
 ##### Kjøre API-et
 
@@ -2684,34 +2684,32 @@ $ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 
 ##### Se at testen passerer
 
-Nå skal også integrasjonstesten som verifiserer om API-et vårt svarer på `/epg/{dato}` passere. Det kan vi se ved å kjøre følgende kommando:    
+Nå skal også integrasjonstesten som verifiserer om API-et vårt svarer på `/epg/{dato}` passere. Det kan vi se ved å kjøre følgende kommando:
 
 ```bash
 $ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
-Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 435 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 9 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
 #### Test 2 - Verifisere at dato valideres
 
-I den neste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid `Tests.fs` med følgende `open`-statement og testfunksjon:
+I den neste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid `Tests.fs` i integrasjonstestprosjektet med følgende `open`-statement og testfunksjon:
 
 ```f#
 ...
 open System.Net
 ...
-
 [<Fact>]
-let ``Get EPG invalid date returns bad request`` () = async {
-    use testServer = new TestServer(createWebHostBuilder())
-    use client = testServer.CreateClient()
-    let invalidDateAsString = "2021-13-32"
-    let url = sprintf "/epg/%s" invalidDateAsString
-
-    let! response = client.GetAsync(url) |> Async.AwaitTask
-
-    Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
-}
+let ``Get EPG invalid date returns bad request`` () =
+    runWithTestClient (fun httpClient -> 
+        async {
+            let invalidDateAsString = "2021-13-32"
+            let url = $"/epg/{invalidDateAsString}"
+            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
+        }
+    )
 ```
 
 Her sender vi inn en ugyldig dato, og forventer å få 400 Bad Request som respons.
@@ -2723,10 +2721,17 @@ Kjør integrasjonstestene igjen med følgende kommando:
 ```bash
 $ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
-Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 173 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+[xUnit.net 00:00:00.81]     Tests.Get EPG invalid date returns bad request [FAIL]
+  Failed Tests.Get EPG invalid date returns bad request [10 ms]
+  Error Message:
+   Assert.Equal() Failure
+Expected: BadRequest
+Actual:   OK
+...
+Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 37 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
-Den nye testen vi la til feiler. La oss endre implementasjonen av web-API-et slik at testen passerer.
+Den nye testen vi la til feiler fordi API-et ikke validerer den oppgitte datoen. La oss endre implementasjonen av web-API-et slik at testen passerer.
 
 ##### Implementere HTTP Handler for /epg/{dato}
 
@@ -2755,20 +2760,18 @@ src
 Husk å legg til `HttpHandlers.fs` i prosjektfilen til API-prosjektet:
 
 ```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Domain.fs" />
     <Compile Include="Dto.fs" />
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
 
@@ -2779,36 +2782,28 @@ namespace NRK.Dotnetskolen.Api
 
 module HttpHandlers =
 
-    open Microsoft.AspNetCore.Http
-    open Giraffe
-
-    let epgHandler (dateAsString : string) : HttpHandler =
-        fun (next : HttpFunc) (ctx : HttpContext) ->
-            (json dateAsString) next ctx
+    let epgHandler (date: string) =
+        date
 ```
 
-Her oppretter vi en modul `HttpHandlers` i namespacet `NRK.Dotnetskolen.Api`. I modulen har vi en funksjon `epgHandler`, som tar inn en tekststreng, og returnerer en `HttpHandler`-funksjon. Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig. Legg merke til det vi nevnte tidligere: at Giraffe har sin egen middleware pipeline. På tilsvarende måte som .NET legger Giraffe opp til at vi:
-
-- Først spesifiserer hva vi ønsker å returnere i HTTP-responsen `json dateAsString`
-- Deretter kaller vi neste `HttpHandler` i pipelinen `next` hvor vi gir inn `HttpContext`-verdien `ctx`.
+Her oppretter vi en modul `HttpHandlers` i namespacet `NRK.Dotnetskolen.Api`. I modulen har vi en funksjon `epgHandler`, som tar inn en tekststreng, og foreløpig returnerer funksjonen den samme tekststrengen. Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig.
 
 Åpne modulen `HttpHandlers` i `Program.fs` og kall funksjonen `epgHandler` istedenfor den anonyme funksjonen vi hadde:
 
 ```f#
 ...
 open NRK.Dotnetskolen.Api.HttpHandlers
-
-let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-    let webApp = GET >=> choose [
-                    route "/ping" >=> text "pong"
-                    routef "/epg/%s" epgHandler 
-                ]
-    app.UseGiraffe webApp
+...
+let createWebApplication (builder: WebApplicationBuilder) =
+    let app = builder.Build()
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/epg/{date}", Func<string, string>(fun date -> epgHandler date)) |> ignore
+    app
 ```
 
 ###### Validere dato
 
-La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. Lim inn følgende `open`-statements, og `parseAsDateTIme`-funksjonen under før `epgHandler`-funksjonen i `HttpHandlers.fs`:
+La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. Lim inn følgende `open`-statements, og `parseAsDateTime`-funksjonen under før `epgHandler`-funksjonen i `HttpHandlers.fs`:
 
 ```f#
 open System
@@ -2823,19 +2818,25 @@ let parseAsDateTime (dateAsString : string) : DateTime option =
     | _ -> None
 ```
 
-`parseAsDateTime`-funksjonen forsøker å parse tekststrengen vi har fått inn i URL-en til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indikerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTime.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTime.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTime.ParseExact` kaster `Exception`, og `Some date` dersom funksjonskallet lykkes.
+`parseAsDateTime`-funksjonen forsøker å parse tekststrengen den får som parameter til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indikerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTime.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTime.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTime.ParseExact` kaster `Exception`, og `Some date` dersom funksjonskallet lykkes.
 
 Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig:
 
 ```f#
-let epgHandler (dateAsString : string) : HttpHandler =
-    fun (next : HttpFunc) (ctx : HttpContext) ->
-        match (parseAsDateTime dateAsString) with
-        | Some date -> (json date) next ctx
-        | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
+let epgHandler date =
+    match (parseAsDateTime date) with
+    | Some parsedDate -> Results.Ok(parsedDate)
+    | None -> Results.BadRequest("Invalid date")
 ```
 
-`None`-casen i koden over illustrerer et tilfelle hvor vi _ikke_ kaller neste middleware i pipelinen. Dersom den oppgitte datoen er ugyldig, setter vi statuskoden til `400` og skriver `Invalid date` til response body, før vi bryter videre prosessering av middleware i Giraffe ved å lage en tom middleware `Some >> Task.FromResult` som returnerer umiddelbart.
+Her bruker vi et `match`-statement i F# som sammenlikner resultatet av å kalle `parseAsDateTime date` med `Some parsedDate` (i tilfellet datoen ble vellykket parset som en dato på formatet vi har spesifisert i `parseAsDateTime`) eller `None` i motsatt fall. Dersom datoen ble vellykket parset som en dato returnerer vi `Results.Ok(parsedDate)` som setter statuskoden til `200 OK` og returnerer datoen. I motsatt fall returnerer vi `Results.BadRequest("Invalid date")` som setter statuskoden til `400 Bad Request`, og returnerer teksten `Invalid date`.
+
+Siden vi nå har endret returtypen til `epgHandler` fra `string` til `IResult` (samleinterface for de blant annet `Ok` og `BadRequest`), må vi også endre typen til delegaten i `MapGet("/epg/{date}"` slik:
+
+```f#
+...
+app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler date)) |> ignore
+```
 
 ##### Kjøre API-et
 
@@ -2846,7 +2847,7 @@ $ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 ...
 ```
 
-Det vi nå får tilbake er Giraffe sin serialisering av det validerte datoobjektet vårt.
+Det vi nå får tilbake er ASP.NET sin serialisering av det parsede datoobjektet.
 
 ##### Se at testen passerer
 
@@ -2855,12 +2856,12 @@ Kjør integrasjonstestene på nytt, og se at testen som verifiserer at API-et v�
 ```bash
 $ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ...
-Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 244 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 16 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
 #### Test 3 - Verifisere format på EPG-respons
 
-I den siste testen skal vi verifisere at responsen API-et gir følger formatet vi har spesifisert i OpenAPI-kontrakten vår. 
+I den siste testen skal vi verifisere at responsen API-et gir følger formatet vi har spesifisert i OpenAPI-kontrakten vår.
 
 ##### JsonSchema.Net
 
