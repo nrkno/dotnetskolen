@@ -2212,23 +2212,14 @@ Når vi utvikler og kjører en applikasjon har vi behov for tilgang til felles r
 Åpne `Program.fs` i web-API-prosjektet og erstatt innholdet med følgende:
 
 ```f#
-namespace NRK.Dotnetskolen.Api
+open Microsoft.Extensions.Hosting
 
-module Program = 
-
-    open Microsoft.Extensions.Hosting
-
-    [<EntryPoint>]
-    let main argv =
-        Host.CreateDefaultBuilder(argv).Build().Run()
-        0
+Host.CreateDefaultBuilder().Build().Run()
 ```
 
-Her oppretter vi en modul, `Program`, i namespacet `NRK.Dotnetskolen.Api`. I `Program`-modulen åpner vi `Microsoft.Extensions.Hosting` for å få tilgang til `CreateDefaultBuilder`. Vi kaller funksjonen `Host.CreateDefaultBuilder` hvor vi sender med eventuelle argumenter gitt på kommandolinjen inn gjennom `argv`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
+Her åpner vi `Microsoft.Extensions.Hosting` for å få tilgang til `CreateDefaultBuilder`. Vi kaller funksjonen `Host.CreateDefaultBuilder`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
 
-Til slutt bygger vi hosten vår, og starter den slik `Host.CreateDefaultBuilder(argv).Build().Run()` i `main`-funksjonen.
-
-> Husk at vi i [avsnittet om programfilen](#programfilen) nevnte at F# har støtte for implisitt og eksplisitt startpunkt for et program. I `Program.fs` har vi nå gått over fra implisitt til eksplisitt startpunkt. For flere detaljer se: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point)
+Til slutt bygger vi hosten vår, og starter den slik `Host.CreateDefaultBuilder().Build().Run()`.
 
 ###### Kjøre host
 
@@ -2266,22 +2257,15 @@ Microsoft har laget et rammeverk for web-applikasjoner i .NET, ASP.NET (ASP stå
 
 Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørslen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørslen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørslen videre i pipelinen dersom den ikke er tilstrekkelig autentisert. Pga. denne kortslutningen ligger autentisering tidlig i listen over mellomvarer.
 
-Hosten vi opprettet i forrige avsnitt er et utgangspunkt for hvilken som helst applikasjon. Det kan bli f.eks. en bakgrunnstjeneste eller en web-applikasjon. Siden vi skal lage et web-API skal vi gå videre med å tilpasse hosten til å bli en web-server. Microsoft har laget en spesiell funksjon akkurat til dette formålet: `WebApplication.CreateBuilder(argv)`. Denne likner på `Host.CreateDefaultBuilder(argv)` som vi brukte i tidligere i avsnittet om [host](#Host), bare at hosten den lager er en web-server som har mulighet til å konfigurere en "middleware pipeline". For å lage en web-applikasjon istedenfor en generisk applikasjon, bytt ut linjen `Host.CreateDefaultBuilder(argv).Build().Run()` med `WebApplication.CreateBuilder(argv).Build().Run()` slik at `Program.fs` i API-prosjektet nå ser slik ut:
+Hosten vi opprettet i forrige avsnitt er et utgangspunkt for hvilken som helst applikasjon. Det kan bli f.eks. en bakgrunnstjeneste eller en web-applikasjon. Siden vi skal lage et web-API skal vi gå videre med å tilpasse hosten til å bli en web-server. Microsoft har laget en spesiell funksjon akkurat til dette formålet: `WebApplication.CreateBuilder`. Denne likner på `Host.CreateDefaultBuilder` som vi brukte i tidligere i avsnittet om [host](#Host), bare at hosten den lager er en web-server som har mulighet til å konfigurere en "middleware pipeline". For å lage en web-applikasjon istedenfor en generisk applikasjon, åpne `Microsoft.AspNetCore.Builder`, og bytt ut linjen `Host.CreateDefaultBuilder().Build().Run()` med `WebApplication.CreateBuilder().Build().Run()` slik at `Program.fs` i API-prosjektet nå ser slik ut:
 
 ```f#
-namespace NRK.Dotnetskolen.Api
+open Microsoft.AspNetCore.Builder
 
-module Program = 
-
-    open Microsoft.AspNetCore.Builder
-
-    [<EntryPoint>]
-    let main argv =
-        WebApplication.CreateBuilder(argv).Build().Run()
-        0
+WebApplication.CreateBuilder().Build().Run()
 ```
 
-`WebApplication.CreateBuilder` sørger bl.a. for å sette opp [Kestrel](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-6.0) som web-server for applikasjonen vår. I tillegg returnerer den et objekt av typen `WebApplicationBuilder` som vi kan bruke til å konfigurere web-applikasjonen etter våre behov.
+`WebApplication.CreateBuilder` sørger bl.a. for å sette opp [Kestrel](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-6.0) som web-server for applikasjonen vår. I tillegg returnerer den et objekt av typen `WebApplicationBuilder` som vi kan bruke til å konfigurere web-applikasjonen etter våre behov. Vi kaller umiddelbart på `WebApplicationBuilder` sin funksjon `Build` for å bytte web-applikasjonen vår. `Build` returnerer et objekt av typen `WebApplication`, og vi kaller til slutt `Run`-metoden på `WebApplication`-objektet for å starte web-applikasjonen.
 
 ###### Kjøre web host
 
@@ -2302,27 +2286,22 @@ Fra logginnslagene over ser vi at hosten vår nå lytter på HTTP-forespørsler 
 
 #### Ping
 
-Nå som vi har blitt kjent med noen grunnleggende konsepter i .NET-applikasjoner, kan vi starte å sette sammen vårt eget web-API. For å gjøre det trenger vi en middleware pipeline som kan behandle HTTP-forespørslene som kommer inn til API-et vårt. I .NET 6 innførte Microsoft "minimal APIs" som er en rekke metoder som gjør det enklere å komme i gang med å definere oppførslen til host-en sin. For web-applikasjoner har Microsoft laget "minimal APIs" som gjør det enkelt å legge til funksjoner i "middleware pipelinen" til en web-applikasjon som håndterer innkommende HTTP-forespørsler for en gitt sti. Dette kan vi bruke for å lage et "ping"-endepunkt.
+Nå som vi har blitt kjent med noen grunnleggende konsepter i .NET-applikasjoner, kan vi starte å sette sammen vårt eget web-API. For å gjøre det trenger vi en middleware pipeline som kan behandle HTTP-forespørslene som kommer inn til API-et vårt.
+
+I .NET 6 innførte Microsoft "minimal APIs" som er en rekke metoder som gjør det enklere å komme i gang med å definere oppførslen til en host. For web-applikasjoner har Microsoft laget "minimal APIs" som gjør det enkelt å legge til funksjoner i "middleware pipelinen" til en web-applikasjon som håndterer innkommende HTTP-forespørsler for en gitt sti. Dette kan vi bruke for å lage et "ping"-endepunkt.
 
 Åpne `Program.fs` i API-prosjektet, og bytt ut innholdet i filen med koden under:
 
 ```f#
-namespace NRK.Dotnetskolen.Api
+open System
+open Microsoft.AspNetCore.Builder
 
-module Program = 
-
-    open System
-    open Microsoft.AspNetCore.Builder
-
-    [<EntryPoint>]
-    let main argv =
-        let app = WebApplication.CreateBuilder(argv).Build()
-        app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
-        app.Run()
-        0
+let app = WebApplication.CreateBuilder().Build()
+app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
+app.Run()
 ```
 
-Her har vi tatt vare på `WebApplication`-objektet som `WebApplication.CreateBuilder(argv).Build()` returnerer i en egen variabel `app`. Dette har vi gjort for å få tilgang til "minimal API"-metodene Microsoft har definert for `WebApplication`. Videre har vi brukt én av dem, nemlig `MapGet`, som tar inn to argumenter:
+Her har vi tatt vare på `WebApplication`-objektet, som `WebApplication.CreateBuilder().Build()` returnerer, i en egen variabel `app`. Dette har vi gjort for å få tilgang til "minimal API"-metodene Microsoft har definert for `WebApplication`. Videre har vi brukt én av dem, nemlig `MapGet`, som tar inn to argumenter:
 
 1. En tekststreng som spesifiserer hvilken sti i URL-en som leder til denne funksjonen. I dette tilfellet `ping`.
 2. En funksjon uten parametere som returnerer en tekststreng. I dette tilfellet `pong`.
@@ -2354,19 +2333,19 @@ Dette starter web-API-et på `http://localhost:5000`. Verifiser at API-et funger
 
 #### Integrasjonstester
 
-Før vi fortsetter med å implementere web-API-et skal vi sette opp en integrasjonstest som verifiserer at API-et er oppe og kjører, og at det svarer på HTTP-forespørsler. Det skal vi gjøre ved å
+Før vi fortsetter med å implementere web-API-et skal vi sette opp en integrasjonstest som verifiserer at API-et er oppe og kjører, og at det svarer på HTTP-forespørsler. Det skal vi gjøre ved å:
 
-1. Kjøre web-API-et vårt på en webserver som kjører i minnet under testen
-2. Sende forespørsler mot denne webserveren
-3. Verifisere at webserveren svarer med de verdiene vi forventer
+1. Kjøre web-API-et vårt på en webserver som kjører i minnet under testen, en såkalt `TestServer`.
+2. Sende forespørsler mot denne testserveren
+3. Verifisere at testserveren svarer med de verdiene vi forventer
 
-Siden vi gir hele web-API-et vårt som input til denne webserveren er responsene vi får på samme format som web-API-et svarer med i et deployet miljø, og dermed kan vi være trygge på at API-et oppfyller kontrakten vi har definert også når det deployes.
+Siden vi gir hele web-API-et vårt som input til testserveren er responsene vi får tilsvarende de web-API-et svarer med i et deployet miljø, og dermed kan vi være trygge på at API-et oppfyller kontrakten vi har definert også når det deployes.
 
 > Webserveren vi skal kjøre i integrasjonstestene er dokumentert her: <https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-6.0>
 >
 > Inspirasjonen til å skrive integrasjonstestene på måten beskrevet over er fra [et kurs](https://github.com/erikly/FagkveldTesthost/tree/CompleteWithTestHost) som [@erikly](https://github.com/erikly) har arrangert.
 >
-> En liknende metode er også beskrevet i denne artikkelen skrevet av Microsoft: <https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-6.0>. Artikkelen belager seg imidlertid på konsepter fra objekt orientert programmering, og siden dette kurset fokuserer på F# og funksjonell programmering er det valgt å skrive integrasjonstestene med en mer funksjonell tilnærming.
+> En liknende metode er også beskrevet i denne artikkelen skrevet av Microsoft: <https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-6.0>. Artikkelen belager seg imidlertid på konsepter fra objektorientert programmering, og siden dette kurset fokuserer på F# og funksjonell programmering er det valgt å skrive integrasjonstestene med en mer funksjonell tilnærming.
 
 ##### Legge til avhengigheter
 
@@ -2374,7 +2353,7 @@ For å kunne kjøre integrasjonstestene våre er vi avhengig av et par NuGet-pak
 
 ###### Microsoft.AspNetCore.Mvc.Testing
 
-For å få tilgang til webserveren vi skal kjøre under integrasjonstestene er vi avhengig av NuGet-pakken `Microsoft.AspNetCore.Mvc.Testing`.
+For å få tilgang til testserverem vi skal kjøre under integrasjonstestene er vi avhengig av NuGet-pakken `Microsoft.AspNetCore.Mvc.Testing`.
 
 Kjør følgende kommando fra rotenmappen din for å installere pakken:
 
@@ -2385,9 +2364,9 @@ $ dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project ./test/integration
 
 ###### Referanse til API-prosjektet
 
-For å kunne referere til startpunktet til API-prosjektet må vi legge til en prosjektreferanse fra integrasjonstestprosjektet.
+For å kunne referere til API-et vårt fra testprosjektet må vi legge til en referanse til API-prosjektet fra integrasjonstestprosjektet.
 
-Kjør følgende kommando fra rotmappen din:
+Gjør dette ved å kjør følgende kommando fra rotmappen din:
 
 ```bash
 $ dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj reference ./src/api/NRK.Dotnetskolen.Api.fsproj
@@ -2403,34 +2382,26 @@ For å kunne lage en testserver som representerer API-et vårt når vi kjører t
 Husk at `Program.fs` i API-prosjektet nå ser slik ut:
 
 ```f#
-namespace NRK.Dotnetskolen.Api
+open System
+open Microsoft.AspNetCore.Builder
 
-module Program = 
-
-    open System
-    open Microsoft.AspNetCore.Builder
-
-    [<EntryPoint>]
-    let main argv =
-        let app = WebApplication.CreateBuilder(argv).Build()
-        app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
-        app.Run()
-        0
+let app = WebApplication.CreateBuilder().Build()
+app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
+app.Run()
 ```
 
 For å få tak i `WebApplicationBuilder`-objektet som `WebApplication.CreateBuilder` returnerer fra integrasjonstesten, trekker vi ut oppretting av `WebApplicationBuilder`-objektet til en egen funksjon `createWebApplicationBuilder` slik:
 
 ```f#
-...
-    let createWebApplicationBuilder (argv: string[]) =
-        WebApplication.CreateBuilder(argv)
+open System
+open Microsoft.AspNetCore.Builder
 
-    [<EntryPoint>]
-    let main argv =
-        let app = createWebApplicationBuilder(argv).Build()
-        app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
-        app.Run()
-        0
+let createWebApplicationBuilder () =
+    WebApplication.CreateBuilder()
+
+let app = createWebApplicationBuilder().Build()
+app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
+app.Run()
 ```
 
 Ved å bruke funksjonen `createWebApplicationBuilder` fra integrasjonstestprosjektet kan vi konfiguerere `WebApplicationBuilder`-objektet til å bruke testserveren når testene kjører.
@@ -2440,23 +2411,50 @@ Ved å bruke funksjonen `createWebApplicationBuilder` fra integrasjonstestprosje
 I tillegg til å konfigurere `WebApplicationBuilder`-objektet til å bruke en testserver trenger vi å få tak i `app`-objektet fra `main`-funksjonen i API-prosjektet for å opprette en HTTP-klient som sender HTTP-forespørsler til testserveren. For å få til dette trekker vi ut koden som oppretter og konfigurerer `WebApplication`-objektet i API-et slik:
 
 ```f#
-    let createWebApplicationBuilder (argv: string[]) =
-        WebApplication.CreateBuilder(argv)
+open System
+open Microsoft.AspNetCore.Builder
+
+let createWebApplicationBuilder () =
+    WebApplication.CreateBuilder()
+
+let createWebApplication (builder: WebApplicationBuilder) =
+    let app = builder.Build()
+    app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
+    app
+
+let builder = createWebApplicationBuilder()
+let app = createWebApplication builder
+app.Run()
+```
+
+Ved å bruke funksjonen `createWebApplication` fra integrasjonstestprosjektet kan vi hente ut `WebApplication`-objektet som representerer hele web-API-et vårt, og sende HTTP-forespørsler mot det fra integrasjonstestene våre.
+
+###### Namespace og modul
+
+For å kunne referere til de to nye funksjonene vi lagde i API-prosjektet, `createWebApplicationBuilder` og `createWebApplication`, fra integrasjonstestprosjektet må vi legge dem i en egen modul, slik:
+
+```f#
+namespace NRK.Dotnetskolen.Api
+
+module Program = 
+
+    open System
+    open Microsoft.AspNetCore.Builder
+
+    let createWebApplicationBuilder () =
+        WebApplication.CreateBuilder()
 
     let createWebApplication (builder: WebApplicationBuilder) =
         let app = builder.Build()
         app.MapGet("ping", Func<string>(fun () -> "pong")) |> ignore
         app
 
-    [<EntryPoint>]
-    let main argv =
-        let builder = createWebApplicationBuilder argv
-        let app = createWebApplication builder
-        app.Run()
-        0
+    let builder = createWebApplicationBuilder()
+    let app = createWebApplication builder
+    app.Run()
 ```
 
-Ved å bruke funksjonen `createWebApplication` fra integrasjonstestprosjektet kan vi hente ut `WebApplication`-objektet, som representerer hele web-API-et vårt, og sende HTTP-forespørsler mot det fra integrasjonstestene våre.
+> Merk at vi her også la til linjen `namespace NRK.Dotnetskolen.Api` øverst. Dette setter modulen `Program` i kontekst av `NRK.Dotnetskolen.Api`, og gjør at når vi skal referere til funksjonene `createWebApplicationBuilder` og `createWebApplication` må vi åpne `NRK.Dotnetskolen.Api.Program`.
 
 ##### Test for ping
 
@@ -2472,7 +2470,7 @@ open NRK.Dotnetskolen.Api.Program
 
 let runWithTestClient (test: HttpClient -> Async<unit>) = 
     async {
-        let builder = createWebApplicationBuilder([||])
+        let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
         use app = createWebApplication builder
@@ -2526,7 +2524,7 @@ Deretter definerer vi en funksjon `runWithTestClient`. Hensikten med denne funks
 ```f#
 let runWithTestClient (test: HttpClient -> Async<unit>) = 
     async {
-        let builder = createWebApplicationBuilder([||])
+        let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
         use app = createWebApplication builder
