@@ -8,15 +8,15 @@ module HttpHandlers =
     open NRK.Dotnetskolen.Domain
     open NRK.Dotnetskolen.Dto
 
-    let parseAsDateTime (dateAsString: string) : DateTime option =
+    let parseAsDateTimeOffset (dateAsString: string) : DateTimeOffset option =
         try
-            let date = DateTime.ParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None)
+            let date = DateTimeOffset.ParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None)
             Some date
         with
         | _ -> None
 
-    let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
-        match (parseAsDateTime dateAsString) with
+    let epgHandler (getEpgForDate: DateTimeOffset -> Epg) (dateAsString: string) =
+        match (parseAsDateTimeOffset dateAsString) with
         | Some date -> 
             let response =
                 date
