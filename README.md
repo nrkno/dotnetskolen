@@ -2463,27 +2463,28 @@ Nå er vi klare til å kunne sette opp integrasjonstestene. Åpne `Tests.fs` i i
 module Tests
 
 open System.Net.Http
+open System.Threading.Tasks
 open Xunit
 open Microsoft.AspNetCore.TestHost
 open NRK.Dotnetskolen.Api.Program
 
-let runWithTestClient (test: HttpClient -> Async<unit>) = 
-    async {
+let runWithTestClient (test: HttpClient -> Task<unit>) = 
+    task {
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
         use app = createWebApplication builder
-        do! app.StartAsync() |> Async.AwaitTask
+        do! app.StartAsync()
 
         let testClient = app.GetTestClient()
         do! test testClient
-    } |> Async.RunSynchronously
+    }
 
 [<Fact>]
 let ``Get "ping" returns "pong"`` () =
     runWithTestClient (fun httpClient -> 
-        async {
-            let! response = httpClient.GetStringAsync("/ping") |> Async.AwaitTask
+        task {
+            let! response = httpClient.GetStringAsync("ping")
             Assert.Equal(response, "pong")
         }
     )
@@ -2506,12 +2507,14 @@ Deretter åpner vi de namespacene vi er avhengige av:
 
 ```f#
 open System.Net.Http
+open System.Threading.Tasks
 open Xunit
 open Microsoft.AspNetCore.TestHost
 open NRK.Dotnetskolen.Api.Program
 ```
 
-- `System.Net.Http` for å ha tilgang til `HttpClient`
+- `System.Net.Http` for å ha tilgang til `HttpClient`-typen
+- `System.Threading.Tasks` for å ha tilgang til `Task`-typen
 - `Xunit` for å ha tilgang til `[<Fact>]` som attributt til test-funksjonene våre
 - `Microsoft.AspNetCore.TestHost` for å ha tilgang til funksjonene `UseTestServer` og `GetTestClient` som lar hhv. lar oss konfigurere `WebApplicationBuilder` til å bruke testserveren, samt hente ut en `HttpClient` som sender forespørsler til testserveren.
 - `NRK.Dotnetskolen.Api.Program` for å ha tilgang til funksjonene `createWebApplicationBuilder` og `createWebApplication` for å kunne hente ut hhv. `WebApplicationBuilder`-objektet og `WebApplication`-objektet til API-et vårt.
@@ -2521,17 +2524,17 @@ open NRK.Dotnetskolen.Api.Program
 Deretter definerer vi en funksjon `runWithTestClient`. Hensikten med denne funksjonen er å samle koden som konfigurerer testserveren og henter ut `HttpClient`-objektet som kan sende HTTP-forespørsler til denne.
 
 ```f#
-let runWithTestClient (test: HttpClient -> Async<unit>) = 
-    async {
+let runWithTestClient (test: HttpClient -> Task<unit>) = 
+    task {
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
         use app = createWebApplication builder
-        do! app.StartAsync() |> Async.AwaitTask
+        do! app.StartAsync()
 
         let testClient = app.GetTestClient()
         do! test testClient
-    } |> Async.RunSynchronously
+    }
 ```
 
 `runWithTestClient` kaller `createWebApplicationBuilder` fra API-prosjektet, og konfigurerer `WebHost`-objektet til å bruke testserveren.
@@ -2542,7 +2545,11 @@ Videre henter `runWithTestClient` ut et `HttpClient`-objekt fra `WebApplication`
 
 Til slutt kaller `runWithTestClient` `test`-funksjonen og sender med `testClient` som parameter.
 
-> Merk at `runWithTestClient` lager et `async` "computation expression" (`async {...}`). Med slike blokker kan vi definere asynkrone handlinger som skal utføres. De asynkrone handlingene blir imidlertid ikke utført før man sender inn "computation expression"-et til `Async.RunSynchronously`-funksjonen. Derfor sender vi "computation expression"-et vårt videre inn i `Async.RunSynchronously`.
+> Merk at `runWithTestClient` lager et `task` "computation expression" (`task {...}`). Med slike blokker kan vi sette i gang .NET tasks, som lar oss kjøre kode asynkront. F# har to typer "computation expressions" for å kjøre asynkron kode på: `async` og `task`. `async` kom først, og er hittil det mest vanlige å bruke, mens `task` kom i F# 6 inkludert i .NET 6. Du kan lese mer om "computation expressions", `async` og `task` her:
+>
+> - <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/computation-expressions>
+> - <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/async-expressions>
+> - <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/task-expressions>
 >
 > Merk at vi bruker `use`-kodeordet når vi oppretter test-HTTP-klienten. Dette sørger for at kompilatoren rydder opp ressursene som objektet bruker når testen er ferdig.
 
@@ -2554,16 +2561,14 @@ Til slutt definerer vi en test `Get "ping" returns "pong"` som kaller `runWithTe
 [<Fact>]
 let ``Get "ping" returns "pong"`` () =
     runWithTestClient (fun httpClient -> 
-        async {
-            let! response = httpClient.GetStringAsync("/ping") |> Async.AwaitTask
+        task {
+            let! response = httpClient.GetStringAsync("/ping")
             Assert.Equal(response, "pong")
         }
     )
 ```
 
-> Merk at her bruker vi `let!` istedenfor `let` før `httpClient.GetStringAsync(/ping") |> Async.AwaitTask`. Ved å bruke `let!` venter vi på at den asynkrone handlingen på høyresiden av `=` (`httpClient.GetStringAsync("/ping") |> Async.AwaitTask`) returnerer før vi går videre.
->
-> Ettersom `httpClient.GetStringAsync(url)` er skrevet for C#, hvor asynkrone handlinger er modellert gjennom `Task`-objekter, returnerer den en `Task`. I F# blir asynkrone handlinger imidlertid representert gjennom `Async`-verdier. Derfor bruker vi `Async.AwaitTask` for å gjøre om `Task`-en som `httpClient.GetStringAsync(url)` returnerer til en `Async`-verdi før vi venter på den.
+> Merk at her bruker vi `let!` istedenfor `let` før `httpClient.GetStringAsync(/ping")`. Ved å bruke `let!` venter vi på at den asynkrone handlingen på høyresiden av `=` (`httpClient.GetStringAsync("/ping")`) returnerer før vi går videre.
 
 ###### Kjør tester
 
@@ -2595,10 +2600,10 @@ Legg deretter til følgende test etter `ping`-testen i `Tests.fs`-filen:
 [<Fact>]
 let ``Get EPG today returns 200 OK`` () =
     runWithTestClient (fun httpClient -> 
-        async {
+        task {
             let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
             let url = $"/epg/{todayAsString}" 
-            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            let! response = httpClient.GetAsync(url)
             response.EnsureSuccessStatusCode() |> ignore
         }
     )
@@ -2700,10 +2705,10 @@ open System.Net
 [<Fact>]
 let ``Get EPG invalid date returns bad request`` () =
     runWithTestClient (fun httpClient -> 
-        async {
+        task {
             let invalidDateAsString = "2021-13-32"
             let url = $"/epg/{invalidDateAsString}"
-            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            let! response = httpClient.GetAsync(url)
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
         }
     )
@@ -2894,15 +2899,15 @@ Legg til slutt til følgende test i `Test.fs`-klassen:
 [<Fact>]
 let ``Get EPG today return valid response`` () =
     runWithTestClient (fun httpClient -> 
-        async {
+        task {
             let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
             let url = $"/epg/{todayAsString}"
             let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
 
-            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            let! response = httpClient.GetAsync(url)
 
             response.EnsureSuccessStatusCode() |> ignore
-            let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+            let! bodyAsString = response.Content.ReadAsStringAsync()
             let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
             let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
             
@@ -2914,7 +2919,7 @@ let ``Get EPG today return valid response`` () =
 Denne testen bygger på de foregående testene vi har skrevet, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten:
 
 - `let jsonSchema = JsonSchema.FromFile "./epg.schema.json"` oppretter en .NET-representasjon av JSON Schemaet vi definerte i [kapittel 7](#steg-7---definere-api-kontrakt)
-- `let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask` henter ut innholdet i responsen som en `string`
+- `let! bodyAsString = response.Content.ReadAsStringAsync()` henter ut innholdet i responsen som en `string`
 - `let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement` oppretter en .NET-representasjon av JSON-dokumentet som API-et returnerer, og henter en referanse til rotelementet i JSON-dokumentet
 - `let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid` benytter JSON Schemaet vårt til å validere om JSON-objektet som web-API-et returnerte tilfredstiller API-kontrakten
 
@@ -3457,17 +3462,17 @@ use app = createWebApplication builder (getEpgForDate getAlleSendinger)
 Hele `runWithTestClient`-funksjonen skal nå se slik ut:
 
 ```f#
-let runWithTestClient (test: HttpClient -> Async<unit>) = 
-    async {
+let runWithTestClient (test: HttpClient -> Task<unit>) = 
+    task {
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
         use app = createWebApplication builder (getEpgForDate getAlleSendinger)
-        do! app.StartAsync() |> Async.AwaitTask
+        do! app.StartAsync()
 
         let testClient = app.GetTestClient()
         do! test testClient
-    } |> Async.RunSynchronously
+    }
 ```
 
 Dersom du kjører integrasjonstestene igjen, skal de fortsatt passere:
