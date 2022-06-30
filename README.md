@@ -2921,7 +2921,7 @@ let ``Get EPG today return valid response`` () =
 Denne testen bygger på de foregående testene vi har skrevet, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten:
 
 - `let jsonSchema = JsonSchema.FromFile "./epg.schema.json"` oppretter en .NET-representasjon av JSON Schemaet vi definerte i [kapittel 7](#steg-7---definere-api-kontrakt)
-- `let bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask` henter ut innholdet i responsen som en `string`
+- `let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask` henter ut innholdet i responsen som en `string`
 - `let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement` oppretter en .NET-representasjon av JSON-dokumentet som API-et returnerer, og henter en referanse til rotelementet i JSON-dokumentet
 - `let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid` benytter JSON Schemaet vårt til å validere om JSON-objektet som web-API-et returnerte tilfredstiller API-kontrakten
 
