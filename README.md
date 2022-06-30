@@ -3494,7 +3494,7 @@ Du har nå implementert et web-API i F#, med enhets- og integrasjonstester, API-
 
 #### Steg 11 - Følge prinsipper i domenedrevet design
 
-Implementasjonen av domenemodellen slik vi gjorde det i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) har en svakhet: det er ingen garanti for at verdier vi oppretter for `Sending` og `Epg` er gyldige. Det er kun `toDomain`-funksjonen i `DataAccess.fs` som kaller `isTranssmissionValid` når sendinger hentes. Det er ingen garanti for at alle opprettelser av `Sending`- og `Epg`-verdier kommer gjennom `toDomain`. I dette steget skal vi se hvordan vi kan endre domenemodellen vår slik at man ikke kan opprette `Sending`- og `Epg`-verdier uten at de er gyldige.
+Implementasjonen av domenemodellen slik vi gjorde det i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) har en svakhet: det er ingen garanti for at verdier vi oppretter for `Sending` og `Epg` er gyldige. Det er kun `epgEntityToDomain`-funksjonen i `DataAccess.fs` som kaller `isSendingValid` når sendinger hentes. Det er ingen garanti for at alle opprettelser av `Sending`- og `Epg`-verdier kommer gjennom `epgEntityToDomain`. I dette steget skal vi se hvordan vi kan endre domenemodellen vår slik at man ikke kan opprette `Sending`- og `Epg`-verdier uten at de er gyldige.
 
 I [steg 5](#steg-5---definere-domenemodell) modellerte vi tittel og kanal som `string`, og start- og sluttidspunktene som `DateTimeOffset`. Utover at feltene har disse typene er det ingenting i `Sending`-typen vår som sier hvilke regler som gjelder for dem. Det kan vi imidlertid gjøre noe med.
 
@@ -3573,37 +3573,33 @@ let isSendingValid (sending: Sending) : bool =
     (areStartAndSluttidspunktValid sending.Starttidspunkt sending.Sluttidspunkt)
 ```
 
-Det neste som feiler er opprettelsen av en `Sending`-verdi i `toDomain`-funksjonen i `DataAccess.fs`:
+Det neste som feiler er opprettelsen av en `Sending`-verdi i `DataAccess.fs`. Under er implementasjonen av funksjonen som mapper `SendingEntity` til `Sending` hentet fra [løsningsforslaget for kapittel 10](https://github.com/nrkno/dotnetskolen/blob/steg-10/src/api/DataAccess.fs#L39-L45).
 
 ```f#
-let toDomain (epgEntity : EpgEntity) : Epg =
-    epgEntity
-    |> List.map(fun s -> {
-        Sending.Tittel = s.Tittel
-        Kanal = s.Kanal
-        Starttidspunkt = DateTimeOffset.Parse(s.Starttidspunkt)
-        Sluttidspunkt = DateTimeOffset.Parse(s.Sluttidspunkt)
-    })
-    |> List.filter(fun d -> isSendingValid d)
+let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
+    {
+        Sending.Tittel = sendingEntity.Tittel
+        Kanal = sendingEntity.Kanal
+        Starttidspunkt = DateTimeOffset.Parse(sendingEntity.Starttidspunkt)
+        Sluttidspunkt = DateTimeOffset.Parse(sendingEntity.Sluttidspunkt)
+    }
 ```
 
-Her forsøker vi å sette `Sending.Tittel` direkte til `Tittel`-feltet fra `SendingEntity`-typen. Siden `Tittel`-feltet i `SendingEntity`-typen er `string`, og `Sending.Tittel` er av typen `Tittel` feiler typesjekken. For å fikse dette må vi kalle `Tittel.create`-funksjonen med `SendingEntity` sin `Tittel` som input, slik:
+Her forsøker vi å sette `Sending.Tittel` direkte til `Tittel`-feltet fra `SendingEntity`-verdien. Siden `Tittel`-feltet i `SendingEntity`-typen er `string`, og `Sending.Tittel` er av typen `Tittel` feiler typesjekken. For å fikse dette må vi kalle `Tittel.create`-funksjonen med `SendingEntity` sin `Tittel` som input, slik:
 
 ```f#
-let toDomain (epgEntity : EpgEntity) : Epg =
-    epgEntity
-    |> List.map(fun s -> {
+let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
+    {
         Sending.Tittel = (Tittel.create s.Tittel).Value
-        Kanal = s.Kanal
-        Starttidspunkt = DateTimeOffset.Parse(s.Starttidspunkt)
-        Sluttidspunkt = DateTimeOffset.Parse(s.Sluttidspunkt)
-    })
-    |> List.filter(fun d -> isSendingValid d)
+        Kanal = sendingEntity.Kanal
+        Starttidspunkt = DateTimeOffset.Parse(sendingEntity.Starttidspunkt)
+        Sluttidspunkt = DateTimeOffset.Parse(sendingEntity.Sluttidspunkt)
+    }
 ```
 
 Ettersom `Tittel.create` returnerer en `Tittel option`, må vi kalle `.Value`-funksjonen på returverdien av `Tittel.create` for å få ut `Tittel`-verdien. Merk at dersom den oppgitte tittelen er ugyldig, vil kallet til `.Value` kaste en `System.NullReferenceException`.
 
-Det neste som feiler er uthentingen av `Tittel`-verdien fra `Sending` i `fromDomain`-funksjonen i `Dto.fs`. Under er funksjonen `fromDomain` vist slik den er implementert i [løsningsforslaget til steg 10](https://github.com/nrkno/dotnetskolen/tree/steg-10).
+Det neste som feiler er uthentingen av `Tittel`-verdien fra `Sending` i `fromDomain`-funksjonen i `Dto.fs`. Under er funksjonen `fromDomain` vist slik den er implementert i [løsningsforslaget til steg 10](https://github.com/nrkno/dotnetskolen/blob/steg-10/src/api/Dto.fs#L16-L28).
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
@@ -3679,7 +3675,7 @@ Nå som vi har sett hvordan vi kan implementere en egen type for `Tittel`-feltet
 - Benytt den nye `Kanal`-typen i `Sending`-typen i `Domain.fs`
 - Fiks kompileringsfeil i API-prosjektet:
   - Fjern sjekk for kanal i `isSendingValid`-funksjonen i `Domain.fs`
-  - Opprettelse av `Kanal`-verdier i `toDomain`-funksjonen i `DataAccess.fs`
+  - Opprettelse av `Kanal`-verdier i `sendingEntityToDomain`-funksjonen i `DataAccess.fs`
   - Uthenting av `Kanal`-verdier i `fromDomain`-funksjonen i `Dto.fs`
 - Fiks kompileringsfeil i testprosjektene:
   - Opprettelse av `Sending`-verdier i `Tests.fs` i enhetstestprosjektet
@@ -3746,7 +3742,7 @@ module Sending =
             }
 ```
 
-Over ser vi `Sending`-modulen med `create`-funksjonen som tar inn verdier for alle feltene i en `Sending`-verdi. `create`-funksjonen til `Sending` kaller `create`-funksjonen til hver av typene som den består av, og returnerer en `Sending`-verdi kun dersom alle verdiene ble vellykket opprettet. 
+Over ser vi `Sending`-modulen med `create`-funksjonen som tar inn verdier for alle feltene i en `Sending`-verdi. `create`-funksjonen til `Sending` kaller `create`-funksjonen til hver av typene som den består av, og returnerer en `Sending`-verdi kun dersom alle verdiene ble vellykket opprettet.
 
 For å oppsummere ser `Domain.fs` nå slik ut:
 
@@ -3837,7 +3833,7 @@ module Domain =
 
 Legg merke til at `isSendingValid`-funksjonen er fjernet, ettersom `Sending.create`-funksjonen har overtatt dens ansvar.
 
-###### Fikse toDomain
+###### Fikse sendingEntityToDomain
 
 Dersom du forsøker å bygge løsningen nå, vil du se at det feiler:
 
@@ -3848,46 +3844,47 @@ Build FAILED.
 ...
 ```
 
-La oss starte med `toDomain`-funksjonen i `DataAccess.fs`:
+La oss starte med `sendingEntityToDomain`-funksjonen i `DataAccess.fs`:
 
 ```f#
-let toDomain (epgEntity : EpgEntity) : Epg =
-    epgEntity
-    |> List.map(fun s -> {
+let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
+    {
         Sending.Tittel = (Tittel.create s.Tittel).Value
-        Kanal = (Kanal.create s.Kanal).Value
-        Starttidspunkt = DateTimeOffset.Parse(s.Starttidspunkt)
-        Sluttidspunkt = DateTimeOffset.Parse(s.Sluttidspunkt)
-    })
-    |> List.filter(fun d -> isSendingValid d)
+        Kanal = sendingEntity.Kanal
+        Starttidspunkt = DateTimeOffset.Parse(sendingEntity.Starttidspunkt)
+        Sluttidspunkt = DateTimeOffset.Parse(sendingEntity.Sluttidspunkt)
+    }
 ```
 
 Her forsøker vi å sette `Starttidspunkt` og `Sluttidspunkt` direkte, men disse er nå flyttet inn i feltet `Sendetidspunkt`. Vi kunne ha brukt `Sendetidspunkt.create`-funksjonen til å løse det på tilsvarende vis som for `Tittel` og `Kanal`, men ettersom vi har innført `Sending.create`-funksjonen som kaller `create`-funksjonen for alle de nye typene for oss, kan vi heller bruke den, slik:
 
 ```f#
-let toDomain (epgEntity : EpgEntity) : Epg =
-  epgEntity
-  |> List.map(fun s -> Sending.create s.Tittel s.Kanal (DateTimeOffset.Parse(s.Starttidspunkt)) (DateTimeOffset.Parse(s.Sluttidspunkt)))
-  |> List.filter (fun s -> s.IsSome)
-  |> List.map (fun s -> s.Value)
+let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending option =
+    Sending.create sendingEntity.Tittel sendingEntity.Kanal (DateTimeOffset.Parse(sendingEntity.Starttidspunkt)) (DateTimeOffset.Parse(sendingEntity.Sluttidspunkt))
+
+let epgEntityToDomain (epgEntity: EpgEntity) : Epg =
+    epgEntity
+    |> List.map sendingEntityToDomain
+    |> List.filter (fun s -> s.IsSome)
+    |> List.map (fun s -> s.Value)
 ```
 
-Over kaller vi `Sending.create` for hver sending i `EpgEntity` som vi får inn til `toDomain`. Husk at `Sending.create`-funksjonen returnerer en `Sending option`, så funksjonen vil returnere `None` for ugyldige `SendingEntity`-verdier. For å filtrere bort disse kan vi kalle `List.filter (fun e -> e.IsSome)` etterfulgt av `List.map (fun s -> s.Value)` for å hente ut selve `Sending`-verdien fra `Sending option`. Alternativt kan man kalle `List.choose id` slik:
+Over kaller vi `sendingEntityToDomain` for hver sending i `EpgEntity` som vi får inn til `epgEntityToDomain`. `sendingEntityToDomain` kaller igjen på `Sending.create`. Husk at `Sending.create`-funksjonen returnerer en `Sending option`, så `sendingEntityToDomain` vil returnere `None` for ugyldige `SendingEntity`-verdier. For å filtrere bort disse kan vi kalle `List.filter (fun e -> e.IsSome)` etterfulgt av `List.map (fun s -> s.Value)` for å hente ut selve `Sending`-verdien fra `Sending option`. Alternativt kan man kalle `List.choose id` slik:
 
 ```f#
-let toDomain (epgEntity : EpgEntity) : Epg =
-  epgEntity
-  |> List.map(fun s -> Sending.create s.Tittel s.Kanal (DateTimeOffset.Parse(s.Starttidspunkt)) (DateTimeOffset.Parse(s.Sluttidspunkt)))
-  |> List.choose id
+let epgEntityToDomain (epgEntity: EpgEntity) : Epg =
+    epgEntity
+    |> List.map sendingEntityToDomain
+    |> List.choose id
 ```
 
 > `List.choose` tar inn en funksjon `f`, og returnerer en liste med de interne verdiene til innslagene i listen hvor `f` returnerer `Some`. `ìd` er en innebygd funksjon i F# som returnerer det den får inn. Ved å kombinere `List.choose` med `id`-funksjonen oppnår vi det samme som vi gjorde med `List.filter (fun s -> s.IsSome)` og `List.map (fun s -> s.Value)` etter hverandre.
 
-Legg også merke til at i koden over fjernet vi `List.filter (fun d -> isSendingValid d)`, og på den måten flyttet ansvaret for å validere en `Sending`-verdi fra `toDomain`-funksjonen i `DataAccess.fs` til `Sending.create`-funksjonen i `Domain.fs`.
+Legg også merke til at i koden over fjernet vi `List.filter (fun d -> isSendingValid d)`, og på den måten flyttet ansvaret for å validere en `Sending`-verdi fra `sendingEntityToDomain`-funksjonen i `DataAccess.fs` til `Sending.create`-funksjonen i `Domain.fs`.
 
 ###### Fikse fromDomain
 
-`fromDomain`-funksjonen i `Dto.fs` feiler også ettersom den ikke får hentet ut verdiene til `Starttidspunkt` og `Sluttidspunkt` i en `Sending`-verdi slik den forventer. 
+`fromDomain`-funksjonen i `Dto.fs` feiler også ettersom den ikke får hentet ut verdiene til `Starttidspunkt` og `Sluttidspunkt` i en `Sending`-verdi slik den forventer.
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
