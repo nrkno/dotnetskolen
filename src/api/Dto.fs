@@ -4,8 +4,8 @@ module Dto =
 
   type SendingDto = {
       Tittel: string
-      StartTidspunkt: string
-      SluttTidspunkt: string
+      Starttidspunkt: string
+      Sluttidspunkt: string
   }
 
   type EpgDto = {
