@@ -1214,8 +1214,6 @@ dotnet paket convert-from-nuget
 Nå skal alle pakkene som er brukt på tvers av alle prosjektene i løsningen være lagt til i en ny fil `paket.dependencies`:
 
 ```txt
-source "C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\"
-source https://www.myget.org/F/nrk/auth/c64eb6ac-a674-493a-9099-320dee35da47/api/v3/index.json
 source https://api.nuget.org/v3/index.json
 
 nuget FSharp.Core
