@@ -5,6 +5,6 @@ module Services =
     open System
     open NRK.Dotnetskolen.Domain
 
-    let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
-        getAllTransmissions ()
+    let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTime) : Epg =
+        getAlleSendinger ()
         |> List.filter (fun s -> s.Starttidspunkt.Date.Date = date.Date)

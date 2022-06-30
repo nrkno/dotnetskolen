@@ -16,7 +16,7 @@ let runWithTestClient (test: HttpClient -> Async<unit>) =
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
-        use app = createWebApplication builder (getEpgForDate getAllTransmissions)
+        use app = createWebApplication builder (getEpgForDate getAlleSendinger)
         do! app.StartAsync() |> Async.AwaitTask
 
         let testClient = app.GetTestClient()

@@ -20,5 +20,5 @@ module Program =
         app
 
     let builder = createWebApplicationBuilder()
-    let app = createWebApplication builder (getEpgForDate getAllTransmissions)
+    let app = createWebApplication builder (getEpgForDate getAlleSendinger)
     app.Run()

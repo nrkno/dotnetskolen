@@ -46,6 +46,6 @@ module DataAccess =
         })
         |> List.filter(fun d -> isSendingValid d)
 
-    let getAllTransmissions () : Epg =
+    let getAlleSendinger () : Epg =
         database
         |> toDomain

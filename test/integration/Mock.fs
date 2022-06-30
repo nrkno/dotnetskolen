@@ -5,7 +5,7 @@ module Mock =
     open System
     open NRK.Dotnetskolen.Domain
 
-    let getAllTransmissions () : Epg =
+    let getAlleSendinger () : Epg =
         let now = DateTimeOffset.Now
         [
             // Sendinger tilbake i tid
