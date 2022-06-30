@@ -2822,9 +2822,11 @@ let parseAsDateTime (dateAsString : string) : DateTime option =
 
 `parseAsDateTime`-funksjonen forsøker å parse tekststrengen den får som parameter til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indikerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTime.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTime.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTime.ParseExact` kaster `Exception`, og `Some date` dersom funksjonskallet lykkes.
 
-Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig:
+Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig. Legg til følgende `open`-statement, og endre implementasjonen av `epgHandler` slik:
 
 ```f#
+open Microsoft.AspNetCore.Http
+...
 let epgHandler (dateAsString: string) =
     match (parseAsDateTime dateAsString) with
     | Some date -> Results.Ok(date)
@@ -2833,9 +2835,10 @@ let epgHandler (dateAsString: string) =
 
 Her bruker vi et `match`-statement i F# som sammenlikner resultatet av å kalle `parseAsDateTime dateAsString` med `Some date` (i tilfellet datoen ble vellykket parset som en dato på formatet vi har spesifisert i `parseAsDateTime`) eller `None` i motsatt fall. Dersom datoen ble vellykket parset som en dato returnerer vi `Results.Ok(date)` som setter statuskoden til `200 OK` og returnerer datoen. I motsatt fall returnerer vi `Results.BadRequest("Invalid date")` som setter statuskoden til `400 Bad Request`, og returnerer teksten `Invalid date`.
 
-Siden vi nå har endret returtypen til `epgHandler` fra `string` til `IResult` (samleinterface for de blant annet `Ok` og `BadRequest`), må vi også endre typen til delegaten i `MapGet("/epg/{date}"` slik:
+Siden vi nå har endret returtypen til `epgHandler` fra `string` til `IResult` (samleinterface for blant annet `Ok` og `BadRequest`), må vi også endre typen til delegaten i `MapGet("/epg/{date}"`. Åpne `Microsoft.AspNetCore.Http`, og endre typen til delegaten slik:
 
 ```f#
+open Microsoft.AspNetCore.Http
 ...
 app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler date)) |> ignore
 ```
