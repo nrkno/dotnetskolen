@@ -2255,11 +2255,11 @@ info: Microsoft.Hosting.Lifetime[0]
 
 ##### Middleware pipeline
 
-Microsoft har laget et rammeverk for web-applikasjoner i .NET, ASP.NET (ASP står for "active server pages"). Web-applikasjoner i ASP.NET er konfigurerbare og modulære, og gjennom å konfigurere modulene i den har man kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren, og til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørslen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline".
+Microsoft har laget et rammeverk for web-applikasjoner i .NET, ASP.NET (ASP står for "active server pages"). Web-applikasjoner i ASP.NET er konfigurerbare og modulære, og gjennom å konfigurere modulene i den har man kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren, og til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørselen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline".
 
 > Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-iapplicationbuilder](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-iapplicationbuilder)
 
-Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørslen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørslen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørslen videre i pipelinen dersom den ikke er tilstrekkelig autentisert. Pga. denne kortslutningen ligger autentisering tidlig i listen over mellomvarer.
+Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørselen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørselen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørselen videre i pipelinen dersom den ikke er tilstrekkelig autentisert. Pga. denne kortslutningen ligger autentisering tidlig i listen over mellomvarer.
 
 Hosten vi opprettet i forrige avsnitt er et utgangspunkt for hvilken som helst applikasjon. Det kan bli f.eks. en bakgrunnstjeneste eller en web-applikasjon. Siden vi skal lage et web-API skal vi gå videre med å tilpasse hosten til å bli en web-server. Microsoft har laget en spesiell funksjon akkurat til dette formålet: `WebApplication.CreateBuilder`. Denne likner på `Host.CreateDefaultBuilder` som vi brukte i tidligere i avsnittet om [host](#Host), bare at hosten den lager er en web-server som har mulighet til å konfigurere en "middleware pipeline". For å lage en web-applikasjon istedenfor en generisk applikasjon, åpne `Microsoft.AspNetCore.Builder`, og bytt ut linjen `Host.CreateDefaultBuilder().Build().Run()` med `WebApplication.CreateBuilder().Build().Run()` slik at `Program.fs` i API-prosjektet nå ser slik ut:
 
@@ -2787,7 +2787,7 @@ namespace NRK.Dotnetskolen.Api
 module HttpHandlers =
 
     let epgHandler (dateAsString: string) =
-        date
+        dateAsString
 ```
 
 Her oppretter vi en modul `HttpHandlers` i namespacet `NRK.Dotnetskolen.Api`. I modulen har vi en funksjon `epgHandler`, som tar inn en tekststreng, og foreløpig returnerer funksjonen den samme tekststrengen. Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig.
@@ -2807,13 +2807,13 @@ let createWebApplication (builder: WebApplicationBuilder) =
 
 ###### Validere dato
 
-La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. Lim inn følgende `open`-statements, og `parseAsDateTime`-funksjonen under før `epgHandler`-funksjonen i `HttpHandlers.fs`:
+La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. Lim inn følgende `open`-statements, og `parseAsDateTime`-funksjon før `epgHandler`-funksjonen i `HttpHandlers.fs`:
 
 ```f#
 open System
 open System.Globalization
 open System.Threading.Tasks
-...
+
 let parseAsDateTime (dateAsString : string) : DateTime option =
     try
         let date = DateTime.ParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None)
@@ -2921,7 +2921,7 @@ let ``Get EPG today return valid response`` () =
 Denne testen bygger på de foregående testene vi har skrevet, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten:
 
 - `let jsonSchema = JsonSchema.FromFile "./epg.schema.json"` oppretter en .NET-representasjon av JSON Schemaet vi definerte i [kapittel 7](#steg-7---definere-api-kontrakt)
-- `let bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously` henter ut innholdet i responsen som en `string`
+- `let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask` henter ut innholdet i responsen som en `string`
 - `let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement` oppretter en .NET-representasjon av JSON-dokumentet som API-et returnerer, og henter en referanse til rotelementet i JSON-dokumentet
 - `let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid` benytter JSON Schemaet vårt til å validere om JSON-objektet som web-API-et returnerte tilfredstiller API-kontrakten
 
@@ -3253,7 +3253,7 @@ let createWebApplication (builder: WebApplicationBuilder) =
 
 Merk at over har vi kalt `getEpgForDate` med `getAllTransmissions`, og fått en ny funksjon i retur som tar inn en `DateTime` og returnerer en `Epg`-verdi. Det å sende inn et subsett av parameterene til en funksjon, og få en funksjon i retur som tar inn de resterende parameterene kalles "partial application". Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
 
-Kjør API-et med følgende kommando, gå til <http://http://localhost:5000/epg/2021-04-12>, og se hva du får i retur.
+Kjør API-et med følgende kommando, gå til <http://localhost:5000/epg/2021-04-12>, og se hva du får i retur.
 
 ```bash
 dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
@@ -4132,7 +4132,7 @@ let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTi
     app
 ```
 
-Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer blir servet av webserveren. Som default konfigureres serveren til å se etter statiske filer i `wwwroot`-mappen. Legg merke til at vi kaller `UseStaticFiles` _før_ `MapGet`-funksjonene. Siden middlewares i .NET prosesserer innkommende forespørsler i den rekkefølgen de blir lagt til i "middleware pipelinen", legger vi til serving av statiske filer før håndtering av andre HTTP-forespørsler, slik at dersom det finnes en statisk fil identifisert av path-en i HTTP-forespørslen returnerer vi den istedenfor å gå videre med å evaluere endepunktene vi har satt opp.
+Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer blir servet av webserveren. Som default konfigureres serveren til å se etter statiske filer i `wwwroot`-mappen. Legg merke til at vi kaller `UseStaticFiles` _før_ `MapGet`-funksjonene. Siden middlewares i .NET prosesserer innkommende forespørsler i den rekkefølgen de blir lagt til i "middleware pipelinen", legger vi til serving av statiske filer før håndtering av andre HTTP-forespørsler, slik at dersom det finnes en statisk fil identifisert av path-en i HTTP-forespørselen returnerer vi den istedenfor å gå videre med å evaluere endepunktene vi har satt opp.
 
 ##### Se dokumentasjonen
 
