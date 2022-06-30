@@ -640,6 +640,7 @@ $ git status
 On branch <branchnavn>
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
+        global.json
         src/
 
 nothing added to commit but untracked files present (use "git add" to track)
@@ -655,9 +656,9 @@ For å få Git til å overvåke filene vi har opprettet, og deretter se status i
 $ git add .
 $ git status
 
-On branch <branchnavn>
 Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
+        new file:   global.json
         new file:   src/api/NRK.Dotnetskolen.Api.fsproj
         new file:   src/api/Program.fs
 ```
