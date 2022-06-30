@@ -2812,15 +2812,15 @@ open System
 open System.Globalization
 open System.Threading.Tasks
 
-let parseAsDateTime (dateAsString : string) : DateTime option =
+let parseAsDateTime (dateAsString : string) : DateTimeOffset option =
     try
-        let date = DateTime.ParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None)
+        let date = DateTimeOffset.ParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None)
         Some date
     with
     | _ -> None
 ```
 
-`parseAsDateTime`-funksjonen forsøker å parse tekststrengen den får som parameter til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTime option` verdi som indikerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTime.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTime.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTime.ParseExact` kaster `Exception`, og `Some date` dersom funksjonskallet lykkes.
+`parseAsDateTime`-funksjonen forsøker å parse tekststrengen den får som parameter til en dato på formatet `yyyy-MM-dd` og returnerer en `DateTimeOffset option` verdi som indikerer om det gikk bra eller ikke. `parseAsDateTime` benytter `DateTimeOffset.ParseExact`-funksjonen fra basebiblioteket til Microsoft. `DateTimeOffset.ParseExact` kaster en `Exception` dersom den oppgitte `string`-verdien ikke matcher det oppgitte formatet. Derfor har vi en `try/with`-blokk rundt kallet til funksjonen, og returnerer `None` (ingen verdi) dersom `DateTimeOffset.ParseExact` kaster `Exception`, og `Some date` dersom funksjonskallet lykkes.
 
 Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `400 Bad Request` dersom datoen er ugyldig. Legg til følgende `open`-statement, og endre implementasjonen av `epgHandler` slik:
 
@@ -2964,13 +2964,13 @@ Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighet
 
 ##### Hente EPG
 
-Neste steg i å implementere API-et nå er å hente EPG for den validerte datoen. Siden det å hente sendinger for en gitt dato kan implementeres på flere måter (kalle web-tjeneste, spørre database, hente fra fil), benytter vi IoC-prinsippet, og sier at dette er en funksjon vi må få inn til `epgHandler`. Vi definerer denne funksjonen som `getEpgForDate: DateTime -> Epg` hvor `Epg` er typen fra domenemodellen vår. Utvid `epgHandler` i `HttpHandlers.fs` med denne avhengigheten slik som vist under:
+Neste steg i å implementere API-et nå er å hente EPG for den validerte datoen. Siden det å hente sendinger for en gitt dato kan implementeres på flere måter (kalle web-tjeneste, spørre database, hente fra fil), benytter vi IoC-prinsippet, og sier at dette er en funksjon vi må få inn til `epgHandler`. Vi definerer denne funksjonen som `getEpgForDate: DateTimeOffset -> Epg` hvor `Epg` er typen fra domenemodellen vår. Utvid `epgHandler` i `HttpHandlers.fs` med denne avhengigheten slik som vist under:
 
 ```f#
 ...
 open NRK.Dotnetskolen.Domain
 ...
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+let epgHandler (getEpgForDate: DateTimeOffset -> Epg) (dateAsString: string) =
     match (parseAsDateTime dateAsString) with
     | Some date -> Results.Ok(date)
     | None -> Results.BadRequest("Invalid date")
@@ -2979,7 +2979,7 @@ let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
 Nå kan vi kalle `getEpgForDate` med den validerte datoen for å få alle sendingene for den gitte datoen slik som vist under:
 
 ```f#
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+let epgHandler (getEpgForDate: DateTimeOffset -> Epg) (dateAsString: string) =
     match (parseAsDateTime dateAsString) with
     | Some date -> 
         let epg = getEpgForDate date
@@ -3014,7 +3014,7 @@ Nå som vi har implementert `fromDomain`-funksjonen kan vi bruke den i `epgHandl
 ...
 open NRK.Dotnetskolen.Dto
 ...
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+let epgHandler (getEpgForDate: DateTimeOffset -> Epg) (dateAsString: string) =
     match (parseAsDateTime dateAsString) with
     | Some date -> 
         let epg = getEpgForDate date
@@ -3026,7 +3026,7 @@ let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
 Skrevet med `|>`-operatoren i F# ser `epgHandler`-funksjonen slik ut:
 
 ```f#
-let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
+let epgHandler (getEpgForDate: DateTimeOffset -> Epg) (dateAsString: string) =
     match (parseAsDateTime dateAsString) with
     | Some date -> 
         let response =
@@ -3039,7 +3039,7 @@ let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString: string) =
 
 ##### Implementere avhengigheter
 
-I steget [hente EPG](#hente-epg) definerte vi at funksjonen `epgHandler` hadde en avhengighet til en funksjon `getEpgForDate: DateTime -> Epg`. Husk fra [kapitlet om "dependency injection"](#dependency-injection) at vi må sørge for at slike avhengigheter er tilfredsstilt når vi kaller funksjonen.
+I steget [hente EPG](#hente-epg) definerte vi at funksjonen `epgHandler` hadde en avhengighet til en funksjon `getEpgForDate: DateTimeOffset -> Epg`. Husk fra [kapitlet om "dependency injection"](#dependency-injection) at vi må sørge for at slike avhengigheter er tilfredsstilt når vi kaller funksjonen.
 
 `epgHandler`-funksjonen blir kalt av `MapGet` i `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet. Dermed er det her vi må sende inn implementasjonen av `getEpgForDate`-funksjonen.
 
@@ -3089,7 +3089,7 @@ module Services =
     open System
     open NRK.Dotnetskolen.Domain
 
-    let getEpgForDate (date : DateTime) : Epg =
+    let getEpgForDate (date : DateTimeOffset) : Epg =
       []
 ```
 
@@ -3122,7 +3122,7 @@ Oppgaven til `getEpgForDate` er å filtrere sendinger på den oppgitte datoen, m
 
 ```f#
 ...
-let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTime) : Epg =
+let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTimeOffset) : Epg =
     let alleSendinger = getAlleSendinger ()
     ...
 ```
@@ -3252,7 +3252,7 @@ let createWebApplication (builder: WebApplicationBuilder) =
     app
 ```
 
-Merk at over har vi kalt `getEpgForDate` med `getAlleSendinger`, og fått en ny funksjon i retur som tar inn en `DateTime` og returnerer en `Epg`-verdi. Det å sende inn et subsett av parameterene til en funksjon, og få en funksjon i retur som tar inn de resterende parameterene kalles "partial application". Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
+Merk at over har vi kalt `getEpgForDate` med `getAlleSendinger`, og fått en ny funksjon i retur som tar inn en `DateTimeOffset` og returnerer en `Epg`-verdi. Det å sende inn et subsett av parameterene til en funksjon, og få en funksjon i retur som tar inn de resterende parameterene kalles "partial application". Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
 
 Kjør API-et med følgende kommando, gå til <http://localhost:5000/epg/2021-04-12>, og se hva du får i retur.
 
@@ -3401,7 +3401,7 @@ Legg til følgende `open`-statement, og utvid `createWebApplication`-funksjonen 
 ...
 open NRK.Dotnetskolen.Domain
 ...
-let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTime -> Epg) =
+let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTimeOffset -> Epg) =
     let app = builder.Build()
     app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
     app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
@@ -3434,7 +3434,7 @@ module Program =
     let createWebApplicationBuilder () =
         WebApplication.CreateBuilder()
 
-    let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTime -> Epg) =
+    let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTimeOffset -> Epg) =
         let app = builder.Build()
         app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
         app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
@@ -3930,7 +3930,7 @@ Vi henter start- og sluttidspunkt ved å kalle hhv. `Sendetidspunkt.starttidspun
 I `getEpgForDate`-funksjonen i `Services.fs` filtrerer vi sendinger basert på dato:
 
 ```f#
-let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTime) : Epg =
+let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTimeOffset) : Epg =
   getAlleSendinger ()
   |> List.filter (fun s -> s.Starttidspunkt.Date.Date = date.Date)
 ```
@@ -3938,7 +3938,7 @@ let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTime) : Epg =
 Ettersom vi har innført en ny måte å hente ut starttidspunkt fra en sending på, må vi oppdatere `getEpgForDate` til å reflektere dette:
 
 ```f#
-let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTime) : Epg =
+let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTimeOffset) : Epg =
     getAlleSendinger ()
     |> List.filter (fun s -> (Sendetidspunkt.starttidspunkt s.Sendetidspunkt).Date.Date = date.Date)
 ```
@@ -4125,7 +4125,7 @@ Legg merke til at linjen som starter med `<redoc spec-url=` (nesten helt nederst
 I utgangspunktet kan ikke web-applikasjonen slik vi har konfigurert den nå servere statiske filer (slik som `openapi.html` som nettopp opprettet). For å kunne serve statiske filer må vi legge til en egen "middleware" i "middleware pipelinen" til web-API-et vårt som gjør akkurat dette. For å legge til denne "middlewaren" kaller vi `app.UseStaticFiles()` på `WebApplication`-objektet som vi oppretter i `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet vårt, slik:
 
 ```f#
-let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTime -> Epg) =
+let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTimeOffset -> Epg) =
     let app = builder.Build()
     app.UseStaticFiles() |> ignore
     app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
