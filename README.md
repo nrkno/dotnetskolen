@@ -2787,7 +2787,7 @@ namespace NRK.Dotnetskolen.Api
 module HttpHandlers =
 
     let epgHandler (dateAsString: string) =
-        date
+        dateAsString
 ```
 
 Her oppretter vi en modul `HttpHandlers` i namespacet `NRK.Dotnetskolen.Api`. I modulen har vi en funksjon `epgHandler`, som tar inn en tekststreng, og foreløpig returnerer funksjonen den samme tekststrengen. Returverdien av `epgHandler` er foreløpig lik som den anonyme funksjonen vi hadde i `Program.fs`, men nå har vi anledning til å utvide den uten at koden i `Program.fs` blir uoversiktlig.
@@ -2807,13 +2807,13 @@ let createWebApplication (builder: WebApplicationBuilder) =
 
 ###### Validere dato
 
-La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. Lim inn følgende `open`-statements, og `parseAsDateTime`-funksjonen under før `epgHandler`-funksjonen i `HttpHandlers.fs`:
+La oss fortsette med å validere datoen vi får inn i `epgHandler`-funksjonen. Lim inn følgende `open`-statements, og `parseAsDateTime`-funksjon før `epgHandler`-funksjonen i `HttpHandlers.fs`:
 
 ```f#
 open System
 open System.Globalization
 open System.Threading.Tasks
-...
+
 let parseAsDateTime (dateAsString : string) : DateTime option =
     try
         let date = DateTime.ParseExact(dateAsString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None)
@@ -2921,7 +2921,7 @@ let ``Get EPG today return valid response`` () =
 Denne testen bygger på de foregående testene vi har skrevet, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten:
 
 - `let jsonSchema = JsonSchema.FromFile "./epg.schema.json"` oppretter en .NET-representasjon av JSON Schemaet vi definerte i [kapittel 7](#steg-7---definere-api-kontrakt)
-- `let bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask |> Async.RunSynchronously` henter ut innholdet i responsen som en `string`
+- `let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask` henter ut innholdet i responsen som en `string`
 - `let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement` oppretter en .NET-representasjon av JSON-dokumentet som API-et returnerer, og henter en referanse til rotelementet i JSON-dokumentet
 - `let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid` benytter JSON Schemaet vårt til å validere om JSON-objektet som web-API-et returnerte tilfredstiller API-kontrakten
 
@@ -3253,7 +3253,7 @@ let createWebApplication (builder: WebApplicationBuilder) =
 
 Merk at over har vi kalt `getEpgForDate` med `getAllTransmissions`, og fått en ny funksjon i retur som tar inn en `DateTime` og returnerer en `Epg`-verdi. Det å sende inn et subsett av parameterene til en funksjon, og få en funksjon i retur som tar inn de resterende parameterene kalles "partial application". Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
 
-Kjør API-et med følgende kommando, gå til <http://http://localhost:5000/epg/2021-04-12>, og se hva du får i retur.
+Kjør API-et med følgende kommando, gå til <http://localhost:5000/epg/2021-04-12>, og se hva du får i retur.
 
 ```bash
 dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
