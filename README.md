@@ -1330,15 +1330,7 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
 
 #### Opprette en EPG
 
-Nå som vi har definert domenemodellen vår, skal vi se hvordan vi kan ta den i bruk. Åpne `Program.fs` i web-API-prosjektet og legg til følgende `open`-statement under `open System`:
-
-```f#
-open NRK.Dotnetskolen.Domain
-```
-
-> Merk at noen har rapportert om problemer med feilmeldinger i Rider etter å ha lagt til denne `open`-statementen. Dersom du opplever det samme kan du høyreklikke på "Solution"-noden i Rider, og klikke på "Unload" etterfulgt av "Reload". Dette skal forhåpentligvis rette opp i problemet.
-
-Endre deretter `Program.fs` til å opprette en `EPG`-verdi slik:
+Nå som vi har definert domenemodellen vår, skal vi se hvordan vi kan ta den i bruk. Åpne `Program.fs` i web-API-prosjektet og erstatt innholdet med følgende kode:
 
 ```f#
 open System
@@ -1367,6 +1359,8 @@ $ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
    Starttidspunkt = 16.04.2021 19:00:00 +02:00   
    Sluttidspunkt = 16.04.2021 19:30:00 +02:00 }]
 ```
+
+> Merk at noen har rapportert om problemer med feilmeldinger i Rider etter å ha lagt til linjen `open NRK.Dotnetskolen.Domain`. Dersom du opplever det samme kan du høyreklikke på "Solution"-noden i Rider, og klikke på "Unload" etterfulgt av "Reload". Dette skal forhåpentligvis rette opp i problemet.
 
 ### Steg 6 - Enhetstester for domenemodell
 
