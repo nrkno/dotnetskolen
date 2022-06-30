@@ -3233,7 +3233,7 @@ Legg merke til at `getAlleSendinger`-funksjonen skal returnere en verdi av typen
 
 ☑️ Implementér `getAlleSendinger`-funksjonen.
 
-> Tips: det kan være lurt å skrive en funksjon `toDomain` som mapper en `EpgEntity`-verdi til `Epg`-verdi. Husk i den forbindelse å validére om `Epg`-verdien er gyldig i ettertid. Vi kan ikke garantere datakvaliteten til databasen.
+> Tips: det kan være lurt å skrive en eller flere funksjoner som mapper en `SendingEntity`-verdi til `Sending`-verdi og `EpgEntity`-verdi til `Epg`-verdi. Husk i den forbindelse å validére om `Epg`-verdien er gyldig i ettertid. Vi kan ikke garantere datakvaliteten til databasen.
 
 ###### Registrere avhengigheter
 
