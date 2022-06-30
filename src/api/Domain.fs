@@ -7,13 +7,13 @@ module Domain =
 
     type Tittel = private Tittel of string
 
-    let isTitleValid (title: string) : bool =
-        let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
-        titleRegex.IsMatch(title)
+    let isTittelValid (tittel: string) : bool =
+        let tittelRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+        tittelRegex.IsMatch(tittel)
 
     module Tittel =
         let create (tittel: String) : Tittel option = 
-            if isTitleValid tittel then
+            if isTittelValid tittel then
                 Tittel tittel
                 |> Some
             else
@@ -23,12 +23,12 @@ module Domain =
 
     type Kanal = private Kanal of string
 
-    let isChannelValid (channel: string) : bool =
-        List.contains channel ["NRK1"; "NRK2"]
+    let isKanalValid (kanal: string) : bool =
+        List.contains kanal ["NRK1"; "NRK2"]
 
     module Kanal =
         let create (kanal: string) : Kanal option =
-            if isChannelValid kanal then
+            if isKanalValid kanal then
                 Kanal kanal
                 |> Some
             else
@@ -37,26 +37,26 @@ module Domain =
         let value (Kanal kanal) = kanal
     
     type Sendetidspunkt = private {
-        StartTidspunkt: DateTimeOffset
-        SluttTidspunkt: DateTimeOffset
+        Starttidspunkt: DateTimeOffset
+        Sluttidspunkt: DateTimeOffset
     }
 
-    let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
-        startTime < endTime
+    let areStartAndSluttidspunktValid (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) =
+        starttidspunkt < sluttidspunkt
 
     module Sendetidspunkt =
-        let create (startTidspunkt: DateTimeOffset) (sluttTidspunkt: DateTimeOffset) : Sendetidspunkt option =
-            if areStartAndEndTimesValid startTidspunkt sluttTidspunkt then
+        let create (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) : Sendetidspunkt option =
+            if areStartAndSluttidspunktValid starttidspunkt sluttidspunkt then
                 {
-                    StartTidspunkt = startTidspunkt
-                    SluttTidspunkt = sluttTidspunkt
+                    Starttidspunkt = starttidspunkt
+                    Sluttidspunkt = sluttidspunkt
                 }
                 |> Some
             else
                 None
 
-        let startTidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.StartTidspunkt
-        let sluttTidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.SluttTidspunkt
+        let starttidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.Starttidspunkt
+        let sluttidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.Sluttidspunkt
 
     type Sending = {
         Tittel: Tittel

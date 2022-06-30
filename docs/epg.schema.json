@@ -5,13 +5,13 @@
         "nrk1": {
             "type": "array",
             "items": {
-                "$ref": "#/components/schemas/Sending"
+                "$ref": "#/components/schemas/sending"
             }
         },
         "nrk2": {
             "type": "array",
             "items": {
-                "$ref": "#/components/schemas/Sending"
+                "$ref": "#/components/schemas/sending"
             }
         }
     },
@@ -21,24 +21,24 @@
     ],
     "components": {
         "schemas": {
-            "Tittel": {
+            "tittel": {
                 "type": "string",
                 "pattern": "^[\\p{L}0-9\\.,-:!]{5,100}$",
                 "example": "Dagsrevyen",
                 "description": "Programtittel"
             },
-            "Sending": {
+            "sending": {
                 "type": "object",
                 "properties": {
                     "tittel": {
-                        "$ref": "#/components/schemas/Tittel"
+                        "$ref": "#/components/schemas/tittel"
                     },
-                    "startTidspunkt": {
+                    "starttidspunkt": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Startdato- og tidspunkt for sendingen."
                     },
-                    "sluttTidspunkt": {
+                    "sluttidspunkt": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Sluttdato- og tidspunkt for sendingen. Er alltid større enn sendingens startdato- og tidspunkt."
@@ -46,8 +46,8 @@
                 },
                 "required": [
                     "tittel",
-                    "startTidspunkt",
-                    "sluttTidspunkt"
+                    "starttidspunkt",
+                    "sluttidspunkt"
                 ]
             }
         }
