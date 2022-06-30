@@ -1287,8 +1287,8 @@ module Domain =
     type Sending = {
         Tittel: string
         Kanal: string
-        StartTidspunkt: DateTimeOffset
-        SluttTidspunkt: DateTimeOffset
+        Starttidspunkt: DateTimeOffset
+        Sluttidspunkt: DateTimeOffset
     }
 
     type Epg = Sending list
@@ -1299,8 +1299,8 @@ Over definerer vi en F#-modul `Domain` i namespacet `NRK.Dotnetskolen`. I `Domai
 - `Sending` - modellerer et enkelt innslag i EPG-en, og inneholder feltene som ble definert i forrige seksjon
   - Tittel
   - Kanal
-  - StartTidspunkt
-  - SluttTidspunkt
+  - Starttidspunkt
+  - Sluttidspunkt
 - `Epg` - en liste med sendinger
 
 Vi åpnet også modulen `System` for å få tilgang til typen `DateTimeOffset`.
@@ -1349,8 +1349,8 @@ let epg = [
     {
         Tittel = "Dagsrevyen"
         Kanal = "NRK1"
-        StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
-        SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
+        Starttidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+        Sluttidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
     }
 ]
 printfn "%A" epg
@@ -1365,8 +1365,8 @@ $ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 [{ Tittel = "Dagsrevyen"
    Kanal = "NRK1"
-   StartTidspunkt = 16.04.2021 19:00:00 +02:00   
-   SluttTidspunkt = 16.04.2021 19:30:00 +02:00 }]
+   Starttidspunkt = 16.04.2021 19:00:00 +02:00   
+   Sluttidspunkt = 16.04.2021 19:30:00 +02:00 }]
 ```
 
 ### Steg 6 - Enhetstester for domenemodell
@@ -1401,35 +1401,35 @@ Ettersom tittel har lengdebegrensninger er det viktig å teste grensetilfellene 
 [<InlineData("abc12")>]
 [<InlineData(".,-:!")>]
 [<InlineData("ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ")>]
-let ``isTitleValid valid title returns true`` (title: string) =
-    let isTitleValid = isTitleValid title
+let ``isTittelValid valid tittel returns true`` (tittel: string) =
+    let isTittelValid = isTittelValid tittel
 
-    Assert.True isTitleValid
+    Assert.True isTittelValid
 
 [<Theory>]
 [<InlineData("abcd")>]
 [<InlineData("@$%&/")>]
 [<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
-let ``isTitleValid invalid title returns false`` (title: string) =
-    let isTitleValid = isTitleValid title
+let ``isTittelValid invalid tittel returns false`` (tittel: string) =
+    let isTittelValid = isTittelValid tittel
 
-    Assert.False isTitleValid
+    Assert.False isTittelValid
 ```
 
-Her har vi definert to enhetstester som begge tester funksjonen `isTitleValid`. Den første testen verifiserer at `isTitleValid` returnerer `true` når tittelen _er_ gyldig, mens den andre verifiserer det motsatte tilfellet. I xUnit annoterer man testfunksjoner med enten `[<Fact>]` eller `[<Theory>]`. Testfunksjoner annotert med `[<Fact>]` vil kjøre én gang uten noen inputparametere, mens i testfunksjoner annotert med `[<Theory>]` kan man ta inn parametere, og annotere testfunksjonen med `[<InlineData>]` for å sende inn gitte inputparametere. Da vil testfunksjonen bli kjørt én gang _per_ annotering med `[<InlineData>]`.
+Her har vi definert to enhetstester som begge tester funksjonen `isTittelValid`. Den første testen verifiserer at `isTittelValid` returnerer `true` når tittelen _er_ gyldig, mens den andre verifiserer det motsatte tilfellet. I xUnit annoterer man testfunksjoner med enten `[<Fact>]` eller `[<Theory>]`. Testfunksjoner annotert med `[<Fact>]` vil kjøre én gang uten noen inputparametere, mens i testfunksjoner annotert med `[<Theory>]` kan man ta inn parametere, og annotere testfunksjonen med `[<InlineData>]` for å sende inn gitte inputparametere. Da vil testfunksjonen bli kjørt én gang _per_ annotering med `[<InlineData>]`.
 
-Hvis du forsøker å kjøre testene, vil du se at testprosjektet ikke kompilerer fordi vi verken har referanse til API-prosjektet (hvor domenet vårt er definert) eller har definert funksjonen `isTitleValid` enda.
+Hvis du forsøker å kjøre testene, vil du se at testprosjektet ikke kompilerer fordi vi verken har referanse til API-prosjektet (hvor domenet vårt er definert) eller har definert funksjonen `isTittelValid` enda.
 
 ```bash
 $ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 
   Determining projects to restore...
   All projects are up-to-date for restore.
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(13,24): error FS0039: The value or constructor 'isTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: The value or constructor 'isTitleValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(13,24): error FS0039: The value or constructor 'isTittelValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: The value or constructor 'isTittelValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
 ```
 
-##### Implementere isTitleValid
+##### Implementere isTittelValid
 
 For å validere en tittel bruker vi et regulært uttrykk som reflekterer reglene i domenet vårt. Åpne filen `Domain.fs` i API-prosjektet, og legg til følgende `open`-statement under `open system`:
 
@@ -1442,9 +1442,9 @@ Lim deretter inn følgende kode på slutten av filen:
 
 ```f#
 ...
-let isTitleValid (title: string) : bool =
-    let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
-    titleRegex.IsMatch(title)
+let isTittelValid (tittel: string) : bool =
+    let tittelRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+    tittelRegex.IsMatch(tittel)
 ```
 
 Det regulære uttrykket lister opp hvilke tegn som er gyldige i en gruppe (tegnene mellom mellom `[` og `]`):
@@ -1532,31 +1532,31 @@ For å teste valideringsreglen for kanal trenger vi én positiv test per gyldige
 [<Theory>]
 [<InlineData("NRK1")>]
 [<InlineData("NRK2")>]
-let ``isChannelValid valid channel returns true`` (channel: string) =
-    let isChannelValid = isChannelValid channel
+let ``isKanalValid valid kanal returns true`` (kanal: string) =
+    let isKanalValid = isKanalValid kanal
 
-    Assert.True isChannelValid
+    Assert.True isKanalValid
 
 [<Theory>]
 [<InlineData("nrk1")>]
 [<InlineData("NRK3")>]
-let ``isChannelValid invalid channel returns false`` (channel: string) =
-    let isChannelValid = isChannelValid channel
+let ``isKanalValid invalid kanal returns false`` (kanal: string) =
+    let isKanalValid = isKanalValid kanal
 
-    Assert.False isChannelValid
+    Assert.False isKanalValid
 ```
 
-##### Implementasjon av isChannelValid
+##### Implementasjon av isKanalValid
 
-Før vi kjører testene igjen, definerer vi skallet for `isChannelValid` i `Domain.fs`:
+Før vi kjører testene igjen, definerer vi skallet for `isKanalValid` i `Domain.fs`:
 
 ```f#
 ...
-let isChannelValid (channel: string) : bool =
+let isKanalValid (kanal: string) : bool =
   // Implementasjon her
 ```
 
-☑️ Implementér `isChannelValid` slik at enhetstestene passerer.
+☑️ Implementér `isKanalValid` slik at enhetstestene passerer.
 
 ```bash
 $ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
@@ -1586,30 +1586,30 @@ Under følger én enhetstest for validering av sendetidspunkter i `Tests.fs`:
 ```f#
 ...
 [<Fact>]
-let ``areStartAndEndTimesValid start before end returns true`` () =
-    let startTime = DateTimeOffset.Now
-    let endTime = startTime.AddMinutes 30.
+let ``areStartAndSluttidspunktValid start before end returns true`` () =
+    let starttidspunkt = DateTimeOffset.Now
+    let sluttidspunkt = starttidspunkt.AddMinutes 30.
 
-    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
+    let areStartAndSluttidspunktValid = areStartAndSluttidspunktValid starttidspunkt sluttidspunkt
 
-    Assert.True areStartAndSluttTidspunktValid
+    Assert.True areStartAndSluttidspunktValid
 ```
 
 ☑️ Legg til flere enhetstester du mener er nødvendig for å verifisere at validering av start- og sluttidspunkt er korrekt.
 
-> Merk at her bruker vi `[<Fact>]`-attributtet istedenfor `[<Theory>]`. `[<InlineData>]`-attributtet som man bruker med `[<Theory>]`-attributtet krever verdier som er konstanse ved kompilering. Ettersom vi benytter `DateTimeOffset`-objekter (som ikke er konstante ved kompilering) som input til `areStartAndEndTimesValid`, bruker vi derfor `[<Fact>]`-attributtet.
+> Merk at her bruker vi `[<Fact>]`-attributtet istedenfor `[<Theory>]`. `[<InlineData>]`-attributtet som man bruker med `[<Theory>]`-attributtet krever verdier som er konstanse ved kompilering. Ettersom vi benytter `DateTimeOffset`-objekter (som ikke er konstante ved kompilering) som input til `areStartAndSluttidspunktValid`, bruker vi derfor `[<Fact>]`-attributtet.
 
-##### Implementasjon av areStartAndEndTimesValid
+##### Implementasjon av areStartAndSluttidspunktValid
 
-Funksjonen for å validere sendetidspunktene må undersøke om sluttidspunktet er større enn starttidspunktet. Lim inn skallet til `areStartAndEndTimesValid` i `Domain.fs`:
+Funksjonen for å validere sendetidspunktene må undersøke om sluttidspunktet er større enn starttidspunktet. Lim inn skallet til `areStartAndSluttidspunktValid` i `Domain.fs`:
 
 ```f#
 ...
-let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
+let areStartAndSluttidspunktValid (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) =
   // Implementasjon her
 ```
 
-☑️ Implementér `areStartAndEndTimesValid` og få enhetstestene til å passere.
+☑️ Implementér `areStartAndSluttidspunktValid` og få enhetstestene til å passere.
 
 ```bash
 $ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
@@ -1634,21 +1634,21 @@ Nå som vi har funksjoner for å validere de ulike feltene i en sending, kan vi 
 
 ##### Enhetstester
 
-Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene av en sending, kan enhetstestene for validering av hele sendingen være ganske enkle. 
+Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene av en sending, kan enhetstestene for validering av hele sendingen være ganske enkle.
 
-☑️ Skriv én positiv test for en gyldig sending, og én negativ test for en ugyldig sending i `Tests.fs` som antar at det finnes en funksjon `isTransmissionValid` i `Domain.fs`
+☑️ Skriv én positiv test for en gyldig sending, og én negativ test for en ugyldig sending i `Tests.fs` som antar at det finnes en funksjon `isSendingValid` i `Domain.fs`
 
-##### Implementasjon av isTransmissionValid
+##### Implementasjon av isSendingValid
 
-Legg til følgende skall for `isTransmissionValid` i `Domain.fs`:
+Legg til følgende skall for `isSendingValid` i `Domain.fs`:
 
 ```f#
 ...
-let isTransmissionValid (transmission: Sending) : bool =
+let isSendingValid (sending: Sending) : bool =
   // Implementasjon her
 ```
 
-☑️ Implementér `isTransmissionValid`, og få enhetstestene til å passere:
+☑️ Implementér `isSendingValid`, og få enhetstestene til å passere:
 
 ```bash
 $ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj 
@@ -1667,7 +1667,7 @@ A total of 1 test files matched the specified pattern.
 Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 12 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
 ```
 
-> Merk at domenemodellen, slik den er implementert i [steg 5](#definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell), har en svakhet i at man kan opprette en `Sending`-verdi som er ugyldig. Vi har implementert `isTransmissionValid`, men det er ingenting som hindrer oss i å opprette en `Sending`-verdi uten å bruke den. I ekstraoppgaven i [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) blir en alternativ tilnærming som bruker prinsipper fra [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design) presentert. De resterende stegene i dette kurset frem til og med steg 10 kommer til å basere seg på domenemodellen slik den er definert her i [steg 5](#definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) for å ikke innføre for mange prinsipper på en gang, og holde fokus på det kurset er ment for. Dersom du ønsker må du gjerne gå videre til [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) nå for å se hvordan det er gjort der. Husk at steg 11 er skrevet med forutsetning av at man har gjennomført kurset til og med steg 10 først.
+> Merk at domenemodellen, slik den er implementert i [steg 5](#definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell), har en svakhet i at man kan opprette en `Sending`-verdi som er ugyldig. Vi har implementert `isSendingValid`, men det er ingenting som hindrer oss i å opprette en `Sending`-verdi uten å bruke den. I ekstraoppgaven i [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) blir en alternativ tilnærming som bruker prinsipper fra [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design) presentert. De resterende stegene i dette kurset frem til og med steg 10 kommer til å basere seg på domenemodellen slik den er definert her i [steg 5](#definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) for å ikke innføre for mange prinsipper på en gang, og holde fokus på det kurset er ment for. Dersom du ønsker må du gjerne gå videre til [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) nå for å se hvordan det er gjort der. Husk at steg 11 er skrevet med forutsetning av at man har gjennomført kurset til og med steg 10 først.
 
 ### Steg 7 - Definere API-kontrakt
 
@@ -1729,12 +1729,12 @@ Før vi definerer selve kontrakten til API-et i en OpenAPI-spesifikasjon, skal v
                     "tittel": {
                         "$ref": "#/components/schemas/Tittel"
                     },
-                    "startTidspunkt": {
+                    "starttidspunkt": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Startdato- og tidspunkt for sendingen."
                     },
-                    "sluttTidspunkt": {
+                    "sluttidspunkt": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Sluttdato- og tidspunkt for sendingen. Er alltid større enn sendingens startdato- og tidspunkt."
@@ -1742,8 +1742,8 @@ Før vi definerer selve kontrakten til API-et i en OpenAPI-spesifikasjon, skal v
                 },
                 "required": [
                     "tittel",
-                    "startTidspunkt",
-                    "sluttTidspunkt"
+                    "starttidspunkt",
+                    "sluttidspunkt"
                 ]
             }
         }
@@ -1751,7 +1751,7 @@ Før vi definerer selve kontrakten til API-et i en OpenAPI-spesifikasjon, skal v
 }
 ```
 
-Her ser vi at responsen består av et objekt med to felter: `nrk1` og `nrk2`, som begge er en liste med sendingene på de respektive kanalene. Hver sending inneholder en tittel, samt start- og sluttidspunkt. Hver av feltene er tekststrenger som følger valideringsreglene vi har definert i domenet vårt. `Tittel` har `pattern` lik det regulære uttrykket vi benyttet i `isTitleValid` i `Domain.fs`. `StartTidspunkt` og `SluttTidspunkt` har `format: "date-time"`, som følger datoformatet i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
+Her ser vi at responsen består av et objekt med to felter: `nrk1` og `nrk2`, som begge er en liste med sendingene på de respektive kanalene. Hver sending inneholder en tittel, samt start- og sluttidspunkt. Hver av feltene er tekststrenger som følger valideringsreglene vi har definert i domenet vårt. `Tittel` har `pattern` lik det regulære uttrykket vi benyttet i `isTittelValid` i `Domain.fs`. `Starttidspunkt` og `Sluttidspunkt` har `format: "date-time"`, som følger datoformatet i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 
 Foreløpig skal vi ikke gjøre noe mer med JSON schemaet enn å ha det som dokumentasjon på API-et vårt. Lag en ny mappe `docs` i rotmappen din med en ny fil `epg.schema.json` hvor du limer inn JSON schemaet over. Du skal nå ha følgende mappehierarki:
 
@@ -2064,12 +2064,12 @@ I [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på
                     "tittel": {
                         "$ref": "#/components/schemas/Tittel"
                     },
-                    "startTidspunkt": {
+                    "starttidspunkt": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Startdato- og tidspunkt for sendingen."
                     },
-                    "sluttTidspunkt": {
+                    "sluttidspunkt": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Sluttdato- og tidspunkt for sendingen. Er alltid større enn sendingens startdato- og tidspunkt."
@@ -2077,8 +2077,8 @@ I [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på
                 },
                 "required": [
                     "tittel",
-                    "startTidspunkt",
-                    "sluttTidspunkt"
+                    "starttidspunkt",
+                    "sluttidspunkt"
                 ]
             }
         }
@@ -2127,8 +2127,8 @@ module Dto =
 
   type SendingDto = {
       Tittel: string
-      StartTidspunkt: string
-      SluttTidspunkt: string
+      Starttidspunkt: string
+      Sluttidspunkt: string
   }
 
   type EpgDto = {
@@ -3117,12 +3117,12 @@ $ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 La oss gå videre med å implementere `getEpgForDate` i `Services.fs`.
 
-Oppgaven til `getEpgForDate` er å filtrere sendinger på den oppgitte datoen, men hvor skal den få sendingene fra? På tilsvarende måte som vi gjorde i `epgHandler`-funksjonen i `HttpHandlers`, kan vi her si at vi ønsker å delegere ansvaret til å faktisk hente sendinger til noen andre. Dette kan vi gjøre ved å ta inn en funksjon `getAllTransmissions: () -> Epg` i `getEpgForDate`:
+Oppgaven til `getEpgForDate` er å filtrere sendinger på den oppgitte datoen, men hvor skal den få sendingene fra? På tilsvarende måte som vi gjorde i `epgHandler`-funksjonen i `HttpHandlers`, kan vi her si at vi ønsker å delegere ansvaret til å faktisk hente sendinger til noen andre. Dette kan vi gjøre ved å ta inn en funksjon `getAlleSendinger: () -> Epg` i `getEpgForDate`:
 
 ```f#
 ...
-let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
-    let allTransmissions = getAllTransmissions ()
+let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTime) : Epg =
+    let alleSendinger = getAlleSendinger ()
     ...
 ```
 
@@ -3130,11 +3130,11 @@ let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
 
 > 💡Tips!
 >
-> - `List.filter` kan være til hjelp for å filtrere sendingene fra `getAllTransmissions`
+> - `List.filter` kan være til hjelp for å filtrere sendingene fra `getAlleSendinger`
 
-###### Implementere getAllTransmissions
+###### Implementere getAlleSendinger
 
-Nå kan vi bestemme hvor vi skal hente sendinger fra. Skal vi hente dem fra en web-tjeneste, database, fil? `getAllTransmissions`-funksjonen skjuler denne implementasjonsdetaljen fra resten av koden vår. For eksemplet vårt i dette kurset er det tilstrekkelig å definere sendinger i en egen fil `DataAccess.fs` og implementere `getAllTransmissions` der.
+Nå kan vi bestemme hvor vi skal hente sendinger fra. Skal vi hente dem fra en web-tjeneste, database, fil? `getAlleSendinger`-funksjonen skjuler denne implementasjonsdetaljen fra resten av koden vår. For eksemplet vårt i dette kurset er det tilstrekkelig å definere sendinger i en egen fil `DataAccess.fs` og implementere `getAlleSendinger` der.
 
 Opprett `DataAccess.fs` i `src/api`:
 
@@ -3184,8 +3184,8 @@ module DataAccess =
     type SendingEntity = {
         Tittel: string
         Kanal: string
-        StartTidspunkt: string
-        SluttTidspunkt: string
+        Starttidspunkt: string
+        Sluttidspunkt: string
     }
 
     type EpgEntity = SendingEntity list
@@ -3200,43 +3200,43 @@ let database =
         {
             Tittel = "Testprogram"
             Kanal = "NRK1"
-            StartTidspunkt = "2021-04-12T13:00:00Z"
-            SluttTidspunkt = "2021-04-12T13:30:00Z"
+            Starttidspunkt = "2021-04-12T13:00:00Z"
+            Sluttidspunkt = "2021-04-12T13:30:00Z"
         }
         {
             Tittel = "Testprogram"
             Kanal = "NRK2"
-            StartTidspunkt = "2021-04-12T14:00:00Z"
-            SluttTidspunkt = "2021-04-12T15:00:00Z"
+            Starttidspunkt = "2021-04-12T14:00:00Z"
+            Sluttidspunkt = "2021-04-12T15:00:00Z"
         }
         {
             Tittel = "Testprogram"
             Kanal = "NRK3"
-            StartTidspunkt = "2021-04-12T14:00:00Z"
-            SluttTidspunkt = "2021-04-12T16:30:00Z"
+            Starttidspunkt = "2021-04-12T14:00:00Z"
+            Sluttidspunkt = "2021-04-12T16:30:00Z"
         }
     ]
 ```
 
-Nå kan vi implementere `getAllTransmissions`-funksjonen ved å legge til følgende `open`-statement, og funksjonen `getAllTransmissions` på slutten av `DataAccess.fs`:
+Nå kan vi implementere `getAlleSendinger`-funksjonen ved å legge til følgende `open`-statement, og funksjonen `getAlleSendinger` på slutten av `DataAccess.fs`:
 
 ```f#
 ...
 open NRK.Dotnetskolen.Domain
 ...
-let getAllTransmissions () : Epg =
+let getAlleSendinger () : Epg =
   // Implementasjon her
 ```
 
-Legg merke til at `getAllTransmissions`-funksjonen skal returnere en verdi av typen `Epg` fra `Domain`-modulen.
+Legg merke til at `getAlleSendinger`-funksjonen skal returnere en verdi av typen `Epg` fra `Domain`-modulen.
 
-☑️ Implementér `getAllTransmissions`-funksjonen.
+☑️ Implementér `getAlleSendinger`-funksjonen.
 
 > Tips: det kan være lurt å skrive en funksjon `toDomain` som mapper en `EpgEntity`-verdi til `Epg`-verdi. Husk i den forbindelse å validére om `Epg`-verdien er gyldig i ettertid. Vi kan ikke garantere datakvaliteten til databasen.
 
 ###### Registrere avhengigheter
 
-Ettersom vi innførte `getAllTransmissions` som en avhengighet til `getEpgForDate`, må vi endre `createWebApplication` slik at `getEpgForDate` får inn denne avhengigheten.
+Ettersom vi innførte `getAlleSendinger` som en avhengighet til `getEpgForDate`, må vi endre `createWebApplication` slik at `getEpgForDate` får inn denne avhengigheten.
 
 Legg til følgende `open`-statement, og utvid kallet til `app.MapGet("/epg/{date}"` i `createWebApplication` i `Program.fs` i web-API-prosjektet slik:
 
@@ -3247,11 +3247,11 @@ open NRK.Dotnetskolen.Api.DataAccess
 let createWebApplication (builder: WebApplicationBuilder) =
     let app = builder.Build()
     app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
-    app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAllTransmissions) date)) |> ignore
+    app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAlleSendinger) date)) |> ignore
     app
 ```
 
-Merk at over har vi kalt `getEpgForDate` med `getAllTransmissions`, og fått en ny funksjon i retur som tar inn en `DateTime` og returnerer en `Epg`-verdi. Det å sende inn et subsett av parameterene til en funksjon, og få en funksjon i retur som tar inn de resterende parameterene kalles "partial application". Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
+Merk at over har vi kalt `getEpgForDate` med `getAlleSendinger`, og fått en ny funksjon i retur som tar inn en `DateTime` og returnerer en `Epg`-verdi. Det å sende inn et subsett av parameterene til en funksjon, og få en funksjon i retur som tar inn de resterende parameterene kalles "partial application". Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
 
 Kjør API-et med følgende kommando, gå til <http://localhost:5000/epg/2021-04-12>, og se hva du får i retur.
 
@@ -3263,9 +3263,9 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 Et problem med integrasjonstestene våre slik de er nå er at vi ikke har kontroll på avhengighetene til applikasjonen under kjøringen av integrasjonstestene. Mer konkret brukte vi den faktiske dataaksessen til web-API-et da vi kjørte testene. I et faktisk system ville ikke dataene være hardkodet i web-API-et, men heller lagret i den database eller liknende. For å slippe å være avhengig av en database ved kjøring av integrasjonstestene, kan vi endre hosten vi bruker i integrasjonstestene til å benytte et datalager vi spesifiserer i testene istedenfor å bruke det datalageret web-API-et er konfigurert til å bruke.
 
-##### Implementere mock av getAllTransmissions
+##### Implementere mock av getAlleSendinger
 
-La oss implementere vår egen `getAllTransmissions`-funksjon i integrasjonstestprosjektet, og få API-et vårt til å bruke den istedenfor.
+La oss implementere vår egen `getAlleSendinger`-funksjon i integrasjonstestprosjektet, og få API-et vårt til å bruke den istedenfor.
 
 Opprett filen `Mock.fs` i mappen `/test/integration`:
 
@@ -3317,54 +3317,54 @@ module Mock =
     open System
     open NRK.Dotnetskolen.Domain
 
-    let getAllTransmissions () : Epg =
+    let getAlleSendinger () : Epg =
         let now = DateTimeOffset.Now
         [
             // Sendinger tilbake i tid
             {
                 Tittel = "Testprogram"
                 Kanal = "NRK1"
-                StartTidspunkt = now.AddDays(-10.)
-                SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
+                Starttidspunkt = now.AddDays(-10.)
+                Sluttidspunkt = now.AddDays(-10.).AddMinutes(30.)
             }
             {
                 Tittel = "Testprogram"
                 Kanal = "NRK2"
-                StartTidspunkt = now.AddDays(-10.)
-                SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
+                Starttidspunkt = now.AddDays(-10.)
+                Sluttidspunkt = now.AddDays(-10.).AddMinutes(30.)
             }
             // Sendinger i dag
             {
                 Tittel = "Testprogram"
                 Kanal = "NRK1"
-                StartTidspunkt = now
-                SluttTidspunkt = now.AddMinutes(30.)
+                Starttidspunkt = now
+                Sluttidspunkt = now.AddMinutes(30.)
             }
             {
                 Tittel = "Testprogram"
                 Kanal = "NRK2"
-                StartTidspunkt = now
-                SluttTidspunkt = now.AddMinutes(30.)
+                Starttidspunkt = now
+                Sluttidspunkt = now.AddMinutes(30.)
             }
             // Sendinger frem i tid
             {
                 Tittel = "Testprogram"
                 Kanal = "NRK1"
-                StartTidspunkt = now.AddDays(10.)
-                SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)
+                Starttidspunkt = now.AddDays(10.)
+                Sluttidspunkt = now.AddDays(10.).AddMinutes(30.)
             }
             {
                 Tittel = "Testprogram"
                 Kanal = "NRK2"
-                StartTidspunkt = now.AddDays(10.)
-                SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)
+                Starttidspunkt = now.AddDays(10.)
+                Sluttidspunkt = now.AddDays(10.).AddMinutes(30.)
             }
         ]
 ```
 
-##### Benytte mock av getAllTransmissions
+##### Benytte mock av getAlleSendinger
 
-Nå har vi en egen implementasjon av `getAllTransmissions` som vi ønsker å bruke kun når integrasjonstestene kjører. Hvordan får vi til det? La oss se nøyere på hvordan `Program.fs` i API-prosjektet ser ut:
+Nå har vi en egen implementasjon av `getAlleSendinger` som vi ønsker å bruke kun når integrasjonstestene kjører. Hvordan får vi til det? La oss se nøyere på hvordan `Program.fs` i API-prosjektet ser ut:
 
 ```f#
 namespace NRK.Dotnetskolen.Api
@@ -3384,7 +3384,7 @@ module Program =
     let createWebApplication (builder: WebApplicationBuilder) =
         let app = builder.Build()
         app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
-        app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAllTransmissions) date)) |> ignore
+        app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAlleSendinger) date)) |> ignore
         app
 
     let builder = createWebApplicationBuilder()
@@ -3392,7 +3392,7 @@ module Program =
     app.Run()
 ```
 
-Her ser vi at `epgHandler` tar inn `getEpgForDate` "partially applied" med `getAllTransmissions` som første parameter. `getEpgForDate` og `getAllTransmissions` her er tatt fra hhv. `Services`- og `DataAccess`-modulene i API-prosjektet, men vi ønsker å sende med egne implementasjoner av disse i integrasjonstestene slik at vi har kontroll på avhengighetene til API-et under kjøring av integrasjonstestene. Husk at `runWithTestClient`-funksjonen i `Tests.fs` i integrasjonstestprosjektet kaller `createWebApplication`-funksjonen fra `Program.fs` i API-prosjektet. Dersom vi hadde utvidet `createWebApplication`-funksjonen til å ta inn `getEpgForDate` som et eget parameter kunne vi sendt én implementasjon av funksjonen fra API-et, og en annen implementasjon fra integrasjonstestene. La oss gjøre det.
+Her ser vi at `epgHandler` tar inn `getEpgForDate` "partially applied" med `getAlleSendinger` som første parameter. `getEpgForDate` og `getAlleSendinger` her er tatt fra hhv. `Services`- og `DataAccess`-modulene i API-prosjektet, men vi ønsker å sende med egne implementasjoner av disse i integrasjonstestene slik at vi har kontroll på avhengighetene til API-et under kjøring av integrasjonstestene. Husk at `runWithTestClient`-funksjonen i `Tests.fs` i integrasjonstestprosjektet kaller `createWebApplication`-funksjonen fra `Program.fs` i API-prosjektet. Dersom vi hadde utvidet `createWebApplication`-funksjonen til å ta inn `getEpgForDate` som et eget parameter kunne vi sendt én implementasjon av funksjonen fra API-et, og en annen implementasjon fra integrasjonstestene. La oss gjøre det.
 
 Legg til følgende `open`-statement, og utvid `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet med et parameter til `getEpgForDate`, og send dette inn til `epgHandler` slik:
 
@@ -3407,11 +3407,11 @@ let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTi
     app
 ```
 
-Send deretter `getEpgForDate` fra `Services`-modulen "partially applied" med `getAllTransmissions` fra `DataAccess`-modulen inn som andre parameter til `createWebApplication`, slik:
+Send deretter `getEpgForDate` fra `Services`-modulen "partially applied" med `getAlleSendinger` fra `DataAccess`-modulen inn som andre parameter til `createWebApplication`, slik:
 
 ```f#
 ...
-let app = createWebApplication builder (getEpgForDate getAllTransmissions)
+let app = createWebApplication builder (getEpgForDate getAlleSendinger)
 ...
 ```
 
@@ -3440,11 +3440,11 @@ module Program =
         app
 
     let builder = createWebApplicationBuilder()
-    let app = createWebApplication builder (getEpgForDate getAllTransmissions)
+    let app = createWebApplication builder (getEpgForDate getAlleSendinger)
     app.Run()
 ```
 
-Nå som kan styre implementasjonen av `getEpgForDate` fra utsiden av `createWebApplication`-funksjonen kan vi lage en egen `getEpgForDate` i integrasjonstestprosjektet som bruker mock-implementasjonen av `getAllTransmissions`. Start med å åpne `Services`-modulen fra API-prosjektet, og `Mock`-modulen fra integrasjonstestprosjektet i `Tests.fs` i integrasjonstestprosjektet, slik:
+Nå som kan styre implementasjonen av `getEpgForDate` fra utsiden av `createWebApplication`-funksjonen kan vi lage en egen `getEpgForDate` i integrasjonstestprosjektet som bruker mock-implementasjonen av `getAlleSendinger`. Start med å åpne `Services`-modulen fra API-prosjektet, og `Mock`-modulen fra integrasjonstestprosjektet i `Tests.fs` i integrasjonstestprosjektet, slik:
 
 ```f#
 ...
@@ -3453,11 +3453,11 @@ open NRK.Dotnetskolen.IntegrationTests.Mock
 ...
 ```
 
-Endre deretter kallet til `createWebApplication` fra `runWithTestClient` i `Tests.fs` i integrasjonstestprosjektet til å sende med en "partially applied" versjon av `getEpgForDate` fra `Services` med `getAllTransmissions` fra `Mock`-modulen slik:
+Endre deretter kallet til `createWebApplication` fra `runWithTestClient` i `Tests.fs` i integrasjonstestprosjektet til å sende med en "partially applied" versjon av `getEpgForDate` fra `Services` med `getAlleSendinger` fra `Mock`-modulen slik:
 
 ```f#
 ...
-use app = createWebApplication builder (getEpgForDate getAllTransmissions)
+use app = createWebApplication builder (getEpgForDate getAlleSendinger)
 ...
 ```
 
@@ -3469,7 +3469,7 @@ let runWithTestClient (test: HttpClient -> Async<unit>) =
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
-        use app = createWebApplication builder (getEpgForDate getAllTransmissions)
+        use app = createWebApplication builder (getEpgForDate getAlleSendinger)
         do! app.StartAsync() |> Async.AwaitTask
 
         let testClient = app.GetTestClient()
@@ -3508,13 +3508,13 @@ Legg til koden under i `Domain.fs`, mellom `open`-statementene og `type Sending`
 ```f#
 type Tittel = private Tittel of string
 
-let isTitleValid (title: string) : bool =
-    let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
-    titleRegex.IsMatch(title)
+let isTittelValid (tittel: string) : bool =
+    let tittelRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+    tittelRegex.IsMatch(tittel)
 
 module Tittel =
     let create (tittel: String) : Tittel option = 
-        if isTitleValid tittel then
+        if isTittelValid tittel then
             Tittel tittel
             |> Some
         else
@@ -3523,9 +3523,9 @@ module Tittel =
     let value (Tittel tittel) = tittel
 ```
 
-Her ser vi at vi har definert tittel som en egen type `Tittel`, som er en "single case union"-type med privat konstruktør. Deretter har vi `isTitleValid`-funksjonen slik vi definerte den i [steg 6](#steg-6---enhetstester-for-domenemodell). Til slutt har vi `Tittel`-modulen med `create`- og `value`-funksjonene.
+Her ser vi at vi har definert tittel som en egen type `Tittel`, som er en "single case union"-type med privat konstruktør. Deretter har vi `isTittelValid`-funksjonen slik vi definerte den i [steg 6](#steg-6---enhetstester-for-domenemodell). Til slutt har vi `Tittel`-modulen med `create`- og `value`-funksjonene.
 
-> Merk at `isTitleValid`-funksjonen over er den samme som tidligere, bare at den har byttet plass. Du kan fjerne `isTitleValid`-funksjonen som tidligere var definert i `Domain.fs`.
+> Merk at `isTittelValid`-funksjonen over er den samme som tidligere, bare at den har byttet plass. Du kan fjerne `isTittelValid`-funksjonen som tidligere var definert i `Domain.fs`.
 
 ###### Oppdatere sending
 
@@ -3535,8 +3535,8 @@ Nå som vi har laget en egen type for tittel i en sending, kan vi ta den i bruk 
 type Sending = {
     Tittel: Tittel
     Kanal: string
-    StartTidspunkt: DateTimeOffset
-    SluttTidspunkt: DateTimeOffset
+    Starttidspunkt: DateTimeOffset
+    Sluttidspunkt: DateTimeOffset
 }
 ```
 
@@ -3555,21 +3555,21 @@ Build FAILED.
 ...
 ```
 
-Det første som feiler er `isTransmissionValid`-funksjonen i `Domain.fs`:
+Det første som feiler er `isSendingValid`-funksjonen i `Domain.fs`:
 
 ```f#
-let isTransmissionValid (transmission: Sending) : bool =
-    (isTitleValid transmission.Tittel) && 
-    (isChannelValid transmission.Kanal) && 
-    (areStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
+let isSendingValid (sending: Sending) : bool =
+    (isTittelValid sending.Tittel) && 
+    (isKanalValid sending.Kanal) && 
+    (areStartAndSluttidspunktValid sending.Starttidspunkt sending.Sluttidspunkt)
 ```
 
-Her kaller vi `isTitlevalid` med `transmission.Tittel`. Ettersom `isTitleValid` tar inn et argument av typen `string`, og `transmission.Tittel` nå har typen `Tittel` feiler typesjekken. På grunn av at vi har gjort konstruktøren til `Tittel` privat, er den eneste måten å opprette en `Tittel`-verdi på ved å bruke `create`-funksjonen i `Tittel`-modulen. Siden `create`-funksjonen kun returnerer en `Tittel`-verdi dersom den oppgitte tittelen er gyldig, vet vi at `Tittel`-feltet i en `Sending`-verdi må være gyldig. Dermed kan vi fjerne sjekken på om tittel er gyldig i `isTransmissionValid`, slik:
+Her kaller vi `isTittelvalid` med `sending.Tittel`. Ettersom `isTittelValid` tar inn et argument av typen `string`, og `sending.Tittel` nå har typen `Tittel` feiler typesjekken. På grunn av at vi har gjort konstruktøren til `Tittel` privat, er den eneste måten å opprette en `Tittel`-verdi på ved å bruke `create`-funksjonen i `Tittel`-modulen. Siden `create`-funksjonen kun returnerer en `Tittel`-verdi dersom den oppgitte tittelen er gyldig, vet vi at `Tittel`-feltet i en `Sending`-verdi må være gyldig. Dermed kan vi fjerne sjekken på om tittel er gyldig i `isSendingValid`, slik:
 
 ```f#
-let isTransmissionValid (transmission: Sending) : bool =
-    (isChannelValid transmission.Kanal) && 
-    (areStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
+let isSendingValid (sending: Sending) : bool =
+    (isKanalValid sending.Kanal) && 
+    (areStartAndSluttidspunktValid sending.Starttidspunkt sending.Sluttidspunkt)
 ```
 
 Det neste som feiler er opprettelsen av en `Sending`-verdi i `toDomain`-funksjonen i `DataAccess.fs`:
@@ -3580,10 +3580,10 @@ let toDomain (epgEntity : EpgEntity) : Epg =
     |> List.map(fun s -> {
         Sending.Tittel = s.Tittel
         Kanal = s.Kanal
-        StartTidspunkt = DateTimeOffset.Parse(s.StartTidspunkt)
-        SluttTidspunkt = DateTimeOffset.Parse(s.SluttTidspunkt)
+        Starttidspunkt = DateTimeOffset.Parse(s.Starttidspunkt)
+        Sluttidspunkt = DateTimeOffset.Parse(s.Sluttidspunkt)
     })
-    |> List.filter(fun d -> isTransmissionValid d)
+    |> List.filter(fun d -> isSendingValid d)
 ```
 
 Her forsøker vi å sette `Sending.Tittel` direkte til `Tittel`-feltet fra `SendingEntity`-typen. Siden `Tittel`-feltet i `SendingEntity`-typen er `string`, og `Sending.Tittel` er av typen `Tittel` feiler typesjekken. For å fikse dette må vi kalle `Tittel.create`-funksjonen med `SendingEntity` sin `Tittel` som input, slik:
@@ -3594,10 +3594,10 @@ let toDomain (epgEntity : EpgEntity) : Epg =
     |> List.map(fun s -> {
         Sending.Tittel = (Tittel.create s.Tittel).Value
         Kanal = s.Kanal
-        StartTidspunkt = DateTimeOffset.Parse(s.StartTidspunkt)
-        SluttTidspunkt = DateTimeOffset.Parse(s.SluttTidspunkt)
+        Starttidspunkt = DateTimeOffset.Parse(s.Starttidspunkt)
+        Sluttidspunkt = DateTimeOffset.Parse(s.Sluttidspunkt)
     })
-    |> List.filter(fun d -> isTransmissionValid d)
+    |> List.filter(fun d -> isSendingValid d)
 ```
 
 Ettersom `Tittel.create` returnerer en `Tittel option`, må vi kalle `.Value`-funksjonen på returverdien av `Tittel.create` for å få ut `Tittel`-verdien. Merk at dersom den oppgitte tittelen er ugyldig, vil kallet til `.Value` kaste en `System.NullReferenceException`.
@@ -3611,8 +3611,8 @@ let fromDomain (domain : Domain.Epg) : EpgDto =
             |> List.filter (fun s -> s.Kanal = kanal) 
             |> List.map (fun s -> { 
                 Tittel = s.Tittel
-                StartTidspunkt = s.StartTidspunkt.ToString("o")
-                SluttTidspunkt = s.SluttTidspunkt.ToString("o")
+                Starttidspunkt = s.Starttidspunkt.ToString("o")
+                Sluttidspunkt = s.Sluttidspunkt.ToString("o")
             })
     {
         Nrk1 = mapSendingerForKanal "NRK1"
@@ -3629,8 +3629,8 @@ let fromDomain (domain : Domain.Epg) : EpgDto =
             |> List.filter (fun s -> s.Kanal = kanal) 
             |> List.map (fun s -> { 
                 Tittel = Domain.Tittel.value s.Tittel
-                StartTidspunkt = s.StartTidspunkt.ToString("o")
-                SluttTidspunkt = s.SluttTidspunkt.ToString("o")
+                Starttidspunkt = s.Starttidspunkt.ToString("o")
+                Sluttidspunkt = s.Sluttidspunkt.ToString("o")
             })
     {
         Nrk1 = mapSendingerForKanal "NRK1"
@@ -3674,10 +3674,10 @@ Nå som vi har sett hvordan vi kan implementere en egen type for `Tittel`-feltet
 
 - Opprett egen type for `Kanal` i `Domain.fs` med privat konstruktør
 - Opprett egen modul for `Kanal` i `Domain.fs` med `create`- og `value`-funksjoner
-- Flytt `isChannelValid`-funksjonen mellom typen og modulen for `Kanal`
+- Flytt `isKanalValid`-funksjonen mellom typen og modulen for `Kanal`
 - Benytt den nye `Kanal`-typen i `Sending`-typen i `Domain.fs`
 - Fiks kompileringsfeil i API-prosjektet:
-  - Fjern sjekk for kanal i `isTransmissionValid`-funksjonen i `Domain.fs`
+  - Fjern sjekk for kanal i `isSendingValid`-funksjonen i `Domain.fs`
   - Opprettelse av `Kanal`-verdier i `toDomain`-funksjonen i `DataAccess.fs`
   - Uthenting av `Kanal`-verdier i `fromDomain`-funksjonen i `Dto.fs`
 - Fiks kompileringsfeil i testprosjektene:
@@ -3690,29 +3690,29 @@ Vi kan følge de samme prinsippene som for tittel og kanal for start- og sluttid
 
 ```f#
 type Sendetidspunkt = private {
-        StartTidspunkt: DateTimeOffset
-        SluttTidspunkt: DateTimeOffset
+        Starttidspunkt: DateTimeOffset
+        Sluttidspunkt: DateTimeOffset
     }
 
-  let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
-      startTime < endTime
+  let areStartAndSluttidspunktValid (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) =
+      starttidspunkt < sluttidspunkt
 
   module Sendetidspunkt =
-      let create (startTidspunkt: DateTimeOffset) (sluttTidspunkt: DateTimeOffset) : Sendetidspunkt option =
-          if areStartAndEndTimesValid startTidspunkt sluttTidspunkt then
+      let create (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) : Sendetidspunkt option =
+          if areStartAndSluttidspunktValid starttidspunkt sluttidspunkt then
               {
-                  StartTidspunkt = startTidspunkt
-                  SluttTidspunkt = sluttTidspunkt
+                  Starttidspunkt = starttidspunkt
+                  Sluttidspunkt = sluttidspunkt
               }
               |> Some
           else
               None
 
-      let startTidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.StartTidspunkt
-      let sluttTidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.SluttTidspunkt
+      let starttidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.Starttidspunkt
+      let sluttidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.Sluttidspunkt
 ```
 
-Her har vi definert en samletype `Sendetidspunkt`, som inneholder både start- og sluttidspunkt. Legg merke til at `create`-funksjonen tar inn begge disse, og bruker `areStartAndEndTimesValid`-funksjonen til å undersøke om de er gyldige opp mot hverandre, før en `Sendetidspunkt`-verdi opprettes. Merk at vi ikke har laget en `value`-funksjon her, men istedenfor laget en `startTidspunkt`- og en `sluttTidspunkt`-funksjon, som begge tar inn en `Sendetidspunkt`-verdi, og returnerer den respektive verdien fra `Sendetidspunkt`-verdien.
+Her har vi definert en samletype `Sendetidspunkt`, som inneholder både start- og sluttidspunkt. Legg merke til at `create`-funksjonen tar inn begge disse, og bruker `areStartAndSluttidspunktValid`-funksjonen til å undersøke om de er gyldige opp mot hverandre, før en `Sendetidspunkt`-verdi opprettes. Merk at vi ikke har laget en `value`-funksjon her, men istedenfor laget en `starttidspunkt`- og en `sluttidspunkt`-funksjon, som begge tar inn en `Sendetidspunkt`-verdi, og returnerer den respektive verdien fra `Sendetidspunkt`-verdien.
 
 ###### Bruke Sendetidspunkt i Sending
 
@@ -3730,10 +3730,10 @@ Her ser vi at vi bruker `Sendetidspunkt` istedenfor `DateTimeOffset` for start- 
 
 ```f#
 module Sending =
-    let create (tittel: string) (kanal: string) (startTidspunkt: DateTimeOffset) (sluttTidspunkt: DateTimeOffset) : Sending option =
+    let create (tittel: string) (kanal: string) (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) : Sending option =
         let tittel = Tittel.create tittel
         let kanal = Kanal.create kanal
-        let sendeTidspunkt = Sendetidspunkt.create startTidspunkt sluttTidspunkt
+        let sendeTidspunkt = Sendetidspunkt.create starttidspunkt sluttidspunkt
 
         if tittel.IsNone || kanal.IsNone || sendeTidspunkt.IsNone then
             None
@@ -3759,13 +3759,13 @@ module Domain =
 
     type Tittel = private Tittel of string
 
-    let isTitleValid (title: string) : bool =
-        let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
-        titleRegex.IsMatch(title)
+    let isTittelValid (tittel: string) : bool =
+        let tittelRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+        tittelRegex.IsMatch(tittel)
 
     module Tittel =
         let create (tittel: String) : Tittel option = 
-            if isTitleValid tittel then
+            if isTittelValid tittel then
                 Tittel tittel
                 |> Some
             else
@@ -3775,12 +3775,12 @@ module Domain =
 
     type Kanal = private Kanal of string
 
-    let isChannelValid (channel: string) : bool =
-        List.contains channel ["NRK1"; "NRK2"]
+    let isKanalValid (kanal: string) : bool =
+        List.contains kanal ["NRK1"; "NRK2"]
 
     module Kanal =
         let create (kanal: string) : Kanal option =
-            if isChannelValid kanal then
+            if isKanalValid kanal then
                 Kanal kanal
                 |> Some
             else
@@ -3789,26 +3789,26 @@ module Domain =
         let value (Kanal kanal) = kanal
     
     type Sendetidspunkt = private {
-        StartTidspunkt: DateTimeOffset
-        SluttTidspunkt: DateTimeOffset
+        Starttidspunkt: DateTimeOffset
+        Sluttidspunkt: DateTimeOffset
     }
 
-    let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
-        startTime < endTime
+    let areStartAndSluttidspunktValid (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) =
+        starttidspunkt < sluttidspunkt
 
     module Sendetidspunkt =
-        let create (startTidspunkt: DateTimeOffset) (sluttTidspunkt: DateTimeOffset) : Sendetidspunkt option =
-            if areStartAndEndTimesValid startTidspunkt sluttTidspunkt then
+        let create (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) : Sendetidspunkt option =
+            if areStartAndSluttidspunktValid starttidspunkt sluttidspunkt then
                 {
-                    StartTidspunkt = startTidspunkt
-                    SluttTidspunkt = sluttTidspunkt
+                    Starttidspunkt = starttidspunkt
+                    Sluttidspunkt = sluttidspunkt
                 }
                 |> Some
             else
                 None
 
-        let startTidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.StartTidspunkt
-        let sluttTidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.SluttTidspunkt
+        let starttidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.Starttidspunkt
+        let sluttidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.Sluttidspunkt
 
     type Sending = {
         Tittel: Tittel
@@ -3819,10 +3819,10 @@ module Domain =
     type Epg = Sending list
 
     module Sending =
-        let create (tittel: string) (kanal: string) (startTidspunkt: DateTimeOffset) (sluttTidspunkt: DateTimeOffset) : Sending option =
+        let create (tittel: string) (kanal: string) (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) : Sending option =
             let tittel = Tittel.create tittel
             let kanal = Kanal.create kanal
-            let sendeTidspunkt = Sendetidspunkt.create startTidspunkt sluttTidspunkt
+            let sendeTidspunkt = Sendetidspunkt.create starttidspunkt sluttidspunkt
 
             if tittel.IsNone || kanal.IsNone || sendeTidspunkt.IsNone then
                 None
@@ -3834,7 +3834,7 @@ module Domain =
                 }
 ```
 
-Legg merke til at `isTransmissionValid`-funksjonen er fjernet, ettersom `Sending.create`-funksjonen har overtatt dens ansvar.
+Legg merke til at `isSendingValid`-funksjonen er fjernet, ettersom `Sending.create`-funksjonen har overtatt dens ansvar.
 
 ###### Fikse toDomain
 
@@ -3855,18 +3855,18 @@ let toDomain (epgEntity : EpgEntity) : Epg =
     |> List.map(fun s -> {
         Sending.Tittel = (Tittel.create s.Tittel).Value
         Kanal = (Kanal.create s.Kanal).Value
-        StartTidspunkt = DateTimeOffset.Parse(s.StartTidspunkt)
-        SluttTidspunkt = DateTimeOffset.Parse(s.SluttTidspunkt)
+        Starttidspunkt = DateTimeOffset.Parse(s.Starttidspunkt)
+        Sluttidspunkt = DateTimeOffset.Parse(s.Sluttidspunkt)
     })
-    |> List.filter(fun d -> isTransmissionValid d)
+    |> List.filter(fun d -> isSendingValid d)
 ```
 
-Her forsøker vi å sette `StartTidspunkt` og `SluttTidspunkt` direkte, men disse er nå flyttet inn i feltet `Sendetidspunkt`. Vi kunne ha brukt `Sendetidspunkt.create`-funksjonen til å løse det på tilsvarende vis som for `Tittel` og `Kanal`, men ettersom vi har innført `Sending.create`-funksjonen som kaller `create`-funksjonen for alle de nye typene for oss, kan vi heller bruke den, slik:
+Her forsøker vi å sette `Starttidspunkt` og `Sluttidspunkt` direkte, men disse er nå flyttet inn i feltet `Sendetidspunkt`. Vi kunne ha brukt `Sendetidspunkt.create`-funksjonen til å løse det på tilsvarende vis som for `Tittel` og `Kanal`, men ettersom vi har innført `Sending.create`-funksjonen som kaller `create`-funksjonen for alle de nye typene for oss, kan vi heller bruke den, slik:
 
 ```f#
 let toDomain (epgEntity : EpgEntity) : Epg =
   epgEntity
-  |> List.map(fun s -> Sending.create s.Tittel s.Kanal (DateTimeOffset.Parse(s.StartTidspunkt)) (DateTimeOffset.Parse(s.SluttTidspunkt)))
+  |> List.map(fun s -> Sending.create s.Tittel s.Kanal (DateTimeOffset.Parse(s.Starttidspunkt)) (DateTimeOffset.Parse(s.Sluttidspunkt)))
   |> List.filter (fun s -> s.IsSome)
   |> List.map (fun s -> s.Value)
 ```
@@ -3876,17 +3876,17 @@ Over kaller vi `Sending.create` for hver sending i `EpgEntity` som vi får inn t
 ```f#
 let toDomain (epgEntity : EpgEntity) : Epg =
   epgEntity
-  |> List.map(fun s -> Sending.create s.Tittel s.Kanal (DateTimeOffset.Parse(s.StartTidspunkt)) (DateTimeOffset.Parse(s.SluttTidspunkt)))
+  |> List.map(fun s -> Sending.create s.Tittel s.Kanal (DateTimeOffset.Parse(s.Starttidspunkt)) (DateTimeOffset.Parse(s.Sluttidspunkt)))
   |> List.choose id
 ```
 
 > `List.choose` tar inn en funksjon `f`, og returnerer en liste med de interne verdiene til innslagene i listen hvor `f` returnerer `Some`. `ìd` er en innebygd funksjon i F# som returnerer det den får inn. Ved å kombinere `List.choose` med `id`-funksjonen oppnår vi det samme som vi gjorde med `List.filter (fun s -> s.IsSome)` og `List.map (fun s -> s.Value)` etter hverandre.
 
-Legg også merke til at i koden over fjernet vi `List.filter (fun d -> isTransmissionValid d)`, og på den måten flyttet ansvaret for å validere en `Sending`-verdi fra `toDomain`-funksjonen i `DataAccess.fs` til `Sending.create`-funksjonen i `Domain.fs`.
+Legg også merke til at i koden over fjernet vi `List.filter (fun d -> isSendingValid d)`, og på den måten flyttet ansvaret for å validere en `Sending`-verdi fra `toDomain`-funksjonen i `DataAccess.fs` til `Sending.create`-funksjonen i `Domain.fs`.
 
 ###### Fikse fromDomain
 
-`fromDomain`-funksjonen i `Dto.fs` feiler også ettersom den ikke får hentet ut verdiene til `StartTidspunkt` og `SluttTidspunkt` i en `Sending`-verdi slik den forventer. 
+`fromDomain`-funksjonen i `Dto.fs` feiler også ettersom den ikke får hentet ut verdiene til `Starttidspunkt` og `Sluttidspunkt` i en `Sending`-verdi slik den forventer. 
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
@@ -3895,8 +3895,8 @@ let fromDomain (domain : Domain.Epg) : EpgDto =
             |> List.filter (fun s -> (Domain.Kanal.value s.Kanal) = kanal) 
             |> List.map (fun s -> { 
                 Tittel = Domain.Tittel.value s.Tittel
-                StartTidspunkt = s.StartTidspunkt.ToString("o")
-                SluttTidspunkt = s.SluttTidspunkt.ToString("o")
+                Starttidspunkt = s.Starttidspunkt.ToString("o")
+                Sluttidspunkt = s.Sluttidspunkt.ToString("o")
             })
     {
         Nrk1 = mapSendingerForKanal "NRK1"
@@ -3915,59 +3915,59 @@ let fromDomain (domain: Domain.Epg): EpgDto =
         |> List.filter (fun s -> Kanal.value s.Kanal = kanal)
         |> List.map (fun s ->
             { Tittel = Tittel.value s.Tittel
-              StartTidspunkt = (Sendetidspunkt.startTidspunkt s.Sendetidspunkt).ToString("o")
-              SluttTidspunkt = (Sendetidspunkt.sluttTidspunkt s.Sendetidspunkt).ToString("o") })
+              Starttidspunkt = (Sendetidspunkt.starttidspunkt s.Sendetidspunkt).ToString("o")
+              Sluttidspunkt = (Sendetidspunkt.sluttidspunkt s.Sendetidspunkt).ToString("o") })
 
     { Nrk1 = mapSendingerForKanal "NRK1"
       Nrk2 = mapSendingerForKanal "NRK2" }
 ```
 
-Vi henter start- og sluttidspunkt ved å kalle hhv. `Sendetidspunkt.startTidspunkt` og `Sendetidspunkt.sluttTidspunkt` med `s.Sendetidspunkt` som input.
+Vi henter start- og sluttidspunkt ved å kalle hhv. `Sendetidspunkt.starttidspunkt` og `Sendetidspunkt.sluttidspunkt` med `s.Sendetidspunkt` som input.
 
 ###### Fikse getEpgForDate
 
 I `getEpgForDate`-funksjonen i `Services.fs` filtrerer vi sendinger basert på dato:
 
 ```f#
-let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
-  getAllTransmissions ()
-  |> List.filter (fun s -> s.StartTidspunkt.Date.Date = date.Date)
+let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTime) : Epg =
+  getAlleSendinger ()
+  |> List.filter (fun s -> s.Starttidspunkt.Date.Date = date.Date)
 ```
 
 Ettersom vi har innført en ny måte å hente ut starttidspunkt fra en sending på, må vi oppdatere `getEpgForDate` til å reflektere dette:
 
 ```f#
-let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
-    getAllTransmissions ()
-    |> List.filter (fun s -> (Sendetidspunkt.startTidspunkt s.Sendetidspunkt).Date.Date = date.Date)
+let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTime) : Epg =
+    getAlleSendinger ()
+    |> List.filter (fun s -> (Sendetidspunkt.starttidspunkt s.Sendetidspunkt).Date.Date = date.Date)
 ```
 
-Istedenfor å hente starttidspunktet direkte, kaller vi `Sendetidspunkt.startTidspunkt` med `s.Sendetidspunkt` som input.
+Istedenfor å hente starttidspunktet direkte, kaller vi `Sendetidspunkt.starttidspunkt` med `s.Sendetidspunkt` som input.
 
 ###### Fikse enhetstester
 
-I enhetstestprosjektet har vi tester for funksjonen `isTransmissionValid` som vi hadde i `Domain.fs`. Ettersom `Sending.create`-funksjonen har tatt over ansvaret til `isTransmissionValid` må vi skrive om testene til å bruke `Sending.create`-funksjonen istedenfor:
+I enhetstestprosjektet har vi tester for funksjonen `isSendingValid` som vi hadde i `Domain.fs`. Ettersom `Sending.create`-funksjonen har tatt over ansvaret til `isSendingValid` må vi skrive om testene til å bruke `Sending.create`-funksjonen istedenfor:
 
 ```f#
 [<Fact>]
-let ``Sending.create valid transmission returns Some`` () =
+let ``Sending.create valid sending returns Some`` () =
     let now = DateTimeOffset.Now
-    let transmission = Sending.create "Dagsrevyen" "NRK1" now (now.AddMinutes 30.)
+    let sending = Sending.create "Dagsrevyen" "NRK1" now (now.AddMinutes 30.)
 
-    match transmission with
+    match sending with
     | Some t ->
         Assert.Equal("Dagsrevyen", Tittel.value t.Tittel)
         Assert.Equal("NRK1", Kanal.value t.Kanal)
-        Assert.Equal(now, Sendetidspunkt.startTidspunkt t.Sendetidspunkt)
-        Assert.Equal(now.AddMinutes 30., Sendetidspunkt.sluttTidspunkt t.Sendetidspunkt)
+        Assert.Equal(now, Sendetidspunkt.starttidspunkt t.Sendetidspunkt)
+        Assert.Equal(now.AddMinutes 30., Sendetidspunkt.sluttidspunkt t.Sendetidspunkt)
     | None -> Assert.True false
 
 [<Fact>]
-let ``Sending.create invalid transmission returns None`` () =
+let ``Sending.create invalid sending returns None`` () =
     let now = DateTimeOffset.Now
-    let transmission = Sending.create "@$%&/" "nrk3" now (now.AddMinutes 30.)
+    let sending = Sending.create "@$%&/" "nrk3" now (now.AddMinutes 30.)
 
-    Assert.True transmission.IsNone
+    Assert.True sending.IsNone
 ```
 
 ###### Fikse integrasjonstester
@@ -3975,7 +3975,7 @@ let ``Sending.create invalid transmission returns None`` () =
 I `Mock`-modulen i integrasjonstestprosjektet opprettet vi `Sending`-verdier for å ha kontroll på dataaksessen under integrasjonstestene. Nå som vi har en egen funksjon for å opprette `Sending`-verdier, `Sending.create`, kan vi bruke den istedenfor å opprette `Sending`-verdier direkte, slik:
 
 ```f#
-let getAllTransmissions () : Epg =
+let getAlleSendinger () : Epg =
   let now = DateTimeOffset.Now
   let past = now.AddDays(-10.)
   let future = now.AddDays(10.)
