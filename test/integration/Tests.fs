@@ -16,7 +16,7 @@ let runWithTestClient (test: HttpClient -> Async<unit>) =
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
-        use app = createWebApplication builder (getEpgForDate getAllTransmissions)
+        use app = createWebApplication builder (getEpgForDate getAlleSendinger)
         do! app.StartAsync() |> Async.AwaitTask
 
         let testClient = app.GetTestClient()
@@ -67,7 +67,8 @@ let ``Get EPG today return valid response`` () =
             response.EnsureSuccessStatusCode() |> ignore
             let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
             let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
-            let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
+            let validationResult = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true))
+            let isJsonValid = validationResult.IsValid
             
             Assert.True(isJsonValid)
         }

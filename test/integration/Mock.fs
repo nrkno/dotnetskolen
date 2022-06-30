@@ -5,7 +5,7 @@ module Mock =
     open System
     open NRK.Dotnetskolen.Domain
 
-    let getAllTransmissions () : Epg =
+    let getAlleSendinger () : Epg =
         let now = DateTimeOffset.Now
         let past = now.AddDays(-10.)
         let future = now.AddDays(10.)

@@ -6,8 +6,8 @@ module Dto =
 
     type SendingDto =
         { Tittel: string
-          StartTidspunkt: string
-          SluttTidspunkt: string }
+          Starttidspunkt: string
+          Sluttidspunkt: string }
 
     type EpgDto =
         { Nrk1: SendingDto list
@@ -19,8 +19,8 @@ module Dto =
             |> List.filter (fun s -> Kanal.value s.Kanal = kanal)
             |> List.map (fun s ->
                 { Tittel = Tittel.value s.Tittel
-                  StartTidspunkt = (Sendetidspunkt.startTidspunkt s.Sendetidspunkt).ToString("o")
-                  SluttTidspunkt = (Sendetidspunkt.sluttTidspunkt s.Sendetidspunkt).ToString("o") })
+                  Starttidspunkt = (Sendetidspunkt.starttidspunkt s.Sendetidspunkt).ToString("o")
+                  Sluttidspunkt = (Sendetidspunkt.sluttidspunkt s.Sendetidspunkt).ToString("o") })
 
         { Nrk1 = mapSendingerForKanal "NRK1"
           Nrk2 = mapSendingerForKanal "NRK2" }
