@@ -7,4 +7,4 @@ module Services =
 
     let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateTime) : Epg =
         getAllTransmissions ()
-        |> List.filter (fun s -> s.StartTidspunkt.Date.Date = date.Date)
+        |> List.filter (fun s -> s.Starttidspunkt.Date.Date = date.Date)

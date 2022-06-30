@@ -8,8 +8,8 @@ module DataAccess =
     type SendingEntity = {
         Tittel: string
         Kanal: string
-        StartTidspunkt: string
-        SluttTidspunkt: string
+        Starttidspunkt: string
+        Sluttidspunkt: string
     }
 
     type EpgEntity = SendingEntity list
@@ -19,20 +19,20 @@ module DataAccess =
             {
                 Tittel = "Testprogram"
                 Kanal = "NRK1"
-                StartTidspunkt = "2021-04-12T13:00:00Z"
-                SluttTidspunkt = "2021-04-12T13:30:00Z"
+                Starttidspunkt = "2021-04-12T13:00:00Z"
+                Sluttidspunkt = "2021-04-12T13:30:00Z"
             }
             {
                 Tittel = "Testprogram"
                 Kanal = "NRK2"
-                StartTidspunkt = "2021-04-12T14:00:00Z"
-                SluttTidspunkt = "2021-04-12T15:00:00Z"
+                Starttidspunkt = "2021-04-12T14:00:00Z"
+                Sluttidspunkt = "2021-04-12T15:00:00Z"
             }
             {
                 Tittel = "Testprogram"
                 Kanal = "NRK3"
-                StartTidspunkt = "2021-04-12T14:00:00Z"
-                SluttTidspunkt = "2021-04-12T16:30:00Z"
+                Starttidspunkt = "2021-04-12T14:00:00Z"
+                Sluttidspunkt = "2021-04-12T16:30:00Z"
             }
         ]
 
@@ -41,10 +41,10 @@ module DataAccess =
         |> List.map(fun s -> {
             Sending.Tittel = s.Tittel
             Kanal = s.Kanal
-            StartTidspunkt = DateTimeOffset.Parse(s.StartTidspunkt)
-            SluttTidspunkt = DateTimeOffset.Parse(s.SluttTidspunkt)
+            Starttidspunkt = DateTimeOffset.Parse(s.Starttidspunkt)
+            Sluttidspunkt = DateTimeOffset.Parse(s.Sluttidspunkt)
         })
-        |> List.filter(fun d -> isTransmissionValid d)
+        |> List.filter(fun d -> isSendingValid d)
 
     let getAllTransmissions () : Epg =
         database
