@@ -8,87 +8,87 @@ open NRK.Dotnetskolen.Domain
 [<InlineData("abc12")>]
 [<InlineData(".,-:!")>]
 [<InlineData("ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ")>]
-let ``isTitleValid valid title returns true`` (title: string) =
-    let isTitleValid = isTitleValid title
+let ``isTittelValid valid tittel returns true`` (tittel: string) =
+    let isTittelValid = isTittelValid tittel
 
-    Assert.True isTitleValid
+    Assert.True isTittelValid
 
 [<Theory>]
 [<InlineData("abcd")>]
 [<InlineData("@$%&/")>]
 [<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
-let ``isTitleValid invalid title returns false`` (title: string) =
-    let isTitleValid = isTitleValid title
+let ``isTittelValid invalid tittel returns false`` (tittel: string) =
+    let isTittelValid = isTittelValid tittel
 
-    Assert.False isTitleValid
+    Assert.False isTittelValid
 
 [<Theory>]
 [<InlineData("NRK1")>]
 [<InlineData("NRK2")>]
-let ``isChannelValid valid channel returns true`` (channel: string) =
-    let isChannelValid = isChannelValid channel
+let ``isKanalValid valid kanal returns true`` (kanal: string) =
+    let isKanalValid = isKanalValid kanal
 
-    Assert.True isChannelValid
+    Assert.True isKanalValid
 
 [<Theory>]
 [<InlineData("nrk1")>]
 [<InlineData("NRK3")>]
-let ``isChannelValid invalid channel returns false`` (channel: string) =
-    let isChannelValid = isChannelValid channel
+let ``isKanalValid invalid kanal returns false`` (kanal: string) =
+    let isKanalValid = isKanalValid kanal
 
-    Assert.False isChannelValid
-
-[<Fact>]
-let ``areStartAndEndTimesValid start before end returns true`` () =
-    let startTime = DateTimeOffset.Now
-    let endTime = startTime.AddMinutes 30.
-
-    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
-
-    Assert.True areStartAndSluttTidspunktValid
+    Assert.False isKanalValid
 
 [<Fact>]
-let ``areStartAndEndTimesValids start after end returns false`` () =
-    let startTime = DateTimeOffset.Now
-    let endTime = startTime.AddMinutes -30.
+let ``areStartAndSluttidspunktValid start before end returns true`` () =
+    let starttidspunkt = DateTimeOffset.Now
+    let sluttidspunkt = starttidspunkt.AddMinutes 30.
 
-    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
+    let areStartAndSluttidspunktValid = areStartAndSluttidspunktValid starttidspunkt sluttidspunkt
 
-    Assert.False areStartAndSluttTidspunktValid
-
-[<Fact>]
-let ``areStartAndEndTimesValid start equals end returns false`` () =
-    let startTime = DateTimeOffset.Now
-    let endTime = startTime
-
-    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
-
-    Assert.False areStartAndSluttTidspunktValid
+    Assert.True areStartAndSluttidspunktValid
 
 [<Fact>]
-let ``isTransmissionValid valid transmission returns true`` () =
+let ``areStartAndSluttidspunktValids start after end returns false`` () =
+    let starttidspunkt = DateTimeOffset.Now
+    let sluttidspunkt = starttidspunkt.AddMinutes -30.
+
+    let areStartAndSluttidspunktValid = areStartAndSluttidspunktValid starttidspunkt sluttidspunkt
+
+    Assert.False areStartAndSluttidspunktValid
+
+[<Fact>]
+let ``areStartAndSluttidspunktValid start equals end returns false`` () =
+    let starttidspunkt = DateTimeOffset.Now
+    let sluttidspunkt = starttidspunkt
+
+    let areStartAndSluttidspunktValid = areStartAndSluttidspunktValid starttidspunkt sluttidspunkt
+
+    Assert.False areStartAndSluttidspunktValid
+
+[<Fact>]
+let ``isSendingValid valid sending returns true`` () =
     let now = DateTimeOffset.Now
-    let transmission = {
+    let sending = {
         Sending.Tittel = "Dagsrevyen"
         Kanal = "NRK1"
-        StartTidspunkt = now
-        SluttTidspunkt = now.AddMinutes 30.
+        Starttidspunkt = now
+        Sluttidspunkt = now.AddMinutes 30.
     }
 
-    let isTransmissionValid = isTransmissionValid transmission
+    let isSendingValid = isSendingValid sending
 
-    Assert.True isTransmissionValid
+    Assert.True isSendingValid
 
 [<Fact>]
-let ``isTransmissionValid invalid transmission returns false`` () =
+let ``isSendingValid invalid sending returns false`` () =
     let now = DateTimeOffset.Now
-    let transmission = {
+    let sending = {
         Sending.Tittel = "@$%&/"
         Kanal = "nrk3"
-        StartTidspunkt = now
-        SluttTidspunkt = now.AddMinutes -30.
+        Starttidspunkt = now
+        Sluttidspunkt = now.AddMinutes -30.
     }
 
-    let isTransmissionValid = isTransmissionValid transmission
+    let isSendingValid = isSendingValid sending
 
-    Assert.False isTransmissionValid
+    Assert.False isSendingValid
