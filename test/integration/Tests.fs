@@ -4,6 +4,7 @@ open System
 open System.Net
 open System.Net.Http
 open System.Text.Json
+open System.Threading.Tasks
 open Xunit
 open Json.Schema
 open Microsoft.AspNetCore.TestHost
@@ -11,23 +12,23 @@ open NRK.Dotnetskolen.Api.Program
 open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.IntegrationTests.Mock
 
-let runWithTestClient (test: HttpClient -> Async<unit>) = 
-    async {
+let runWithTestClient (test: HttpClient -> Task<unit>) = 
+    task {
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
         use app = createWebApplication builder (getEpgForDate getAlleSendinger)
-        do! app.StartAsync() |> Async.AwaitTask
+        do! app.StartAsync()
 
         let testClient = app.GetTestClient()
         do! test testClient
-    } |> Async.RunSynchronously
+    }
 
 [<Fact>]
 let ``Get "ping" returns "pong"`` () =
     runWithTestClient (fun httpClient -> 
-        async {
-            let! response = httpClient.GetStringAsync("/ping") |> Async.AwaitTask
+        task {
+            let! response = httpClient.GetStringAsync("/ping")
             Assert.Equal(response, "pong")
         }
     )
@@ -35,10 +36,10 @@ let ``Get "ping" returns "pong"`` () =
 [<Fact>]
 let ``Get EPG today returns 200 OK`` () =
     runWithTestClient (fun httpClient -> 
-        async {
+        task {
             let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
             let url = $"/epg/{todayAsString}" 
-            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            let! response = httpClient.GetAsync(url)
             response.EnsureSuccessStatusCode() |> ignore
         }
     )
@@ -46,10 +47,10 @@ let ``Get EPG today returns 200 OK`` () =
 [<Fact>]
 let ``Get EPG invalid date returns bad request`` () =
     runWithTestClient (fun httpClient -> 
-        async {
+        task {
             let invalidDateAsString = "2021-13-32"
             let url = $"/epg/{invalidDateAsString}"
-            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            let! response = httpClient.GetAsync(url)
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
         }
     )
@@ -57,15 +58,15 @@ let ``Get EPG invalid date returns bad request`` () =
 [<Fact>]
 let ``Get EPG today return valid response`` () =
     runWithTestClient (fun httpClient -> 
-        async {
+        task {
             let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
             let url = $"/epg/{todayAsString}"
             let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
 
-            let! response = httpClient.GetAsync(url) |> Async.AwaitTask
+            let! response = httpClient.GetAsync(url)
 
             response.EnsureSuccessStatusCode() |> ignore
-            let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+            let! bodyAsString = response.Content.ReadAsStringAsync()
             let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
             let validationResult = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true))
             let isJsonValid = validationResult.IsValid
