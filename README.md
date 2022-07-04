@@ -626,6 +626,8 @@ $ dotnet run
 Hello world from F#
 ```
 
+> For mer informasjon om hvordan du kan kompilere koden og kjøre executable-filene direkte, se [kjøre executables direkte](#kjøre-executables-direkte).
+
 #### Lagre endringer i Git (valgfritt)
 
 Nå som du har fullført det første steget i kurset er det en fin anledning til å lagre endringene du har gjort så langt i Git.
@@ -4137,3 +4139,32 @@ Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer bli
 Dersom du nå starter web-API-et med `dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj`, og åpner [http://localhost:5000/openapi.html](http://localhost:5000/openapi.html) skal du se noe liknende som skjermbildet under:
 
 ![redoc](./illustrasjoner/redoc.png)
+
+## Ekstramateriale
+
+### Kjøre executables direkte
+
+[I veiledningen til steg 1](#kjøre-API-prosjektet) brukte vi kommandoen `dotnet run` for å kompilere og kjøre prosjektet. La oss se litt nærmere på hva det innebærer.
+
+Når man kompilerer koden oversetter man den fra høynivå, tekstbasert programmeringsspråk, til maskinkode som maskinen kan kjøre. For tilfellet i dette kurset er høynivåkoden skrevet i F# og ligger i de ulike `.fs`-filene i prosjektene. Når vi kompilerer `.fs`-filene, blir de først gjort om til .NET sitt "common intermediate language" (CIL), og når man ber om å kjøre koden blir `CIL`-koden oversatt til maskinkode av .NET Runtime.
+
+Så, `dotnet run` sørger for både å kompilere F#-koden vår til "CIL", _og_ kjøre den via .NET Runtime. For å se resultatet av det første steget, å kompilere koden til "CIL" kan man kjøre følgende kommando:
+
+```bash
+$ dotnet build --project src/api/NRK.Dotnetskolen.Api.fsproj
+
+Microsoft (R) Build Engine version 16.9.0+57a23d249 for .NET
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:04.46
+```
+
+I outputen fra kommandoen over ser vi hvor den kompilerte koden vår ligger: `<rotmappe>/src/api/bin/Debug/net5.0`. Hvis vi se på filene som ligger i denne mappen ser vi blant annet en kjørbar fil `NRK.Dotnetskolen.Api`.
