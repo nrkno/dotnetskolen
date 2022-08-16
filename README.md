@@ -3590,7 +3590,7 @@ Her forsøker vi å sette `Sending.Tittel` direkte til `Tittel`-feltet fra `Send
 ```f#
 let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
     {
-        Sending.Tittel = (Tittel.create s.Tittel).Value
+        Sending.Tittel = (Tittel.create sendingEntity.Tittel).Value
         Kanal = sendingEntity.Kanal
         Starttidspunkt = DateTimeOffset.Parse(sendingEntity.Starttidspunkt)
         Sluttidspunkt = DateTimeOffset.Parse(sendingEntity.Sluttidspunkt)
