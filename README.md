@@ -800,7 +800,7 @@ EndGlobal
 
 Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
 
-![Solution explorer i Visual Studio](./illustrasjoner/solution-explorer.png)
+![Solution explorer i Visual Studio](./docs/illustrasjoner/solution-explorer.png)
 
 ### Steg 4 - Pakkehåndtering
 
@@ -3736,7 +3736,7 @@ let getAlleSendinger () : Epg =
 
 I [steg 7](#steg-7---definere-api-kontrakt) innførte vi OpenAPI-kontrakt for API-et vårt, og la den i mappen `/docs`. Foreløpig er dokumentasjonen kun tilgjengelig for de som har tilgang til repoet til koden. For at de som skal integrere med API-et skal kunne se kontrakten, er det fint om den er publisert et sted. I dette steget skal vi se hvordan vi kan tilgjengeliggjøre OpenAPI-kontrakten som en egen nettside i API-et ved hjelp av [ReDoc](https://github.com/Redocly/redoc). Med ReDoc kan vi kopiere en [HTML-side fra dokumentasjonen deres](https://github.com/Redocly/redoc#tldr) og lime inn en referanse til OpenAPI-dokumentasjonen vår, så får vi en fin grafisk fremstilling av API-et vårt, som vist under:
 
-![redoc](./illustrasjoner/redoc.png)
+![redoc](./docs/illustrasjoner/redoc.png)
 
 Kort oppsummert er dette stegene vi skal gjøre for å lage en egen ReDoc-side i API-et vårt:
 
@@ -3878,4 +3878,4 @@ Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer bli
 
 Dersom du nå starter web-API-et med `dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj`, og åpner [http://localhost:5000/openapi.html](http://localhost:5000/openapi.html) skal du se noe liknende som skjermbildet under:
 
-![redoc](./illustrasjoner/redoc.png)
+![redoc](./docs/illustrasjoner/redoc.png)
