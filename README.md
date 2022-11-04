@@ -44,12 +44,7 @@ Lurer du på noe knyttet til kurset? Opprett gjerne en tråd under "Discussions"
 
 - [https://github.com/nrkno/dotnetskolen/discussions/categories/q-a](https://github.com/nrkno/dotnetskolen/discussions/categories/q-a)
 
-### 💡 Tips!
-
-- Flere har meldt om at de har slitt med at IDE-ene deres viser kompileringsfeil i editoren etter de har lagt til nye avhengigheter eller opprettet nye moduler. Dersom prosjektet bygger vellykket, enten ved hjelp av IDE-en sin innebygde byggfunksjon eller ved å kjøre `dotnet build`, men slike feil fortsatt vises i editoren, kan det hjelpe å laste løsningen på nytt:
-  - Rider - høyreklikk på "Solution"-noden (`Dotnetskolen`), og velg `Reload projects`
-  - Visual Studio - høyreklikk på det aktuelle prosjektet, velg `Unload project`. Høyreklikk på det aktuelle prosjektet på nytt, og velg `Reload project`.
-  - Visual Studio Code - lukke editoren, kjøre `dotnet clean` etterfulgt av `dotnet build` fra terminalen, og åpne programmet på nytt
+### 💡 [Tips og triks](/docs/tips-og-triks.md)
 
 ### 🔗 Nyttige lenker
 
@@ -58,6 +53,7 @@ Lurer du på noe knyttet til kurset? Opprett gjerne en tråd under "Discussions"
 - Innføring i F# - [https://fsharpforfunandprofit.com/site-contents/#understanding-f](https://fsharpforfunandprofit.com/site-contents/#understanding-f)
 - Andre kurs i NRK
   - F#-skolen, kurs i F# laget av ansatte i NRK TV - [https://github.com/nrkno/fsharpskolen](https://github.com/nrkno/fsharpskolen)
+  - GitHub Actions 101, laget av [@teodor-elstad](https://github.com/teodor-elstad) <https://github.com/teodor-elstad/github-actions-101>
 
 ### 👍👎 Tilbakemeldinger
 
