@@ -31,7 +31,9 @@ Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
 For å gjennomføre dette kurset trenger du [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet), en teksteditor og en terminal. Når du har dette, gå til [Steg 1 - Opprette API](#steg-1---opprette-api) og følg veiledningen.
 
 > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
+
 > Hvis du trenger mer detaljer om hvordan du gjør klar maskinen din til å gjennomføre kurset, se [Detaljer om oppsett på maskinen din](/docs/detaljer-oppsett.md).
+
 > Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese:
 - [Hva .NET er](/docs/hva-er-dotnet.md)
 - [Hva F# er](/docs/hva-er-fsharp.md)
