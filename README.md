@@ -30,27 +30,35 @@ Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
 
 Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå skal kunne ha nytte av det.
 
-#### Intro til .NET og F#
+<details>
+    <summary>Intro til .NET og F#</summary>
 
-Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese:
+    Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese:
 
-- [Hva .NET er](#hva-er-net)
-- [Hva F# er](#hva-er-f)
+    - [Hva .NET er](#hva-er-net)
+    - [Hva F# er](#hva-er-f)
 
-#### Installér nødvendige verktøy
-  
-Før du starter på selve stegene i kurset bør du lese om:
+</details>
 
-- [Nødvendige verktøy for å gjennomføre kurset](#verktøy)
-- [Lokalt oppsett av koden](#lokalt-oppsett-av-koden-valgfritt)
+<details>
+    <summary>Installér nødvendige verktøy</summary>  
 
-#### Start på kurset
+    Før du starter på selve stegene i kurset bør du lese om:
 
-Deretter kan du begynne på selve kurset:
+    - [Nødvendige verktøy for å gjennomføre kurset](#verktøy)
+    - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden-valgfritt)
 
-- [Gå til første steg](#steg-1---opprette-api)
+</details>
 
-> Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
+<details>
+    <summary>Start på kurset</summary>
+
+    Nå kan du begynne på selve kurset:
+
+    - [Gå til første steg](#steg-1---opprette-api)
+
+    > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
+</details>
 
 ### ❓ Spørsmål
 
