@@ -28,7 +28,7 @@ Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
 
 ### 🚀 Kom i gang
 
-Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå skal kunne ha nytte av det.
+Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsnivå skal kunne ha nytte av det. Se relevante seksjoner for deg under.
 
 <details>
     <summary>Intro til .NET og F#</summary>
