@@ -33,31 +33,31 @@ Kurset er forsøkt lagt opp slik at deltakere med ulike bakgrunner og erfaringsn
 <details>
     <summary>Intro til .NET og F#</summary>
 
-    Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese:
+Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese:
 
-    - [Hva .NET er](#hva-er-net)
-    - [Hva F# er](#hva-er-f)
+- [Hva .NET er](#hva-er-net)
+- [Hva F# er](#hva-er-f)
 
 </details>
 
 <details>
     <summary>Installér nødvendige verktøy</summary>  
 
-    Før du starter på selve stegene i kurset bør du lese om:
+Før du starter på selve stegene i kurset bør du lese om:
 
-    - [Nødvendige verktøy for å gjennomføre kurset](#verktøy)
-    - [Lokalt oppsett av koden](#lokalt-oppsett-av-koden-valgfritt)
+- [Nødvendige verktøy for å gjennomføre kurset](#verktøy)
+- [Lokalt oppsett av koden](#lokalt-oppsett-av-koden-valgfritt)
 
 </details>
 
 <details>
     <summary>Start på kurset</summary>
 
-    Nå kan du begynne på selve kurset:
+Nå kan du begynne på selve kurset:
 
-    - [Gå til første steg](#steg-1---opprette-api)
+- [Gå til første steg](#steg-1---opprette-api)
 
-    > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
+> Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
 </details>
 
 ### ❓ Spørsmål
