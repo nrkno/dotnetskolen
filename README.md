@@ -35,8 +35,8 @@ For å gjennomføre dette kurset trenger du [.NET 6 SDK](https://dotnet.microsof
 > Hvis du trenger mer detaljer om hvordan du gjør klar maskinen din til å gjennomføre kurset, se [Detaljer om oppsett på maskinen din](/docs/detaljer-oppsett.md).
 
 > Dersom du er helt ny til .NET kan det være nyttig å begynne med å lese:
-- [Hva .NET er](/docs/hva-er-dotnet.md)
-- [Hva F# er](/docs/hva-er-fsharp.md)
+> - [Hva .NET er](/docs/hva-er-dotnet.md)
+> - [Hva F# er](/docs/hva-er-fsharp.md)
 
 ### ❓ Spørsmål
 
