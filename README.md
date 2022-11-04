@@ -44,7 +44,9 @@ Lurer du på noe knyttet til kurset? Opprett gjerne en tråd under "Discussions"
 
 - [https://github.com/nrkno/dotnetskolen/discussions/categories/q-a](https://github.com/nrkno/dotnetskolen/discussions/categories/q-a)
 
-### 💡 [Tips og triks](/docs/tips-og-triks.md)
+### 💡 Tips og triks
+
+Nyttige [tips og triks](/docs/tips-og-triks.md)
 
 ### 🔗 Nyttige lenker
 
