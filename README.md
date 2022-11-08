@@ -74,7 +74,7 @@ Om du er interessert i .NET 6 sin hosting modell, "minimal APIs", og hvordan du 
 - [Steg 9 - Sette opp skall for API](#steg-9---sette-opp-skall-for-api)
 - [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
 
-##### Ekstraoppgaver
+##### Tilleggsoppgaver
 
 Til slutt finnes det noen ekstraoppgaver, hvis du vil ha mer å bryne deg på.
 
