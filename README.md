@@ -765,6 +765,8 @@ EndGlobal
 
 For å legge til referanser til prosjektene du har opprettet kan du kjøre følgende kommandoer
 
+##### Legge til API-prosjekt
+
 ```bash
 dotnet sln add src/api/NRK.Dotnetskolen.Api.fsproj
 ```
@@ -773,6 +775,8 @@ dotnet sln add src/api/NRK.Dotnetskolen.Api.fsproj
 Project `src\api\NRK.Dotnetskolen.Api.fsproj` added to the solution.
 ```
 
+##### Legge til enhetstestprosjekt
+
 ```bash
 dotnet sln add test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ```
@@ -780,6 +784,8 @@ dotnet sln add test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ```bash
 Project `test\unit\NRK.Dotnetskolen.UnitTests.fsproj` added to the solution.
 ```
+
+##### Legge til integrasjonstestprosjekt
 
 ```bash
 dotnet sln add test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
