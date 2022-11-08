@@ -48,7 +48,7 @@ Denne workshopen dekker en del ulike temaer, og det kan ta litt tid å fullføre
 
 ##### Oppsett av prosjekter, solution og pakkehåndtering med .NET CLI
 
-Dersom du er interessert i å lære mer om hvordan du kan bruke .NET CLI til å opprette prosjekter, solutions, og sette opp håndtering av NuGet-pakker med `paket`, kan du se på:
+Dersom du er interessert i å lære mer om hvordan du kan bruke .NET CLI til å opprette prosjekter, solutions, og sette opp håndtering av NuGet-pakker med `paket`, kan følge disse stegene:
 
 - [Steg 1 - Opprette API](#steg-1---opprette-api)
 - [Steg 2 - Opprette testprosjekter](#steg-2---opprette-testprosjekter)
@@ -57,21 +57,21 @@ Dersom du er interessert i å lære mer om hvordan du kan bruke .NET CLI til å 
 
 ##### Domenemodellering og enhetstester
 
-Vil du lære mer om domenemodellering i F# og tilhørende enhetstester, kan du se på:
+Vil du lære mer om domenemodellering i F# og tilhørende enhetstester, kan følge disse stegene:
 
 - [Steg 5 - Definere domenemodell](#steg-5---definere-domenemodell)
 - [Steg 6 - Enhetstester for domenemodell](#steg-6---enhetstester-for-domenemodell)
 
 ##### API-kontrakter
 
-Hvis du vil lære mer om hvordan du kan dokumentere API-et ditt vha. Open API, og modellere kontraktstyper, kan du se på:
+Hvis du vil lære mer om hvordan du kan dokumentere API-et ditt vha. Open API, og modellere kontraktstyper, kan følge disse stegene:
 
 - [Steg 7 - Definere API-kontrakt](#steg-7---definere-api-kontrakt)
 - [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
 
 ##### .NET 6 og minimal API
 
-Om du er interessert i .NET 6 sin hosting modell, "minimal APIs", og hvordan du kan teste API-et ditt med integrasjonstester se på:
+Om du er interessert i .NET 6 sin hosting modell, "minimal APIs", og hvordan du kan teste API-et ditt med integrasjonstester, kan følge disse stegene:
 
 - [Steg 9 - Sette opp skall for API](#steg-9---sette-opp-skall-for-api)
 - [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
