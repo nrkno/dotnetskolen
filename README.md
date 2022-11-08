@@ -384,7 +384,7 @@ Nå som du har fullført det første steget i kurset er det en fin anledning til
 
 ##### Se endringer
 
-Gitt at du fulgte veiledningen for å [sette opp koden lokalt](#lokalt-oppsett-av-koden-valgfritt) før du begynte å kode, kan du kjøre følgende kommando for å se hvilke endringer som er gjort i repoet:
+Gitt at du fulgte veiledningen for å [sette opp koden lokalt](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) før du begynte å kode, kan du kjøre følgende kommando for å se hvilke endringer som er gjort i repoet:
 
 ```bash
 git status
