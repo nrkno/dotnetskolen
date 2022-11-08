@@ -30,7 +30,7 @@ Det anbefales å følge denne veiledningen [på GitHub](https://github.com/nrkno
 
 ### 🚀 Kom i gang
 
-For å gjennomføre dette kurset trenger du [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet), en teksteditor og en terminal. Når du har dette, gå til [Steg 1 - Opprette API](#steg-1---opprette-api) og følg veiledningen.
+For å gjennomføre dette kurset trenger du [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet), en teksteditor og en terminal. Når du har dette, gå til [Steg 1 - Opprette API](#steg-1---opprette-api) og følg veiledningen. For alternative startpunkter se [alternative startpunkter](https://github.com/nrkno/dotnetskolen#-alternative-startpunkter).
 
 > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
 
