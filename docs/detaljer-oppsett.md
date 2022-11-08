@@ -2,7 +2,7 @@
 
 Dette kurset forutsetter at du har noen verktøy installert på maskinen din. Se gjennom listen under for å sørge for at du har det som trengs.
 
-> Å installere og bruke Git er valgfritt, men er kjekt å ha dersom du ønsker å ha veiledningen, og [løsningsforslag](#se-løsningsforslag), lokalt på maskinen din.
+> Å installere og bruke Git er valgfritt, men er kjekt å ha dersom du ønsker å ha veiledningen, og [løsningsforslag](https://github.com/nrkno/dotnetskolen#se-l%C3%B8sningsforslag), lokalt på maskinen din.
 
 ## 🛠️ Verktøy
 
