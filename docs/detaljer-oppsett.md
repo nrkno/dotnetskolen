@@ -85,10 +85,10 @@ Dersom Git er nytt for deg kan det være nyttig å lese denne artikkelen om hvor
 
 ### Klone repo
 
-Dersom du ønsker dette repoet lokalt på din maskin, kan du gjøre det slik:
+Dersom du ønsker dette repoet lokalt på din maskin, kan forke dette repoet til din egen bruker ved å følge denne guiden: <https://docs.github.com/en/get-started/quickstart/fork-a-repo>. Deretter kan du klone det, slik:
 
 ```bash
-$ git clone git@github.com:nrkno/dotnetskolen.git # Last ned repo fra GitHub til din maskin
+$ git clone git@github.com:<ditt brukernavn>/dotnetskolen.git # Last ned repo fra GitHub til din maskin
 
 Cloning into 'dotnetskolen'...
 remote: Enumerating objects: 9, done.
@@ -101,7 +101,7 @@ Resolving deltas: 100% (2/2), done.
 
 > Kommandoen over forutsetter at man bruker SSH for autentisering overfor GitHub. For mer informasjon om SSH-autentisering i GitHub se <https://docs.github.com/en/authentication/connecting-to-github-with-ssh>
 >
-> Dersom man ønsker å klone med HTTPS istedenfor må man kjøre følgende kommando `https://github.com/nrkno/dotnetskolen.git` og oppgi brukernavn og passord.
+> Dersom man ønsker å klone med HTTPS istedenfor må man kjøre kommandoen over med denne URL-en istedenfor: `https://github.com/<ditt brukernavn>/dotnetskolen.git`, og oppgi brukernavn og passord.
 >
 > Ev. kan man bruke [GitHub sin desktopklient](https://desktop.github.com/)
 
