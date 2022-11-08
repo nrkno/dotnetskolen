@@ -2079,7 +2079,7 @@ open Microsoft.AspNetCore.Builder
 WebApplication.CreateBuilder().Build().Run()
 ```
 
-`WebApplication.CreateBuilder` sørger bl.a. for å sette opp [Kestrel](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-6.0) som web-server for applikasjonen vår. I tillegg returnerer den et objekt av typen `WebApplicationBuilder` som vi kan bruke til å konfigurere web-applikasjonen etter våre behov. Vi kaller umiddelbart på `WebApplicationBuilder` sin funksjon `Build` for å bytte web-applikasjonen vår. `Build` returnerer et objekt av typen `WebApplication`, og vi kaller til slutt `Run`-metoden på `WebApplication`-objektet for å starte web-applikasjonen.
+`WebApplication.CreateBuilder` sørger bl.a. for å sette opp [Kestrel](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-6.0) som web-server for applikasjonen vår. I tillegg returnerer den et objekt av typen `WebApplicationBuilder` som vi kan bruke til å konfigurere web-applikasjonen etter våre behov. Vi kaller umiddelbart på `WebApplicationBuilder` sin funksjon `Build` for å bygge web-applikasjonen vår. `Build` returnerer et objekt av typen `WebApplication`, og vi kaller til slutt `Run`-metoden på `WebApplication`-objektet for å starte web-applikasjonen.
 
 ###### Kjøre web host
 
@@ -2123,7 +2123,7 @@ Her har vi tatt vare på `WebApplication`-objektet, som `WebApplication.CreateBu
 1. En tekststreng som spesifiserer hvilken sti i URL-en som leder til denne funksjonen. I dette tilfellet `ping`.
 2. En funksjon uten parametere som returnerer en tekststreng. I dette tilfellet `pong`.
 
-> Merk at som andre parameter til `MapGet` har vi oppgitt `Func<string>(fun () -> "pong")` som strengt tatt ikke er en funksjon. `Func` er .NET sin måte å opprette et `Delegate` på. Delegates er .NET sin måte å pakke inn funksjonskall som objekter på. Siden "Minimal APIs" er skrevet for å fungere for hvilket som helst programmeringsspråk i .NET har Microsoft vært nødt til å velge en modell som passer både for både det objektorienterte programmeringsparadigmet så vel som det funksjonelle programmeringsparadigmet. Dermed tar `MapGet` strengt tatt inn et `Delegate`-objekt som andre parameter, og måten man oppretter et `Delegate`-objekt i F# på er ved å kalle `Func` sin konstruktør. I konstruktøren til `Func` sender vi inn den anonyme F#-funksjonen `fun () -> "pong"`. `<string>` delen av `Func<string>` definerer hva slags type returverdien til den anonyme funksjonen har. Ettersom den anonyme funksjonen ikke tar inn noen parametere er det ikke spesifisert noe mer i `Func<string>` for det. Dersom den anonyme funksjonen hadde tatt inn et parameter av typen `int`, hadde kallet til `Func` sett slik ut: `Func<int, string>`. Du kan lese mer om delegates i F# her: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/delegates>
+> Merk at som andre parameter til `MapGet` har vi oppgitt `Func<string>(fun () -> "pong")` som strengt tatt ikke er en funksjon. `Func` er .NET sin måte å opprette et `Delegate` på. Delegates er .NET sin måte å pakke inn funksjonskall som objekter på. Siden "Minimal APIs" er skrevet for å fungere for hvilket som helst programmeringsspråk i .NET, har Microsoft vært nødt til å velge en modell som passer både for både det objektorienterte programmeringsparadigmet så vel som det funksjonelle programmeringsparadigmet. Dermed tar `MapGet` strengt tatt inn et `Delegate`-objekt som andre parameter, og måten man oppretter et `Delegate`-objekt i F# på er ved å kalle `Func` sin konstruktør. I konstruktøren til `Func` sender vi inn den anonyme F#-funksjonen `fun () -> "pong"`. `<string>` delen av `Func<string>` definerer hva slags type returverdien til den anonyme funksjonen har. Ettersom den anonyme funksjonen ikke tar inn noen parametere er det ikke spesifisert noe mer i `Func<string>` for det. Dersom den anonyme funksjonen hadde tatt inn et parameter av typen `int`, hadde kallet til `Func` sett slik ut: `Func<int, string>`. Du kan lese mer om delegates i F# her: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/delegates>
 >
 > Du kan lese mer om "minimal APIs" her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0>
 
@@ -2318,7 +2318,6 @@ Først definerer vi en modul som heter `Tests`:
 
 ```f#
 module Tests
-...
 ```
 
 ###### Åpne namespaces
@@ -2488,11 +2487,11 @@ Det er to ting som definerer operasjonen i API-et vårt:
 Dette kan vi bruke når vi skal definere operasjonen i `WebApplication`-objektet vårt. Utvid `createWebApplication` i `Program.fs` i API-prosjektet med linjen `app.MapGet("/epg/{date}", Func<string, string>(fun (date) -> date)) |> ignore` slik:
 
 ```f#
-let createWebApplication (builder: WebApplicationBuilder) =
-    let app = builder.Build()
-    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
-    app.MapGet("/epg/{date}", Func<string, string>(fun date -> date)) |> ignore
-    app
+    let createWebApplication (builder: WebApplicationBuilder) =
+        let app = builder.Build()
+        app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+        app.MapGet("/epg/{date}", Func<string, string>(fun date -> date)) |> ignore
+        app
 ```
 
 Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> date)` for HTTP `GET`-forespørsler til URL-en `epg/{date}`, hvor `{date}` matcher tekststrengen oppgitt i URL-en etter `/epg/`.
@@ -2524,9 +2523,10 @@ Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration:
 I den neste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid `Tests.fs` i integrasjonstestprosjektet med følgende `open`-statement og testfunksjon:
 
 ```f#
-...
 open System.Net
-...
+```
+
+```f#
 [<Fact>]
 let ``Get EPG invalid date returns bad request`` () =
     runWithTestClient (fun httpClient -> 
@@ -2547,7 +2547,9 @@ Kjør integrasjonstestene igjen med følgende kommando:
 
 ```bash
 dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+```
+
+```bash
 [xUnit.net 00:00:00.81]     Tests.Get EPG invalid date returns bad request [FAIL]
   Failed Tests.Get EPG invalid date returns bad request [10 ms]
   Error Message:
@@ -2618,9 +2620,10 @@ Her oppretter vi en modul `HttpHandlers` i namespacet `NRK.Dotnetskolen.Api`. I 
 Åpne modulen `HttpHandlers` i `Program.fs` og kall funksjonen `epgHandler` istedenfor den anonyme funksjonen vi hadde:
 
 ```f#
-...
 open NRK.Dotnetskolen.Api.HttpHandlers
-...
+```
+
+```f#
 let createWebApplication (builder: WebApplicationBuilder) =
     let app = builder.Build()
     app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
@@ -2651,7 +2654,9 @@ Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `4
 
 ```f#
 open Microsoft.AspNetCore.Http
-...
+```
+
+```f#
 let epgHandler (dateAsString: string) =
     match (parseAsDateTime dateAsString) with
     | Some date -> Results.Ok(date)
@@ -2664,7 +2669,9 @@ Siden vi nå har endret returtypen til `epgHandler` fra `string` til `IResult` (
 
 ```f#
 open Microsoft.AspNetCore.Http
-...
+```
+
+```f#
 app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler date)) |> ignore
 ```
 
@@ -2707,11 +2714,9 @@ dotnet paket add JsonSchema.Net --project ./test/integration/NRK.Dotnetskolen.In
 For å kunne verifisere at responsen fra API-et vårt følger den definerte kontrakten, må vi inkludere JsonSchema-et for responsen vår i integrasjonstestprosjektet. Det kan vi gjøre ved å legge til følgende i slutten av samme `ItemGroup` som `Program.fs` og `Tests.fs` i prosjektfilen til integrasjonstestprosjektet:
 
 ```xml
-...
 <Content Include="../../docs/epg.schema.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 </Content>
-...
 ```
 
 Legg deretter til følgende "open"-statement i `Tests.fs`:
@@ -2757,7 +2762,9 @@ Kjør integrasjonstestene igjen med følgende kommando.
 
 ```bash
 dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+```
+
+```bash
 [xUnit.net 00:00:01.13]     Tests.Get EPG today return valid response [FAIL]
   Failed Tests.Get EPG today return valid response [98 ms]
   Error Message:
@@ -2778,7 +2785,6 @@ Et eksempel på dette er dersom man har en funksjon `isLoginValid` for å valide
 
 ```f#
 let isLoginValid (getUser: string -> UserEntity) (username: string) (password: string) : bool ->
-...
 ```
 
 En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender man inn de nødvendige avhengighetene til de ulike delene av koden sin fra utsiden. Dersom en funksjon `A` har avhengiheter funksjonene `B` og `C`, og `B` og `C` har hhv. avhengiheter til funksjonene `D` og `E`, må man ha implementasjoner for `B`, `C`, `D` og `E` for å kunne kalle funksjon `A`. Disse avhengighetene danner et avhengighetstre, og dersom man skal kalle en funksjon på toppen av treet er man nødt til å ha implementasjoner av alle de interne nodene og alle løvnodene i avhengighetstreet. For hver toppnivåfunksjon (slik som `A`) man har i applikasjonen sin, vil man ha et avhengighetstre.
@@ -2792,8 +2798,10 @@ Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighet
 Neste steg i å implementere API-et nå er å hente EPG for den validerte datoen. Siden det å hente sendinger for en gitt dato kan implementeres på flere måter (kalle web-tjeneste, spørre database, hente fra fil), benytter vi IoC-prinsippet, og sier at dette er en funksjon vi må få inn til `epgHandler`. Vi definerer denne funksjonen som `getEpgForDate: DateTimeOffset -> Epg` hvor `Epg` er typen fra domenemodellen vår. Utvid `epgHandler` i `HttpHandlers.fs` med denne avhengigheten slik som vist under:
 
 ```f#
-...
 open NRK.Dotnetskolen.Domain
+```
+
+```f#
 ...
 let epgHandler (getEpgForDate: DateTimeOffset -> Epg) (dateAsString: string) =
     match (parseAsDateTime dateAsString) with
@@ -2819,10 +2827,8 @@ Det eneste som gjenstår i `epgHandler` nå er å mappe fra domenemodellen til k
 Vi begynner med å mappe fra domenemodellen til kontraktstypen vår. Utvid `Dto.fs` med en funksjon `fromDomain` som tar inn et `Epg`-objekt og returnerer et `EpgDto`-objekt:
 
 ```f#
-...
 let fromDomain (domain: Domain.Epg) : EpgDto =
   // Implementasjon her
-...
 ```
 
 ☑️ Implementér `fromDomain`-funksjonen.
@@ -2836,8 +2842,10 @@ let fromDomain (domain: Domain.Epg) : EpgDto =
 Nå som vi har implementert `fromDomain`-funksjonen kan vi bruke den i `epgHandler`. Legg til følgende `open`-statement, og bruk `fromDomain` i `epgHandler` i `HttpHandlers.fs` slik:
 
 ```f#
-...
 open NRK.Dotnetskolen.Dto
+```
+
+```f#
 ...
 let epgHandler (getEpgForDate: DateTimeOffset -> Epg) (dateAsString: string) =
     match (parseAsDateTime dateAsString) with
@@ -2945,10 +2953,8 @@ La oss gå videre med å implementere `getEpgForDate` i `Services.fs`.
 Oppgaven til `getEpgForDate` er å filtrere sendinger på den oppgitte datoen, men hvor skal den få sendingene fra? På tilsvarende måte som vi gjorde i `epgHandler`-funksjonen i `HttpHandlers`, kan vi her si at vi ønsker å delegere ansvaret til å faktisk hente sendinger til noen andre. Dette kan vi gjøre ved å ta inn en funksjon `getAlleSendinger: () -> Epg` i `getEpgForDate`:
 
 ```f#
-...
 let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTimeOffset) : Epg =
     let alleSendinger = getAlleSendinger ()
-    ...
 ```
 
 ☑️ Fullfør implementasjonen for `getEpgForDate` og sørg for at Epg-verdien som returneres kun har sendinger som starter på den oppgitte datoen `date`.
@@ -3019,7 +3025,6 @@ module DataAccess =
 Deretter kan vi definere noen sendinger i en egen liste vi kaller `database`:
 
 ```f#
-...
 let database = 
     [
         {
@@ -3046,9 +3051,10 @@ let database =
 Nå kan vi implementere `getAlleSendinger`-funksjonen ved å legge til følgende `open`-statement, og funksjonen `getAlleSendinger` på slutten av `DataAccess.fs`:
 
 ```f#
-...
 open NRK.Dotnetskolen.Domain
-...
+```
+
+```f#
 let getAlleSendinger () : Epg =
   // Implementasjon her
 ```
@@ -3066,9 +3072,10 @@ Ettersom vi innførte `getAlleSendinger` som en avhengighet til `getEpgForDate`,
 Legg til følgende `open`-statement, og utvid kallet til `app.MapGet("/epg/{date}"` i `createWebApplication` i `Program.fs` i web-API-prosjektet slik:
 
 ```f#
-...
 open NRK.Dotnetskolen.Api.DataAccess
-...
+```
+
+```f#
 let createWebApplication (builder: WebApplicationBuilder) =
     let app = builder.Build()
     app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
@@ -3222,9 +3229,10 @@ Her ser vi at `epgHandler` tar inn `getEpgForDate` "partially applied" med `getA
 Legg til følgende `open`-statement, og utvid `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet med et parameter til `getEpgForDate`, og send dette inn til `epgHandler` slik:
 
 ```f#
-...
 open NRK.Dotnetskolen.Domain
-...
+```
+
+```bash
 let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTimeOffset -> Epg) =
     let app = builder.Build()
     app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
@@ -3235,9 +3243,7 @@ let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTi
 Send deretter `getEpgForDate` fra `Services`-modulen "partially applied" med `getAlleSendinger` fra `DataAccess`-modulen inn som andre parameter til `createWebApplication`, slik:
 
 ```f#
-...
 let app = createWebApplication builder (getEpgForDate getAlleSendinger)
-...
 ```
 
 `Program.fs` i API-prosjektet skal nå se slik ut:
@@ -3272,18 +3278,14 @@ module Program =
 Nå som kan styre implementasjonen av `getEpgForDate` fra utsiden av `createWebApplication`-funksjonen kan vi lage en egen `getEpgForDate` i integrasjonstestprosjektet som bruker mock-implementasjonen av `getAlleSendinger`. Start med å åpne `Services`-modulen fra API-prosjektet, og `Mock`-modulen fra integrasjonstestprosjektet i `Tests.fs` i integrasjonstestprosjektet, slik:
 
 ```f#
-...
 open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.IntegrationTests.Mock
-...
 ```
 
 Endre deretter kallet til `createWebApplication` fra `runWithTestClient` i `Tests.fs` i integrasjonstestprosjektet til å sende med en "partially applied" versjon av `getEpgForDate` fra `Services` med `getAlleSendinger` fra `Mock`-modulen slik:
 
 ```f#
-...
 use app = createWebApplication builder (getEpgForDate getAlleSendinger)
-...
 ```
 
 Hele `runWithTestClient`-funksjonen skal nå se slik ut:
