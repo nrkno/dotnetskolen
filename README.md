@@ -131,11 +131,13 @@ Når man kompilerer .NET-prosjekter kan man velge mellom to typer output:
 
 #### Dotnet new
 
-Som nevnt i [innledningen](#innledning) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange underkommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet)
+Som nevnt i [innledningen](#-fremgangsmåte) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange underkommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet)
 
 ```bash
-$ dotnet --help
+dotnet --help
+```
 
+```bash
 .NET SDK (6.0.101)
 Usage: dotnet [runtime-options] [path-to-application] [arguments]
 
