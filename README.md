@@ -46,7 +46,7 @@ Denne workshopen dekker en del ulike temaer, og det kan ta litt tid å fullføre
 
 ##### Oppsett av prosjekter, solution og pakkehåndtering med .NET CLI
 
-Dersom du er interessert i å lære mer om hvordan du kan bruke .NET CLI til å opprette prosjekter, solutions, og sette opp håndtering av NuGet-pakker med `paket`, kan du starte på [steg 1](#steg-1---opprette-api) og jobbe deg til og med [steg 4](#steg-4---pakkehåndtering).
+Dersom du er interessert i å lære mer om hvordan du kan bruke .NET CLI til å opprette prosjekter, solutions, og sette opp håndtering av NuGet-pakker med `paket`, kan du se på:
 
 - [Steg 1 - Opprette API](#steg-1---opprette-api)
 - [Steg 2 - Opprette testprosjekter](#steg-2---opprette-testprosjekter)
@@ -55,28 +55,28 @@ Dersom du er interessert i å lære mer om hvordan du kan bruke .NET CLI til å 
 
 ##### Domenemodellering og enhetstester
 
-Vil du lære mer om domenemodellering i F# og tilhørende enhetstester, kan du se på [steg 5](https://github.com/nrkno/dotnetskolen#steg-5---definere-domenemodell) og [steg 6](https://github.com/nrkno/dotnetskolen#steg-6---enhetstester-for-domenemodell).
+Vil du lære mer om domenemodellering i F# og tilhørende enhetstester, kan du se på:
 
 - [Steg 5 - Definere domenemodell](#steg-5---definere-domenemodell)
 - [Steg 6 - Enhetstester for domenemodell](#steg-6---enhetstester-for-domenemodell)
 
 ##### API-kontrakter
 
-Hvis du vil lære mer om hvordan du kan dokumentere API-et ditt vha. Open API, og modellere kontraktstyper, kan du se på [steg 7](https://github.com/nrkno/dotnetskolen#steg-7---definere-api-kontrakt) og [steg 8](https://github.com/nrkno/dotnetskolen#steg-8---implementere-kontraktstyper).
+Hvis du vil lære mer om hvordan du kan dokumentere API-et ditt vha. Open API, og modellere kontraktstyper, kan du se på:
 
 - [Steg 7 - Definere API-kontrakt](#steg-7---definere-api-kontrakt)
 - [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
 
 ##### .NET 6 og minimal API
 
-Om du er interessert i .NET 6 sin hosting modell, "minimal APIs", og hvordan du kan teste API-et ditt med integrasjonstester se [steg 9](https://github.com/nrkno/dotnetskolen#steg-9---sette-opp-skall-for-api) og [steg 10](https://github.com/nrkno/dotnetskolen#steg-10---implementere-web-api).
+Om du er interessert i .NET 6 sin hosting modell, "minimal APIs", og hvordan du kan teste API-et ditt med integrasjonstester se på:
 
 - [Steg 9 - Sette opp skall for API](#steg-9---sette-opp-skall-for-api)
 - [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
 
 ##### Tilleggsoppgaver
 
-Til slutt finnes det noen ekstraoppgaver, hvis du vil ha mer å bryne deg på.
+Til slutt finnes det noen ekstraoppgaver, hvis du vil ha mer å bryne deg på:
 
 - [Ekstraoppgaver](#ekstraoppgaver)
   - [Steg 11 - Følge prinsipper i domenedrevet design](#steg-11---følge-prinsipper-i-domenedrevet-design)
