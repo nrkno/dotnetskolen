@@ -26,9 +26,11 @@ Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
 └── test (kildekode til enhets- og integrasjonstestene)
 ```
 
+Det anbefales å følge denne veiledningen [på GitHub](https://github.com/nrkno/dotnetskolen), da visningen der støtter lenkene som er lagt inn, og har innholdsfortegnelse som alltid er synlig oppe til venstre når man blar i veiledningen.
+
 ### 🚀 Kom i gang
 
-For å gjennomføre dette kurset trenger du [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet), en teksteditor og en terminal. Når du har dette, gå til [Steg 1 - Opprette API](#steg-1---opprette-api) og følg veiledningen.
+For å gjennomføre dette kurset trenger du [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet), en teksteditor og en terminal. Når du har dette, gå til [Steg 1 - Opprette API](#steg-1---opprette-api) og følg veiledningen. For alternative startpunkter se [alternative startpunkter](https://github.com/nrkno/dotnetskolen#-alternative-startpunkter).
 
 > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
 
@@ -38,6 +40,50 @@ For å gjennomføre dette kurset trenger du [.NET 6 SDK](https://dotnet.microsof
 > - [Hva .NET er](/docs/hva-er-dotnet.md)
 > - [Hva F# er](/docs/hva-er-fsharp.md)
 
+#### 📍 Alternative startpunkter
+
+Denne workshopen dekker en del ulike temaer, og det kan ta litt tid å fullføre alle stegene. Heldigvis finnes det løsningsforslag for hvert steg i workshopen, som betyr at du kan starte på et hvilket som helst steg ved å hente løsningsforslaget til steget før, og fortsette derfra. Under følger noen anbefalinger for alternative startpunkter, avhengig av hvilke temaer du ønsker å lære mer om.
+
+> Les mer om hvordan du kan [klone dette repoet](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) og [sjekke ut løsningsforslag](https://github.com/nrkno/dotnetskolen#se-l%C3%B8sningsforslag).
+
+##### Oppsett av prosjekter, solution og pakkehåndtering med .NET CLI
+
+Dersom du er interessert i å lære mer om hvordan du kan bruke .NET CLI til å opprette prosjekter, solutions, og sette opp håndtering av NuGet-pakker med `paket`, kan følge disse stegene:
+
+- [Steg 1 - Opprette API](#steg-1---opprette-api)
+- [Steg 2 - Opprette testprosjekter](#steg-2---opprette-testprosjekter)
+- [Steg 3 - Opprette solution](#steg-3---opprette-solution)
+- [Steg 4 - Pakkehåndtering](#steg-4---pakkehåndtering)
+
+##### Domenemodellering og enhetstester
+
+Vil du lære mer om domenemodellering i F# og tilhørende enhetstester, kan følge disse stegene:
+
+- [Steg 5 - Definere domenemodell](#steg-5---definere-domenemodell)
+- [Steg 6 - Enhetstester for domenemodell](#steg-6---enhetstester-for-domenemodell)
+
+##### API-kontrakter
+
+Hvis du vil lære mer om hvordan du kan dokumentere API-et ditt vha. Open API, og modellere kontraktstyper, kan følge disse stegene:
+
+- [Steg 7 - Definere API-kontrakt](#steg-7---definere-api-kontrakt)
+- [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
+
+##### .NET 6 og minimal API
+
+Om du er interessert i .NET 6 sin hosting modell, "minimal APIs", og hvordan du kan teste API-et ditt med integrasjonstester, kan følge disse stegene:
+
+- [Steg 9 - Sette opp skall for API](#steg-9---sette-opp-skall-for-api)
+- [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
+
+##### Tilleggsoppgaver
+
+Til slutt finnes det noen ekstraoppgaver, hvis du vil ha mer å bryne deg på:
+
+- [Ekstraoppgaver](#ekstraoppgaver)
+  - [Steg 11 - Følge prinsipper i domenedrevet design](#steg-11---følge-prinsipper-i-domenedrevet-design)
+  - [Steg 12 - Grafisk fremstilling av OpenAPI-dokumentasjon](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon)
+
 ### ❓ Spørsmål
 
 Lurer du på noe knyttet til kurset? Opprett gjerne en tråd under "Discussions" i dette repoet:
@@ -46,7 +92,7 @@ Lurer du på noe knyttet til kurset? Opprett gjerne en tråd under "Discussions"
 
 ### 💡 Tips og triks
 
-Nyttige [tips og triks](/docs/tips-og-triks.md)
+Nyttige [tips og triks finner du her](/docs/tips-og-triks.md)
 
 ### 🔗 Nyttige lenker
 
@@ -131,11 +177,13 @@ Når man kompilerer .NET-prosjekter kan man velge mellom to typer output:
 
 #### Dotnet new
 
-Som nevnt i [innledningen](#innledning) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange underkommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet)
+Som nevnt i [innledningen](#-fremgangsmåte) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange underkommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet)
 
 ```bash
-$ dotnet --help
+dotnet --help
+```
 
+```bash
 .NET SDK (6.0.101)
 Usage: dotnet [runtime-options] [path-to-application] [arguments]
 
@@ -203,8 +251,10 @@ Run 'dotnet [command] --help' for more information on a command.
 For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. `dotnet new` oppretter .NET-prosjekter, og som første parameter tar `new`-kommandoen inn hva slags mal prosjektet man oppretter skal følge. Når man installerer .NET SDK får man med et sett med forhåndsdefinerte prosjektmaler for vanlige formål. For å se malene som er installert på din maskin kan du kjøre `dotnet new --list` slik:
 
 ```bash
-$ dotnet new --list
+dotnet new --list
+```
 
+```bash
 These templates matched your input:
 
 Template Name                                 Short Name           Language    Tags
@@ -251,8 +301,10 @@ xUnit Test Project                            xunit                [C#],F#,VB  T
 I tillegg til å styre hva slags type prosjekt man vil opprette med `new`-kommandoen, har man mulighet til å styre ting som hvilket språk man ønsker prosjektet skal opprettes for, og i hvilken mappe prosjektet opprettes i. For å se alle valgene man har i `dotnet new` kan du kjøre følgende kommando
 
 ```bash
-$ dotnet new --help
+dotnet new --help
+```
 
+```bash
 Usage: new [options]
 
 Options:
@@ -279,8 +331,10 @@ Som du ser av malene som er listet ut over, er det en innebygget mal for web-API
 Kjør følgende kommando for å opprette API-prosjektet
 
 ```bash
-$ dotnet new console --language F# --output src/api --name NRK.Dotnetskolen.Api
+dotnet new console --language F# --output src/api --name NRK.Dotnetskolen.Api
+```
 
+```bash
 The template "Console Application" was created successfully.
 
 Processing post-creation actions...
@@ -352,17 +406,21 @@ Malen la inn kun én linje i `Program.fs` som skriver tekststrengen `Hello world
 For å kjøre prosjektet som ble opprettet over kan du kjøre følgende kommando
 
 ```bash
-$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
+dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
+```
 
+```bash
 Hello world from F#
 ```
 
 Alternativt kan du gå til mappen hvor prosjektet ligger, og kjøre `dotnet run` derfra, slik som vist under
 
 ```bash
-$ cd src/api
-$ dotnet run
+cd src/api
+dotnet run
+```
 
+```bash
 Hello world from F#
 ```
 
@@ -372,11 +430,13 @@ Nå som du har fullført det første steget i kurset er det en fin anledning til
 
 ##### Se endringer
 
-Gitt at du fulgte veiledningen for å [sette opp koden lokalt](#lokalt-oppsett-av-koden-valgfritt) før du begynte å kode, kan du kjøre følgende kommando for å se hvilke endringer som er gjort i repoet:
+Gitt at du fulgte veiledningen for å [sette opp koden lokalt](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) før du begynte å kode, kan du kjøre følgende kommando for å se hvilke endringer som er gjort i repoet:
 
 ```bash
-$ git status
+git status
+```
 
+```bash
 On branch <branchnavn>
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
@@ -393,9 +453,11 @@ I outputen over ser vi at Git har oppdaget at det er opprettet en mappe `src` og
 For å få Git til å overvåke filene vi har opprettet, og deretter se status i Git kan du kjøre følgende kommandoer:
 
 ```bash
-$ git add .
-$ git status
+git add .
+git status
+```
 
+```bash
 Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
         new file:   global.json
@@ -410,8 +472,10 @@ Nå overvåker Git filene.
 For å lagre nåværende tilstand av filene i en "commit" i Git kan du kjøre følgende kommando:
 
 ```bash
-$ git commit -m "Opprettet API-prosjekt"
+git commit -m "Opprettet API-prosjekt"
+```
 
+```bash
 [<branchnavn> 00d11c8] Opprettet API-prosjekt
  2 files changed, 25 insertions(+)
  create mode 100644 src/api/NRK.Dotnetskolen.Api.fsproj
@@ -423,8 +487,10 @@ $ git commit -m "Opprettet API-prosjekt"
 For å se alle commits i nåværende branch i Git, kan du kjøre følgende kommando:
 
 ```bash
-$ git log
+git log
+```
 
+```bash
 commit 00d11c82d0179f41883a55ce88e147a73ae60ee2 (HEAD -> <branchnavn>)
 Author: Thomas Wolff <thomas.wolff@nrk.no>
 Date:   Fri Apr 16 13:43:40 2021 +0200
@@ -440,8 +506,10 @@ Date:   Fri Apr 16 13:43:40 2021 +0200
 Dersom du ønsker å se den forventede tilstanden til repoet etter å ha utført de ulike stegene i kurset, kan du sjekke ut branchen med korresponderende navn som seksjonen du ønsker å se på. F.eks. hvis du vil se hvordan repoet ser ut etter første steg, kan du sjekke ut branchen `steg-1` slik:
 
 ```bash
-$ git checkout steg-1
+git checkout steg-1
+```
 
+```bash
 Switched to branch 'steg-1'
 ```
 
@@ -478,8 +546,10 @@ I dette kurset kommer vi til å bruke xUnit. Dette valget er litt vilkårlig ett
 Kjør følgende kommando for å opprette enhetstestprosjektet
 
 ```bash
-$ dotnet new xunit -lang F# -o test/unit -n NRK.Dotnetskolen.UnitTests
+dotnet new xunit -lang F# -o test/unit -n NRK.Dotnetskolen.UnitTests
+```
 
+```bash
 The template "xUnit Test Project" was created successfully.
 
 Processing post-creation actions...
@@ -582,8 +652,10 @@ Forskjellen på disse blir nærmere forklart i [steget om enhetstester](#steg-6-
 For å kjøre testen i enhetstestprosjektet kan du bruke følgende kommando
 
 ```bash
-$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+```
 
+```bash
   Determining projects to restore...
   All projects are up-to-date for restore.
   Unit -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
@@ -600,9 +672,11 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 På lik linje med `dotnet run`, kan du alternativt gå inn i mappen til enhetstestprosjektet, og kjøre `dotnet test` derfra:
 
 ```bash
-$ cd test/unit
-$ dotnet test
+cd test/unit
+dotnet test
+```
 
+```bash
   Determining projects to restore...
   All projects are up-to-date for restore.
   Unit -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
@@ -621,8 +695,10 @@ Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration:
 For å opprette integrasjonstestprosjektet, kan du kjøre samme kommando som da du [opprettet enhetstestprosjektet](#opprette-enhetstestprosjekt), men bytt ut `Unit` med `Integration` i navnet på testprosjektet, som vist under:
 
 ```bash
-$ dotnet new xunit -lang F# -o test/integration -n NRK.Dotnetskolen.IntegrationTests
+dotnet new xunit -lang F# -o test/integration -n NRK.Dotnetskolen.IntegrationTests
+```
 
+```bash
 The template "xUnit Test Project" was created successfully.
 
 Processing post-creation actions...
@@ -657,8 +733,10 @@ Foreløpig er prosjekt- og test-filene til integrasjonstestprosjektet helt like 
 For å kjøre testene i integrasjonstestprosjektet kan du bruke følgende kommando
 
 ```bash
-$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+```
 
+```bash
   Determining projects to restore...
   All projects are up-to-date for restore.
   Integration -> C:\Dev\nrkno@github.com\dotnetskolen\test\integration\bin\Debug\net5.0\NRK.Dotnetskolen.IntegrationTests.dll
@@ -683,8 +761,10 @@ Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Ann
 For å opprette en solution med `dotnet` kan du kjøre følgende kommando:
 
 ```bash
-$ dotnet new sln -n Dotnetskolen
+dotnet new sln -n Dotnetskolen
+```
 
+```bash
 The template "Solution File" was created successfully.
 ```
 
@@ -731,17 +811,33 @@ EndGlobal
 
 For å legge til referanser til prosjektene du har opprettet kan du kjøre følgende kommandoer
 
+##### Legge til API-prosjekt
+
 ```bash
-$ dotnet sln add src/api/NRK.Dotnetskolen.Api.fsproj
+dotnet sln add src/api/NRK.Dotnetskolen.Api.fsproj
+```
 
+```bash
 Project `src\api\NRK.Dotnetskolen.Api.fsproj` added to the solution.
+```
 
-$ dotnet sln add test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+##### Legge til enhetstestprosjekt
 
+```bash
+dotnet sln add test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+```
+
+```bash
 Project `test\unit\NRK.Dotnetskolen.UnitTests.fsproj` added to the solution.
+```
 
-$ dotnet sln add test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+##### Legge til integrasjonstestprosjekt
 
+```bash
+dotnet sln add test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+```
+
+```bash
 Project `test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj` added to the solution.
 ```
 
@@ -833,8 +929,10 @@ Paket finnes som en utvidelse (også kalt "tool") til .NET CLI. Utvidelser i .NE
 Lokale utvidelser av .NET CLI defineres i en egen fil `dotnet-tools.json` som ligger i en mappe `.config`. Ettersom denne filen ikke finnes enda, oppretter vi den ved å kjøre følgende kommando
 
 ```bash
-$ dotnet new tool-manifest
+dotnet new tool-manifest
+```
 
+```bash
 The template "Dotnet local tool manifest file" was created successfully.
 ```
 
@@ -865,8 +963,10 @@ test
 For å legge til Paket i listen over utvidelser løsningen skal ha kan du kjøre følgende kommando
 
 ```bash
-$ dotnet tool install paket
+dotnet tool install paket
+```
 
+```bash
 You can invoke the tool from this directory using the following commands: 'dotnet tool run paket' or 'dotnet paket'.
 Tool 'paket' (version '5.257.0') was successfully installed. Entry is added to the manifest file C:\Dev\nrkno@github.com\dotnetskolen\.config\dotnet-tools.json. 
 ```
@@ -893,8 +993,10 @@ Nå ser vi at Paket er lagt til i listen over tools i `dotnet-tools.json`
 For å installere Paket kan du kjøre følgende kommando
 
 ```bash
-$ dotnet tool restore
+dotnet tool restore
+```
 
+```bash
 Tool 'paket' (version '6.2.1') was restored. Available commands: paket
 
 Restore was successful.
@@ -1092,8 +1194,10 @@ Her oppretter vi en variabel `epg` som er en liste med sendinger, slik vi define
 Kjør API-prosjektet igjen med følgende kommando, og se at `epg`-verdien blir skrevet til terminalen.
 
 ```bash
-$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
+dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
+```
 
+```bash
 [{ Tittel = "Dagsrevyen"
    Kanal = "NRK1"
    Starttidspunkt = 16.04.2021 19:00:00 +02:00   
@@ -1130,6 +1234,9 @@ La oss begynne med å verifisere at vi implementerer valideringsreglene for titt
 Ettersom tittel har lengdebegrensninger er det viktig å teste grensetilfellene til lengden. I tillegg er det viktig å teste at kun gyldige tegn er lov. Erstatt den eksisterende testen i `Tests.fs` i enhetstestprosjektet med testene under.
 
 ```f#
+module Tests
+
+open Xunit
 [<Theory>]
 [<InlineData("abc12")>]
 [<InlineData(".,-:!")>]
@@ -1154,8 +1261,10 @@ Her har vi definert to enhetstester som begge tester funksjonen `isTittelValid`.
 Hvis du forsøker å kjøre testene, vil du se at testprosjektet ikke kompilerer fordi vi verken har referanse til API-prosjektet (hvor domenet vårt er definert) eller har definert funksjonen `isTittelValid` enda.
 
 ```bash
-$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+```
 
+```bash
   Determining projects to restore...
   All projects are up-to-date for restore.
 C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(13,24): error FS0039: The value or constructor 'isTittelValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
@@ -1167,17 +1276,15 @@ C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: Th
 For å validere en tittel bruker vi et regulært uttrykk som reflekterer reglene i domenet vårt. Åpne filen `Domain.fs` i API-prosjektet, og legg til følgende `open`-statement under `open system`:
 
 ```f#
-open System
 open System.Text.RegularExpressions
 ```
 
 Lim deretter inn følgende kode på slutten av filen:
 
 ```f#
-...
-let isTittelValid (tittel: string) : bool =
-    let tittelRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
-    tittelRegex.IsMatch(tittel)
+    let isTittelValid (tittel: string) : bool =
+        let tittelRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+        tittelRegex.IsMatch(tittel)
 ```
 
 Det regulære uttrykket lister opp hvilke tegn som er gyldige i en gruppe (tegnene mellom mellom `[` og `]`):
@@ -1193,8 +1300,10 @@ I tillegg spesifiserer `{5,100}` at vi tillater 5-100 av tegnene i gruppen over.
 For at enhetstestprosjektet skal få tilgang til funksjonen vi nettopp definerte i `Domain.fs` må vi legge til en prosjektreferanse til API-prosjektet i enhetstestprosjektet. Det kan vi gjøre vha. .NET CLI med følgende kommando:
 
 ```bash
-$ dotnet add ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj reference ./src/api/NRK.Dotnetskolen.Api.fsproj
+dotnet add ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj reference ./src/api/NRK.Dotnetskolen.Api.fsproj
+```
 
+```bash
 Reference `..\..\src\api\NRK.Dotnetskolen.Api.fsproj` added to the project.
 ```
 
@@ -1228,14 +1337,15 @@ module Tests
 
 open Xunit
 open NRK.Dotnetskolen.Domain
-...
 ```
 
 Nå skal testene kjøre vellykket:
 
 ```bash
-$ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+```
 
+```bash
   Determining projects to restore...
   All projects are up-to-date for restore.
   NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
@@ -1261,7 +1371,6 @@ Reglene for kanal er ganske enkle ettersom det kun er to gyldige kanaler, og dis
 For å teste valideringsreglen for kanal trenger vi én positiv test per gyldige kanal, en negativ test for en kanal med små bokstaver, og en negativ test for en ugyldig kanal. Utvid `Tests.fs` i med følgende tester for kanal:
 
 ```f#
-...
 [<Theory>]
 [<InlineData("NRK1")>]
 [<InlineData("NRK2")>]
@@ -1284,16 +1393,17 @@ let ``isKanalValid invalid kanal returns false`` (kanal: string) =
 Før vi kjører testene igjen, definerer vi skallet for `isKanalValid` i `Domain.fs`:
 
 ```f#
-...
-let isKanalValid (kanal: string) : bool =
-  // Implementasjon her
+    let isKanalValid (kanal: string) : bool =
+    // Implementasjon her
 ```
 
 ☑️ Implementér `isKanalValid` slik at enhetstestene passerer.
 
 ```bash
-$ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+```
 
+```bash
   Determining projects to restore...
   All projects are up-to-date for restore.
   NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
@@ -1317,7 +1427,6 @@ Det siste vi skal validere i domenet vårt er at sluttidspunkt er etter starttid
 Under følger én enhetstest for validering av sendetidspunkter i `Tests.fs`:
 
 ```f#
-...
 [<Fact>]
 let ``areStartAndSluttidspunktValid start before end returns true`` () =
     let starttidspunkt = DateTimeOffset.Now
@@ -1328,25 +1437,32 @@ let ``areStartAndSluttidspunktValid start before end returns true`` () =
     Assert.True areStartAndSluttidspunktValid
 ```
 
+Merk at du også må legge til følgende `open`-statement i `Tests.fs` for at `DateTimeOffset.Now` fra kodesnutten over skal fungere:
+
+```f#
+open System
+```
+
 ☑️ Legg til flere enhetstester du mener er nødvendig for å verifisere at validering av start- og sluttidspunkt er korrekt.
 
-> Merk at her bruker vi `[<Fact>]`-attributtet istedenfor `[<Theory>]`. `[<InlineData>]`-attributtet som man bruker med `[<Theory>]`-attributtet krever verdier som er konstanse ved kompilering. Ettersom vi benytter `DateTimeOffset`-objekter (som ikke er konstante ved kompilering) som input til `areStartAndSluttidspunktValid`, bruker vi derfor `[<Fact>]`-attributtet.
+> Merk at her bruker vi `[<Fact>]`-attributtet istedenfor `[<Theory>]`. `[<InlineData>]`-attributtet som man bruker med `[<Theory>]`-attributtet krever verdier som er konstante ved kompilering. Ettersom vi benytter `DateTimeOffset`-objekter (som ikke er konstante ved kompilering) som input til `areStartAndSluttidspunktValid`, bruker vi derfor `[<Fact>]`-attributtet.
 
 ##### Implementasjon av areStartAndSluttidspunktValid
 
 Funksjonen for å validere sendetidspunktene må undersøke om sluttidspunktet er større enn starttidspunktet. Lim inn skallet til `areStartAndSluttidspunktValid` i `Domain.fs`:
 
 ```f#
-...
-let areStartAndSluttidspunktValid (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) =
-  // Implementasjon her
+    let areStartAndSluttidspunktValid (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) =
+    // Implementasjon her
 ```
 
 ☑️ Implementér `areStartAndSluttidspunktValid` og få enhetstestene til å passere.
 
 ```bash
-$ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+```
 
+```bash
   Determining projects to restore...
   All projects are up-to-date for restore.
   NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
@@ -1376,16 +1492,17 @@ Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene
 Legg til følgende skall for `isSendingValid` i `Domain.fs`:
 
 ```f#
-...
-let isSendingValid (sending: Sending) : bool =
-  // Implementasjon her
+    let isSendingValid (sending: Sending) : bool =
+    // Implementasjon her
 ```
 
 ☑️ Implementér `isSendingValid`, og få enhetstestene til å passere:
 
 ```bash
-$ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj 
+dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
+```
 
+```bash
   Determining projects to restore...
   All projects are up-to-date for restore.
   NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
@@ -1400,7 +1517,7 @@ A total of 1 test files matched the specified pattern.
 Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 12 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
 ```
 
-> Merk at domenemodellen, slik den er implementert i [steg 5](#definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell), har en svakhet i at man kan opprette en `Sending`-verdi som er ugyldig. Vi har implementert `isSendingValid`, men det er ingenting som hindrer oss i å opprette en `Sending`-verdi uten å bruke den. I ekstraoppgaven i [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) blir en alternativ tilnærming som bruker prinsipper fra [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design) presentert. De resterende stegene i dette kurset frem til og med steg 10 kommer til å basere seg på domenemodellen slik den er definert her i [steg 5](#definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) for å ikke innføre for mange prinsipper på en gang, og holde fokus på det kurset er ment for. Dersom du ønsker må du gjerne gå videre til [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) nå for å se hvordan det er gjort der. Husk at steg 11 er skrevet med forutsetning av at man har gjennomført kurset til og med steg 10 først.
+> Merk at domenemodellen, slik den er implementert i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell), har en svakhet i at man kan opprette en `Sending`-verdi som er ugyldig. Vi har implementert `isSendingValid`, men det er ingenting som hindrer oss i å opprette en `Sending`-verdi uten å bruke den. I ekstraoppgaven i [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) blir en alternativ tilnærming som bruker prinsipper fra [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design) presentert. De resterende stegene i dette kurset frem til og med steg 10 kommer til å basere seg på domenemodellen slik den er definert her i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) for å ikke innføre for mange prinsipper på en gang, og holde fokus på det kurset er ment for. Dersom du ønsker må du gjerne gå videre til [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) nå for å se hvordan det er gjort der. Husk at steg 11 er skrevet med forutsetning av at man har gjennomført kurset til og med steg 10 først.
 
 ### Steg 7 - Definere API-kontrakt
 
@@ -1954,7 +2071,7 @@ open Microsoft.Extensions.Hosting
 Host.CreateDefaultBuilder().Build().Run()
 ```
 
-Her åpner vi `Microsoft.Extensions.Hosting` for å få tilgang til `CreateDefaultBuilder`. Vi kaller funksjonen `Host.CreateDefaultBuilder`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
+Her åpner vi `Microsoft.Extensions.Hosting` for å få tilgang til `CreateDefaultBuilder`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
 
 Til slutt bygger vi hosten vår, og starter den slik `Host.CreateDefaultBuilder().Build().Run()`.
 
@@ -1963,7 +2080,10 @@ Til slutt bygger vi hosten vår, og starter den slik `Host.CreateDefaultBuilder(
 Du kan kjøre hosten med følgende kommando:
 
 ```bash
-$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
+dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
+```
+
+```bash
 info: Microsoft.Hosting.Lifetime[0]
       Application started. Press Ctrl+C to shut down.
 info: Microsoft.Hosting.Lifetime[0]
@@ -1977,7 +2097,10 @@ Foreløpig gjør ikke hosten vår noen ting. Den bare starter, og kjører helt t
 Trykk `Ctrl+C` for å stoppe hosten:
 
 ```bash
-$ // Trykker `Ctrl+C`
+// Trykker `Ctrl+C`
+```
+
+```bash
 info: Microsoft.Hosting.Lifetime[0]  
       Application is shutting down...
 ```
@@ -1990,7 +2113,7 @@ info: Microsoft.Hosting.Lifetime[0]
 
 Microsoft har laget et rammeverk for web-applikasjoner i .NET, ASP.NET (ASP står for "active server pages"). Web-applikasjoner i ASP.NET er konfigurerbare og modulære, og gjennom å konfigurere modulene i den har man kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren, og til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørselen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline".
 
-> Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-iapplicationbuilder](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-iapplicationbuilder)
+> Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-webapplication>
 
 Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørselen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørselen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørselen videre i pipelinen dersom den ikke er tilstrekkelig autentisert. Pga. denne kortslutningen ligger autentisering tidlig i listen over mellomvarer.
 
@@ -2002,14 +2125,17 @@ open Microsoft.AspNetCore.Builder
 WebApplication.CreateBuilder().Build().Run()
 ```
 
-`WebApplication.CreateBuilder` sørger bl.a. for å sette opp [Kestrel](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-6.0) som web-server for applikasjonen vår. I tillegg returnerer den et objekt av typen `WebApplicationBuilder` som vi kan bruke til å konfigurere web-applikasjonen etter våre behov. Vi kaller umiddelbart på `WebApplicationBuilder` sin funksjon `Build` for å bytte web-applikasjonen vår. `Build` returnerer et objekt av typen `WebApplication`, og vi kaller til slutt `Run`-metoden på `WebApplication`-objektet for å starte web-applikasjonen.
+`WebApplication.CreateBuilder` sørger bl.a. for å sette opp [Kestrel](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-6.0) som web-server for applikasjonen vår. I tillegg returnerer den et objekt av typen `WebApplicationBuilder` som vi kan bruke til å konfigurere web-applikasjonen etter våre behov. Vi kaller umiddelbart på `WebApplicationBuilder` sin funksjon `Build` for å bygge web-applikasjonen vår. `Build` returnerer et objekt av typen `WebApplication`, og vi kaller til slutt `Run`-metoden på `WebApplication`-objektet for å starte web-applikasjonen.
 
 ###### Kjøre web host
 
 Hvis du nå kjører hosten igjen, vil du se to nye logginnslag:
 
 ```bash
-$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
+dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
+```
+
+```bash
 info: Microsoft.Hosting.Lifetime[0]
       Now listening on: http://localhost:5000
 info: Microsoft.Hosting.Lifetime[0]
@@ -2043,7 +2169,7 @@ Her har vi tatt vare på `WebApplication`-objektet, som `WebApplication.CreateBu
 1. En tekststreng som spesifiserer hvilken sti i URL-en som leder til denne funksjonen. I dette tilfellet `ping`.
 2. En funksjon uten parametere som returnerer en tekststreng. I dette tilfellet `pong`.
 
-> Merk at som andre parameter til `MapGet` har vi oppgitt `Func<string>(fun () -> "pong")` som strengt tatt ikke er en funksjon. `Func` er .NET sin måte å opprette et `Delegate` på. Delegates er .NET sin måte å pakke inn funksjonskall som objekter på. Siden "Minimal APIs" er skrevet for å fungere for hvilket som helst programmeringsspråk i .NET har Microsoft vært nødt til å velge en modell som passer både for både det objektorienterte programmeringsparadigmet så vel som det funksjonelle programmeringsparadigmet. Dermed tar `MapGet` strengt tatt inn et `Delegate`-objekt som andre parameter, og måten man oppretter et `Delegate`-objekt i F# på er ved å kalle `Func` sin konstruktør. I konstruktøren til `Func` sender vi inn den anonyme F#-funksjonen `fun () -> "pong"`. `<string>` delen av `Func<string>` definerer hva slags type returverdien til den anonyme funksjonen har. Ettersom den anonyme funksjonen ikke tar inn noen parametere er det ikke spesifisert noe mer i `Func<string>` for det. Dersom den anonyme funksjonen hadde tatt inn et parameter av typen `int`, hadde kallet til `Func` sett slik ut: `Func<int, string>`. Du kan lese mer om delegates i F# her: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/delegates>
+> Merk at som andre parameter til `MapGet` har vi oppgitt `Func<string>(fun () -> "pong")` som strengt tatt ikke er en funksjon. `Func` er .NET sin måte å opprette et `Delegate` på. Delegates er .NET sin måte å pakke inn funksjonskall som objekter på. Siden "Minimal APIs" er skrevet for å fungere for hvilket som helst programmeringsspråk i .NET, har Microsoft vært nødt til å velge en modell som passer både for både det objektorienterte programmeringsparadigmet så vel som det funksjonelle programmeringsparadigmet. Dermed tar `MapGet` strengt tatt inn et `Delegate`-objekt som andre parameter, og måten man oppretter et `Delegate`-objekt i F# på er ved å kalle `Func` sin konstruktør. I konstruktøren til `Func` sender vi inn den anonyme F#-funksjonen `fun () -> "pong"`. `<string>` delen av `Func<string>` definerer hva slags type returverdien til den anonyme funksjonen har. Ettersom den anonyme funksjonen ikke tar inn noen parametere er det ikke spesifisert noe mer i `Func<string>` for det. Dersom den anonyme funksjonen hadde tatt inn et parameter av typen `int`, hadde kallet til `Func` sett slik ut: `Func<int, string>`. Du kan lese mer om delegates i F# her: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/delegates>
 >
 > Du kan lese mer om "minimal APIs" her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0>
 
@@ -2052,8 +2178,10 @@ Her har vi tatt vare på `WebApplication`-objektet, som `WebApplication.CreateBu
 Start API-et med følgende kommando:
 
 ```bash
-$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
+dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
+```
 
+```bash
 info: Microsoft.Hosting.Lifetime[0]
       Now listening on: https://localhost:5001
 info: Microsoft.Hosting.Lifetime[0]
@@ -2097,8 +2225,7 @@ For å få tilgang til testserverem vi skal kjøre under integrasjonstestene er 
 Kjør følgende kommando fra rotenmappen din for å installere pakken:
 
 ```bash
-$ dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ###### Referanse til API-prosjektet
@@ -2108,8 +2235,7 @@ For å kunne referere til API-et vårt fra testprosjektet må vi legge til en re
 Gjør dette ved å kjør følgende kommando fra rotmappen din:
 
 ```bash
-$ dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj reference ./src/api/NRK.Dotnetskolen.Api.fsproj
-...
+dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj reference ./src/api/NRK.Dotnetskolen.Api.fsproj
 ```
 
 ##### Klargjøre API-et for testing
@@ -2238,7 +2364,6 @@ Først definerer vi en modul som heter `Tests`:
 
 ```f#
 module Tests
-...
 ```
 
 ###### Åpne namespaces
@@ -2315,8 +2440,10 @@ let ``Get "ping" returns "pong"`` () =
 Kjør integrasjonstesten med følgende kommando:
 
 ```bash
-$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+```
+
+```bash
 Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: < 1 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
@@ -2356,8 +2483,10 @@ På tilsvarende måte som `ping`-testen vår, bruker vi `runWithTestClient`-funk
 Kjør integrasjonstesten med følgende kommando:
 
 ```bash
-$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+```
+
+```bash
 [xUnit.net 00:00:00.73]     Tests.Get EPG today returns 200 OK [FAIL]
   Failed Tests.Get EPG today returns 200 OK [102 ms]
   Error Message:
@@ -2404,11 +2533,11 @@ Det er to ting som definerer operasjonen i API-et vårt:
 Dette kan vi bruke når vi skal definere operasjonen i `WebApplication`-objektet vårt. Utvid `createWebApplication` i `Program.fs` i API-prosjektet med linjen `app.MapGet("/epg/{date}", Func<string, string>(fun (date) -> date)) |> ignore` slik:
 
 ```f#
-let createWebApplication (builder: WebApplicationBuilder) =
-    let app = builder.Build()
-    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
-    app.MapGet("/epg/{date}", Func<string, string>(fun date -> date)) |> ignore
-    app
+    let createWebApplication (builder: WebApplicationBuilder) =
+        let app = builder.Build()
+        app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+        app.MapGet("/epg/{date}", Func<string, string>(fun date -> date)) |> ignore
+        app
 ```
 
 Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> date)` for HTTP `GET`-forespørsler til URL-en `epg/{date}`, hvor `{date}` matcher tekststrengen oppgitt i URL-en etter `/epg/`.
@@ -2420,8 +2549,7 @@ Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> 
 Start API-et igjen og se hva som skjer dersom du går til [http://localhost:5000/epg/2021-01-01](http://localhost:5000/epg/2021-01-01) i nettleseren.
 
 ```bash
-$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
-...
+dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 ```
 
 ##### Se at testen passerer
@@ -2429,8 +2557,10 @@ $ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 Nå skal også integrasjonstesten som verifiserer om API-et vårt svarer på `/epg/{dato}` passere. Det kan vi se ved å kjøre følgende kommando:
 
 ```bash
-$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+```
+
+```bash
 Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 9 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
@@ -2439,9 +2569,10 @@ Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration:
 I den neste testen skal vi verifisere at API-et validerer datoen som oppgis i URL-en. Utvid `Tests.fs` i integrasjonstestprosjektet med følgende `open`-statement og testfunksjon:
 
 ```f#
-...
 open System.Net
-...
+```
+
+```f#
 [<Fact>]
 let ``Get EPG invalid date returns bad request`` () =
     runWithTestClient (fun httpClient -> 
@@ -2461,8 +2592,10 @@ Her sender vi inn en ugyldig dato, og forventer å få 400 Bad Request som respo
 Kjør integrasjonstestene igjen med følgende kommando:
 
 ```bash
-$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+```
+
+```bash
 [xUnit.net 00:00:00.81]     Tests.Get EPG invalid date returns bad request [FAIL]
   Failed Tests.Get EPG invalid date returns bad request [10 ms]
   Error Message:
@@ -2533,9 +2666,10 @@ Her oppretter vi en modul `HttpHandlers` i namespacet `NRK.Dotnetskolen.Api`. I 
 Åpne modulen `HttpHandlers` i `Program.fs` og kall funksjonen `epgHandler` istedenfor den anonyme funksjonen vi hadde:
 
 ```f#
-...
 open NRK.Dotnetskolen.Api.HttpHandlers
-...
+```
+
+```f#
 let createWebApplication (builder: WebApplicationBuilder) =
     let app = builder.Build()
     app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
@@ -2566,7 +2700,9 @@ Nå kan vi bruke `parseAsDateTime`-funksjonen i `epgHandler` til å returnere `4
 
 ```f#
 open Microsoft.AspNetCore.Http
-...
+```
+
+```f#
 let epgHandler (dateAsString: string) =
     match (parseAsDateTime dateAsString) with
     | Some date -> Results.Ok(date)
@@ -2579,7 +2715,9 @@ Siden vi nå har endret returtypen til `epgHandler` fra `string` til `IResult` (
 
 ```f#
 open Microsoft.AspNetCore.Http
-...
+```
+
+```f#
 app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler date)) |> ignore
 ```
 
@@ -2588,8 +2726,7 @@ app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler date)) |>
 Start API-et igjen og se hva som skjer dersom du går til [http://localhost:5000/epg/2021-01-01](http://localhost:5000/epg/2021-01-01) i nettleseren.
 
 ```bash
-$ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
-...
+dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 ```
 
 Det vi nå får tilbake er ASP.NET sin serialisering av det parsede datoobjektet.
@@ -2599,8 +2736,10 @@ Det vi nå får tilbake er ASP.NET sin serialisering av det parsede datoobjektet
 Kjør integrasjonstestene på nytt, og se at testen som verifiserer at API-et vårt responderer med `400 Bad Request` med en ugyldig dato passerer nå:
 
 ```bash
-$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+```
+
+```bash
 Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 16 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
@@ -2613,8 +2752,7 @@ I den siste testen skal vi verifisere at responsen API-et gir følger formatet v
 For å kunne validere at responsen fra web-API-et er i henhold til OpenAPI-kontrakten, skal vi benytte NuGet-pakken `JsonSchema.Net`. Installer denne pakken ved å kjøre følgende kommando fra rotmappen din:
 
 ```bash
-$ dotnet paket add JsonSchema.Net --project ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+dotnet paket add JsonSchema.Net --project ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ##### JSON Schema for API-kontrakt
@@ -2622,11 +2760,9 @@ $ dotnet paket add JsonSchema.Net --project ./test/integration/NRK.Dotnetskolen.
 For å kunne verifisere at responsen fra API-et vårt følger den definerte kontrakten, må vi inkludere JsonSchema-et for responsen vår i integrasjonstestprosjektet. Det kan vi gjøre ved å legge til følgende i slutten av samme `ItemGroup` som `Program.fs` og `Tests.fs` i prosjektfilen til integrasjonstestprosjektet:
 
 ```xml
-...
 <Content Include="../../docs/epg.schema.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 </Content>
-...
 ```
 
 Legg deretter til følgende "open"-statement i `Tests.fs`:
@@ -2671,8 +2807,10 @@ Denne testen bygger på de foregående testene vi har skrevet, og validerer i ti
 Kjør integrasjonstestene igjen med følgende kommando.
 
 ```bash
-$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+```
+
+```bash
 [xUnit.net 00:00:01.13]     Tests.Get EPG today return valid response [FAIL]
   Failed Tests.Get EPG today return valid response [98 ms]
   Error Message:
@@ -2693,7 +2831,6 @@ Et eksempel på dette er dersom man har en funksjon `isLoginValid` for å valide
 
 ```f#
 let isLoginValid (getUser: string -> UserEntity) (username: string) (password: string) : bool ->
-...
 ```
 
 En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender man inn de nødvendige avhengighetene til de ulike delene av koden sin fra utsiden. Dersom en funksjon `A` har avhengiheter funksjonene `B` og `C`, og `B` og `C` har hhv. avhengiheter til funksjonene `D` og `E`, må man ha implementasjoner for `B`, `C`, `D` og `E` for å kunne kalle funksjon `A`. Disse avhengighetene danner et avhengighetstre, og dersom man skal kalle en funksjon på toppen av treet er man nødt til å ha implementasjoner av alle de interne nodene og alle løvnodene i avhengighetstreet. For hver toppnivåfunksjon (slik som `A`) man har i applikasjonen sin, vil man ha et avhengighetstre.
@@ -2707,8 +2844,10 @@ Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighet
 Neste steg i å implementere API-et nå er å hente EPG for den validerte datoen. Siden det å hente sendinger for en gitt dato kan implementeres på flere måter (kalle web-tjeneste, spørre database, hente fra fil), benytter vi IoC-prinsippet, og sier at dette er en funksjon vi må få inn til `epgHandler`. Vi definerer denne funksjonen som `getEpgForDate: DateTimeOffset -> Epg` hvor `Epg` er typen fra domenemodellen vår. Utvid `epgHandler` i `HttpHandlers.fs` med denne avhengigheten slik som vist under:
 
 ```f#
-...
 open NRK.Dotnetskolen.Domain
+```
+
+```f#
 ...
 let epgHandler (getEpgForDate: DateTimeOffset -> Epg) (dateAsString: string) =
     match (parseAsDateTime dateAsString) with
@@ -2734,10 +2873,8 @@ Det eneste som gjenstår i `epgHandler` nå er å mappe fra domenemodellen til k
 Vi begynner med å mappe fra domenemodellen til kontraktstypen vår. Utvid `Dto.fs` med en funksjon `fromDomain` som tar inn et `Epg`-objekt og returnerer et `EpgDto`-objekt:
 
 ```f#
-...
 let fromDomain (domain: Domain.Epg) : EpgDto =
   // Implementasjon her
-...
 ```
 
 ☑️ Implementér `fromDomain`-funksjonen.
@@ -2751,8 +2888,10 @@ let fromDomain (domain: Domain.Epg) : EpgDto =
 Nå som vi har implementert `fromDomain`-funksjonen kan vi bruke den i `epgHandler`. Legg til følgende `open`-statement, og bruk `fromDomain` i `epgHandler` i `HttpHandlers.fs` slik:
 
 ```f#
-...
 open NRK.Dotnetskolen.Dto
+```
+
+```f#
 ...
 let epgHandler (getEpgForDate: DateTimeOffset -> Epg) (dateAsString: string) =
     match (parseAsDateTime dateAsString) with
@@ -2852,8 +2991,7 @@ app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgFor
 Kjør web-API-et med følgende kommando, og gå til [http://localhost:5000/epg/2021-04-23](http://localhost:5000/epg/2021-04-23) for å se hva API-et returnerer.
 
 ```bash
-$ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
-...
+dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 ```
 
 La oss gå videre med å implementere `getEpgForDate` i `Services.fs`.
@@ -2861,10 +2999,8 @@ La oss gå videre med å implementere `getEpgForDate` i `Services.fs`.
 Oppgaven til `getEpgForDate` er å filtrere sendinger på den oppgitte datoen, men hvor skal den få sendingene fra? På tilsvarende måte som vi gjorde i `epgHandler`-funksjonen i `HttpHandlers`, kan vi her si at vi ønsker å delegere ansvaret til å faktisk hente sendinger til noen andre. Dette kan vi gjøre ved å ta inn en funksjon `getAlleSendinger: () -> Epg` i `getEpgForDate`:
 
 ```f#
-...
 let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateTimeOffset) : Epg =
     let alleSendinger = getAlleSendinger ()
-    ...
 ```
 
 ☑️ Fullfør implementasjonen for `getEpgForDate` og sørg for at Epg-verdien som returneres kun har sendinger som starter på den oppgitte datoen `date`.
@@ -2935,7 +3071,6 @@ module DataAccess =
 Deretter kan vi definere noen sendinger i en egen liste vi kaller `database`:
 
 ```f#
-...
 let database = 
     [
         {
@@ -2962,9 +3097,10 @@ let database =
 Nå kan vi implementere `getAlleSendinger`-funksjonen ved å legge til følgende `open`-statement, og funksjonen `getAlleSendinger` på slutten av `DataAccess.fs`:
 
 ```f#
-...
 open NRK.Dotnetskolen.Domain
-...
+```
+
+```f#
 let getAlleSendinger () : Epg =
   // Implementasjon her
 ```
@@ -2982,9 +3118,10 @@ Ettersom vi innførte `getAlleSendinger` som en avhengighet til `getEpgForDate`,
 Legg til følgende `open`-statement, og utvid kallet til `app.MapGet("/epg/{date}"` i `createWebApplication` i `Program.fs` i web-API-prosjektet slik:
 
 ```f#
-...
 open NRK.Dotnetskolen.Api.DataAccess
-...
+```
+
+```f#
 let createWebApplication (builder: WebApplicationBuilder) =
     let app = builder.Build()
     app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
@@ -3138,9 +3275,10 @@ Her ser vi at `epgHandler` tar inn `getEpgForDate` "partially applied" med `getA
 Legg til følgende `open`-statement, og utvid `createWebApplication`-funksjonen i `Program.fs` i API-prosjektet med et parameter til `getEpgForDate`, og send dette inn til `epgHandler` slik:
 
 ```f#
-...
 open NRK.Dotnetskolen.Domain
-...
+```
+
+```bash
 let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTimeOffset -> Epg) =
     let app = builder.Build()
     app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
@@ -3151,9 +3289,7 @@ let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTi
 Send deretter `getEpgForDate` fra `Services`-modulen "partially applied" med `getAlleSendinger` fra `DataAccess`-modulen inn som andre parameter til `createWebApplication`, slik:
 
 ```f#
-...
 let app = createWebApplication builder (getEpgForDate getAlleSendinger)
-...
 ```
 
 `Program.fs` i API-prosjektet skal nå se slik ut:
@@ -3188,18 +3324,14 @@ module Program =
 Nå som kan styre implementasjonen av `getEpgForDate` fra utsiden av `createWebApplication`-funksjonen kan vi lage en egen `getEpgForDate` i integrasjonstestprosjektet som bruker mock-implementasjonen av `getAlleSendinger`. Start med å åpne `Services`-modulen fra API-prosjektet, og `Mock`-modulen fra integrasjonstestprosjektet i `Tests.fs` i integrasjonstestprosjektet, slik:
 
 ```f#
-...
 open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.IntegrationTests.Mock
-...
 ```
 
 Endre deretter kallet til `createWebApplication` fra `runWithTestClient` i `Tests.fs` i integrasjonstestprosjektet til å sende med en "partially applied" versjon av `getEpgForDate` fra `Services` med `getAlleSendinger` fra `Mock`-modulen slik:
 
 ```f#
-...
 use app = createWebApplication builder (getEpgForDate getAlleSendinger)
-...
 ```
 
 Hele `runWithTestClient`-funksjonen skal nå se slik ut:
@@ -3221,8 +3353,10 @@ let runWithTestClient (test: HttpClient -> Task<unit>) =
 Dersom du kjører integrasjonstestene igjen, skal de fortsatt passere:
 
 ```bash
-$ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
-...
+dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+```
+
+```bash
 Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 124 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
 ```
 
@@ -3288,8 +3422,10 @@ Her ser vi at istedenfor å bruke `string` for tittel, bruker vi den nye typen v
 Dersom vi forsøker å kompilere API-prosjektet vårt nå, vil det feile fordi vi har endret typen til feltet `Tittel` i `Sending`-typen vår. La oss fikse kompileringsfeilene.
 
 ```bash
-$ dotnet build ./src/api/NRK.Dotnetskolen.Api.fsproj
-...
+dotnet build ./src/api/NRK.Dotnetskolen.Api.fsproj
+```
+
+```bash
 Build FAILED.
 ...
 3 Error(s)
@@ -3378,8 +3514,10 @@ let fromDomain (domain : Domain.Epg) : EpgDto =
 Dersom du forsøker å bygge API-prosjektet igjen nå, skal det lykkes:
 
 ```bash
-$ dotnet build ./src/api/NRK.Dotnetskolen.Api.fsproj
-...
+dotnet build ./src/api/NRK.Dotnetskolen.Api.fsproj
+```
+
+```bash
 Build succeeded.
 ...
 ```
@@ -3387,8 +3525,10 @@ Build succeeded.
 Det gjenstår imidlertid å fikse kompileringsfeil i testprosjektene våre. Dersom du forsøker å bygge løsningen, vil du se at kompilering av testprosjektene feiler:
 
 ```bash
-$ dotnet build
-...
+dotnet build
+```
+
+```bash
 Build FAILED.
 ...
 8 Error(s)
@@ -3578,8 +3718,10 @@ Legg merke til at `isSendingValid`-funksjonen er fjernet, ettersom `Sending.crea
 Dersom du forsøker å bygge løsningen nå, vil du se at det feiler:
 
 ```bash
-$ dotnet build
-...
+dotnet build
+```
+
+```bash
 Build FAILED.
 ...
 ```
@@ -3798,7 +3940,7 @@ I [steg 9](#test-2---verifisere-format-på-epg-respons) la vi til en referanse t
 Verifiser at integrasjonstestene kjører med følgende kommando:
 
 ```bash
-$ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ##### Opprette HTML-fil

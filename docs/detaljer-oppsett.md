@@ -1,28 +1,19 @@
-# Detaljer om oppsett på maskinen din
+# 📜 Detaljer om oppsett på maskinen din
 
 Dette kurset forutsetter at du har noen verktøy installert på maskinen din. Se gjennom listen under for å sørge for at du har det som trengs.
 
-> Å installere og bruke Git er valgfritt, men er kjekt å ha dersom du ønsker å ha veiledningen, og [løsningsforslag](#se-løsningsforslag), lokalt på maskinen din.
+> Å installere og bruke Git er valgfritt, men er kjekt å ha dersom du ønsker å ha veiledningen, og [løsningsforslag](https://github.com/nrkno/dotnetskolen#se-l%C3%B8sningsforslag), lokalt på maskinen din.
 
-## Verktøy
+## 🛠️ Verktøy
 
 For å gjennomføre kurset må du ha satt opp følgende:
-
-- [Git (valgfritt)](#Git)
 - [.NET SDK](#NET-SDK)
 - [Konfigurasjon av NuGet (kun for Windows)](#konfigurere-nuget-kun-for-windows)
 - [En IDE](#IDE)
   - [Rider](https://www.jetbrains.com/rider/download)
   - [Visual Studio](https://visualstudio.microsoft.com/vs/community)
   - [Visual Studio Code](https://code.visualstudio.com/download)
-
-### Git
-
-Git er et gratis versjonshåndteringssystem som finnes til alle plattformer. Dersom du ønsker å ha instruksjonene til kurset (dokumentet du leser nå), eller se forventet resultat etter å ha gjennomført hvert av de ulike stegene, på din egen maskin trenger du Git installert. Med Git kan du også lage din egen versjon av dette repoet slik som forklart [her](#sjekke-ut-egen-branch).
-
-Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/downloads).
-
-Dersom Git er nytt for deg kan det være nyttig å lese denne artikkelen om hvordan man jobber med endringer i et Git-repo: [https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository). Det er forøvrig instruksjoner på [slutten av første steg](#lagre-endringer-i-git-valgfritt) for hvordan du kan lagre endringer du gjør underveis i kurset i Git.
+- [Git (valgfritt)](#Git)
 
 ### .NET SDK
 
@@ -37,8 +28,10 @@ Når man installerer .NET har man valget mellom å installere
 Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 6, men de fleste kommandoene fungerer nok med en versjon av .NET Core, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
 
 ```bash
-$ dotnet --version
+dotnet --version
+```
 
+```bash
 6.0.101
 ```
 
@@ -82,15 +75,25 @@ Velg den IDE-en som passer dine behov.
 
 > Merk at et vanlig use case for IDE-er er at de også blir brukt til å kompilere og kjøre kode. Instruksjonene i kurset kommer imidlertid til å benytte .NET CLI til dette. Du står selvfølgelig fritt frem til å bygge og kjøre koden ved hjelp av din IDE hvis du ønsker det.
 
-## Lokalt oppsett av koden (valgfritt)
+### Git
+
+Git er et gratis versjonshåndteringssystem som finnes til alle plattformer. Dersom du ønsker å ha instruksjonene til kurset (dokumentet du leser nå), eller se forventet resultat etter å ha gjennomført hvert av de ulike stegene, på din egen maskin, trenger du Git installert. Med Git kan du også lage din egen versjon av dette repoet slik som forklart [her](#sjekke-ut-egen-branch).
+
+Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/downloads).
+
+Dersom Git er nytt for deg kan det være nyttig å lese denne artikkelen om hvordan man jobber med endringer i et Git-repo: [https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository). Det er forøvrig instruksjoner på [slutten av første steg](https://github.com/nrkno/dotnetskolen#lagre-endringer-i-git-valgfritt) for hvordan du kan lagre endringer du gjør underveis i kurset i Git.
+
+## 💻 Lokalt oppsett av koden (valgfritt)
 
 ### Klone repo
 
-Dersom du ønsker dette repoet lokalt på din maskin, kan du gjøre det slik:
+Dersom du ønsker dette repoet lokalt på din maskin, kan forke dette repoet til din egen bruker ved å følge denne guiden: <https://docs.github.com/en/get-started/quickstart/fork-a-repo>. Deretter kan du klone det, slik:
 
 ```bash
-$ git clone git@github.com:nrkno/dotnetskolen.git # Last ned repo fra GitHub til din maskin
+git clone git@github.com:<ditt brukernavn>/dotnetskolen.git # Last ned repo fra GitHub til din maskin
+```
 
+```bash
 Cloning into 'dotnetskolen'...
 remote: Enumerating objects: 9, done.
 remote: Counting objects: 100% (9/9), done.
@@ -102,16 +105,18 @@ Resolving deltas: 100% (2/2), done.
 
 > Kommandoen over forutsetter at man bruker SSH for autentisering overfor GitHub. For mer informasjon om SSH-autentisering i GitHub se <https://docs.github.com/en/authentication/connecting-to-github-with-ssh>
 >
-> Dersom man ønsker å klone med HTTPS istedenfor må man kjøre følgende kommando `https://github.com/nrkno/dotnetskolen.git` og oppgi brukernavn og passord.
+> Dersom man ønsker å klone med HTTPS istedenfor må man kjøre kommandoen over med denne URL-en istedenfor: `https://github.com/<ditt brukernavn>/dotnetskolen.git`, og oppgi brukernavn og passord.
 >
 > Ev. kan man bruke [GitHub sin desktopklient](https://desktop.github.com/)
 
 Da skal nå ha `main`-branchen sjekket ut lokalt på din maskin. Det kan du verifisere ved å gå inn i mappen til repoet og liste ut branchene i Git:
 
 ```bash
-$ cd dotnetskolen # Gå inn i mappen som repoet ligger i lokalt
-$ git branch # List ut alle brancher du har sjekket ut lokalt
+cd dotnetskolen # Gå inn i mappen som repoet ligger i lokalt
+git branch # List ut alle brancher du har sjekket ut lokalt
+```
 
+```bash
 * main
 ```
 
@@ -120,8 +125,10 @@ $ git branch # List ut alle brancher du har sjekket ut lokalt
 Før du begynner å kode kan du gjerne lage din egen branch med `git checkout -b <branchnavn>`. På denne måten kan du holde dine endringer adskilt fra koden som ligger i repoet fra før, og det er lettere for kursholder å hjelpe deg dersom du har behov for det.
 
 ```bash
-$ git checkout -b my-branch
+git checkout -b my-branch
+```
 
+```bash
 Switched to a new branch 'my-branch'
 ```
 
@@ -144,8 +151,10 @@ For å sette opp `.gitignore` i ditt lokale repo:
 For å vise status i Git, kjør følgende kommando:
 
 ```bash
-$ git status
+git status
+```
 
+```bash
 On branch my-branch
 
 Untracked files:
@@ -168,8 +177,10 @@ git add .gitignore
 For å se status i Git igjen, kjør følgende kommando:
 
 ```bash
-$ git status
+git status
+```
 
+```bash
 On branch my-branch
 Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
@@ -181,8 +192,10 @@ Changes to be committed:
 For å lagre nåværende versjon av `.gitignore` i Git, kjør følgende kommando:
 
 ```bash
-$ git commit -m "La til .gitignore"
+git commit -m "La til .gitignore"
+```
 
+```bash
 [my-branch 478fb9b] La til .gitignore
  1 file changed, 1 insertion(+)
  create mode 100644 .gitignore
@@ -191,8 +204,10 @@ $ git commit -m "La til .gitignore"
 Nå er innholdet i `.gitignore` lagret i Git. Dersom du nå kjører `git status` på nytt, vil du se at det ikke er noen gjenstående endringer i repoet som Git ikke har fått med seg:
 
 ```bash
-$ git status
+git status
+```
 
+```bash
 On branch my-branch
 nothing to commit, working tree clean
 ```
