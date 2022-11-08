@@ -7,22 +7,13 @@ Dette kurset forutsetter at du har noen verktøy installert på maskinen din. Se
 ## 🛠️ Verktøy
 
 For å gjennomføre kurset må du ha satt opp følgende:
-
-- [Git (valgfritt)](#Git)
 - [.NET SDK](#NET-SDK)
 - [Konfigurasjon av NuGet (kun for Windows)](#konfigurere-nuget-kun-for-windows)
 - [En IDE](#IDE)
   - [Rider](https://www.jetbrains.com/rider/download)
   - [Visual Studio](https://visualstudio.microsoft.com/vs/community)
   - [Visual Studio Code](https://code.visualstudio.com/download)
-
-### Git
-
-Git er et gratis versjonshåndteringssystem som finnes til alle plattformer. Dersom du ønsker å ha instruksjonene til kurset (dokumentet du leser nå), eller se forventet resultat etter å ha gjennomført hvert av de ulike stegene, på din egen maskin trenger du Git installert. Med Git kan du også lage din egen versjon av dette repoet slik som forklart [her](#sjekke-ut-egen-branch).
-
-Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/downloads).
-
-Dersom Git er nytt for deg kan det være nyttig å lese denne artikkelen om hvordan man jobber med endringer i et Git-repo: [https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository). Det er forøvrig instruksjoner på [slutten av første steg](#lagre-endringer-i-git-valgfritt) for hvordan du kan lagre endringer du gjør underveis i kurset i Git.
+- [Git (valgfritt)](#Git)
 
 ### .NET SDK
 
@@ -81,6 +72,14 @@ Velg den IDE-en som passer dine behov.
 > - Du kan lese mer om Ionide her: [https://ionide.io/](https://ionide.io/)
 
 > Merk at et vanlig use case for IDE-er er at de også blir brukt til å kompilere og kjøre kode. Instruksjonene i kurset kommer imidlertid til å benytte .NET CLI til dette. Du står selvfølgelig fritt frem til å bygge og kjøre koden ved hjelp av din IDE hvis du ønsker det.
+
+### Git
+
+Git er et gratis versjonshåndteringssystem som finnes til alle plattformer. Dersom du ønsker å ha instruksjonene til kurset (dokumentet du leser nå), eller se forventet resultat etter å ha gjennomført hvert av de ulike stegene, på din egen maskin trenger du Git installert. Med Git kan du også lage din egen versjon av dette repoet slik som forklart [her](#sjekke-ut-egen-branch).
+
+Du kan laste ned Git her: [https://git-scm.com/downloads](https://git-scm.com/downloads).
+
+Dersom Git er nytt for deg kan det være nyttig å lese denne artikkelen om hvordan man jobber med endringer i et Git-repo: [https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository). Det er forøvrig instruksjoner på [slutten av første steg](#lagre-endringer-i-git-valgfritt) for hvordan du kan lagre endringer du gjør underveis i kurset i Git.
 
 ## 💻 Lokalt oppsett av koden (valgfritt)
 
