@@ -1,10 +1,10 @@
-# Detaljer om oppsett på maskinen din
+# 📜 Detaljer om oppsett på maskinen din
 
 Dette kurset forutsetter at du har noen verktøy installert på maskinen din. Se gjennom listen under for å sørge for at du har det som trengs.
 
 > Å installere og bruke Git er valgfritt, men er kjekt å ha dersom du ønsker å ha veiledningen, og [løsningsforslag](#se-løsningsforslag), lokalt på maskinen din.
 
-## Verktøy
+## 🛠️ Verktøy
 
 For å gjennomføre kurset må du ha satt opp følgende:
 
@@ -82,7 +82,7 @@ Velg den IDE-en som passer dine behov.
 
 > Merk at et vanlig use case for IDE-er er at de også blir brukt til å kompilere og kjøre kode. Instruksjonene i kurset kommer imidlertid til å benytte .NET CLI til dette. Du står selvfølgelig fritt frem til å bygge og kjøre koden ved hjelp av din IDE hvis du ønsker det.
 
-## Lokalt oppsett av koden (valgfritt)
+## 💻 Lokalt oppsett av koden (valgfritt)
 
 ### Klone repo
 
