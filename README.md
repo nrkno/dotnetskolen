@@ -1188,6 +1188,9 @@ La oss begynne med å verifisere at vi implementerer valideringsreglene for titt
 Ettersom tittel har lengdebegrensninger er det viktig å teste grensetilfellene til lengden. I tillegg er det viktig å teste at kun gyldige tegn er lov. Erstatt den eksisterende testen i `Tests.fs` i enhetstestprosjektet med testene under.
 
 ```f#
+module Tests
+
+open Xunit
 [<Theory>]
 [<InlineData("abc12")>]
 [<InlineData(".,-:!")>]
@@ -1288,7 +1291,6 @@ module Tests
 
 open Xunit
 open NRK.Dotnetskolen.Domain
-...
 ```
 
 Nå skal testene kjøre vellykket:
@@ -1323,7 +1325,6 @@ Reglene for kanal er ganske enkle ettersom det kun er to gyldige kanaler, og dis
 For å teste valideringsreglen for kanal trenger vi én positiv test per gyldige kanal, en negativ test for en kanal med små bokstaver, og en negativ test for en ugyldig kanal. Utvid `Tests.fs` i med følgende tester for kanal:
 
 ```f#
-...
 [<Theory>]
 [<InlineData("NRK1")>]
 [<InlineData("NRK2")>]
@@ -1346,9 +1347,8 @@ let ``isKanalValid invalid kanal returns false`` (kanal: string) =
 Før vi kjører testene igjen, definerer vi skallet for `isKanalValid` i `Domain.fs`:
 
 ```f#
-...
-let isKanalValid (kanal: string) : bool =
-  // Implementasjon her
+    let isKanalValid (kanal: string) : bool =
+    // Implementasjon her
 ```
 
 ☑️ Implementér `isKanalValid` slik at enhetstestene passerer.
@@ -1381,7 +1381,6 @@ Det siste vi skal validere i domenet vårt er at sluttidspunkt er etter starttid
 Under følger én enhetstest for validering av sendetidspunkter i `Tests.fs`:
 
 ```f#
-...
 [<Fact>]
 let ``areStartAndSluttidspunktValid start before end returns true`` () =
     let starttidspunkt = DateTimeOffset.Now
@@ -1392,18 +1391,23 @@ let ``areStartAndSluttidspunktValid start before end returns true`` () =
     Assert.True areStartAndSluttidspunktValid
 ```
 
+Merk at du også må legge til følgende `open`-statement i `Tests.fs` for at `DateTimeOffset.Now` fra kodesnutten over skal fungere:
+
+```f#
+open System
+```
+
 ☑️ Legg til flere enhetstester du mener er nødvendig for å verifisere at validering av start- og sluttidspunkt er korrekt.
 
-> Merk at her bruker vi `[<Fact>]`-attributtet istedenfor `[<Theory>]`. `[<InlineData>]`-attributtet som man bruker med `[<Theory>]`-attributtet krever verdier som er konstanse ved kompilering. Ettersom vi benytter `DateTimeOffset`-objekter (som ikke er konstante ved kompilering) som input til `areStartAndSluttidspunktValid`, bruker vi derfor `[<Fact>]`-attributtet.
+> Merk at her bruker vi `[<Fact>]`-attributtet istedenfor `[<Theory>]`. `[<InlineData>]`-attributtet som man bruker med `[<Theory>]`-attributtet krever verdier som er konstante ved kompilering. Ettersom vi benytter `DateTimeOffset`-objekter (som ikke er konstante ved kompilering) som input til `areStartAndSluttidspunktValid`, bruker vi derfor `[<Fact>]`-attributtet.
 
 ##### Implementasjon av areStartAndSluttidspunktValid
 
 Funksjonen for å validere sendetidspunktene må undersøke om sluttidspunktet er større enn starttidspunktet. Lim inn skallet til `areStartAndSluttidspunktValid` i `Domain.fs`:
 
 ```f#
-...
-let areStartAndSluttidspunktValid (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) =
-  // Implementasjon her
+    let areStartAndSluttidspunktValid (starttidspunkt: DateTimeOffset) (sluttidspunkt: DateTimeOffset) =
+    // Implementasjon her
 ```
 
 ☑️ Implementér `areStartAndSluttidspunktValid` og få enhetstestene til å passere.
@@ -1442,9 +1446,8 @@ Siden vi har skrevet enhetstester for valideringsfunksjonene til de ulike delene
 Legg til følgende skall for `isSendingValid` i `Domain.fs`:
 
 ```f#
-...
-let isSendingValid (sending: Sending) : bool =
-  // Implementasjon her
+    let isSendingValid (sending: Sending) : bool =
+    // Implementasjon her
 ```
 
 ☑️ Implementér `isSendingValid`, og få enhetstestene til å passere:
@@ -1468,7 +1471,7 @@ A total of 1 test files matched the specified pattern.
 Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 12 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
 ```
 
-> Merk at domenemodellen, slik den er implementert i [steg 5](#definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell), har en svakhet i at man kan opprette en `Sending`-verdi som er ugyldig. Vi har implementert `isSendingValid`, men det er ingenting som hindrer oss i å opprette en `Sending`-verdi uten å bruke den. I ekstraoppgaven i [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) blir en alternativ tilnærming som bruker prinsipper fra [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design) presentert. De resterende stegene i dette kurset frem til og med steg 10 kommer til å basere seg på domenemodellen slik den er definert her i [steg 5](#definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) for å ikke innføre for mange prinsipper på en gang, og holde fokus på det kurset er ment for. Dersom du ønsker må du gjerne gå videre til [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) nå for å se hvordan det er gjort der. Husk at steg 11 er skrevet med forutsetning av at man har gjennomført kurset til og med steg 10 først.
+> Merk at domenemodellen, slik den er implementert i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell), har en svakhet i at man kan opprette en `Sending`-verdi som er ugyldig. Vi har implementert `isSendingValid`, men det er ingenting som hindrer oss i å opprette en `Sending`-verdi uten å bruke den. I ekstraoppgaven i [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) blir en alternativ tilnærming som bruker prinsipper fra [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design) presentert. De resterende stegene i dette kurset frem til og med steg 10 kommer til å basere seg på domenemodellen slik den er definert her i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) for å ikke innføre for mange prinsipper på en gang, og holde fokus på det kurset er ment for. Dersom du ønsker må du gjerne gå videre til [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) nå for å se hvordan det er gjort der. Husk at steg 11 er skrevet med forutsetning av at man har gjennomført kurset til og med steg 10 først.
 
 ### Steg 7 - Definere API-kontrakt
 
