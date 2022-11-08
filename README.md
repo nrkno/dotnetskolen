@@ -26,6 +26,8 @@ Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
 └── test (kildekode til enhets- og integrasjonstestene)
 ```
 
+Det anbefales å følge denne veiledningen [på GitHub](https://github.com/nrkno/dotnetskolen), da visningen der støtter lenkene som er lagt inn, og har innholdsfortegnelse som alltid er synlig oppe til venstre når man blar i veiledningen.
+
 ### 🚀 Kom i gang
 
 For å gjennomføre dette kurset trenger du [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet), en teksteditor og en terminal. Når du har dette, gå til [Steg 1 - Opprette API](#steg-1---opprette-api) og følg veiledningen.
