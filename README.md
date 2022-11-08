@@ -2025,7 +2025,7 @@ open Microsoft.Extensions.Hosting
 Host.CreateDefaultBuilder().Build().Run()
 ```
 
-Her åpner vi `Microsoft.Extensions.Hosting` for å få tilgang til `CreateDefaultBuilder`. Vi kaller funksjonen `Host.CreateDefaultBuilder`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
+Her åpner vi `Microsoft.Extensions.Hosting` for å få tilgang til `CreateDefaultBuilder`. `CreateDefaultBuilder` kommer fra biblioteket til Microsoft, og sørger for å lese konfigurasjon, sette opp grunnleggende logging, og setter filstien til ressursfilene til applikasjonen (også kalt "content root").
 
 Til slutt bygger vi hosten vår, og starter den slik `Host.CreateDefaultBuilder().Build().Run()`.
 
@@ -2052,6 +2052,9 @@ Trykk `Ctrl+C` for å stoppe hosten:
 
 ```bash
 // Trykker `Ctrl+C`
+```
+
+```bash
 info: Microsoft.Hosting.Lifetime[0]  
       Application is shutting down...
 ```
@@ -2064,7 +2067,7 @@ info: Microsoft.Hosting.Lifetime[0]
 
 Microsoft har laget et rammeverk for web-applikasjoner i .NET, ASP.NET (ASP står for "active server pages"). Web-applikasjoner i ASP.NET er konfigurerbare og modulære, og gjennom å konfigurere modulene i den har man kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren, og til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørselen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline".
 
-> Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-iapplicationbuilder](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-iapplicationbuilder)
+> Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-webapplication>
 
 Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørselen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørselen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørselen videre i pipelinen dersom den ikke er tilstrekkelig autentisert. Pga. denne kortslutningen ligger autentisering tidlig i listen over mellomvarer.
 
