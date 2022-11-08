@@ -1227,17 +1227,15 @@ C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: Th
 For å validere en tittel bruker vi et regulært uttrykk som reflekterer reglene i domenet vårt. Åpne filen `Domain.fs` i API-prosjektet, og legg til følgende `open`-statement under `open system`:
 
 ```f#
-open System
 open System.Text.RegularExpressions
 ```
 
 Lim deretter inn følgende kode på slutten av filen:
 
 ```f#
-...
-let isTittelValid (tittel: string) : bool =
-    let tittelRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
-    tittelRegex.IsMatch(tittel)
+    let isTittelValid (tittel: string) : bool =
+        let tittelRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+        tittelRegex.IsMatch(tittel)
 ```
 
 Det regulære uttrykket lister opp hvilke tegn som er gyldige i en gruppe (tegnene mellom mellom `[` og `]`):
