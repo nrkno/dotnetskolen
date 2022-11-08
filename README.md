@@ -46,7 +46,7 @@ Lurer du på noe knyttet til kurset? Opprett gjerne en tråd under "Discussions"
 
 ### 💡 Tips og triks
 
-Nyttige [tips og triks](/docs/tips-og-triks.md)
+Nyttige [tips og triks finner du her](/docs/tips-og-triks.md)
 
 ### 🔗 Nyttige lenker
 
