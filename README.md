@@ -42,9 +42,11 @@ For å gjennomføre dette kurset trenger du [.NET 6 SDK](https://dotnet.microsof
 
 #### 📍 Alternative startpunkter
 
-Denne workshopen dekker en del ulike temaer, og det kan ta litt tid å fullføre alle stegene. Heldigvis finnes det løsningsforslag for hvert steg i workshopen, som betyr at du kan starte på et hvilket som helst steg ved å hente løsningsforslaget til steget før, og fortsette derfra. Under følger noen anbefalinger for alternative startpunkter, avhengig av hvilke temaer du ønsker å lære mer om.
+Denne workshopen dekker en del ulike temaer, og det kan ta litt tid å fullføre alle stegene. Heldigvis finnes det løsningsforslag for hvert steg i workshopen, som betyr at du kan starte på et hvilket som helst steg ved å sjekke ut branchen med løsningsforslaget til steget før du ønsker å begynne på, og fortsette derfra. Les mer om hvordan du kan [klone dette repoet](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) og [sjekke ut løsningsforslag](https://github.com/nrkno/dotnetskolen#se-l%C3%B8sningsforslag).
 
-> Les mer om hvordan du kan [klone dette repoet](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) og [sjekke ut løsningsforslag](https://github.com/nrkno/dotnetskolen#se-l%C3%B8sningsforslag).
+Under følger noen anbefalinger for alternative startpunkter, avhengig av hvilke temaer du ønsker å lære mer om.
+
+> NB! Dersom du begynner på steg 5 eller senere, må du kjøre `dotnet tool restore` før du fortsetter å følge veiledningen.
 
 ##### Oppsett av prosjekter, solution og pakkehåndtering med .NET CLI
 
