@@ -1,0 +1,10 @@
+source "C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\"
+source https://api.nuget.org/v3/index.json
+
+nuget FSharp.Core
+nuget coverlet.collector 3.1.2
+nuget Microsoft.NET.Test.Sdk 17.3.2
+nuget xunit 2.4.2
+nuget xunit.runner.visualstudio 2.4.5
+nuget Microsoft.AspNetCore.Mvc.Testing
+nuget JsonSchema.Net

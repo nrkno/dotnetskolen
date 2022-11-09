@@ -1,5 +1,9 @@
 # 🏫 .NET-skolen
 
+## Notater fra å ha prøvd .NET 7
+
+Fikk problemer med `Program.fs` i testprosjektene: måtte fjerne `=` i moduldefinisjonen for at det skulle kompilere.
+
 ## 👋 Innledning
 
 Velkommen til .NET-skolen!
