@@ -44,7 +44,7 @@ Veiledningen forklarer det grunnleggende om kommandoene vi kommer til å bruke i
 
 ### Konfigurere NuGet (kun for Windows)
 
-Som vi skal se nøyere på i [steg 4](#steg-4---pakkehåndtering) bruker man "NuGet"-pakker for å dele kode mellom .NET-prosjekter. NuGet har en offentlig repo med pakker som er tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/). Dersom du ikke har brukt NuGet på Windows-maskinen din før kan det være at du må instruere NuGet til å hente pakker derfra.
+I .NET bruker man "NuGet"-pakker for å dele kode mellom prosjekter. NuGet har et offentlig repo med pakker som er tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/). Dersom du ikke har brukt NuGet på Windows-maskinen din før kan det være at du må instruere NuGet til å hente pakker derfra.
 
 Åpne filen `C:/Users/<ditt brukernavn>/AppData/Roaming/NuGet/NuGet.Config`, og lim inn følgende innhold:
 

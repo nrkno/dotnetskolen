@@ -11,7 +11,7 @@
 - [X] Se etter referanser til .NET 5.0
 - [X] Følge veiledning, og lim inn oppdaterte "resultater" (utskrift fra CLI, prosjektfiler etc.) i README
 
-- [ ] Fjerne kapittel om paket
+- [X] Fjerne kapittel om paket
 - [ ] Se om OpenAPI-kontrakt kan bruke JsonSchema `3.1.0`
 - [ ] Bruke System.Text.Json sitt schema istedenfor JsonSchema.Net?
 
@@ -63,43 +63,42 @@ Under følger noen anbefalinger for alternative startpunkter, avhengig av hvilke
 
 > NB! Dersom du begynner på steg 5 eller senere, må du kjøre `dotnet tool restore` før du fortsetter å følge veiledningen.
 
-##### Oppsett av prosjekter, solution og pakkehåndtering med .NET CLI
+##### Oppsett av prosjekter og solution med .NET CLI
 
-Dersom du er interessert i å lære mer om hvordan du kan bruke .NET CLI til å opprette prosjekter, solutions, og sette opp håndtering av NuGet-pakker med `paket`, kan følge disse stegene:
+Dersom du er interessert i å lære mer om hvordan du kan bruke .NET CLI til å opprette prosjekter og solutions, kan følge disse stegene:
 
 - [Steg 1 - Opprette API](#steg-1---opprette-api)
 - [Steg 2 - Opprette testprosjekter](#steg-2---opprette-testprosjekter)
 - [Steg 3 - Opprette solution](#steg-3---opprette-solution)
-- [Steg 4 - Pakkehåndtering](#steg-4---pakkehåndtering)
 
 ##### Domenemodellering og enhetstester
 
 Vil du lære mer om domenemodellering i F# og tilhørende enhetstester, kan følge disse stegene:
 
-- [Steg 5 - Definere domenemodell](#steg-5---definere-domenemodell)
-- [Steg 6 - Enhetstester for domenemodell](#steg-6---enhetstester-for-domenemodell)
+- [Steg 4 - Definere domenemodell](#steg-4---definere-domenemodell)
+- [Steg 5 - Enhetstester for domenemodell](#steg-5---enhetstester-for-domenemodell)
 
 ##### API-kontrakter
 
 Hvis du vil lære mer om hvordan du kan dokumentere API-et ditt vha. Open API, og modellere kontraktstyper, kan følge disse stegene:
 
-- [Steg 7 - Definere API-kontrakt](#steg-7---definere-api-kontrakt)
-- [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
+- [Steg 6 - Definere API-kontrakt](#steg-6---definere-api-kontrakt)
+- [Steg 7 - Implementere kontraktstyper](#steg-7---implementere-kontraktstyper)
 
 ##### .NET 9 og minimal API
 
 Om du er interessert i .NET 9 sin hosting modell, "minimal APIs", og hvordan du kan teste API-et ditt med integrasjonstester, kan følge disse stegene:
 
-- [Steg 9 - Sette opp skall for API](#steg-9---sette-opp-skall-for-api)
-- [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
+- [Steg 8 - Sette opp skall for API](#steg-8---sette-opp-skall-for-api)
+- [Steg 9 - Implementere web-API](#steg-9---implementere-web-api)
 
 ##### Tilleggsoppgaver
 
 Til slutt finnes det noen ekstraoppgaver, hvis du vil ha mer å bryne deg på:
 
 - [Ekstraoppgaver](#ekstraoppgaver)
-  - [Steg 11 - Følge prinsipper i domenedrevet design](#steg-11---følge-prinsipper-i-domenedrevet-design)
-  - [Steg 12 - Grafisk fremstilling av OpenAPI-dokumentasjon](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon)
+  - [Steg 10 - Følge prinsipper i domenedrevet design](#steg-10---følge-prinsipper-i-domenedrevet-design)
+  - [Steg 11 - Grafisk fremstilling av OpenAPI-dokumentasjon](#steg-11---grafisk-fremstilling-av-openapi-dokumentasjon)
 
 ### ❓ Spørsmål
 
@@ -145,16 +144,15 @@ All dokumentasjon (inkludert denne veiledningen) og kildekoden i dette repoet er
   - [Steg 1 - Opprette API](#steg-1---opprette-api)
   - [Steg 2 - Opprette testprosjekter](#steg-2---opprette-testprosjekter)
   - [Steg 3 - Opprette solution](#steg-3---opprette-solution)
-  - [Steg 4 - Pakkehåndtering](#steg-4---pakkehåndtering)
-  - [Steg 5 - Definere domenemodell](#steg-5---definere-domenemodell)
-  - [Steg 6 - Enhetstester for domenemodell](#steg-6---enhetstester-for-domenemodell)
-  - [Steg 7 - Definere API-kontrakt](#steg-7---definere-api-kontrakt)
-  - [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
-  - [Steg 9 - Sette opp skall for API](#steg-9---sette-opp-skall-for-api)
-  - [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
+  - [Steg 4 - Definere domenemodell](#steg-4---definere-domenemodell)
+  - [Steg 5 - Enhetstester for domenemodell](#steg-5---enhetstester-for-domenemodell)
+  - [Steg 6 - Definere API-kontrakt](#steg-6---definere-api-kontrakt)
+  - [Steg 7 - Implementere kontraktstyper](#steg-7---implementere-kontraktstyper)
+  - [Steg 8 - Sette opp skall for API](#steg-8---sette-opp-skall-for-api)
+  - [Steg 9 - Implementere web-API](#steg-9---implementere-web-api)
 - [Ekstraoppgaver](#ekstraoppgaver)
-  - [Steg 11 - Følge prinsipper i domenedrevet design](#steg-11---følge-prinsipper-i-domenedrevet-design)
-  - [Steg 12 - Grafisk fremstilling av OpenAPI-dokumentasjon](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon)
+  - [Steg 10 - Følge prinsipper i domenedrevet design](#steg-10---følge-prinsipper-i-domenedrevet-design)
+  - [Steg 11 - Grafisk fremstilling av OpenAPI-dokumentasjon](#steg-11---grafisk-fremstilling-av-openapi-dokumentasjon)
 
 ## Steg
 
@@ -576,7 +574,7 @@ Tester er en viktig del av systemutvikling fordi de hjelper oss med å verifiser
 
 Enhetstester verifiserer at små, isolerte deler av koden fungerer slik den skal. Gjerne én og én funksjon. I dette kurset skal vi bruke enhetstester til å verifisere valideringsregler i domenet vårt.
 
-Integrasjonstester verifiserer at større deler av systemet fungerer slik det skal, og kan til og med dekke samspill med andre systemer. I dette kurset skal vi bruke integrasjonstester til å verifisere at web-API-et oppfører seg i henhold til [kontrakten vi definerer i steg 7](#steg-7---definere-api-kontrakt).
+Integrasjonstester verifiserer at større deler av systemet fungerer slik det skal, og kan til og med dekke samspill med andre systemer. I dette kurset skal vi bruke integrasjonstester til å verifisere at web-API-et oppfører seg i henhold til [kontrakten vi definerer i steg 6](#steg-6---definere-api-kontrakt).
 
 #### Dotnet new
 
@@ -665,8 +663,6 @@ I prosjektfilen kan vi se at enhetstestprosjektet:
   - `xunit` - Bibliotek for å skrive enhetstester
   - `xunit.runner.visualstudio` - Pakke for å kjøre Xunit-tester i "Test explorer" i Visual Studio <https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019>
 
-> Vi ser nærmere på hva NuGet-pakker er i [steg 4](#steg-4---pakkehåndtering).
-
 ##### Testfilen
 
 Åpne filen `Tests.fs`:
@@ -688,7 +684,7 @@ let ``My test`` () =
 - `[<Fact>]`
 - `[<Theory>]`
 
-Forskjellen på disse blir nærmere forklart i [steget om enhetstester](#steg-6---enhetstester-for-domenemodell).
+Forskjellen på disse blir nærmere forklart i [steget om enhetstester](#steg-5---enhetstester-for-domenemodell).
 
 > Merk at ``` ``<variabelnavn med mellomrom>`` ``` er brukt for å kunne ha et variabelnavn som inneholder mellomrom. På denne måten kan man ha et funksjonsnavn som beskriver testen og samtidig er lesbar for mennesker.
 
@@ -771,7 +767,7 @@ test
     └── Tests.fs
 ```
 
-Foreløpig er prosjekt- og test-filene til integrasjonstestprosjektet helt like de fra enhetstestprosjektet (bortsett fra prosjektnavnet). Forskjellen på enhets- og integrasjonstestene blir tydeligere når vi skal skrive testene i hhv. [steg 6](#steg-6---enhetstester-for-domenemodell) og [steg 10](#steg-10---implementere-web-api).
+Foreløpig er prosjekt- og test-filene til integrasjonstestprosjektet helt like de fra enhetstestprosjektet (bortsett fra prosjektnavnet). Forskjellen på enhets- og integrasjonstestene blir tydeligere når vi skal skrive testene i hhv. [steg 5](#steg-5---enhetstester-for-domenemodell) og [steg 9](#steg-9---implementere-web-api).
 
 ##### Kjøre integrasjonstester
 
@@ -797,7 +793,7 @@ Build succeeded in 4,6s
 
 ### Steg 3 - Opprette solution
 
-**Steg 3 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-2---opprette-testprosjekter) [⬇ Neste steg](#steg-4---pakkehåndtering)
+**Steg 3 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-2---opprette-testprosjekter) [⬇ Neste steg](#steg-4---definere-domenemodell)
 
 Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme mappe, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker, og kjøre alle testene for systemet vårt, kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
 
@@ -941,196 +937,9 @@ Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
 
 ![Solution explorer i Visual Studio](./docs/illustrasjoner/solution-explorer.png)
 
-### Steg 4 - Pakkehåndtering
+### Steg 4 - Definere domenemodell
 
-**Steg 4 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-3---opprette-solution) [⬇ Neste steg](#steg-5---definere-domenemodell)
-
-Siden vi har behov for å installere NuGet-pakker senere i kurset, skal vi sette opp pakkehåndteringsverktøyet Paket for løsningen.
-
-#### NuGet og Paket
-
-Basebiblioteket i .NET inneholder mye grunnleggende funksjonalitet, men det inneholder ikke alt. For å slippe å skrive kode for mye brukt funksjonalitet på nytt hver gang man trenger den, er det en fordel om utviklere over hele verden kan dele kode med hverandre. De facto måte å dele kode i .NET på er via "NuGet". NuGet er både et offentlig repo for kode utviklet av tredjeparter (tilgjengelig på <https://www.nuget.org/>), og et verktøy for å laste opp og ned "NuGet-pakker" fra dette repoet.
-
-NuGet som verktøy for å håndtere pakker i et prosjekt har imidlertid noen utfordringer:
-
-- Transitive avhengigheter - Dersom et prosjekt har en avhengighet til `SomeNuGetPackage`, og `SomeNuGetPackage` har en avhengighet til `SomeOtherNuGetPackage`, er `SomeOtherNuGetPackage` en transitiv avhengighet i prosjektet. NuGet skiller ikke transitive avhengigheter fra direkte avhengigheter i `packages.config`. Dermed har man ikke kontroll på hvilke avhengigheter i `packages.config` som er direkte, og hvilke som er transitive.
-- En annen utfordring med NuGet er at dersom to pakker refererer ulike versjoner av en annen pakke, vil NuGet velge den nyeste versjonen av de to pakkereferansene.
-- I tillegg må hvert prosjekt i en solution definere hvilke avhengigheter det har, og hvilken versjon. Dermed kan prosjekter i samme solution ha ulike versjoner av samme pakke. Dette kan skape problemer.
-
-Verktøyet "Paket" forsøker å løse utfordringene nevnt over, og er mye brukt i NRK TV og NRK Radio. Derfor blir Paket brukt i dette kurset.
-
-> Merk at selv om man bruker Paket som verktøy for å håndtere tredjepartsavhengigheter i en .NET-løsning, benytter man fortsatt NuGet sitt offentlige repo for å laste opp og ned avhengighetene.
-
-##### Kilder
-
-- <https://fsprojects.github.io/Paket/faq.html#I-do-not-understand-why-I-need-Paket-to-manage-my-packages-Why-can-t-I-just-use-NuGet-exe-and-packages-config>
-
-#### Sette opp Paket
-
-Paket finnes som en utvidelse (også kalt "tool") til .NET CLI. Utvidelser i .NET CLI kan enten installeres som globale (tilgjengelig for alle .NET-løsninger på maskinen), eller lokale (kun for prosjektet utvidelsen blir installert i). I dette kurset installerer vi Paket lokalt for vår løsning. Fordelen med dette er at versjonen av Paket vi installerer kun gjelder for denne løsningen. Det gjør at andre løsninger på samme maskin kan ha andre versjoner av Paket. Dersom løsningen ligger på Git, vil i tillegg andre som kloner repoet kunne kjøre `dotnet tool restore`, og få installert alle verktøyene de trenger.
-
-##### Opprette dotnet tool manifest
-
-Lokale utvidelser av .NET CLI defineres i en egen fil `dotnet-tools.json` som ligger i en mappe `.config`. Ettersom denne filen ikke finnes enda, oppretter vi den ved å kjøre følgende kommando
-
-```bash
-dotnet new tool-manifest
-```
-
-```bash
-The template "Dotnet local tool manifest file" was created successfully.
-```
-
-Du skal nå ha fått `dotnet-tools.json`-filen i `.config`-mappen slik som vist under.
-
-```txt
-└── .config
-    └── dotnet-tools.json
-src
-└── ...
-test
-└── ...
-└── Dotnetskolen.sln
-```
-
-##### Legge til Paket som tool i dotnet
-
-`dotnet-tools.json` inneholder imidlertid ingen utvidelser til .NET CLI enda
-
-``` json
-{
-  "version": 1,
-  "isRoot": true,
-  "tools": {}
-}
-```
-
-For å legge til Paket i listen over utvidelser løsningen skal ha kan du kjøre følgende kommando
-
-```bash
-dotnet tool install paket
-```
-
-```bash
-You can invoke the tool from this directory using the following commands: 'dotnet tool run paket' or 'dotnet paket'.
-Tool 'paket' (version '5.257.0') was successfully installed. Entry is added to the manifest file C:\Dev\nrkno@github.com\dotnetskolen\.config\dotnet-tools.json. 
-```
-
-Nå ser vi at Paket er lagt til i listen over tools i `dotnet-tools.json`
-
-```json
-{
-  "version": 1,
-  "isRoot": true,
-  "tools": {
-    "paket": {
-      "version": "6.2.1",
-      "commands": [
-        "paket"
-      ]
-    }
-  }
-}
-```
-
-##### Installere Paket
-
-For å installere Paket kan du kjøre følgende kommando
-
-```bash
-dotnet tool restore
-```
-
-```bash
-Tool 'paket' (version '6.2.1') was restored. Available commands: paket
-
-Restore was successful.
-```
-
-##### Paket-filer
-
-Paket bruker følgende filer for å holde styr på pakkene i en løsning:
-
-- `paket.dependencies` - en flat liste over alle avhengigheter som inngår på tvers av alle prosjektene i løsningen.
-- `<sti til prosjekt>/paket.references` - en flat liste over alle avhengigheter det gitte prosjektet har.
-- `paket.lock` - inneholder en oversikt over alle avhengigheter, både direkte og transitive, og hvilken versjon av dem som er brukt i løsningen.
-
-> Se forøvrig <https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit> for hvilke filer du skal inkludere i Git.
-
-#### Migrere pakker fra NuGet til Paket
-
-Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), ble det lagt til referanser til NuGet-pakker som testprosjektene er avhengige av. Malene i .NET SDK benytter NuGet som pakkehåndteringssystem, og dermed ble disse prosjektreferansene lagt til i `.fsproj`-filene til testprosjektene. Dette ser vi under i `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`. Det samme gjelder prosjektfilen til integrasjonstestprosjektet.
-
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-
-    <IsPackable>false</IsPackable>
-    <GenerateProgramFile>false</GenerateProgramFile>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Include="Tests.fs" />
-    <Compile Include="Program.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="3.1.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
-
-</Project>
-```
-
-Siden vi ønsker å benytte Paket til å håndtere pakkene i løsningen vår, må vi migrere disse pakkene fra NuGet til Paket. Dette kan vi gjøre ved å bruke den innebygde kommandoen `convert-from-nuget` i Paket, slik:
-
-```bash
-dotnet paket convert-from-nuget
-```
-
-Nå skal alle pakkene som er brukt på tvers av alle prosjektene i løsningen være lagt til i en ny fil `paket.dependencies`:
-
-```txt
-source https://api.nuget.org/v3/index.json
-
-nuget FSharp.Core
-nuget coverlet.collector 3.1.0
-nuget Microsoft.NET.Test.Sdk 16.11.0
-nuget xunit 2.4.1
-nuget xunit.runner.visualstudio 2.4.3
-```
-
-I tillegg skal pakkereferansene i et prosjekt være flyttet til en ny fil `paket.references` i roten av prosjektmappen. Under ser vi hvordan `paket.references`-filen ser ut for enhetstestprosjektet. Det samme gjelder integrasjonstestprosjektet.
-
-```txt
-Microsoft.NET.Test.Sdk
-xunit
-xunit.runner.visualstudio
-coverlet.collector
-FSharp.Core
-```
-
-Du kan lese mer om hvordan `convert-from-nuget`-kommandoen fungerer her: <https://fsprojects.github.io/Paket/convert-from-nuget-tutorial.html>
-
-Nå er du klar til å legge til avhengigheter i prosjektet ditt!
-
-> Merk at vi kunne ha latt være å opprette testprosjektene med malen `xunit`, og heller satt opp testprosjektene fra bunnen av ved å bruke `console`-malen. Da hadde vi unngått å måtte migrere NuGet-pakkene til Paket. Kurset er imidlertid lagt opp på denne måten for å illustrere bruken av ulike maler i .NET SDK.
-
-> Takk til [@laat](https://github.com/laat) som tipset om `convert-from-nuget`-kommandoen i Paket!
-
-### Steg 5 - Definere domenemodell
-
-**Steg 5 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-4---pakkehåndtering) [⬇ Neste steg](#steg-6---enhetstester-for-domenemodell)
+**Steg 4 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-3---opprette-solution)) [⬇ Neste steg](#steg-5---enhetstester-for-domenemodell)
 
 Vi skal lage et API for å hente ut en forenklet elektronisk programguide (EPG) for ulike kanaler i NRK TV. Tanken er at dette API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: <https://info.nrk.no/presse/tvguide/>
 
@@ -1158,7 +967,6 @@ src
 test
 └── ...
 └── Dotnetskolen.sln
-└── paket.dependencies
 ```
 
 Lim inn innholdet under i `Domain.fs`:
@@ -1251,11 +1059,11 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 > Merk at noen har rapportert om problemer med feilmeldinger i Rider etter å ha lagt til linjen `open NRK.Dotnetskolen.Domain`. Dersom du opplever det samme kan du høyreklikke på "Solution"-noden i Rider, og klikke på "Unload" etterfulgt av "Reload". Dette skal forhåpentligvis rette opp i problemet.
 
-### Steg 6 - Enhetstester for domenemodell
+### Steg 5 - Enhetstester for domenemodell
 
-**Steg 6 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-5---definere-domenemodell) [⬇ Neste steg](#steg-7---definere-api-kontrakt)
+**Steg 5 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-4---definere-domenemodell) [⬇ Neste steg](#steg-6---definere-api-kontrakt)
 
-Domenemodellen som ble innført i [forrige steg](#steg-5---definere-domenemodell) inneholder både strukturen til EPG-en, og valideringsreglene knyttet til dem. Så langt har vi kun modellert strukturen til domenemodellen i F# (at EPG består av en liste med sendinger, og hvilke felter hver sending inneholder). I dette steget skal vi implementere valideringsreglene i F#, og verifisere at vi har implementert dem riktig ved hjelp av enhetstester.
+Domenemodellen som ble innført i [forrige steg](#steg-4---definere-domenemodell) inneholder både strukturen til EPG-en, og valideringsreglene knyttet til dem. Så langt har vi kun modellert strukturen til domenemodellen i F# (at EPG består av en liste med sendinger, og hvilke felter hver sending inneholder). I dette steget skal vi implementere valideringsreglene i F#, og verifisere at vi har implementert dem riktig ved hjelp av enhetstester.
 
 #### Regler i domenet vårt
 
@@ -1576,11 +1384,11 @@ Test summary: total: 15; failed: 0; succeeded: 15; skipped: 0; duration: 1,2s
 Build succeeded in 7,2s
 ```
 
-> Merk at domenemodellen, slik den er implementert i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell), har en svakhet i at man kan opprette en `Sending`-verdi som er ugyldig. Vi har implementert `isSendingValid`, men det er ingenting som hindrer oss i å opprette en `Sending`-verdi uten å bruke `isSendingValid`. I ekstraoppgaven i [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) blir en alternativ tilnærming som bruker prinsipper fra [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design) presentert. De resterende stegene i dette kurset frem til og med steg 10 kommer til å basere seg på domenemodellen slik den er definert her i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) for å ikke innføre for mange prinsipper på en gang, og holde fokus på det kurset er ment for. Dersom du ønsker må du gjerne gå videre til [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) nå for å se hvordan det er gjort der. Husk at steg 11 er skrevet med forutsetning av at man har gjennomført kurset til og med steg 10 først.
+> Merk at domenemodellen, slik den er implementert i [steg 4](#steg-4---definere-domenemodell) og [steg 5](#steg-5---enhetstester-for-domenemodell), har en svakhet i at man kan opprette en `Sending`-verdi som er ugyldig. Vi har implementert `isSendingValid`, men det er ingenting som hindrer oss i å opprette en `Sending`-verdi uten å bruke `isSendingValid`. I ekstraoppgaven i [steg 10](#steg-10---følge-prinsipper-i-domenedrevet-design) blir en alternativ tilnærming som bruker prinsipper fra [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design) presentert. De resterende stegene i dette kurset frem til og med steg 10 kommer til å basere seg på domenemodellen slik den er definert her i [steg 4](#steg-4---definere-domenemodell) og [steg 5](#steg-5---enhetstester-for-domenemodell) for å ikke innføre for mange prinsipper på en gang, og holde fokus på det kurset er ment for. Dersom du ønsker må du gjerne gå videre til [steg 10](#steg-10---følge-prinsipper-i-domenedrevet-design) nå for å se hvordan det er gjort der. Husk at steg 11 er skrevet med forutsetning av at man har gjennomført kurset til og med steg 10 først.
 
-### Steg 7 - Definere API-kontrakt
+### Steg 6 - Definere API-kontrakt
 
-**Steg 7 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-6---enhetstester-for-domenemodell) [⬇ Neste steg](#steg-8---implementere-kontraktstyper)
+**Steg 6 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-5---enhetstester-for-domenemodell) [⬇ Neste steg](#steg-7---implementere-kontraktstyper)
 
 For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK TV og NRK Radio definerer vi API-kontrakter ved bruk av OpenAPI (<https://www.openapis.org/>).
 
@@ -1594,7 +1402,7 @@ For å begrense omfanget av API-et vårt skal vi ha kun én operasjon i det:
 
 Responsen til denne operasjonen vil bestå av to lister med sendinger, én for hver kanal i domenet vårt, hvor hver sending har:
 
-- Tittel - tekststreng som følger reglene definert i [domenemodellen vår](#steg-5---definere-domenemodell).
+- Tittel - tekststreng som følger reglene definert i [domenemodellen vår](#steg-4---definere-domenemodell).
 - Startdato- og tidspunkt - tekststreng som følger datoformatet i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 - Sluttdato- og tidspunkt - tekststreng som følger datoformatet i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Er garantert å være større enn startdato- og tidspunkt.
 
@@ -1674,7 +1482,6 @@ Foreløpig skal vi ikke gjøre noe mer med JSON schemaet enn å ha det som dokum
 └── test
     └── ...
 └── Dotnetskolen.sln
-└── paket.dependencies
 ```
 
 #### OpenAPI-kontrakt
@@ -1692,7 +1499,6 @@ Nå som vi har formatet på innholdet i responsen vår, kan vi definere Open API
 test
     └── ...
 └── Dotnetskolen.sln
-└── paket.dependencies
 ```
 
 La oss begynne med å definere litt metadata for kontrakten vår.
@@ -1881,11 +1687,11 @@ Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den
 
 > Kontrakten over er validert ved hjelp av <https://editor.swagger.io/>
 >
-> Merk at i OpenAPI-kontrakten over benytter vi versjon `3.0.0` av OpenAPI. I denne versjonen er det ikke full støtte for JSON Schema. Man kan derfor ikke bruke alle features i JSON Schema i OpenAPI-kontrakten. Kontrakten vår bruker imidlertid kun features i JSON Schema som er støttet. `OpenAPI 3.1.0` ble lansert 16. februar 2021, som _har_ full støtte for alle features i JSON Schema. Det vil imidlertid ta noe tid før det er støtte for denne i tooling som `ReDoc` (brukt i [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon)) `WebGUI` og linting. Takk til [@laat](https://github.com/laat) som poengterte det.
+> Merk at i OpenAPI-kontrakten over benytter vi versjon `3.0.0` av OpenAPI. I denne versjonen er det ikke full støtte for JSON Schema. Man kan derfor ikke bruke alle features i JSON Schema i OpenAPI-kontrakten. Kontrakten vår bruker imidlertid kun features i JSON Schema som er støttet. `OpenAPI 3.1.0` ble lansert 16. februar 2021, som _har_ full støtte for alle features i JSON Schema. Det vil imidlertid ta noe tid før det er støtte for denne i tooling som `ReDoc` (brukt i [steg 11](#steg-11---grafisk-fremstilling-av-openapi-dokumentasjon)) `WebGUI` og linting. Takk til [@laat](https://github.com/laat) som poengterte det.
 
 #### Grafisk fremstilling av Open-API-kontrakten
 
-I [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på hvordan man kan sette opp en grafisk fremstilling av OpenAPI-dokumentasjonen som en egen HTML-side i API-et,. Merk at det forutsetter at du har utført steg 1-10 først. Dersom du ønsker å se en grafisk fremstilling nå kan du lime inn koden under på <https://editor.swagger.io/>.
+I [steg 11](#steg-11---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på hvordan man kan sette opp en grafisk fremstilling av OpenAPI-dokumentasjonen som en egen HTML-side i API-et,. Merk at det forutsetter at du har utført steg 1-10 først. Dersom du ønsker å se en grafisk fremstilling nå kan du lime inn koden under på <https://editor.swagger.io/>.
 
 > Bare trykk "OK" dersom du blir spurt om å gjøre om fra JSON til YAML.
 
@@ -1997,11 +1803,11 @@ I [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på
 
 > Merk at <https://editor.swagger.io/> ikke støtter at JSON Schema og Open-API-kontrakt er definert i to forskjellige filer. Derfor er kontrakten over en sammenslåing av `epg.schema.json` og `openapi.json`.
 
-### Steg 8 - Implementere kontraktstyper
+### Steg 7 - Implementere kontraktstyper
 
-**Steg 8 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-7---definere-api-kontrakt) [⬇ Neste steg](#steg-9---sette-opp-skall-for-api)
+**Steg 7 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-6---definere-api-kontrakt) [⬇ Neste steg](#steg-8---sette-opp-skall-for-api)
 
-I [steg-5](#steg-5---definere-domenemodell) definerte vi domenemodellen vår som en F#-type. Domenemodellen representerer EPG-en slik vi konseptuelt tenker på den, både når det gjelder  struktur og regler for gyldige tilstander. API-kontrakter er ikke nødvendigvis en-til-en med domenemodeller.
+I [steg-4](#steg-4---definere-domenemodell) definerte vi domenemodellen vår som en F#-type. Domenemodellen representerer EPG-en slik vi konseptuelt tenker på den, både når det gjelder  struktur og regler for gyldige tilstander. API-kontrakter er ikke nødvendigvis en-til-en med domenemodeller.
 
 1. For det første kan strukturen til typene i API-et være annerledes enn i domenemodellen. Dette ser vi i vårt tilfelle hvor domenemodellen har alle sendinger, på tvers av kanaler, i én liste, mens API-kontrakten har én liste med sendinger per kanal.
 2. I tillegg er vi begrenset til å representere data med tekst i API-et ettersom HTTP er en tekstbasert protokoll. For eksempel benytter vi en `DateTimeOffset` til å representere start- og sluttidspunkt i domenemodellen vår, mens vi benytter `string` i OpenAPI-kontrakten vår.
@@ -2024,7 +1830,6 @@ src
 test
 └── ...
 └── Dotnetskolen.sln
-└── paket.dependencies
 ```
 
 Lim inn innholdet under i `Dto.fs`:
@@ -2046,7 +1851,7 @@ module Dto =
   }
 ```
 
-På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemodell), må vi legge til `Dto.fs` i prosjektfilen til API-prosjektet:
+På samme måte som da vi [opprettet domenemodellen](#steg-4---definere-domenemodell), må vi legge til `Dto.fs` i prosjektfilen til API-prosjektet:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -2065,9 +1870,9 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 </Project>
 ```
 
-### Steg 9 - Sette opp skall for API
+### Steg 8 - Sette opp skall for API
 
-**Steg 9 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-8---implementere-kontraktstyper) [⬇ Neste steg](#steg-10---implementere-web-api)
+**Steg 8 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-7---implementere-kontraktstyper) [⬇ Neste steg](#steg-9---implementere-web-api)
 
 I dette steget skal vi sette opp et skall for web-API-et, og verifisere at vi når API-et ved å skrive en integrasjonstest. Før vi begynner å kode skal vi se på et par relevante konsepter i .NET.
 
@@ -2108,7 +1913,6 @@ Gjenta steget over for `test/integration/NRK.Dotnetskolen.IntegrationTests.fspro
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
 
@@ -2280,7 +2084,7 @@ For å få tilgang til testserverem vi skal kjøre under integrasjonstestene er 
 Kjør følgende kommando fra rotenmappen din for å installere pakken:
 
 ```bash
-dotnet paket add Microsoft.AspNetCore.Mvc.Testing --project ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj package Microsoft.AspNetCore.Mvc.Testing
 ```
 
 ###### Referanse til API-prosjektet
@@ -2522,11 +2326,11 @@ Test summary: total: 1; failed: 0; succeeded: 1; skipped: 0; duration: 1,3s
 Build succeeded in 8,9s
 ```
 
-### Steg 10 - Implementere web-API
+### Steg 9 - Implementere web-API
 
-**Steg 10 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-9---sette-opp-skall-for-api)
+**Steg 9 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-8---sette-opp-skall-for-api)
 
-I [forrige steg](#steg-9---sette-opp-skall-for-api) opprettet vi et skall for web-API-et ved å legge til et `ping`-endepunkt med en tilhørende integrasjonstest. I dette steget skal vi utvide web-API-et med endepunkt for å hente EPG. I tillegg skal vi skrive integrasjonstester for å verifisere at implementasjonen av web-API-et er i henhold til Open API-dokumentasjonen vår. Vi bruker en testdrevet tilnærming ved at vi skriver en integrasjonstest som feiler, og deretter gjør vi endringer i API-et slik at testen passerer. Slik fortsetter vi til vi har implementert ferdig API-et vårt.
+I [forrige steg](#steg-8---sette-opp-skall-for-api) opprettet vi et skall for web-API-et ved å legge til et `ping`-endepunkt med en tilhørende integrasjonstest. I dette steget skal vi utvide web-API-et med endepunkt for å hente EPG. I tillegg skal vi skrive integrasjonstester for å verifisere at implementasjonen av web-API-et er i henhold til Open API-dokumentasjonen vår. Vi bruker en testdrevet tilnærming ved at vi skriver en integrasjonstest som feiler, og deretter gjør vi endringer i API-et slik at testen passerer. Slik fortsetter vi til vi har implementert ferdig API-et vårt.
 
 #### Test 1 - Verifisere at endepunktet finnes
 
@@ -2578,7 +2382,7 @@ Som vi ser over feiler testen foreløpig ettersom web-API-et returnerer `404 (No
 
 ##### Definere route fra API-kontrakt
 
-Dersom vi ser på API-kontrakten vi definerte i [steg 7](#steg-7---definere-api-kontrakt) inneholder den én operasjon `/epg/{dato}` som returnerer `200 OK` med den aktuelle EPG-en dersom alt er OK, og `400 Bad Request` dersom den ikke klarer å parse datoen:
+Dersom vi ser på API-kontrakten vi definerte i [steg 6](#steg-6---definere-api-kontrakt) inneholder den én operasjon `/epg/{dato}` som returnerer `200 OK` med den aktuelle EPG-en dersom alt er OK, og `400 Bad Request` dersom den ikke klarer å parse datoen:
 
 ```json
 ...
@@ -2723,7 +2527,6 @@ Husk å legg til `HttpHandlers.fs` i prosjektfilen til API-prosjektet:
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
 
@@ -2829,7 +2632,7 @@ I den siste testen skal vi verifisere at responsen API-et gir følger formatet v
 For å kunne validere at responsen fra web-API-et er i henhold til OpenAPI-kontrakten, skal vi benytte NuGet-pakken `JsonSchema.Net`. Installer denne pakken ved å kjøre følgende kommando fra rotmappen din:
 
 ```bash
-dotnet paket add JsonSchema.Net --project ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
+dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj package JsonSchema.Net
 ```
 
 ##### JSON Schema for API-kontrakt
@@ -2874,7 +2677,7 @@ let ``Get EPG today return valid response`` () =
 
 Denne testen bygger på de foregående testene vi har skrevet, og validerer i tillegg at responsen følger JsonSchema-et som vi definerte i OpenAPI-kontrakten:
 
-- `let jsonSchema = JsonSchema.FromFile "./epg.schema.json"` oppretter en .NET-representasjon av JSON Schemaet vi definerte i [kapittel 7](#steg-7---definere-api-kontrakt)
+- `let jsonSchema = JsonSchema.FromFile "./epg.schema.json"` oppretter en .NET-representasjon av JSON Schemaet vi definerte i [kapittel 6](#steg-6---definere-api-kontrakt)
 - `let! bodyAsString = response.Content.ReadAsStringAsync()` henter ut innholdet i responsen som en `string`
 - `let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement` oppretter en .NET-representasjon av JSON-dokumentet som API-et returnerer, og henter en referanse til rotelementet i JSON-dokumentet
 - `let isJsonValid = jsonSchema.Evaluate(bodyAsJsonDocument, EvaluationOptions(RequireFormatValidation = true)).IsValid` benytter JSON Schemaet vårt til å validere om JSON-objektet som web-API-et returnerte tilfredstiller API-kontrakten
@@ -3029,7 +2832,6 @@ Husk å legg til `Services.fs` i prosjektfilen til API-prosjektet:
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
 
@@ -3122,7 +2924,6 @@ Husk å legg til `DataAccess.fs` i prosjektfilen til API-prosjektet:
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
 
@@ -3258,7 +3059,6 @@ Husk å legg til `Mock.fs` i prosjektfilen til integrasjonstestprosjektet:
   <ItemGroup>
     <ProjectReference Include="..\..\src\api\NRK.Dotnetskolen.Api.fsproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
 ```
 
@@ -3443,11 +3243,11 @@ Du har nå implementert et web-API i F#, med enhets- og integrasjonstester, API-
 
 ### Ekstraoppgaver
 
-#### Steg 11 - Følge prinsipper i domenedrevet design
+#### Steg 10 - Følge prinsipper i domenedrevet design
 
-Implementasjonen av domenemodellen slik vi gjorde det i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) har en svakhet: det er ingen garanti for at verdier vi oppretter for `Sending` og `Epg` er gyldige. Det er kun `epgEntityToDomain`-funksjonen i `DataAccess.fs` som kaller `isSendingValid` når sendinger hentes. Det er ingen garanti for at alle opprettelser av `Sending`- og `Epg`-verdier kommer gjennom `epgEntityToDomain`. I dette steget skal vi se hvordan vi kan endre domenemodellen vår slik at man ikke kan opprette `Sending`- og `Epg`-verdier uten at de er gyldige.
+Implementasjonen av domenemodellen slik vi gjorde det i [steg 4](#steg-4---definere-domenemodell) og [steg 5](#steg-5---enhetstester-for-domenemodell) har en svakhet: det er ingen garanti for at verdier vi oppretter for `Sending` og `Epg` er gyldige. Det er kun `epgEntityToDomain`-funksjonen i `DataAccess.fs` som kaller `isSendingValid` når sendinger hentes. Det er ingen garanti for at alle opprettelser av `Sending`- og `Epg`-verdier kommer gjennom `epgEntityToDomain`. I dette steget skal vi se hvordan vi kan endre domenemodellen vår slik at man ikke kan opprette `Sending`- og `Epg`-verdier uten at de er gyldige.
 
-I [steg 5](#steg-5---definere-domenemodell) modellerte vi tittel og kanal som `string`, og start- og sluttidspunktene som `DateTimeOffset`. Utover at feltene har disse typene er det ingenting i `Sending`-typen vår som sier hvilke regler som gjelder for dem. Det kan vi imidlertid gjøre noe med.
+I [steg 4](#steg-4---definere-domenemodell) modellerte vi tittel og kanal som `string`, og start- og sluttidspunktene som `DateTimeOffset`. Utover at feltene har disse typene er det ingenting i `Sending`-typen vår som sier hvilke regler som gjelder for dem. Det kan vi imidlertid gjøre noe med.
 
 ##### Tittel
 
@@ -3475,7 +3275,7 @@ module Tittel =
     let value (Tittel tittel) = tittel
 ```
 
-Her ser vi at vi har definert tittel som en egen type `Tittel`, som er en "single case union"-type med privat konstruktør. Deretter har vi `isTittelValid`-funksjonen slik vi definerte den i [steg 6](#steg-6---enhetstester-for-domenemodell). Til slutt har vi `Tittel`-modulen med `create`- og `value`-funksjonene.
+Her ser vi at vi har definert tittel som en egen type `Tittel`, som er en "single case union"-type med privat konstruktør. Deretter har vi `isTittelValid`-funksjonen slik vi definerte den i [steg 5](#steg-5---enhetstester-for-domenemodell). Til slutt har vi `Tittel`-modulen med `create`- og `value`-funksjonene.
 
 > Merk at `isTittelValid`-funksjonen over er den samme som tidligere, bare at den har byttet plass. Du kan fjerne `isTittelValid`-funksjonen som tidligere var definert i `Domain.fs`.
 
@@ -3949,9 +3749,9 @@ let getAlleSendinger () : Epg =
   ]
 ```
 
-#### Steg 12 - Grafisk fremstilling av OpenAPI-dokumentasjon
+#### Steg 11 - Grafisk fremstilling av OpenAPI-dokumentasjon
 
-I [steg 7](#steg-7---definere-api-kontrakt) innførte vi OpenAPI-kontrakt for API-et vårt, og la den i mappen `/docs`. Foreløpig er dokumentasjonen kun tilgjengelig for de som har tilgang til repoet til koden. For at de som skal integrere med API-et skal kunne se kontrakten, er det fint om den er publisert et sted. I dette steget skal vi se hvordan vi kan tilgjengeliggjøre OpenAPI-kontrakten som en egen nettside i API-et ved hjelp av [ReDoc](https://github.com/Redocly/redoc). Med ReDoc kan vi kopiere en [HTML-side fra dokumentasjonen deres](https://github.com/Redocly/redoc#tldr) og lime inn en referanse til OpenAPI-dokumentasjonen vår, så får vi en fin grafisk fremstilling av API-et vårt, som vist under:
+I [steg 6](#steg-6---definere-api-kontrakt) innførte vi OpenAPI-kontrakt for API-et vårt, og la den i mappen `/docs`. Foreløpig er dokumentasjonen kun tilgjengelig for de som har tilgang til repoet til koden. For at de som skal integrere med API-et skal kunne se kontrakten, er det fint om den er publisert et sted. I dette steget skal vi se hvordan vi kan tilgjengeliggjøre OpenAPI-kontrakten som en egen nettside i API-et ved hjelp av [ReDoc](https://github.com/Redocly/redoc). Med ReDoc kan vi kopiere en [HTML-side fra dokumentasjonen deres](https://github.com/Redocly/redoc#tldr) og lime inn en referanse til OpenAPI-dokumentasjonen vår, så får vi en fin grafisk fremstilling av API-et vårt, som vist under:
 
 ![redoc](./docs/illustrasjoner/redoc.png)
 
@@ -3963,7 +3763,7 @@ Kort oppsummert er dette stegene vi skal gjøre for å lage en egen ReDoc-side i
 
 ##### Flytte API-dokumentasjon
 
-I [steg 7](#steg-7---definere-api-kontrakt) la vi dokumentasjonen til API-et vårt i `docs`-mappen. Ettersom vi nå skal eksponere den på internett gjennom API-et vårt, må vi legge den et sted som er tilgjengelig for webserveren. Opprett derfor en ny mappe `wwwroot` med en ny mappe `documentation` i `src/api` slik:
+I [steg 6](#steg-6---definere-api-kontrakt) la vi dokumentasjonen til API-et vårt i `docs`-mappen. Ettersom vi nå skal eksponere den på internett gjennom API-et vårt, må vi legge den et sted som er tilgjengelig for webserveren. Opprett derfor en ny mappe `wwwroot` med en ny mappe `documentation` i `src/api` slik:
 
 ```txt
 ...
