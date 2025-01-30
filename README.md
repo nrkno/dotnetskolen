@@ -1,3 +1,3 @@
-# Steg 5 - Definere domenemodell
+# Steg 4 - Definere domenemodell
 
-Løsningsforslag for [steg 5](https://github.com/nrkno/dotnetskolen/tree/main#steg-5---definere-domenemodell).
+Løsningsforslag for [steg 4](https://github.com/nrkno/dotnetskolen/tree/main#steg-4---definere-domenemodell).
