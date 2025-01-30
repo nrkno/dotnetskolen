@@ -7,6 +7,7 @@ Dette kurset forutsetter at du har noen verktøy installert på maskinen din. Se
 ## 🛠️ Verktøy
 
 For å gjennomføre kurset må du ha satt opp følgende:
+
 - [.NET SDK](#NET-SDK)
 - [Konfigurasjon av NuGet (kun for Windows)](#konfigurere-nuget-kun-for-windows)
 - [En IDE](#IDE)
@@ -25,14 +26,14 @@ Når man installerer .NET har man valget mellom å installere
   - Kompilatorer
   - .NET CLI - kommandolinjeverktøy for å bygge, kjøre og publisere .NET-applikasjoner
 
-Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 6, men de fleste kommandoene fungerer nok med en versjon av .NET Core, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
+Ettersom du gjennom kurset skal utvikle og kjøre .NET-applikasjoner trenger du .NET SDK installert på maskinen din. Kurset er laget med .NET 9, men de fleste kommandoene fungerer nok med en versjon av .NET Core, og vil trolig være tilgjengelig i fremtidige versjoner også. Du kan undersøke hvilken versjon av .NET du har lokalt (om noen i det hele tatt) ved å kjøre følgende kommando
 
 ```bash
 dotnet --version
 ```
 
 ```bash
-6.0.101
+9.0.102
 ```
 
 Dersom du ikke har .NET installert på maskinen din, kan du laste det ned her: [https://dotnet.microsoft.com/download/dotnet](https://dotnet.microsoft.com/download/dotnet)

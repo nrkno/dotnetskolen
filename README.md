@@ -1,5 +1,13 @@
 # 🏫 .NET-skolen
 
+## To do 🧾
+
+- [X] Endre referanser fra .NET 6 til .NET 9
+- Se etter referanser til .NET 5.0
+- [ ] Følge veiledning, og lim inn oppdaterte "resultater" (utskrift fra CLI, prosjektfiler etc.) i README
+- [ ] Fjerne kapittel om paket
+- Endre lenker fra `[]()` til `<>` for de som har lik tittel og href
+
 ## 👋 Innledning
 
 Velkommen til .NET-skolen!
@@ -30,7 +38,7 @@ Det anbefales å følge denne veiledningen [på GitHub](https://github.com/nrkno
 
 ### 🚀 Kom i gang
 
-For å gjennomføre dette kurset trenger du [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet), en teksteditor og en terminal. Når du har dette, gå til [Steg 1 - Opprette API](#steg-1---opprette-api) og følg veiledningen. For alternative startpunkter se [alternative startpunkter](https://github.com/nrkno/dotnetskolen#-alternative-startpunkter).
+For å gjennomføre dette kurset trenger du [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet), en teksteditor og en terminal. Når du har dette, gå til [Steg 1 - Opprette API](#steg-1---opprette-api) og følg veiledningen. For alternative startpunkter se [alternative startpunkter](https://github.com/nrkno/dotnetskolen#-alternative-startpunkter).
 
 > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
 
@@ -71,9 +79,9 @@ Hvis du vil lære mer om hvordan du kan dokumentere API-et ditt vha. Open API, o
 - [Steg 7 - Definere API-kontrakt](#steg-7---definere-api-kontrakt)
 - [Steg 8 - Implementere kontraktstyper](#steg-8---implementere-kontraktstyper)
 
-##### .NET 6 og minimal API
+##### .NET 9 og minimal API
 
-Om du er interessert i .NET 6 sin hosting modell, "minimal APIs", og hvordan du kan teste API-et ditt med integrasjonstester, kan følge disse stegene:
+Om du er interessert i .NET 9 sin hosting modell, "minimal APIs", og hvordan du kan teste API-et ditt med integrasjonstester, kan følge disse stegene:
 
 - [Steg 9 - Sette opp skall for API](#steg-9---sette-opp-skall-for-api)
 - [Steg 10 - Implementere web-API](#steg-10---implementere-web-api)
@@ -153,18 +161,18 @@ I dette steget starter vi med en mappe helt uten kode, og bruker .NET CLI til å
 
 #### .NET-versjon
 
-Siden denne veiledningen er skrevet for .NET 6, og det er mulig at du har flere .NET-versjoner installert på maskinen din, må vi instruere .NET CLI til å benytte .NET 6 når vi kjører kommandoene i veiledningen. Dette gjør vi ved å opprette en konfigurasjonsfil `global.json` i roten av repoet med følgende innhold:
+Siden denne veiledningen er skrevet for .NET 9, og det er mulig at du har flere .NET-versjoner installert på maskinen din, må vi instruere .NET CLI til å benytte .NET 9 når vi kjører kommandoene i veiledningen. Dette gjør vi ved å opprette en konfigurasjonsfil `global.json` i roten av repoet med følgende innhold:
 
 ```json¨
 {
     "sdk": {
-        "version": "6.0.0",
+        "version": "9.0.0",
         "rollForward": "latestMinor"
     }
 }
 ```
 
-Her oppgir vi at vi i utgangspunktet ønsker å bruke version `6.0.0` av .NET SDK. I tillegg sier vi gjennom `rollForward: latestMinor` at vi ønsker at den høyeste tilgjengelige versjonen av .NET 6 på maskinen din skal brukes.
+Her oppgir vi at vi i utgangspunktet ønsker å bruke version `9.0.0` av .NET SDK. I tillegg sier vi gjennom `rollForward: latestMinor` at vi ønsker at den høyeste tilgjengelige versjonen av .NET 9 på maskinen din skal brukes.
 
 > Du kan lese mer om `global.json` her: [https://docs.microsoft.com/en-us/dotnet/core/tools/global-json](https://docs.microsoft.com/en-us/dotnet/core/tools/global-json)
 
@@ -186,7 +194,6 @@ dotnet --help
 ```
 
 ```bash
-.NET SDK (6.0.101)
 Usage: dotnet [runtime-options] [path-to-application] [arguments]
 
 Execute a .NET application.
@@ -220,8 +227,8 @@ SDK commands:
   build-server      Interact with servers started by a build.
   clean             Clean build outputs of a .NET project.
   format            Apply style preferences to a project or solution.
-  help              Show command line help.
-  list              List project references of a .NET project.
+  help              Opens the reference page in a browser for the specified command.
+  list              List packages or references of a .NET project.
   msbuild           Run Microsoft Build Engine (MSBuild) commands.
   new               Create a new .NET project or file.
   nuget             Provides additional NuGet commands.
@@ -241,7 +248,7 @@ SDK commands:
 Additional commands from bundled tools:
   dev-certs         Create and manage development certificates.
   fsi               Start F# Interactive / execute F# scripts.
-  sql-cache         SQL Server cache command-line tools.
+  user-jwts         Manage JSON Web Tokens in development.
   user-secrets      Manage development user secrets.
   watch             Start a file watcher that runs a command when files change.
 
@@ -253,51 +260,71 @@ Run 'dotnet [command] --help' for more information on a command.
 For å opprette API-prosjektet skal vi bruke `new`-kommandoen i .NET CLI. `dotnet new` oppretter .NET-prosjekter, og som første parameter tar `new`-kommandoen inn hva slags mal prosjektet man oppretter skal følge. Når man installerer .NET SDK får man med et sett med forhåndsdefinerte prosjektmaler for vanlige formål. For å se malene som er installert på din maskin kan du kjøre `dotnet new --list` slik:
 
 ```bash
-dotnet new --list
+dotnet new list
 ```
 
 ```bash
 These templates matched your input:
 
-Template Name                                 Short Name           Language    Tags
---------------------------------------------  -------------------  ----------  -------------------------------------
-ASP.NET Core Empty                            web                  [C#],F#     Web/Empty
-ASP.NET Core gRPC Service                     grpc                 [C#]        Web/gRPC
-ASP.NET Core Web API                          webapi               [C#],F#     Web/WebAPI
-ASP.NET Core Web App                          razor,webapp         [C#]        Web/MVC/Razor Pages
-ASP.NET Core Web App (Model-View-Controller)  mvc                  [C#],F#     Web/MVC
-ASP.NET Core with Angular                     angular              [C#]        Web/MVC/SPA
-ASP.NET Core with React.js                    react                [C#]        Web/MVC/SPA
-ASP.NET Core with React.js and Redux          reactredux           [C#]        Web/MVC/SPA
-Blazor Server App                             blazorserver         [C#]        Web/Blazor
-Blazor WebAssembly App                        blazorwasm           [C#]        Web/Blazor/WebAssembly/PWA
-Class Library                                 classlib             [C#],F#,VB  Common/Library
-Console App                                   console              [C#],F#,VB  Common/Console
-dotnet gitignore file                         gitignore                        Config
-Dotnet local tool manifest file               tool-manifest                    Config
-EditorConfig file                             editorconfig                     Config
-global.json file                              globaljson                       Config
-MSTest Test Project                           mstest               [C#],F#,VB  Test/MSTest
-MVC ViewImports                               viewimports          [C#]        Web/ASP.NET
-MVC ViewStart                                 viewstart            [C#]        Web/ASP.NET
-NuGet Config                                  nugetconfig                      Config
-NUnit 3 Test Item                             nunit-test           [C#],F#,VB  Test/NUnit
-NUnit 3 Test Project                          nunit                [C#],F#,VB  Test/NUnit
-Protocol Buffer File                          proto                            Web/gRPC
-Razor Class Library                           razorclasslib        [C#]        Web/Razor/Library/Razor Class Library
-Razor Component                               razorcomponent       [C#]        Web/ASP.NET
-Razor Page                                    page                 [C#]        Web/ASP.NET
-Solution File                                 sln                              Solution
-Web Config                                    webconfig                        Config
-Windows Forms App                             winforms             [C#],VB     Common/WinForms
-Windows Forms Class Library                   winformslib          [C#],VB     Common/WinForms
-Windows Forms Control Library                 winformscontrollib   [C#],VB     Common/WinForms
-Worker Service                                worker               [C#],F#     Common/Worker/Web
-WPF Application                               wpf                  [C#],VB     Common/WPF
-WPF Class library                             wpflib               [C#],VB     Common/WPF
-WPF Custom Control Library                    wpfcustomcontrollib  [C#],VB     Common/WPF
-WPF User Control Library                      wpfusercontrollib    [C#],VB     Common/WPF
-xUnit Test Project                            xunit                [C#],F#,VB  Test/xUnit
+Template Name                               Short Name                  Language    Tags
+------------------------------------------  --------------------------  ----------  -------------------------------------------------------
+.NET Aspire App Host                        aspire-apphost              [C#]        Common/.NET Aspire/Cloud
+.NET Aspire Empty App                       aspire                      [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service
+.NET Aspire Service Defaults                aspire-servicedefaults      [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service
+.NET Aspire Starter App                     aspire-starter              [C#]        Common/.NET Aspire/Blazor/Web/Web API/API/Service/Cloud
+.NET Aspire Test Project (MSTest)           aspire-mstest               [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service/Test
+.NET Aspire Test Project (NUnit)            aspire-nunit                [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service/Test
+.NET Aspire Test Project (xUnit)            aspire-xunit                [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service/Test
+API Controller                              apicontroller               [C#]        Web/ASP.NET
+ASP.NET Core Empty                          web                         [C#],F#     Web/Empty
+ASP.NET Core gRPC Service                   grpc                        [C#]        Web/gRPC/API/Service
+ASP.NET Core Web API                        webapi                      [C#],F#     Web/WebAPI/Web API/API/Service
+ASP.NET Core Web API (native AOT)           webapiaot                   [C#]        Web/Web API/API/Service
+ASP.NET Core Web App (Model-View-Contro...  mvc                         [C#],F#     Web/MVC
+ASP.NET Core Web App (Razor Pages)          webapp,razor                [C#]        Web/MVC/Razor Pages
+ASP.NET Core with Angular                   angular                     [C#]        Web/MVC/SPA
+ASP.NET Core with React.js                  react                       [C#]        Web/MVC/SPA
+ASP.NET Core with React.js and Redux        reactredux                  [C#]        Web/MVC/SPA
+Blazor Server App                           blazorserver                [C#]        Web/Blazor
+Blazor Server App Empty                     blazorserver-empty          [C#]        Web/Blazor/Empty
+Blazor Web App                              blazor                      [C#]        Web/Blazor/WebAssembly
+Blazor WebAssembly App Empty                blazorwasm-empty            [C#]        Web/Blazor/WebAssembly/PWA/Empty
+Blazor WebAssembly Standalone App           blazorwasm                  [C#]        Web/Blazor/WebAssembly/PWA
+Class Library                               classlib                    [C#],F#,VB  Common/Library
+Console App                                 console                     [C#],F#,VB  Common/Console
+dotnet gitignore file                       gitignore,.gitignore                    Config
+Dotnet local tool manifest file             tool-manifest                           Config
+EditorConfig file                           editorconfig,.editorconfig              Config
+global.json file                            globaljson,global.json                  Config
+MSBuild Directory.Build.props file          buildprops                              MSBuild/props
+MSBuild Directory.Build.targets file        buildtargets                            MSBuild/props
+MSBuild Directory.Packages.props file       packagesprops                           MSBuild/packages/props/CPM
+MSTest Playwright Test Project              mstest-playwright           [C#]        Test/MSTest/Playwright/Desktop/Web
+MSTest Test Class                           mstest-class                [C#],F#,VB  Test/MSTest
+MSTest Test Project                         mstest                      [C#],F#,VB  Test/MSTest/Desktop/Web
+MVC Controller                              mvccontroller               [C#]        Web/ASP.NET
+MVC ViewImports                             viewimports                 [C#]        Web/ASP.NET
+MVC ViewStart                               viewstart                   [C#]        Web/ASP.NET
+NuGet Config                                nugetconfig,nuget.config                Config
+NUnit 3 Test Item                           nunit-test                  [C#],F#,VB  Test/NUnit
+NUnit 3 Test Project                        nunit                       [C#],F#,VB  Test/NUnit/Desktop/Web
+NUnit Playwright Test Project               nunit-playwright            [C#]        Test/NUnit/Playwright/Desktop/Web
+Protocol Buffer File                        proto                                   Web/gRPC
+Razor Class Library                         razorclasslib               [C#]        Web/Razor/Library/Razor Class Library
+Razor Component                             razorcomponent              [C#]        Web/ASP.NET
+Razor Page                                  page                        [C#]        Web/ASP.NET
+Razor View                                  view                        [C#]        Web/ASP.NET
+Solution File                               sln,solution                            Solution
+Web Config                                  webconfig                               Config
+Windows Forms App                           winforms                    [C#],VB     Common/WinForms
+Windows Forms Class Library                 winformslib                 [C#],VB     Common/WinForms
+Windows Forms Control Library               winformscontrollib          [C#],VB     Common/WinForms
+Worker Service                              worker                      [C#],F#     Common/Worker/Web
+WPF Application                             wpf                         [C#],VB     Common/WPF
+WPF Class Library                           wpflib                      [C#],VB     Common/WPF
+WPF Custom Control Library                  wpfcustomcontrollib         [C#],VB     Common/WPF
+WPF User Control Library                    wpfusercontrollib           [C#],VB     Common/WPF
+xUnit Test Project                          xunit                       [C#],F#,VB  Test/xUnit/Desktop/Web
 ```
 
 I tillegg til å styre hva slags type prosjekt man vil opprette med `new`-kommandoen, har man mulighet til å styre ting som hvilket språk man ønsker prosjektet skal opprettes for, og i hvilken mappe prosjektet opprettes i. For å se alle valgene man har i `dotnet new` kan du kjøre følgende kommando
@@ -307,23 +334,40 @@ dotnet new --help
 ```
 
 ```bash
-Usage: new [options]
+Description:
+  Template Instantiation Commands for .NET CLI.
+
+Usage:
+  dotnet new [<template-short-name> [<template-args>...]] [options]
+  dotnet new [command] [options]
+
+Arguments:
+  <template-short-name>  A short name of the template to create.
+  <template-args>        Template specific options to use.
 
 Options:
-  -h, --help          Displays help for this command.
-  -l, --list          Lists templates containing the specified name. If no name is specified, lists all templates.
-  -n, --name          The name for the output being created. If no name is specified, the name of the current directory is used.
-  -o, --output        Location to place the generated output.
-  -i, --install       Installs a source or a template pack.
-  -u, --uninstall     Uninstalls a source or a template pack.
-  --interactive       Allows the internal dotnet restore command to stop and wait for user input or action (for example to complete authentication).
-  --nuget-source      Specifies a NuGet source to use during install.
-  --type              Filters templates based on available types. Predefined values are "project", "item" or "other".
-  --dry-run           Displays a summary of what would happen if the given command line were run if it would result in a template creation.
-  --force             Forces content to be generated even if it would change existing files.
-  -lang, --language   Filters templates based on language and specifies the language of the template to create.
-  --update-check      Check the currently installed template packs for updates.
-  --update-apply      Check the currently installed template packs for update, and install the updates.
+  -o, --output <output>    Location to place the generated output.
+  -n, --name <name>        The name for the output being created. If no name is specified, the name of the output directory is used.
+  --dry-run                Displays a summary of what would happen if the given command line were run if it would result in a template
+                           creation.
+  --force                  Forces content to be generated even if it would change existing files.
+  --no-update-check        Disables checking for the template package updates when instantiating a template.
+  --project <project>      The project that should be used for context evaluation.
+  -v, --verbosity <LEVEL>  Sets the verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], and diag[nostic]. [default: normal]
+  -d, --diagnostics        Enables diagnostic output.
+  -?, -h, --help           Show command line help.
+
+Commands:
+  create <template-short-name> <template-args>  Instantiates a template with given short name. An alias of 'dotnet new <template name>'.
+  install <package>                             Installs a template package.
+  uninstall <package>                           Uninstalls a template package.
+  update                                        Checks the currently installed template packages for update, and install the updates.
+  search <template-name>                        Searches for the templates on NuGet.org.
+  list <template-name>                          Lists templates containing the specified template name. If no name is specified, lists all
+                                                templates.
+  details <package-identifier>                  Provides the details for specified template package.
+                                                      The command checks if the package is installed locally, if it was not found, it
+                                                searches the configured NuGet feeds.
 ```
 
 #### Opprette API-prosjektet
@@ -372,7 +416,7 @@ Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -385,7 +429,7 @@ Som vi ser av diagrammet over opprettet .NET CLI mappene `src` og `src/api`, med
 Her ser vi at prosjektet:
 
 - Har outputtypen `exe` - prosjektet kompileres til å bli en kjørbar fil
-- Skal kompileres til .NET 6
+- Skal kompileres til .NET 9
 - Består av én fil `Program.fs`
 
 ##### Programfilen
@@ -583,7 +627,7 @@ test
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
@@ -612,7 +656,7 @@ test
 
 I prosjektfilen kan vi se at enhetstestprosjektet:
 
-- Skal kompileres til .NET 6
+- Skal kompileres til .NET 9
 - Inneholder to kildekodefiler
   - `Tests.fs`
   - `Program.fs`
@@ -1022,7 +1066,7 @@ Da vi opprettet testprosjektene i [steg 2](#steg-2---opprette-testprosjekter), b
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
@@ -1315,7 +1359,7 @@ Du kan se effekten av kommandoen over ved å åpne `test/unit/NRK.Dotnetskolen.U
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
@@ -1996,7 +2040,7 @@ På samme måte som da vi [opprettet domenemodellen](#steg-5---definere-domenemo
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -2025,7 +2069,7 @@ Fra og med .NET Core opererer .NET med ulike SDK-prosjekttyper avhengig av hva s
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -2043,7 +2087,7 @@ Gjenta steget over for `test/integration/NRK.Dotnetskolen.IntegrationTests.fspro
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
@@ -2107,15 +2151,15 @@ info: Microsoft.Hosting.Lifetime[0]
       Application is shutting down...
 ```
 
-> `Production` er default miljø i .NET med mindre annet er spesifisert. Du kan lese mer om miljøer i .NET her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-5.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-5.0)
+> `Production` er default miljø i .NET med mindre annet er spesifisert. Du kan lese mer om miljøer i .NET her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-9.0>
 >
-> Du kan lese mer om `Host`-konseptet og hva det innebærer her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-6.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-6.0)
+> Du kan lese mer om `Host`-konseptet og hva det innebærer her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-9.0>
 
 ##### Middleware pipeline
 
 Microsoft har laget et rammeverk for web-applikasjoner i .NET, ASP.NET (ASP står for "active server pages"). Web-applikasjoner i ASP.NET er konfigurerbare og modulære, og gjennom å konfigurere modulene i den har man kontroll på hvordan HTTP-forespørsler blir prosessert helt fra de kommer inn til serveren, og til HTTP-responsen blir sendt tilbake til klienten. Modulene i denne sammenhengen kalles mellomvare (eller "middleware" på engelsk), og de henger sammen i en lenket liste hvor HTTP-forespørselen blir prosessert suksessivt av mellomvarene i listen. Denne lenkede listen blir omtalt som "middleware pipeline".
 
-> Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0#create-a-middleware-pipeline-with-webapplication>
+> Du kan se en illustrasjon av hvordan mellomvarer henger sammen i ASP.NET her: <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-9.0#create-a-middleware-pipeline-with-webapplication>
 
 Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørselen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørselen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørselen videre i pipelinen dersom den ikke er tilstrekkelig autentisert. Pga. denne kortslutningen ligger autentisering tidlig i listen over mellomvarer.
 
@@ -2127,7 +2171,7 @@ open Microsoft.AspNetCore.Builder
 WebApplication.CreateBuilder().Build().Run()
 ```
 
-`WebApplication.CreateBuilder` sørger bl.a. for å sette opp [Kestrel](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-6.0) som web-server for applikasjonen vår. I tillegg returnerer den et objekt av typen `WebApplicationBuilder` som vi kan bruke til å konfigurere web-applikasjonen etter våre behov. Vi kaller umiddelbart på `WebApplicationBuilder` sin funksjon `Build` for å bygge web-applikasjonen vår. `Build` returnerer et objekt av typen `WebApplication`, og vi kaller til slutt `Run`-metoden på `WebApplication`-objektet for å starte web-applikasjonen.
+`WebApplication.CreateBuilder` sørger bl.a. for å sette opp [Kestrel](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-9.0) som web-server for applikasjonen vår. I tillegg returnerer den et objekt av typen `WebApplicationBuilder` som vi kan bruke til å konfigurere web-applikasjonen etter våre behov. Vi kaller umiddelbart på `WebApplicationBuilder` sin funksjon `Build` for å bygge web-applikasjonen vår. `Build` returnerer et objekt av typen `WebApplication`, og vi kaller til slutt `Run`-metoden på `WebApplication`-objektet for å starte web-applikasjonen.
 
 ###### Kjøre web host
 
@@ -2147,7 +2191,7 @@ info: Microsoft.Hosting.Lifetime[0]
 
 Fra logginnslagene over ser vi at hosten vår nå lytter på HTTP-forespørsler på port `5000` og `5001` for hhv. HTTP og HTTPS. I og med at vi ikke har lagt til noen middlewares i pipelinen vår enda, svarer API-et med `404 Not Found` på alle forespørsler. Det kan du verifisere ved å åpne [http://localhost:5000/](http://localhost:5000/) i en nettleser.
 
-> Du kan lese mer om middleware i .NET-web-applikasjoner her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-6.0)
+> Du kan lese mer om middleware i .NET-web-applikasjoner her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-9.0>
 
 #### Ping
 
@@ -2173,7 +2217,7 @@ Her har vi tatt vare på `WebApplication`-objektet, som `WebApplication.CreateBu
 
 > Merk at som andre parameter til `MapGet` har vi oppgitt `Func<string>(fun () -> "pong")` som strengt tatt ikke er en funksjon. `Func` er .NET sin måte å opprette et `Delegate` på. Delegates er .NET sin måte å pakke inn funksjonskall som objekter på. Siden "Minimal APIs" er skrevet for å fungere for hvilket som helst programmeringsspråk i .NET, har Microsoft vært nødt til å velge en modell som passer både for både det objektorienterte programmeringsparadigmet så vel som det funksjonelle programmeringsparadigmet. Dermed tar `MapGet` strengt tatt inn et `Delegate`-objekt som andre parameter, og måten man oppretter et `Delegate`-objekt i F# på er ved å kalle `Func` sin konstruktør. I konstruktøren til `Func` sender vi inn den anonyme F#-funksjonen `fun () -> "pong"`. `<string>` delen av `Func<string>` definerer hva slags type returverdien til den anonyme funksjonen har. Ettersom den anonyme funksjonen ikke tar inn noen parametere er det ikke spesifisert noe mer i `Func<string>` for det. Dersom den anonyme funksjonen hadde tatt inn et parameter av typen `int`, hadde kallet til `Func` sett slik ut: `Func<int, string>`. Du kan lese mer om delegates i F# her: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/delegates>
 >
-> Du kan lese mer om "minimal APIs" her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0>
+> Du kan lese mer om "minimal APIs" her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-9.0>
 
 ##### Kjøre API-et
 
@@ -2210,11 +2254,11 @@ Før vi fortsetter med å implementere web-API-et skal vi sette opp en integrasj
 
 Siden vi gir hele web-API-et vårt som input til testserveren er responsene vi får tilsvarende de web-API-et svarer med i et deployet miljø, og dermed kan vi være trygge på at API-et oppfyller kontrakten vi har definert også når det deployes.
 
-> Webserveren vi skal kjøre i integrasjonstestene er dokumentert her: <https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-6.0>
+> Webserveren vi skal kjøre i integrasjonstestene er dokumentert her: <https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-9.0>
 >
 > Inspirasjonen til å skrive integrasjonstestene på måten beskrevet over er fra [et kurs](https://github.com/erikly/FagkveldTesthost/tree/CompleteWithTestHost) som [@erikly](https://github.com/erikly) har arrangert.
 >
-> En liknende metode er også beskrevet i denne artikkelen skrevet av Microsoft: <https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-6.0>. Artikkelen belager seg imidlertid på konsepter fra objektorientert programmering, og siden dette kurset fokuserer på F# og funksjonell programmering er det valgt å skrive integrasjonstestene med en mer funksjonell tilnærming.
+> En liknende metode er også beskrevet i denne artikkelen skrevet av Microsoft: <https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-9.0>. Artikkelen belager seg imidlertid på konsepter fra objektorientert programmering, og siden dette kurset fokuserer på F# og funksjonell programmering er det valgt å skrive integrasjonstestene med en mer funksjonell tilnærming.
 
 ##### Legge til avhengigheter
 
@@ -2446,7 +2490,7 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: < 1 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
+Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: < 1 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
 ```
 
 ### Steg 10 - Implementere web-API
@@ -2494,7 +2538,7 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
   Error Message:
    System.Net.Http.HttpRequestException : Response status code does not indicate success: 404 (Not Found).
 ...
-Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 10 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
+Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 10 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
 ```
 
 Som vi ser over feiler testen foreløpig ettersom web-API-et returnerer `404 (Not Found)`. La oss endre API-et slik at integrasjonstesten passerer.
@@ -2563,7 +2607,7 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 9 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 9 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
 ```
 
 #### Test 2 - Verifisere at dato valideres
@@ -2605,7 +2649,7 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 Expected: BadRequest
 Actual:   OK
 ...
-Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 37 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
+Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 37 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
 ```
 
 Den nye testen vi la til feiler fordi API-et ikke validerer den oppgitte datoen. La oss endre implementasjonen av web-API-et slik at testen passerer.
@@ -2640,7 +2684,7 @@ Husk å legg til `HttpHandlers.fs` i prosjektfilen til API-prosjektet:
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Domain.fs" />
@@ -2742,7 +2786,7 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 16 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
+Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 16 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
 ```
 
 #### Test 3 - Verifisere format på EPG-respons
@@ -2839,7 +2883,7 @@ En måte å oppnå IoC på er å bruke "dependency injection" (DI). Da sender ma
 
 Den delen av applikasjonen som har ansvar for å tilfredsstille alle avhengighetene til alle toppnivåfunksjoner i applikasjonen kalles "composition root".
 
-> Du kan lese mer om "dependency injection" her: [https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-6.0)
+> Du kan lese mer om "dependency injection" her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-9.0>
 
 ##### Hente EPG
 
@@ -2947,7 +2991,7 @@ Husk å legg til `Services.fs` i prosjektfilen til API-prosjektet:
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Domain.fs" />
@@ -3037,7 +3081,7 @@ Husk å legg til `DataAccess.fs` i prosjektfilen til API-prosjektet:
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Domain.fs" />
@@ -3168,7 +3212,7 @@ Husk å legg til `Mock.fs` i prosjektfilen til integrasjonstestprosjektet:
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
@@ -3359,7 +3403,7 @@ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 124 ms - NRK.Dotnetskolen.IntegrationTests.dll (net6.0)
+Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 124 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
 ```
 
 Gratulerer! 🎉
