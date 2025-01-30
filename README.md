@@ -2,11 +2,18 @@
 
 ## To do 🧾
 
+- [ ] Bruk `DateOnly` istedenfor `DateTimeOffset` for filtrering av sendinger på dato (bug i .NET 6-utgaven)
+- [ ] Gå gjennom branchene til alle stegene (må oppdatere `DateTimeOffset` -> `DateOnly` for `getEpgForDate`)
+
+- [X] Endre lenker fra `[]()` til `<>` for de som har lik tittel og href
+- [X] Har gått gjennom veiledning fram til [registrere avhengigheter](#Registrere-avhengigheter) (kall til API gir tomme lister)
 - [X] Endre referanser fra .NET 6 til .NET 9
-- Se etter referanser til .NET 5.0
-- [ ] Følge veiledning, og lim inn oppdaterte "resultater" (utskrift fra CLI, prosjektfiler etc.) i README
+- [X] Se etter referanser til .NET 5.0
+- [X] Følge veiledning, og lim inn oppdaterte "resultater" (utskrift fra CLI, prosjektfiler etc.) i README
+
 - [ ] Fjerne kapittel om paket
-- Endre lenker fra `[]()` til `<>` for de som har lik tittel og href
+- [ ] Se om OpenAPI-kontrakt kan bruke JsonSchema `3.1.0`
+- [ ] Bruke System.Text.Json sitt schema istedenfor JsonSchema.Net?
 
 ## 👋 Innledning
 
@@ -18,7 +25,7 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp, og impleme
 - Sette opp pakkehåndtering
 - Sette opp tester
 
-Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester. Tanken er at API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://info.nrk.no/presse/tvguide/](https://info.nrk.no/presse/tvguide/)
+Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester. Tanken er at API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: <https://info.nrk.no/presse/tvguide/>
 
 > Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
 
@@ -98,7 +105,7 @@ Til slutt finnes det noen ekstraoppgaver, hvis du vil ha mer å bryne deg på:
 
 Lurer du på noe knyttet til kurset? Opprett gjerne en tråd under "Discussions" i dette repoet:
 
-- [https://github.com/nrkno/dotnetskolen/discussions/categories/q-a](https://github.com/nrkno/dotnetskolen/discussions/categories/q-a)
+- <https://github.com/nrkno/dotnetskolen/discussions/categories/q-a>
 
 ### 💡 Tips og triks
 
@@ -106,18 +113,18 @@ Nyttige [tips og triks finner du her](/docs/tips-og-triks.md)
 
 ### 🔗 Nyttige lenker
 
-- Microsoft's offisielle dokumentasjon for .NET - [https://docs.microsoft.com/en-us/dotnet/](https://docs.microsoft.com/en-us/dotnet/)
-- F# cheat sheet - [http://dungpa.github.io/fsharp-cheatsheet/](http://dungpa.github.io/fsharp-cheatsheet/)
-- Innføring i F# - [https://fsharpforfunandprofit.com/site-contents/#understanding-f](https://fsharpforfunandprofit.com/site-contents/#understanding-f)
+- Microsoft's offisielle dokumentasjon for .NET - <https://docs.microsoft.com/en-us/dotnet/>
+- F# cheat sheet - <http://dungpa.github.io/fsharp-cheatsheet/>
+- Innføring i F# - <https://fsharpforfunandprofit.com/site-contents/#understanding-f>
 - Andre kurs i NRK
-  - F#-skolen, kurs i F# laget av ansatte i NRK TV - [https://github.com/nrkno/fsharpskolen](https://github.com/nrkno/fsharpskolen)
+  - F#-skolen, kurs i F# laget av ansatte i NRK TV - <https://github.com/nrkno/fsharpskolen>
   - GitHub Actions 101, laget av [@teodor-elstad](https://github.com/teodor-elstad) <https://github.com/teodor-elstad/github-actions-101>
 
 ### 👍👎 Tilbakemeldinger
 
 Har du tilbakemeldinger til kurset? Opprett gjerne en tråd for det her:
 
-- [https://github.com/nrkno/dotnetskolen/discussions/categories/ideas](https://github.com/nrkno/dotnetskolen/discussions/categories/ideas)
+- <https://github.com/nrkno/dotnetskolen/discussions/categories/ideas>
 
 ### 👩👨 Medvirkende
 
@@ -174,7 +181,7 @@ Siden denne veiledningen er skrevet for .NET 9, og det er mulig at du har flere 
 
 Her oppgir vi at vi i utgangspunktet ønsker å bruke version `9.0.0` av .NET SDK. I tillegg sier vi gjennom `rollForward: latestMinor` at vi ønsker at den høyeste tilgjengelige versjonen av .NET 9 på maskinen din skal brukes.
 
-> Du kan lese mer om `global.json` her: [https://docs.microsoft.com/en-us/dotnet/core/tools/global-json](https://docs.microsoft.com/en-us/dotnet/core/tools/global-json)
+> Du kan lese mer om `global.json` her: <https://docs.microsoft.com/en-us/dotnet/core/tools/global-json>
 
 #### .NET-prosjekter
 
@@ -187,7 +194,7 @@ Når man kompilerer .NET-prosjekter kan man velge mellom to typer output:
 
 #### Dotnet new
 
-Som nevnt i [innledningen](#-fremgangsmåte) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange underkommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet)
+Som nevnt i [innledningen](#-fremgangsmåte) er .NET CLI et kommandolinjeverktøy laget for å utvikle, bygge, kjøre og publisere .NET-applikasjoner. .NET CLI kjøres fra kommandolinjen med kommandoen `dotnet`, og har mange underkommandoer og valg. For å se alle kan du kjøre kommandoen under, eller lese mer her: <https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet>
 
 ```bash
 dotnet --help
@@ -381,7 +388,7 @@ dotnet new console --language F# --output src/api --name NRK.Dotnetskolen.Api
 ```
 
 ```bash
-The template "Console Application" was created successfully.
+The template "Console App" was created successfully.
 
 Processing post-creation actions...
 Running 'dotnet restore' on src\api\NRK.Dotnetskolen.Api.fsproj...
@@ -441,9 +448,8 @@ For å se hva programmet gjør kan vi åpne `Program.fs` og se på koden:
 printfn "Hello from F#"
 ```
 
-Malen la inn kun én linje i `Program.fs` som skriver tekststrengen `Hello world from F#` til output. Fra andre programmeringsspråk er du kanskje vant til å se en `main`-funksjon eller liknende, men det ser vi ikke her. Grunnen til det er at F# bruker et implisitt startpunkt som er på toppen av filen. Deretter utføres koden linje for linje slik som spesifisert i filen. Det er også mulig å bruke eksplisitte startpunkter i F#-programmer. Les mer om det her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point)
-
-> Navnet til prosjektet `NRK.Dotnetskolen.Api.fsproj` følger Microsoft sin navnekonvensjon for programmer og biblioteker i .NET. For å lese mer om denne, og andre navnekonvensjoner i .NET, kan du se her: [https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls)
+Malen la inn kun én linje i `Program.fs` som skriver tekststrengen `Hello world from F#` til output. Fra andre programmeringsspråk er du kanskje vant til å se en `main`-funksjon eller liknende, men det ser vi ikke her. Grunnen til det er at F# bruker et implisitt startpunkt som er på toppen av filen. Deretter utføres koden linje for linje slik som spesifisert i filen. Det er også mulig å bruke eksplisitte startpunkter i F#-programmer. Les mer om det her: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point>
+> Navnet til prosjektet `NRK.Dotnetskolen.Api.fsproj` følger Microsoft sin navnekonvensjon for programmer og biblioteker i .NET. For å lese mer om denne, og andre navnekonvensjoner i .NET, kan du se her: <https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls>
 >
 > Mappestrukturen over er ment som et forslag, og de videre stegene i kurset bygger på denne. Hvis du bruker kurset som inspirasjon eller veiledning til å opprette ditt eget prosjekt, trenger du ikke følge denne mappestrukturen. Hvordan du strukturerer mappene i ditt system er opp til deg, og er avhengig av aspekter som størrelse på systemet, antall prosjekter, og personlige preferanser.
 
@@ -585,7 +591,7 @@ For å opprette testprosjektene skal vi igjen bruke `dotnet new`-kommandoen, men
 - nUnit
 - MSTest
 
-I dette kurset kommer vi til å bruke xUnit. Dette valget er litt vilkårlig ettersom alle rammeverkene over vil være tilstrekkelig til formålet vårt, som er å vise hvordan man kan sette opp testprosjekter og komme i gang med å skrive tester. Dersom du ønsker å vite mer om de ulike testrammeverkene, kan du lese mer om dem her: [https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools](https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools)
+I dette kurset kommer vi til å bruke xUnit. Dette valget er litt vilkårlig ettersom alle rammeverkene over vil være tilstrekkelig til formålet vårt, som er å vise hvordan man kan sette opp testprosjekter og komme i gang med å skrive tester. Dersom du ønsker å vite mer om de ulike testrammeverkene, kan du lese mer om dem her: <https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools>
 
 #### Opprette enhetstestprosjekt
 
@@ -628,7 +634,6 @@ test
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
@@ -639,16 +644,10 @@ test
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="3.1.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
   </ItemGroup>
 
 </Project>
@@ -661,10 +660,10 @@ I prosjektfilen kan vi se at enhetstestprosjektet:
   - `Tests.fs`
   - `Program.fs`
 - Har referanser til fire NuGet-pakker
+  - `coverlet.collector` - bibliotek for å få code coverage statistikk for prosjekter <https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows>
   - `Microsoft.NET.Test.Sdk` - Pakke for å bygge .NET testprosjekter
   - `xunit` - Bibliotek for å skrive enhetstester
-  - `xunit.runner.visualstudio` - Pakke for å kjøre Xunit-tester i "Test explorer" i Visual Studio [https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019](https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019)
-  - `coverlet.collector` - bibliotek for å få code coverage statistikk for prosjekter [https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows)
+  - `xunit.runner.visualstudio` - Pakke for å kjøre Xunit-tester i "Test explorer" i Visual Studio <https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019>
 
 > Vi ser nærmere på hva NuGet-pakker er i [steg 4](#steg-4---pakkehåndtering).
 
@@ -702,17 +701,17 @@ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ```
 
 ```bash
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  Unit -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.
+Restore complete (0,3s)
+  NRK.Dotnetskolen.UnitTests succeeded (2,0s) → test\unit\bin\Debug\net9.0\NRK.Dotnetskolen.UnitTests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.1)
+[xUnit.net 00:00:00.51]   Discovering: NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.54]   Discovered:  NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.54]   Starting:    NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.69]   Finished:    NRK.Dotnetskolen.UnitTests
+  NRK.Dotnetskolen.UnitTests test succeeded (1,8s)
 
-Starting test execution, please wait...
-A total of 1 test files matched the specified pattern.
-
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 2 ms - Unit.dll (net5.0)
+Test summary: total: 1; failed: 0; succeeded: 1; skipped: 0; duration: 1,8s
+Build succeeded in 4,5s
 ```
 
 På lik linje med `dotnet run`, kan du alternativt gå inn i mappen til enhetstestprosjektet, og kjøre `dotnet test` derfra:
@@ -723,17 +722,17 @@ dotnet test
 ```
 
 ```bash
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  Unit -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.
+Restore complete (0,3s)
+  NRK.Dotnetskolen.UnitTests succeeded (0,4s) → bin\Debug\net9.0\NRK.Dotnetskolen.UnitTests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.1)
+[xUnit.net 00:00:00.50]   Discovering: NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.52]   Discovered:  NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.53]   Starting:    NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.68]   Finished:    NRK.Dotnetskolen.UnitTests
+  NRK.Dotnetskolen.UnitTests test succeeded (1,7s)
 
-Starting test execution, please wait...
-A total of 1 test files matched the specified pattern.
-
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 2 ms - Unit.dll (net5.0)
+Test summary: total: 1; failed: 0; succeeded: 1; skipped: 0; duration: 1,7s
+Build succeeded in 2,9s
 ```
 
 #### Opprette integrasjonstestprosjekt
@@ -783,17 +782,17 @@ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  Integration -> C:\Dev\nrkno@github.com\dotnetskolen\test\integration\bin\Debug\net5.0\NRK.Dotnetskolen.IntegrationTests.dll
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\integration\bin\Debug\net5.0\NRK.Dotnetskolen.IntegrationTests.dll (.NETCoreApp,Version=v5.0)
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.
+Restore complete (0,3s)
+  NRK.Dotnetskolen.IntegrationTests succeeded (2,0s) → test\integration\bin\Debug\net9.0\NRK.Dotnetskolen.IntegrationTests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.1)
+[xUnit.net 00:00:00.54]   Discovering: NRK.Dotnetskolen.IntegrationTests
+[xUnit.net 00:00:00.56]   Discovered:  NRK.Dotnetskolen.IntegrationTests
+[xUnit.net 00:00:00.57]   Starting:    NRK.Dotnetskolen.IntegrationTests
+[xUnit.net 00:00:00.72]   Finished:    NRK.Dotnetskolen.IntegrationTests
+  NRK.Dotnetskolen.IntegrationTests test succeeded (1,8s)
 
-Starting test execution, please wait...
-A total of 1 test files matched the specified pattern.
-
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 2 ms - Integration.dll (net5.0)
+Test summary: total: 1; failed: 0; succeeded: 1; skipped: 0; duration: 1,8s
+Build succeeded in 4,6s
 ```
 
 ### Steg 3 - Opprette solution
@@ -838,17 +837,17 @@ Hvis vi ser på innholdet i `Dotnetskolen.sln` ser vi at det ikke er noen refera
 ```txt
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Global
- GlobalSection(SolutionConfigurationPlatforms) = preSolution
-  Debug|Any CPU = Debug|Any CPU
-  Release|Any CPU = Release|Any CPU
- EndGlobalSection
- GlobalSection(SolutionProperties) = preSolution
-  HideSolutionNode = FALSE
- EndGlobalSection
+        GlobalSection(SolutionConfigurationPlatforms) = preSolution
+                Debug|Any CPU = Debug|Any CPU
+                Release|Any CPU = Release|Any CPU
+        EndGlobalSection
+        GlobalSection(SolutionProperties) = preSolution
+                HideSolutionNode = FALSE
+        EndGlobalSection
 EndGlobal
 
 ```
@@ -892,46 +891,46 @@ Nå ser vi at `Dotnetskolen.sln` inneholder referanser til prosjektene våre
 ```txt
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E9AA01D7-D310-46F7-B383-06FE72E1AD22}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{602F7DA2-73CF-4DA2-82E5-D392DE47E0BC}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.Api", "src\api\NRK.Dotnetskolen.Api.fsproj", "{08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.Api", "src\api\NRK.Dotnetskolen.Api.fsproj", "{618BF895-AEA1-4086-8904-89DD317B2429}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{66EF0E86-AB2C-4969-A41E-84D88D553785}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{10963520-731D-442B-B808-DA74BDD9207D}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.UnitTests", "test\unit\NRK.Dotnetskolen.UnitTests.fsproj", "{CB49FB6A-9415-4F77-A438-479A056C96D6}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.UnitTests", "test\unit\NRK.Dotnetskolen.UnitTests.fsproj", "{95B87F0E-15B8-4646-98F0-E8DAACA5526D}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.IntegrationTests", "test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj", "{4EFF064D-031F-4D0B-A6A9-560DDA1347C1}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.IntegrationTests", "test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj", "{391F46FA-9684-460E-B6A2-99EF7363693F}"
 EndProject
 Global
- GlobalSection(SolutionConfigurationPlatforms) = preSolution
-  Debug|Any CPU = Debug|Any CPU
-  Release|Any CPU = Release|Any CPU
- EndGlobalSection
- GlobalSection(SolutionProperties) = preSolution
-  HideSolutionNode = FALSE
- EndGlobalSection
- GlobalSection(ProjectConfigurationPlatforms) = postSolution
-  {08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-  {08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-  {08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-  {08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7}.Release|Any CPU.Build.0 = Release|Any CPU
-  {CB49FB6A-9415-4F77-A438-479A056C96D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-  {CB49FB6A-9415-4F77-A438-479A056C96D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-  {CB49FB6A-9415-4F77-A438-479A056C96D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-  {CB49FB6A-9415-4F77-A438-479A056C96D6}.Release|Any CPU.Build.0 = Release|Any CPU
-  {4EFF064D-031F-4D0B-A6A9-560DDA1347C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-  {4EFF064D-031F-4D0B-A6A9-560DDA1347C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-  {4EFF064D-031F-4D0B-A6A9-560DDA1347C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-  {4EFF064D-031F-4D0B-A6A9-560DDA1347C1}.Release|Any CPU.Build.0 = Release|Any CPU
- EndGlobalSection
- GlobalSection(NestedProjects) = preSolution
-  {08E3BB6B-BCDF-46C6-BB13-85C3402D0BF7} = {E9AA01D7-D310-46F7-B383-06FE72E1AD22}
-  {CB49FB6A-9415-4F77-A438-479A056C96D6} = {66EF0E86-AB2C-4969-A41E-84D88D553785}
-  {4EFF064D-031F-4D0B-A6A9-560DDA1347C1} = {66EF0E86-AB2C-4969-A41E-84D88D553785}
- EndGlobalSection
+        GlobalSection(SolutionConfigurationPlatforms) = preSolution
+                Debug|Any CPU = Debug|Any CPU
+                Release|Any CPU = Release|Any CPU
+        EndGlobalSection
+        GlobalSection(SolutionProperties) = preSolution
+                HideSolutionNode = FALSE
+        EndGlobalSection
+        GlobalSection(ProjectConfigurationPlatforms) = postSolution
+                {618BF895-AEA1-4086-8904-89DD317B2429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+                {618BF895-AEA1-4086-8904-89DD317B2429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+                {618BF895-AEA1-4086-8904-89DD317B2429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+                {618BF895-AEA1-4086-8904-89DD317B2429}.Release|Any CPU.Build.0 = Release|Any CPU
+                {95B87F0E-15B8-4646-98F0-E8DAACA5526D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+                {95B87F0E-15B8-4646-98F0-E8DAACA5526D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+                {95B87F0E-15B8-4646-98F0-E8DAACA5526D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+                {95B87F0E-15B8-4646-98F0-E8DAACA5526D}.Release|Any CPU.Build.0 = Release|Any CPU
+                {391F46FA-9684-460E-B6A2-99EF7363693F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+                {391F46FA-9684-460E-B6A2-99EF7363693F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+                {391F46FA-9684-460E-B6A2-99EF7363693F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+                {391F46FA-9684-460E-B6A2-99EF7363693F}.Release|Any CPU.Build.0 = Release|Any CPU
+        EndGlobalSection
+        GlobalSection(NestedProjects) = preSolution
+                {618BF895-AEA1-4086-8904-89DD317B2429} = {602F7DA2-73CF-4DA2-82E5-D392DE47E0BC}
+                {95B87F0E-15B8-4646-98F0-E8DAACA5526D} = {10963520-731D-442B-B808-DA74BDD9207D}
+                {391F46FA-9684-460E-B6A2-99EF7363693F} = {10963520-731D-442B-B808-DA74BDD9207D}
+        EndGlobalSection
 EndGlobal
 
 ```
@@ -950,7 +949,7 @@ Siden vi har behov for å installere NuGet-pakker senere i kurset, skal vi sette
 
 #### NuGet og Paket
 
-Basebiblioteket i .NET inneholder mye grunnleggende funksjonalitet, men det inneholder ikke alt. For å slippe å skrive kode for mye brukt funksjonalitet på nytt hver gang man trenger den, er det en fordel om utviklere over hele verden kan dele kode med hverandre. De facto måte å dele kode i .NET på er via "NuGet". NuGet er både et offentlig repo for kode utviklet av tredjeparter (tilgjengelig på [https://www.nuget.org/](https://www.nuget.org/)), og et verktøy for å laste opp og ned "NuGet-pakker" fra dette repoet.
+Basebiblioteket i .NET inneholder mye grunnleggende funksjonalitet, men det inneholder ikke alt. For å slippe å skrive kode for mye brukt funksjonalitet på nytt hver gang man trenger den, er det en fordel om utviklere over hele verden kan dele kode med hverandre. De facto måte å dele kode i .NET på er via "NuGet". NuGet er både et offentlig repo for kode utviklet av tredjeparter (tilgjengelig på <https://www.nuget.org/>), og et verktøy for å laste opp og ned "NuGet-pakker" fra dette repoet.
 
 NuGet som verktøy for å håndtere pakker i et prosjekt har imidlertid noen utfordringer:
 
@@ -964,7 +963,7 @@ Verktøyet "Paket" forsøker å løse utfordringene nevnt over, og er mye brukt 
 
 ##### Kilder
 
-- [https://fsprojects.github.io/Paket/faq.html#I-do-not-understand-why-I-need-Paket-to-manage-my-packages-Why-can-t-I-just-use-NuGet-exe-and-packages-config](https://fsprojects.github.io/Paket/faq.html#I-do-not-understand-why-I-need-Paket-to-manage-my-packages-Why-can-t-I-just-use-NuGet-exe-and-packages-config)
+- <https://fsprojects.github.io/Paket/faq.html#I-do-not-understand-why-I-need-Paket-to-manage-my-packages-Why-can-t-I-just-use-NuGet-exe-and-packages-config>
 
 #### Sette opp Paket
 
@@ -1056,7 +1055,7 @@ Paket bruker følgende filer for å holde styr på pakkene i en løsning:
 - `<sti til prosjekt>/paket.references` - en flat liste over alle avhengigheter det gitte prosjektet har.
 - `paket.lock` - inneholder en oversikt over alle avhengigheter, både direkte og transitive, og hvilken versjon av dem som er brukt i løsningen.
 
-> Se forøvrig [https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit](https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit) for hvilke filer du skal inkludere i Git.
+> Se forøvrig <https://fsprojects.github.io/Paket/faq.html#What-files-should-I-commit> for hvilke filer du skal inkludere i Git.
 
 #### Migrere pakker fra NuGet til Paket
 
@@ -1121,7 +1120,7 @@ coverlet.collector
 FSharp.Core
 ```
 
-Du kan lese mer om hvordan `convert-from-nuget`-kommandoen fungerer her: [https://fsprojects.github.io/Paket/convert-from-nuget-tutorial.html](https://fsprojects.github.io/Paket/convert-from-nuget-tutorial.html)
+Du kan lese mer om hvordan `convert-from-nuget`-kommandoen fungerer her: <https://fsprojects.github.io/Paket/convert-from-nuget-tutorial.html>
 
 Nå er du klar til å legge til avhengigheter i prosjektet ditt!
 
@@ -1133,9 +1132,9 @@ Nå er du klar til å legge til avhengigheter i prosjektet ditt!
 
 **Steg 5 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-4---pakkehåndtering) [⬇ Neste steg](#steg-6---enhetstester-for-domenemodell)
 
-Vi skal lage et API for å hente ut en forenklet elektronisk programguide (EPG) for ulike kanaler i NRK TV. Tanken er at dette API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://info.nrk.no/presse/tvguide/](https://info.nrk.no/presse/tvguide/)
+Vi skal lage et API for å hente ut en forenklet elektronisk programguide (EPG) for ulike kanaler i NRK TV. Tanken er at dette API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: <https://info.nrk.no/presse/tvguide/>
 
-> Modellen vi bruker for EPG i dette kurset er forenklet sammenliknet med [den som benyttes i PS API](http://psapi-granitt-prod-we.cloudapp.net/swagger/ui/index#/Epg), og er kun brukt som eksempel.
+> Modellen vi bruker for EPG i dette kurset er forenklet sammenliknet med [den som benyttes i PS API](https://webapp-ps-granitt-api-prod-we.azurewebsites.net/swagger/ui/index#/Epg), og er kun brukt som eksempel.
 
 En EPG kan sees på som en liste med sendinger, og for vårt eksempel i dette kurset inneholder en sending følgende felter:
 
@@ -1201,7 +1200,7 @@ Inkluder `Domain.fs` i api-prosjektet ved å legge til `<Compile Include="Domain
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -1283,6 +1282,7 @@ Ettersom tittel har lengdebegrensninger er det viktig å teste grensetilfellene 
 module Tests
 
 open Xunit
+
 [<Theory>]
 [<InlineData("abc12")>]
 [<InlineData(".,-:!")>]
@@ -1311,10 +1311,13 @@ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ```
 
 ```bash
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(13,24): error FS0039: The value or constructor 'isTittelValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
-C:\Dev\nrkno@github.com\dotnetskolen\test\unit\Tests.fs(26,24): error FS0039: The value or constructor 'isTittelValid' is not defined. [C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj]
+dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj     [11:56:17] 
+Restore complete (0,4s)
+  NRK.Dotnetskolen.UnitTests failed with 2 error(s) (2,0s)
+    C:\Dev\github.com\nrkno\dotnetskolen\test\unit\Tests.fs(9,25): error FS0039: The value or constructor 'isTittelValid' is not defined.
+    C:\Dev\github.com\nrkno\dotnetskolen\test\unit\Tests.fs(18,25): error FS0039: The value or constructor 'isTittelValid' is not defined.
+
+Build failed with 2 error(s) in 3,0s
 ```
 
 ##### Implementere isTittelValid
@@ -1356,22 +1359,32 @@ Reference `..\..\src\api\NRK.Dotnetskolen.Api.fsproj` added to the project.
 Du kan se effekten av kommandoen over ved å åpne `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\api\NRK.Dotnetskolen.Api.fsproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+
 </Project>
+
 ```
 
 ##### Åpne modul
@@ -1392,18 +1405,18 @@ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ```
 
 ```bash
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
-  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.
+Restore complete (1,1s)
+  NRK.Dotnetskolen.Api succeeded (2,9s) → src\api\bin\Debug\net9.0\NRK.Dotnetskolen.Api.dll
+  NRK.Dotnetskolen.UnitTests succeeded (2,4s) → test\unit\bin\Debug\net9.0\NRK.Dotnetskolen.UnitTests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.1)
+[xUnit.net 00:00:00.76]   Discovering: NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.83]   Discovered:  NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.83]   Starting:    NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:01.19]   Finished:    NRK.Dotnetskolen.UnitTests
+  NRK.Dotnetskolen.UnitTests test succeeded (3,2s)
 
-Starting test execution, please wait...
-A total of 1 test files matched the specified pattern.
-
-Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 6 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
+Test summary: total: 6; failed: 0; succeeded: 6; skipped: 0; duration: 3,1s
+Build succeeded in 10,2s
 ```
 
 > Legg merke til at testrapporten viser at seks tester ble kjørt. Foreløpig har vi kun definert to tester. Dette illustrerer at `xUnit` kjører tester en gang per annotasjon med `[<InlineData>]`.
@@ -1450,18 +1463,18 @@ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ```
 
 ```bash
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
-  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.
+Restore complete (0,4s)
+  NRK.Dotnetskolen.Api succeeded (2,2s) → src\api\bin\Debug\net9.0\NRK.Dotnetskolen.Api.dll
+  NRK.Dotnetskolen.UnitTests succeeded (2,3s) → test\unit\bin\Debug\net9.0\NRK.Dotnetskolen.UnitTests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.1)
+[xUnit.net 00:00:00.08]   Discovering: NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.12]   Discovered:  NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.12]   Starting:    NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.26]   Finished:    NRK.Dotnetskolen.UnitTests
+  NRK.Dotnetskolen.UnitTests test succeeded (1,2s)
 
-Starting test execution, please wait...
-A total of 1 test files matched the specified pattern.
-
-Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 8 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
+Test summary: total: 10; failed: 0; succeeded: 10; skipped: 0; duration: 1,1s
+Build succeeded in 6,7s
 ```
 
 #### Sendetidspunkter
@@ -1509,18 +1522,18 @@ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ```
 
 ```bash
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
-  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.
+Restore complete (0,4s)
+  NRK.Dotnetskolen.Api succeeded (2,2s) → src\api\bin\Debug\net9.0\NRK.Dotnetskolen.Api.dll
+  NRK.Dotnetskolen.UnitTests succeeded (2,2s) → test\unit\bin\Debug\net9.0\NRK.Dotnetskolen.UnitTests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.1)
+[xUnit.net 00:00:00.08]   Discovering: NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.13]   Discovered:  NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.13]   Starting:    NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.24]   Finished:    NRK.Dotnetskolen.UnitTests
+  NRK.Dotnetskolen.UnitTests test succeeded (1,1s)
 
-Starting test execution, please wait...
-A total of 1 test files matched the specified pattern.
-
-Passed!  - Failed:     0, Passed:    13, Skipped:     0, Total:    13, Duration: 10 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
+Test summary: total: 13; failed: 0; succeeded: 13; skipped: 0; duration: 1,1s
+Build succeeded in 6,6s
 ```
 
 #### Validere en sending
@@ -1549,27 +1562,27 @@ dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ```
 
 ```bash
-  Determining projects to restore...
-  All projects are up-to-date for restore.
-  NRK.Dotnetskolen.Api -> C:\Dev\nrkno@github.com\dotnetskolen\src\api\bin\Debug\net5.0\NRK.Dotnetskolen.Api.dll
-  NRK.Dotnetskolen.UnitTests -> C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll
-Test run for C:\Dev\nrkno@github.com\dotnetskolen\test\unit\bin\Debug\net5.0\NRK.Dotnetskolen.UnitTests.dll (.NETCoreApp,Version=v5.0)
-Microsoft (R) Test Execution Command Line Tool Version 16.9.1
-Copyright (c) Microsoft Corporation.  All rights reserved.
+Restore complete (0,5s)
+  NRK.Dotnetskolen.Api succeeded (2,3s) → src\api\bin\Debug\net9.0\NRK.Dotnetskolen.Api.dll
+  NRK.Dotnetskolen.UnitTests succeeded (2,6s) → test\unit\bin\Debug\net9.0\NRK.Dotnetskolen.UnitTests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.1)
+[xUnit.net 00:00:00.09]   Discovering: NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.14]   Discovered:  NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.14]   Starting:    NRK.Dotnetskolen.UnitTests
+[xUnit.net 00:00:00.27]   Finished:    NRK.Dotnetskolen.UnitTests
+  NRK.Dotnetskolen.UnitTests test succeeded (1,2s)
 
-Starting test execution, please wait...
-A total of 1 test files matched the specified pattern.
-
-Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 12 ms - NRK.Dotnetskolen.UnitTests.dll (net5.0)
+Test summary: total: 15; failed: 0; succeeded: 15; skipped: 0; duration: 1,2s
+Build succeeded in 7,2s
 ```
 
-> Merk at domenemodellen, slik den er implementert i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell), har en svakhet i at man kan opprette en `Sending`-verdi som er ugyldig. Vi har implementert `isSendingValid`, men det er ingenting som hindrer oss i å opprette en `Sending`-verdi uten å bruke den. I ekstraoppgaven i [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) blir en alternativ tilnærming som bruker prinsipper fra [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design) presentert. De resterende stegene i dette kurset frem til og med steg 10 kommer til å basere seg på domenemodellen slik den er definert her i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) for å ikke innføre for mange prinsipper på en gang, og holde fokus på det kurset er ment for. Dersom du ønsker må du gjerne gå videre til [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) nå for å se hvordan det er gjort der. Husk at steg 11 er skrevet med forutsetning av at man har gjennomført kurset til og med steg 10 først.
+> Merk at domenemodellen, slik den er implementert i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell), har en svakhet i at man kan opprette en `Sending`-verdi som er ugyldig. Vi har implementert `isSendingValid`, men det er ingenting som hindrer oss i å opprette en `Sending`-verdi uten å bruke `isSendingValid`. I ekstraoppgaven i [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) blir en alternativ tilnærming som bruker prinsipper fra [domenedrevet design](https://en.wikipedia.org/wiki/Domain-driven_design) presentert. De resterende stegene i dette kurset frem til og med steg 10 kommer til å basere seg på domenemodellen slik den er definert her i [steg 5](#steg-5---definere-domenemodell) og [steg 6](#steg-6---enhetstester-for-domenemodell) for å ikke innføre for mange prinsipper på en gang, og holde fokus på det kurset er ment for. Dersom du ønsker må du gjerne gå videre til [steg 11](#steg-11---følge-prinsipper-i-domenedrevet-design) nå for å se hvordan det er gjort der. Husk at steg 11 er skrevet med forutsetning av at man har gjennomført kurset til og med steg 10 først.
 
 ### Steg 7 - Definere API-kontrakt
 
 **Steg 7 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-6---enhetstester-for-domenemodell) [⬇ Neste steg](#steg-8---implementere-kontraktstyper)
 
-For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK TV og NRK Radio definerer vi API-kontrakter ved bruk av OpenAPI ([https://www.openapis.org/](https://www.openapis.org/)).
+For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK TV og NRK Radio definerer vi API-kontrakter ved bruk av OpenAPI (<https://www.openapis.org/>).
 
 #### Operasjoner
 
@@ -1866,13 +1879,13 @@ Til slutt legger vi til en ID for operasjonen, og en tekstlig beskrivelse av den
 }
 ```
 
-> Kontrakten over er validert ved hjelp av [https://editor.swagger.io/](https://editor.swagger.io/)
+> Kontrakten over er validert ved hjelp av <https://editor.swagger.io/>
 >
 > Merk at i OpenAPI-kontrakten over benytter vi versjon `3.0.0` av OpenAPI. I denne versjonen er det ikke full støtte for JSON Schema. Man kan derfor ikke bruke alle features i JSON Schema i OpenAPI-kontrakten. Kontrakten vår bruker imidlertid kun features i JSON Schema som er støttet. `OpenAPI 3.1.0` ble lansert 16. februar 2021, som _har_ full støtte for alle features i JSON Schema. Det vil imidlertid ta noe tid før det er støtte for denne i tooling som `ReDoc` (brukt i [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon)) `WebGUI` og linting. Takk til [@laat](https://github.com/laat) som poengterte det.
 
 #### Grafisk fremstilling av Open-API-kontrakten
 
-I [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på hvordan man kan sette opp en grafisk fremstilling av OpenAPI-dokumentasjonen som en egen HTML-side i API-et,. Merk at det forutsetter at du har utført steg 1-10 først. Dersom du ønsker å se en grafisk fremstilling nå kan du lime inn koden under på [https://editor.swagger.io/](https://editor.swagger.io/).
+I [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på hvordan man kan sette opp en grafisk fremstilling av OpenAPI-dokumentasjonen som en egen HTML-side i API-et,. Merk at det forutsetter at du har utført steg 1-10 først. Dersom du ønsker å se en grafisk fremstilling nå kan du lime inn koden under på <https://editor.swagger.io/>.
 
 > Bare trykk "OK" dersom du blir spurt om å gjøre om fra JSON til YAML.
 
@@ -1982,7 +1995,7 @@ I [steg 12](#steg-12---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på
 }
 ```
 
-> Merk at [https://editor.swagger.io/](https://editor.swagger.io/) ikke støtter at JSON Schema og Open-API-kontrakt er definert i to forskjellige filer. Derfor er kontrakten over en sammenslåing av `epg.schema.json` og `openapi.json`.
+> Merk at <https://editor.swagger.io/> ikke støtter at JSON Schema og Open-API-kontrakt er definert i to forskjellige filer. Derfor er kontrakten over en sammenslåing av `epg.schema.json` og `openapi.json`.
 
 ### Steg 8 - Implementere kontraktstyper
 
@@ -2099,7 +2112,7 @@ Gjenta steget over for `test/integration/NRK.Dotnetskolen.IntegrationTests.fspro
 </Project>
 ```
 
-> Du kan lese mer om de ulike prosjekttypene i .NET her: [https://docs.microsoft.com/en-us/dotnet/core/project-sdk/overview](https://docs.microsoft.com/en-us/dotnet/core/project-sdk/overview)
+> Du kan lese mer om de ulike prosjekttypene i .NET her: <https://docs.microsoft.com/en-us/dotnet/core/project-sdk/overview>
 
 #### Modellen til .NET
 
@@ -2163,7 +2176,7 @@ Microsoft har laget et rammeverk for web-applikasjoner i .NET, ASP.NET (ASP stå
 
 Alle mellomvarer har i utgangspunktet anledning til å prosessere HTTP-forespørselen både før og etter den neste mellomvaren i listen prosesserer den, og kan på den måten være med å påvirke responsen som blir sendt tilbake til klienten. Enhver mellomvare har ansvar for å kalle den neste mellomvaren. På denne måten kan en mellomvare stoppe videre prosessering av forespørselen også. Et eksempel på en slik mellomvare er autentisering, hvor man ikke sender forespørselen videre i pipelinen dersom den ikke er tilstrekkelig autentisert. Pga. denne kortslutningen ligger autentisering tidlig i listen over mellomvarer.
 
-Hosten vi opprettet i forrige avsnitt er et utgangspunkt for hvilken som helst applikasjon. Det kan bli f.eks. en bakgrunnstjeneste eller en web-applikasjon. Siden vi skal lage et web-API skal vi gå videre med å tilpasse hosten til å bli en web-server. Microsoft har laget en spesiell funksjon akkurat til dette formålet: `WebApplication.CreateBuilder`. Denne likner på `Host.CreateDefaultBuilder` som vi brukte i tidligere i avsnittet om [host](#Host), bare at hosten den lager er en web-server som har mulighet til å konfigurere en "middleware pipeline". For å lage en web-applikasjon istedenfor en generisk applikasjon, åpne `Microsoft.AspNetCore.Builder`, og bytt ut linjen `Host.CreateDefaultBuilder().Build().Run()` med `WebApplication.CreateBuilder().Build().Run()` slik at `Program.fs` i API-prosjektet nå ser slik ut:
+Hosten vi opprettet i forrige avsnitt er et utgangspunkt for hvilken som helst applikasjon. Det kan bli f.eks. en bakgrunnstjeneste eller en web-applikasjon. Siden vi skal lage et web-API skal vi gå videre med å tilpasse hosten til å bli en web-server. Microsoft har laget en spesiell funksjon akkurat til dette formålet: `WebApplication.CreateBuilder`. Denne likner på `Host.CreateDefaultBuilder` som vi brukte i tidligere i avsnittet om [host](#host), bare at hosten den lager er en web-server som har mulighet til å konfigurere en "middleware pipeline". For å lage en web-applikasjon istedenfor en generisk applikasjon, åpne `Microsoft.AspNetCore.Builder`, og bytt ut linjen `Host.CreateDefaultBuilder().Build().Run()` med `WebApplication.CreateBuilder().Build().Run()` slik at `Program.fs` i API-prosjektet nå ser slik ut:
 
 ```f#
 open Microsoft.AspNetCore.Builder
@@ -2175,7 +2188,7 @@ WebApplication.CreateBuilder().Build().Run()
 
 ###### Kjøre web host
 
-Hvis du nå kjører hosten igjen, vil du se to nye logginnslag:
+Hvis du nå kjører hosten igjen, vil du se et nytt logginnslag:
 
 ```bash
 dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
@@ -2184,12 +2197,10 @@ dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 ```bash
 info: Microsoft.Hosting.Lifetime[0]
       Now listening on: http://localhost:5000
-info: Microsoft.Hosting.Lifetime[0]
-      Now listening on: https://localhost:5001
 ...
 ```
 
-Fra logginnslagene over ser vi at hosten vår nå lytter på HTTP-forespørsler på port `5000` og `5001` for hhv. HTTP og HTTPS. I og med at vi ikke har lagt til noen middlewares i pipelinen vår enda, svarer API-et med `404 Not Found` på alle forespørsler. Det kan du verifisere ved å åpne [http://localhost:5000/](http://localhost:5000/) i en nettleser.
+Fra logginnslaget over ser vi at hosten vår nå lytter på HTTP-forespørsler på port `5000`. I og med at vi ikke har lagt til noen middlewares i pipelinen vår enda, svarer API-et med `404 Not Found` på alle forespørsler. Det kan du verifisere ved å åpne <http://localhost:5000/> i en nettleser.
 
 > Du kan lese mer om middleware i .NET-web-applikasjoner her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-9.0>
 
@@ -2240,9 +2251,7 @@ info: Microsoft.Hosting.Lifetime[0]
       Content root path: C:\Dev\nrkno@github.com\dotnetskolen\src\api
 ```
 
-Dette starter web-API-et på `http://localhost:5000`. Verifiser at API-et fungerer ved å gå til [http://localhost:5000/ping](http://localhost:5000/ping) i nettleseren din og se at svaret er `pong`.
-
-> Merk at dersom du forsøker å åpne applikasjonen på [https://localhost:5001](https://localhost:5001) kan du få beskjed om at nettleseren din ikke stoler på sertifikatet. For å komme rundt dette må man sette opp "self signed"-sertifikat på maskinen. Microsoft har skrevet en artikkel om hvordan å gjøre det [her](https://docs.microsoft.com/en-us/dotnet/core/additional-tools/self-signed-certificates-guide), men det å sette opp "self signed"-sertifikat er ikke en del av dette kurset.
+Dette starter web-API-et på `http://localhost:5000`. Verifiser at API-et fungerer ved å gå til <http://localhost:5000/ping> i nettleseren din og se at svaret er `pong`.
 
 #### Integrasjonstester
 
@@ -2490,7 +2499,27 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: < 1 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
+Restore complete (0,5s)
+  NRK.Dotnetskolen.Api succeeded (3,0s) → src\api\bin\Debug\net9.0\NRK.Dotnetskolen.Api.dll 
+  NRK.Dotnetskolen.IntegrationTests succeeded (3,3s) → test\integration\bin\Debug\net9.0\NRK.Dotnetskolen.IntegrationTests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.1)      
+[xUnit.net 00:00:00.08]   Discovering: NRK.Dotnetskolen.IntegrationTests
+[xUnit.net 00:00:00.12]   Discovered:  NRK.Dotnetskolen.IntegrationTests
+[xUnit.net 00:00:00.12]   Starting:    NRK.Dotnetskolen.IntegrationTests
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost/ping - - -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'HTTP: GET /ping => Invoke'    
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'HTTP: GET /ping => Invoke'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/1.1 GET http://localhost/ping - 200 - text/plain;+charset=utf-8 
+32.9542ms
+[xUnit.net 00:00:00.43]   Finished:    NRK.Dotnetskolen.IntegrationTests
+  NRK.Dotnetskolen.IntegrationTests test succeeded (1,4s)
+
+Test summary: total: 1; failed: 0; succeeded: 1; skipped: 0; duration: 1,3s
+Build succeeded in 8,9s
 ```
 
 ### Steg 10 - Implementere web-API
@@ -2533,12 +2562,16 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-[xUnit.net 00:00:00.73]     Tests.Get EPG today returns 200 OK [FAIL]
-  Failed Tests.Get EPG today returns 200 OK [102 ms]
-  Error Message:
-   System.Net.Http.HttpRequestException : Response status code does not indicate success: 404 (Not Found).
+[xUnit.net 00:00:00.41]     Tests.Get EPG today returns 200 OK [FAIL]
+[xUnit.net 00:00:00.41]       System.Net.Http.HttpRequestException : Response status code does not indicate success: 404 (Not Found).
+[xUnit.net 00:00:00.41]       Stack Trace:
+[xUnit.net 00:00:00.41]            at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+[xUnit.net 00:00:00.41]         C:\Dev\github.com\nrkno\dotnetskolen\test\integration\Tests.fs(39,0): at Tests.Get EPG today returns 200 OK@35-1.MoveNext()
+[xUnit.net 00:00:00.41]         C:\Dev\github.com\nrkno\dotnetskolen\test\integration\Tests.fs(20,0): at Tests.runWithTestClient@12.MoveNext()
+[xUnit.net 00:00:00.41]         C:\Dev\github.com\nrkno\dotnetskolen\test\integration\Tests.fs(20,0): at Tests.runWithTestClient@12.MoveNext()
+[xUnit.net 00:00:00.41]         --- End of stack trace from previous location ---
 ...
-Failed!  - Failed:     1, Passed:     1, Skipped:     0, Total:     2, Duration: 10 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
+Test summary: total: 2; failed: 1; succeeded: 1; skipped: 0; duration: 1,4s
 ```
 
 Som vi ser over feiler testen foreløpig ettersom web-API-et returnerer `404 (Not Found)`. La oss endre API-et slik at integrasjonstesten passerer.
@@ -2592,7 +2625,7 @@ Her spesifiserer vi at vi ønsker å kjøre den anonyme funksjonen `fun date -> 
 
 ##### Kjøre API-et
 
-Start API-et igjen og se hva som skjer dersom du går til [http://localhost:5000/epg/2021-01-01](http://localhost:5000/epg/2021-01-01) i nettleseren.
+Start API-et igjen og se hva som skjer dersom du går til <http://localhost:5000/epg/2025-01-01> i nettleseren.
 
 ```bash
 dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
@@ -2607,7 +2640,7 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 9 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
+Test summary: total: 2; failed: 0; succeeded: 2; skipped: 0; duration: 1,4s
 ```
 
 #### Test 2 - Verifisere at dato valideres
@@ -2642,14 +2675,12 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-[xUnit.net 00:00:00.81]     Tests.Get EPG invalid date returns bad request [FAIL]
-  Failed Tests.Get EPG invalid date returns bad request [10 ms]
-  Error Message:
-   Assert.Equal() Failure
-Expected: BadRequest
-Actual:   OK
+[xUnit.net 00:00:00.38]     Tests.Get EPG invalid date returns bad request [FAIL]
+[xUnit.net 00:00:00.38]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:00.38]       Expected: BadRequest
+[xUnit.net 00:00:00.38]       Actual:   OK
 ...
-Failed!  - Failed:     1, Passed:     2, Skipped:     0, Total:     3, Duration: 37 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
+Test summary: total: 3; failed: 1; succeeded: 2; skipped: 0; duration: 1,3s
 ```
 
 Den nye testen vi la til feiler fordi API-et ikke validerer den oppgitte datoen. La oss endre implementasjonen av web-API-et slik at testen passerer.
@@ -2769,7 +2800,7 @@ app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler date)) |>
 
 ##### Kjøre API-et
 
-Start API-et igjen og se hva som skjer dersom du går til [http://localhost:5000/epg/2021-01-01](http://localhost:5000/epg/2021-01-01) i nettleseren.
+Start API-et igjen og se hva som skjer dersom du går til <http://localhost:5000/epg/2021-01-01> i nettleseren.
 
 ```bash
 dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
@@ -2786,7 +2817,7 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 16 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
+Test summary: total: 3; failed: 0; succeeded: 3; skipped: 0; duration: 1,3s
 ```
 
 #### Test 3 - Verifisere format på EPG-respons
@@ -2834,7 +2865,7 @@ let ``Get EPG today return valid response`` () =
             response.EnsureSuccessStatusCode() |> ignore
             let! bodyAsString = response.Content.ReadAsStringAsync()
             let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
-            let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
+            let isJsonValid = jsonSchema.Evaluate(bodyAsJsonDocument, EvaluationOptions(RequireFormatValidation = true)).IsValid
             
             Assert.True(isJsonValid)
         }
@@ -2846,7 +2877,7 @@ Denne testen bygger på de foregående testene vi har skrevet, og validerer i ti
 - `let jsonSchema = JsonSchema.FromFile "./epg.schema.json"` oppretter en .NET-representasjon av JSON Schemaet vi definerte i [kapittel 7](#steg-7---definere-api-kontrakt)
 - `let! bodyAsString = response.Content.ReadAsStringAsync()` henter ut innholdet i responsen som en `string`
 - `let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement` oppretter en .NET-representasjon av JSON-dokumentet som API-et returnerer, og henter en referanse til rotelementet i JSON-dokumentet
-- `let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid` benytter JSON Schemaet vårt til å validere om JSON-objektet som web-API-et returnerte tilfredstiller API-kontrakten
+- `let isJsonValid = jsonSchema.Evaluate(bodyAsJsonDocument, EvaluationOptions(RequireFormatValidation = true)).IsValid` benytter JSON Schemaet vårt til å validere om JSON-objektet som web-API-et returnerte tilfredstiller API-kontrakten
 
 ##### Se at testen feiler
 
@@ -2857,14 +2888,12 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-[xUnit.net 00:00:01.13]     Tests.Get EPG today return valid response [FAIL]
-  Failed Tests.Get EPG today return valid response [98 ms]
-  Error Message:
-   Assert.True() Failure
-Expected: True
-Actual:   False
+[xUnit.net 00:00:00.84]     Tests.Get EPG today return valid response [FAIL]
+[xUnit.net 00:00:00.84]       Assert.True() Failure
+[xUnit.net 00:00:00.84]       Expected: True
+[xUnit.net 00:00:00.84]       Actual:   False
 ...
-Failed!  - Failed:     1, Passed:     3, Skipped:     0, Total:     4, Duration: 408 ms - NRK.Dotnetskolen.IntegrationTests.dll (net5.0)
+Test summary: total: 4; failed: 1; succeeded: 3; skipped: 0; duration: 1,9s
 ```
 
 Testen feiler. La oss implementere ferdig API-et.
@@ -3034,7 +3063,7 @@ Send deretter inn `getEpgForDate` fra `NRK.Dotnetskolen.Api.Services` til `epgHa
 app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
 ```
 
-Kjør web-API-et med følgende kommando, og gå til [http://localhost:5000/epg/2021-04-23](http://localhost:5000/epg/2021-04-23) for å se hva API-et returnerer.
+Kjør web-API-et med følgende kommando, og gå til <http://localhost:5000/epg/2021-04-23> for å se hva API-et returnerer.
 
 ```bash
 dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
@@ -3175,7 +3204,7 @@ let createWebApplication (builder: WebApplicationBuilder) =
     app
 ```
 
-Merk at over har vi kalt `getEpgForDate` med `getAlleSendinger`, og fått en ny funksjon i retur som tar inn en `DateTimeOffset` og returnerer en `Epg`-verdi. Det å sende inn et subsett av parameterene til en funksjon, og få en funksjon i retur som tar inn de resterende parameterene kalles "partial application". Du kan lese mer om "partial application" av funksjoner i F# her: [https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments)
+Merk at over har vi kalt `getEpgForDate` med `getAlleSendinger`, og fått en ny funksjon i retur som tar inn en `DateTimeOffset` og returnerer en `Epg`-verdi. Det å sende inn et subsett av parameterene til en funksjon, og få en funksjon i retur som tar inn de resterende parameterene kalles "partial application". Du kan lese mer om "partial application" av funksjoner i F# her: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments>
 
 Kjør API-et med følgende kommando, gå til <http://localhost:5000/epg/2021-04-12>, og se hva du får i retur.
 
@@ -3403,7 +3432,7 @@ dotnet test test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 ```
 
 ```bash
-Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 124 ms - NRK.Dotnetskolen.IntegrationTests.dll (net9.0)
+Test summary: total: 4; failed: 0; succeeded: 4; skipped: 0; duration: 2,7s
 ```
 
 Gratulerer! 🎉
@@ -4062,6 +4091,6 @@ Her kaller vi `UseStaticFiles`-funksjonen, som sørger for at statiske filer bli
 
 ##### Se dokumentasjonen
 
-Dersom du nå starter web-API-et med `dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj`, og åpner [http://localhost:5000/openapi.html](http://localhost:5000/openapi.html) skal du se noe liknende som skjermbildet under:
+Dersom du nå starter web-API-et med `dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj`, og åpner <http://localhost:5000/openapi.html> skal du se noe liknende som skjermbildet under:
 
 ![redoc](./docs/illustrasjoner/redoc.png)
