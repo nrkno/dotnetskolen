@@ -68,7 +68,7 @@ let ``Get EPG today return valid response`` () =
             response.EnsureSuccessStatusCode() |> ignore
             let! bodyAsString = response.Content.ReadAsStringAsync()
             let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
-            let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
+            let isJsonValid = jsonSchema.Evaluate(bodyAsJsonDocument, EvaluationOptions(RequireFormatValidation = true)).IsValid
             
             Assert.True(isJsonValid)
         }
