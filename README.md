@@ -1,20 +1,5 @@
 # 🏫 .NET-skolen
 
-## To do 🧾
-
-- [ ] Gå gjennom branchene til alle stegene (må oppdatere `DateTimeOffset` -> `DateOnly` for `getEpgForDate` og `parseAsDateTime`)
-
-- [X] Bruk `DateOnly` istedenfor `DateTimeOffset` for filtrering av sendinger på dato (bug i .NET 6-utgaven) i README
-- [X] Endre lenker fra `[]()` til `<>` for de som har lik tittel og href
-- [X] Har gått gjennom veiledning fram til [registrere avhengigheter](#Registrere-avhengigheter) (kall til API gir tomme lister)
-- [X] Endre referanser fra .NET 6 til .NET 9
-- [X] Se etter referanser til .NET 5.0
-- [X] Følge veiledning, og lim inn oppdaterte "resultater" (utskrift fra CLI, prosjektfiler etc.) i README
-
-- [X] Fjerne kapittel om paket
-- [ ] Se om OpenAPI-kontrakt kan bruke JsonSchema `3.1.0`
-- [ ] Bruke System.Text.Json sitt schema istedenfor JsonSchema.Net?
-
 ## 👋 Innledning
 
 Velkommen til .NET-skolen!
