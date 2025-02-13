@@ -1,3 +1,3 @@
-# Steg 9 - Sette opp skall for API
+# Steg 8 - Sette opp skall for API
 
-Løsningsforslag for [steg 9](https://github.com/nrkno/dotnetskolen/tree/main#steg-9---sette-opp-skall-for-api).
+Løsningsforslag for [steg 8](https://github.com/nrkno/dotnetskolen/tree/main#steg-8---sette-opp-skall-for-api).
