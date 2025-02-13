@@ -7,7 +7,7 @@ Velkommen til .NET-skolen!
 Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp, og implementere, en .NET-løsning fra bunnen av, steg for steg. Målet med kurset er å vise hvordan man kan utføre oppgaver som er vanlige i etableringsfasen av et system, som å:
 
 - Opprette prosjekter og mappestruktur
-- Sette opp pakkehåndtering
+- Legge til NuGet-pakker
 - Sette opp tester
 
 Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester. Tanken er at API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: <https://info.nrk.no/presse/tvguide/>
