@@ -145,7 +145,7 @@ Nå som du har installert alle verktøyene du trenger er du klar til å begynne 
 
 ### Steg 1 - Opprette API
 
-**Steg 1 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬇ Neste steg](#steg-2---opprette-testprosjekter)
+**Steg 1 av 9** - [🔝 Gå til toppen](#-net-skolen) [⬇ Neste steg](#steg-2---opprette-testprosjekter)
 
 I dette steget starter vi med en mappe helt uten kode, og bruker .NET CLI til å opprette vårt første prosjekt `NRK.Dotnetskolen.Api`.
 
@@ -550,7 +550,7 @@ Switched to branch 'steg-1'
 
 ### Steg 2 - Opprette testprosjekter
 
-**Steg 2 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-1---opprette-api) [⬇ Neste steg](#steg-3---opprette-solution)
+**Steg 2 av 9** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-1---opprette-api) [⬇ Neste steg](#steg-3---opprette-solution)
 
 Tester er en viktig del av systemutvikling fordi de hjelper oss med å verifisere at systemet fungerer slik det skal. Når man skriver tester for kode opererer man ofte med to typer tester:
 
@@ -778,7 +778,7 @@ Build succeeded in 4,6s
 
 ### Steg 3 - Opprette solution
 
-**Steg 3 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-2---opprette-testprosjekter) [⬇ Neste steg](#steg-4---definere-domenemodell)
+**Steg 3 av 9** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-2---opprette-testprosjekter) [⬇ Neste steg](#steg-4---definere-domenemodell)
 
 Slik oppsettet er nå, har vi tre prosjekter som er uavhengige av hverandre. Annet enn at de ligger i samme mappe, er det ingenting som kobler dem sammen. For å kunne gjøre operasjoner som å legge til felles pakker, og kjøre alle testene for systemet vårt, kan vi knytte prosjektene sammen i en og samme løsning (_solution_). Å ha alle prosjektene i en og samme løsning gir også fordelen av at man kan åpne alle prosjektene samlet i en IDE.
 
@@ -924,7 +924,7 @@ Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
 
 ### Steg 4 - Definere domenemodell
 
-**Steg 4 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-3---opprette-solution)) [⬇ Neste steg](#steg-5---enhetstester-for-domenemodell)
+**Steg 4 av 9** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-3---opprette-solution)) [⬇ Neste steg](#steg-5---enhetstester-for-domenemodell)
 
 Vi skal lage et API for å hente ut en forenklet elektronisk programguide (EPG) for ulike kanaler i NRK TV. Tanken er at dette API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: <https://info.nrk.no/presse/tvguide/>
 
@@ -1046,7 +1046,7 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 ### Steg 5 - Enhetstester for domenemodell
 
-**Steg 5 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-4---definere-domenemodell) [⬇ Neste steg](#steg-6---definere-api-kontrakt)
+**Steg 5 av 9** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-4---definere-domenemodell) [⬇ Neste steg](#steg-6---definere-api-kontrakt)
 
 Domenemodellen som ble innført i [forrige steg](#steg-4---definere-domenemodell) inneholder både strukturen til EPG-en, og valideringsreglene knyttet til dem. Så langt har vi kun modellert strukturen til domenemodellen i F# (at EPG består av en liste med sendinger, og hvilke felter hver sending inneholder). I dette steget skal vi implementere valideringsreglene i F#, og verifisere at vi har implementert dem riktig ved hjelp av enhetstester.
 
@@ -1373,7 +1373,7 @@ Build succeeded in 7,2s
 
 ### Steg 6 - Definere API-kontrakt
 
-**Steg 6 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-5---enhetstester-for-domenemodell) [⬇ Neste steg](#steg-7---implementere-kontraktstyper)
+**Steg 6 av 9** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-5---enhetstester-for-domenemodell) [⬇ Neste steg](#steg-7---implementere-kontraktstyper)
 
 For å dokumentere hva API-et vårt tilbyr av operasjoner og responser skal vi lage en API-kontrakt. I NRK TV og NRK Radio definerer vi API-kontrakter ved bruk av OpenAPI (<https://www.openapis.org/>).
 
@@ -1790,7 +1790,7 @@ I [steg 11](#steg-11---grafisk-fremstilling-av-openapi-dokumentasjon) ser vi på
 
 ### Steg 7 - Implementere kontraktstyper
 
-**Steg 7 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-6---definere-api-kontrakt) [⬇ Neste steg](#steg-8---sette-opp-skall-for-api)
+**Steg 7 av 9** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-6---definere-api-kontrakt) [⬇ Neste steg](#steg-8---sette-opp-skall-for-api)
 
 I [steg-4](#steg-4---definere-domenemodell) definerte vi domenemodellen vår som en F#-type. Domenemodellen representerer EPG-en slik vi konseptuelt tenker på den, både når det gjelder  struktur og regler for gyldige tilstander. API-kontrakter er ikke nødvendigvis en-til-en med domenemodeller.
 
@@ -1857,7 +1857,7 @@ På samme måte som da vi [opprettet domenemodellen](#steg-4---definere-domenemo
 
 ### Steg 8 - Sette opp skall for API
 
-**Steg 8 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-7---implementere-kontraktstyper) [⬇ Neste steg](#steg-9---implementere-web-api)
+**Steg 8 av 9** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-7---implementere-kontraktstyper) [⬇ Neste steg](#steg-9---implementere-web-api)
 
 I dette steget skal vi sette opp et skall for web-API-et, og verifisere at vi når API-et ved å skrive en integrasjonstest. Før vi begynner å kode skal vi se på et par relevante konsepter i .NET.
 
@@ -2313,7 +2313,7 @@ Build succeeded in 8,9s
 
 ### Steg 9 - Implementere web-API
 
-**Steg 9 av 10** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-8---sette-opp-skall-for-api)
+**Steg 9 av 9** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-8---sette-opp-skall-for-api)
 
 I [forrige steg](#steg-8---sette-opp-skall-for-api) opprettet vi et skall for web-API-et ved å legge til et `ping`-endepunkt med en tilhørende integrasjonstest. I dette steget skal vi utvide web-API-et med endepunkt for å hente EPG. I tillegg skal vi skrive integrasjonstester for å verifisere at implementasjonen av web-API-et er i henhold til Open API-dokumentasjonen vår. Vi bruker en testdrevet tilnærming ved at vi skriver en integrasjonstest som feiler, og deretter gjør vi endringer i API-et slik at testen passerer. Slik fortsetter vi til vi har implementert ferdig API-et vårt.
 
