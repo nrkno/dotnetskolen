@@ -924,7 +924,7 @@ Bildet under viser hvordan "Solution explorer" i Visual Studio viser løsningen.
 
 ### Steg 4 - Definere domenemodell
 
-**Steg 4 av 9** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-3---opprette-solution)) [⬇ Neste steg](#steg-5---enhetstester-for-domenemodell)
+**Steg 4 av 9** - [🔝 Gå til toppen](#-net-skolen) [⬆ Forrige steg](#steg-3---opprette-solution) [⬇ Neste steg](#steg-5---enhetstester-for-domenemodell)
 
 Vi skal lage et API for å hente ut en forenklet elektronisk programguide (EPG) for ulike kanaler i NRK TV. Tanken er at dette API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: <https://info.nrk.no/presse/tvguide/>
 
