@@ -12,7 +12,7 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp, og impleme
 
 Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester. Tanken er at API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: <https://info.nrk.no/presse/tvguide/>
 
-> Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
+> Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/net9/ferdig?tab=readme-ov-file)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
 
 ### 💻 Fremgangsmåte
 
@@ -26,11 +26,11 @@ Overordnet kommer mappestrukturen til løsningen vår til å se slik ut:
 └── test (kildekode til enhets- og integrasjonstestene)
 ```
 
-Det anbefales å følge denne veiledningen [på GitHub](https://github.com/nrkno/dotnetskolen), da visningen der støtter lenkene som er lagt inn, og har innholdsfortegnelse som alltid er synlig oppe til venstre når man blar i veiledningen.
+Det anbefales å følge denne veiledningen [på GitHub](https://github.com/nrkno/dotnetskolen/tree/net9/main?tab=readme-ov-file), da visningen der støtter lenkene som er lagt inn, og har innholdsfortegnelse som alltid er synlig oppe til venstre når man blar i veiledningen.
 
 ### 🚀 Kom i gang
 
-For å gjennomføre dette kurset trenger du [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet), en teksteditor og en terminal. Når du har dette, gå til [Steg 1 - Opprette API](#steg-1---opprette-api) og følg veiledningen. For alternative startpunkter se [alternative startpunkter](https://github.com/nrkno/dotnetskolen#-alternative-startpunkter).
+For å gjennomføre dette kurset trenger du [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet), en teksteditor og en terminal. Når du har dette, gå til [Steg 1 - Opprette API](#steg-1---opprette-api) og følg veiledningen. For alternative startpunkter se [alternative startpunkter](https://github.com/nrkno/dotnetskolen/tree/net9/main?tab=readme-ov-file#-alternative-startpunkter).
 
 > Stegene i kurset gir veiledning, steg for steg, med anvisninger for kommandoer du kan kjøre og referanseimplementasjon av kode du kan kopiere. Enkelte steder er implementasjonen av koden imidlertid utelatt slik at du kan forsøke å implementere den selv. Disse stedene er markert med ☑️. Les mer om hvordan du kan se fullstendig løsningsforslag for hvert steg [her](#se-løsningsforslag).
 
@@ -42,7 +42,7 @@ For å gjennomføre dette kurset trenger du [.NET 9 SDK](https://dotnet.microsof
 
 #### 📍 Alternative startpunkter
 
-Denne workshopen dekker en del ulike temaer, og det kan ta litt tid å fullføre alle stegene. Heldigvis finnes det løsningsforslag for hvert steg i workshopen, som betyr at du kan starte på et hvilket som helst steg ved å sjekke ut branchen med løsningsforslaget til steget før du ønsker å begynne på, og fortsette derfra. Les mer om hvordan du kan [klone dette repoet](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) og [sjekke ut løsningsforslag](https://github.com/nrkno/dotnetskolen#se-l%C3%B8sningsforslag).
+Denne workshopen dekker en del ulike temaer, og det kan ta litt tid å fullføre alle stegene. Heldigvis finnes det løsningsforslag for hvert steg i workshopen, som betyr at du kan starte på et hvilket som helst steg ved å sjekke ut branchen med løsningsforslaget til steget før du ønsker å begynne på, og fortsette derfra. Les mer om hvordan du kan [klone dette repoet](https://github.com/nrkno/dotnetskolen/blob/net9/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt   ) og [sjekke ut løsningsforslag](https://github.com/nrkno/dotnetskolen/tree/net9/main?tab=readme-ov-file#se-l%C3%B8sningsforslag).
 
 Under følger noen anbefalinger for alternative startpunkter, avhengig av hvilke temaer du ønsker å lære mer om.
 
@@ -465,7 +465,7 @@ Nå som du har fullført det første steget i kurset er det en fin anledning til
 
 ##### Se endringer
 
-Gitt at du fulgte veiledningen for å [sette opp koden lokalt](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) før du begynte å kode, kan du kjøre følgende kommando for å se hvilke endringer som er gjort i repoet:
+Gitt at du fulgte veiledningen for å [sette opp koden lokalt](https://github.com/nrkno/dotnetskolen/blob/net9/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) før du begynte å kode, kan du kjøre følgende kommando for å se hvilke endringer som er gjort i repoet:
 
 ```bash
 git status
@@ -3311,7 +3311,7 @@ let isSendingValid (sending: Sending) : bool =
     (areStartAndSluttidspunktValid sending.Starttidspunkt sending.Sluttidspunkt)
 ```
 
-Det neste som feiler er opprettelsen av en `Sending`-verdi i `DataAccess.fs`. Under er implementasjonen av funksjonen som mapper `SendingEntity` til `Sending` hentet fra [løsningsforslaget for kapittel 10](https://github.com/nrkno/dotnetskolen/blob/steg-10/src/api/DataAccess.fs#L39-L45).
+Det neste som feiler er opprettelsen av en `Sending`-verdi i `DataAccess.fs`. Under er implementasjonen av funksjonen som mapper `SendingEntity` til `Sending` hentet fra [løsningsforslaget for kapittel 9](https://github.com/nrkno/dotnetskolen/blob/net9/steg-9/src/api/DataAccess.fs#L39-L45).
 
 ```f#
 let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
@@ -3337,7 +3337,7 @@ let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
 
 Ettersom `Tittel.create` returnerer en `Tittel option`, må vi kalle `.Value`-funksjonen på returverdien av `Tittel.create` for å få ut `Tittel`-verdien. Merk at dersom den oppgitte tittelen er ugyldig, vil kallet til `.Value` kaste en `System.NullReferenceException`.
 
-Det neste som feiler er uthentingen av `Tittel`-verdien fra `Sending` i `fromDomain`-funksjonen i `Dto.fs`. Under er funksjonen `fromDomain` vist slik den er implementert i [løsningsforslaget til steg 10](https://github.com/nrkno/dotnetskolen/blob/steg-10/src/api/Dto.fs#L16-L28).
+Det neste som feiler er uthentingen av `Tittel`-verdien fra `Sending` i `fromDomain`-funksjonen i `Dto.fs`. Under er funksjonen `fromDomain` vist slik den er implementert i [løsningsforslaget til steg 9](https://github.com/nrkno/dotnetskolen/blob/net9/steg-9/src/api/Dto.fs#L16-L28).
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
