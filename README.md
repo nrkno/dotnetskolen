@@ -12,7 +12,7 @@ Dette er et kurs hvor du blir tatt gjennom prosessen av å sette opp, og impleme
 
 Som en eksempel-applikasjon skal vi lage et web-API i F# for å hente ut elektronisk programguide (EPG) for NRK TV, med tilhørende enhets- og integrasjonstester. Tanken er at API-et kunne levert datagrunnlaget til en programguide - f.eks. den som vises her: [https://info.nrk.no/presse/tvguide/](https://info.nrk.no/presse/tvguide/)
 
-> Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
+> Et sekundært mål med dette repoet er at den ferdige eksempel-applikasjonen (som du finner i [branchen ferdig](https://github.com/nrkno/dotnetskolen/tree/net5/ferdig)) kan fungere som et referanse-repo for hvordan å sette opp et .NET-prosjekt.
 
 ### 💻 Fremgangsmåte
 
@@ -3697,7 +3697,7 @@ let toDomain (epgEntity : EpgEntity) : Epg =
 
 Ettersom `Tittel.create` returnerer en `Tittel option`, må vi kalle `.Value`-funksjonen på returverdien av `Tittel.create` for å få ut `Tittel`-verdien. Merk at dersom den oppgitte tittelen er ugyldig, vil kallet til `.Value` kaste en `System.NullReferenceException`.
 
-Det neste som feiler er uthentingen av `Tittel`-verdien fra `Sending` i `fromDomain`-funksjonen i `Dto.fs`. Under er funksjonen `fromDomain` vist slik den er implementert i [løsningsforslaget til steg 10](https://github.com/nrkno/dotnetskolen/tree/steg-10).
+Det neste som feiler er uthentingen av `Tittel`-verdien fra `Sending` i `fromDomain`-funksjonen i `Dto.fs`. Under er funksjonen `fromDomain` vist slik den er implementert i [løsningsforslaget til steg 10](https://github.com/nrkno/dotnetskolen/tree/net5/steg-10).
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
