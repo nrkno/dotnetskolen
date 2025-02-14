@@ -3743,7 +3743,7 @@ I [steg 6](#steg-6---definere-api-kontrakt) innførte vi OpenAPI-kontrakt for AP
 Kort oppsummert er dette stegene vi skal gjøre for å lage en egen ReDoc-side i API-et vårt:
 
 1. Flytte `docs/epg.schema.json` og `docs/openapi.json` til `src/api/wwwroot/documentation`
-2. Opprette HTML-fil `openapi.html` i `src/api/wwwroot` med innhold fra [dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr-final-code-example), og endre referansen til OpenAPI-dokumentet i `openapi.html`
+2. Opprette HTML-fil `openapi.html` i `src/api/wwwroot` med innhold fra [dokumentasjonen til ReDoc](https://redocly.com/docs/redoc/deployment/html#use-redoc-in-html), og endre referansen til OpenAPI-dokumentet i `openapi.html`
 3. Konfigurere web-API-et til å serve statiske filer
 
 ##### Flytte API-dokumentasjon
@@ -3789,7 +3789,7 @@ Til slutt kan du slette mappen `docs`:
 ...
 ```
 
-I [steg 9](#test-2---verifisere-format-på-epg-respons) la vi til en referanse til `epg.schema.json` i prosjektfilen til integrasjonstestprosjektet. Siden vi har flyttet denne filen, må vi oppdatere referansen. Åpne filen `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`, og endre referansen til JSON Schemaet:
+I [steg 9](#test-3---verifisere-format-på-epg-respons) la vi til en referanse til `epg.schema.json` i prosjektfilen til integrasjonstestprosjektet. Siden vi har flyttet denne filen, må vi oppdatere referansen. Åpne filen `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj`, og endre referansen til JSON Schemaet:
 
 ```xml
 ...
@@ -3821,7 +3821,7 @@ Opprett filen `openapi.html` i mappen `src/api/wwwroot`, slik:
 ...
 ```
 
-Åpne `openapi.html`, og lim inn innholdet vist [i dokumentasjonen til ReDoc](https://github.com/Redocly/redoc#tldr-final-code-example), slik:
+Åpne `openapi.html`, og lim inn innholdet vist [i dokumentasjonen til ReDoc](https://redocly.com/docs/redoc/deployment/html#use-redoc-in-html), slik:
 
 ```html
 <!DOCTYPE html>
