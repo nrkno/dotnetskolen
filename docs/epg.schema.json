@@ -1,0 +1,55 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+        "nrk1": {
+            "type": "array",
+            "items": {
+                "$ref": "#/components/schemas/sending"
+            }
+        },
+        "nrk2": {
+            "type": "array",
+            "items": {
+                "$ref": "#/components/schemas/sending"
+            }
+        }
+    },
+    "required": [
+        "nrk1",
+        "nrk2"
+    ],
+    "components": {
+        "schemas": {
+            "tittel": {
+                "type": "string",
+                "pattern": "^[\\p{L}0-9\\.,-:!]{5,100}$",
+                "example": "Dagsrevyen",
+                "description": "Programtittel"
+            },
+            "sending": {
+                "type": "object",
+                "properties": {
+                    "tittel": {
+                        "$ref": "#/components/schemas/tittel"
+                    },
+                    "starttidspunkt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Startdato- og tidspunkt for sendingen."
+                    },
+                    "sluttidspunkt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Sluttdato- og tidspunkt for sendingen. Er alltid større enn sendingens startdato- og tidspunkt."
+                    }
+                },
+                "required": [
+                    "tittel",
+                    "starttidspunkt",
+                    "sluttidspunkt"
+                ]
+            }
+        }
+    }
+}
