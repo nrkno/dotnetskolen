@@ -3311,7 +3311,7 @@ let isSendingValid (sending: Sending) : bool =
     (areStartAndSluttidspunktValid sending.Starttidspunkt sending.Sluttidspunkt)
 ```
 
-Det neste som feiler er opprettelsen av en `Sending`-verdi i `DataAccess.fs`. Under er implementasjonen av funksjonen som mapper `SendingEntity` til `Sending` hentet fra [løsningsforslaget for kapittel 10](https://github.com/nrkno/dotnetskolen/blob/steg-10/src/api/DataAccess.fs#L39-L45).
+Det neste som feiler er opprettelsen av en `Sending`-verdi i `DataAccess.fs`. Under er implementasjonen av funksjonen som mapper `SendingEntity` til `Sending` hentet fra [løsningsforslaget for kapittel 9](https://github.com/nrkno/dotnetskolen/blob/steg-9/src/api/DataAccess.fs#L39-L45).
 
 ```f#
 let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
@@ -3337,7 +3337,7 @@ let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
 
 Ettersom `Tittel.create` returnerer en `Tittel option`, må vi kalle `.Value`-funksjonen på returverdien av `Tittel.create` for å få ut `Tittel`-verdien. Merk at dersom den oppgitte tittelen er ugyldig, vil kallet til `.Value` kaste en `System.NullReferenceException`.
 
-Det neste som feiler er uthentingen av `Tittel`-verdien fra `Sending` i `fromDomain`-funksjonen i `Dto.fs`. Under er funksjonen `fromDomain` vist slik den er implementert i [løsningsforslaget til steg 10](https://github.com/nrkno/dotnetskolen/blob/steg-10/src/api/Dto.fs#L16-L28).
+Det neste som feiler er uthentingen av `Tittel`-verdien fra `Sending` i `fromDomain`-funksjonen i `Dto.fs`. Under er funksjonen `fromDomain` vist slik den er implementert i [løsningsforslaget til steg 9](https://github.com/nrkno/dotnetskolen/blob/steg-9/src/api/Dto.fs#L16-L28).
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
