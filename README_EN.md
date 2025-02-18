@@ -1,85 +1,85 @@
-# 🏫 .NET School
+# 🏫 School of .NET
 
 ## 👋 Introduction
 
-Welcome to .NET School!
+Welcome to the School of .NET!
 
-This is a course that takes you through the process of setting up and implementing a .NET solution from scratch, step by step. The goal of the course is to show you how to perform tasks that are common in the establishment phase of a system, such as:
+This course will guide you step by step through the process of setting up and implementing a .NET solution from scratch. The goal is to demonstrate common tasks involved in the initial phase of system development, such as:
 
-- Create projects and folder structure
+- Creating projects and structuring folders
 - Adding NuGet packages
 - Setting up tests
 
-As an example application, we will create a web API in F# to retrieve the electronic program guide (EPG) for NRK TV, with associated unit and integration tests. The idea is that the API could deliver the data basis for a program guide - e.g. the one shown here: <https://info.nrk.no/presse/tvguide/>
+As an example application, we will build a web API in F# to retrieve the electronic program guide (EPG) for NRK TV, along with related unit and integration tests. The idea is that the API could deliver the data basis for a program guide - e.g the one shown here: <https://info.nrk.no/presse/tvguide/>
 
-> A secondary goal of this repo is that the completed example application (which you can find in [branch finished](https://github.com/nrkno/dotnetskolen/tree/ferdig)) can function as a reference repo for how to set up a .NET project.
+> A secondary goal of this repository is that the completed example application (available in the [ferdig-branch](https://github.com/nrkno/dotnetskolen/tree/ferdig)) can serve as a boilerplate repository when setting up a new .NET project.
 
-### 💻 Procedure
+### 💻 Approach
 
 We will use the [.NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/) to create projects, run the code and tests, and document our web API using [OpenAPI](https://www.openapis.org/).
 
-Overall, the folder structure of our solution will look like this:
+The overall structure of our solution will be as follows:
 
 ```txt
-└── docs (contract for the web API)
-└── src (source code of the web API)
-└── test (source code for the unit and integration tests)
+└── docs  (contract for the web API)  
+└── src   (code for the web API)  
+└── test  (code for unit and integration tests)  
 ```
 
-It is recommended to follow this guide [on GitHub](https://github.com/nrkno/dotnetskolen), as the view there supports the links that are entered, and has a table of contents that is always visible in the top left when browsing the guide.
+We recommend following this guide [on GitHub](https://github.com/nrkno/dotnetskolen), as the GitHub view supports embedded links and provides a table of contents that remains visible in the top left while browsing the guide.
 
 ### 🚀 Get started
 
-To complete this course, you will need [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet), a text editor, and a terminal. Once you have this, go to [Step 1 - Create API](#steg-1---opprette-api) and follow the instructions. For alternative starting points, see [alternative starting points](https://github.com/nrkno/dotnetskolen#-alternative-startpunkter).
+To do this course, you need [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet), a text editor, and a terminal. Once you have this, go to [Step 1 - Create API](#steg-1---opprette-api) and follow the instructions. For alternative starting points, see [alternative starting points](https://github.com/nrkno/dotnetskolen#-alternative-startpunkter).
 
-> The steps in the course provide step-by-step guidance, with instructions for commands you can run and reference implementations of code you can copy. However, in some places the implementation of the code is omitted so that you can try to implement it yourself. These places are marked with ☑️. Read more about how to see the complete solution for each step [here](#see-solutions).
+> The course provides step-by-step guidance, including commands you can run in the terminal and reference implementations of code you can copy. However, in some sections, the code implementation is intentionally omitted to encourage you to implement it yourself. These sections are marked with ☑️. Read more about how to see the complete solution for each step [here](#see-solutions).
 
-> If you need more details about how to prepare your computer to complete the course, see [Details about setting up your computer](/docs/detaljer-oppsett.md).
+> If you need more details about how to set up your computer to do the course, see [Details about setting up your computer](/docs/detaljer-oppsett.md).
 
 > If you are completely new to .NET, it may be helpful to start by reading:
-> - [What is .NET](/docs/what-is-dotnet.md)
-> - [What F# is](/docs/what-fsharp.md)
+> - [What is .NET](/docs/hva-er-dotnet_EN.md)
+> - [What is F#](/docs/hva-er-fsharp_EN.md)
 
 #### 📍 Alternative starting points
 
-This workshop covers a number of different topics, and it may take some time to complete all the steps. Fortunately, there are solution suggestions for each step in the workshop, which means you can start at any step by checking out the industry with the solution suggestion for the step before you want to start, and continue from there. Read more about how to [clone this repo](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-opspett.md#-lokalt-opspett-av-koden-valgfritt) and [check out the solution suggestions](https://github.com/nrkno/dotnetskolen#se-l%C3%B8sningsforslag).
+This workshop covers a variety of topics, and completing all the steps may take some time. Fortunately, example solutions are available for each step, allowing you to start at any point by checking out the branch with the solution for the previous step and continuing from there. Read more about how to [clone this repo](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-opspett.md#-lokalt-opspett-av-koden-valgfritt) and [check out the solution suggestions](https://github.com/nrkno/dotnetskolen#se-l%C3%B8sningsforslag).
 
-Below are some recommendations for alternative starting points, depending on which topics you want to learn more about.
+Below are some recommended alternative starting points, depending on which topics you want to explore further.
 
-> Note: If you start at step 5 or later, you must run `dotnet tool restore` before continuing to follow the instructions.
+> Note: If you start at step 5 or later, make sure to run `dotnet tool restore` before proceeding with the instructions.
 
-##### Project and solution setup with .NET CLI
+##### Project and Solution setup with .NET CLI
 
-If you are interested in learning more about how to use the .NET CLI to create projects and solutions, follow these steps:
+If you want to learn how to use the .NET CLI to create projects and solutions, follow these steps:
 
 - [Step 1 - Create API](#step-1---create-api)
 - [Step 2 - Create test projects](#step-2---create-test-projects)
 - [Step 3 - Create solution](#step-3---create-solution)
 
-##### Domain modeling and unit tests
+##### Domain Modeling and Unit Tests
 
-If you want to learn more about domain modeling in F# and associated unit tests, you can follow these steps:
+To learn more about domain modeling in F# and writing unit tests, follow these steps:
 
-- [Step 4 - Define domain model](#step-4---define-domain-model)
-- [Step 5 - Unit tests for domain model](#step-5---unit-tests-for-domain-model)
+- [Step 4 - Define a domain model](#step-4---define-domain-model)
+- [Step 5 - Unit tests for the domain model](#step-5---unit-tests-for-domain-model)
 
-##### API contracts
+##### API Contracts
 
-If you want to learn more about how to document your API using Open API, and model contract types, follow these steps:
+If you're interested in documenting your API with OpenAPI and modeling contract types, follow these steps:
 
 - [Step 6 - Define API contract](#step-6---define-api-contract)
 - [Step 7 - Implement contract types](#step-7---implement-contract-types)
 
-##### .NET 9 and minimal API
+##### .NET 9 and Minimal APIs
 
-If you are interested in .NET 9's hosting model, "minimal APIs", and how you can test your API with integration tests, follow these steps:
+If you are interested in .NET 9's hosting model, Minimal API, and how you can test your API with integration tests, follow these steps:
 
 - [Step 8 - Setting up the API shell](#step-8---setting-up-the-api-shell)
 - [Step 9 - Implement web API](#step-9---implement-web-api)
 
 ##### Additional tasks
 
-Finally, there are some extra tasks, if you want more to brush up on:
+For even more challenges, check out these tasks:
 
 - [Extra tasks](#extra tasks)
   - [Step 10 - Follow principles of domain-driven design](#step-10---follow-principles-of-domain-driven-design)
@@ -87,7 +87,7 @@ Finally, there are some extra tasks, if you want more to brush up on:
 
 ### ❓ Questions
 
-If you have any questions about the course, please create a thread under "Discussions" in this repo:
+Do you have questions about the course? Feel free to start a thread under "Discussions" in this repository!
 
 - <https://github.com/nrkno/dotnetskolen/discussions/categories/q-a>
 
@@ -101,7 +101,7 @@ Useful [tips and tricks can be found here](/docs/tips-og-triks.md)
 - F# Cheat Sheet - <http://dungpa.github.io/fsharp-cheatsheet/>
 - Introduction to F# - <https://fsharpforfunandprofit.com/site-contents/#understanding-f>
 - Other courses in NRK
-  - F# School, a course in F# created by employees of NRK TV - <https://github.com/nrkno/fsharpskolen>
+  - School of F#, a course in F# created by employees of NRK TV - <https://github.com/nrkno/fsharpskolen>
   - GitHub Actions 101, created by [@teodor-elstad](https://github.com/teodor-elstad) <https://github.com/teodor-elstad/github-actions-101>
 
 ### 👍👎 Feedback
@@ -110,18 +110,18 @@ Do you have feedback on the course? Please create a thread for it here:
 
 - <https://github.com/nrkno/dotnetskolen/discussions/categories/ideas>
 
-### 👩👨 Cast
+### 👩👨 Contributors
 
 - [@heidisu](https://github.com/heidisu) - Idea and quality assurance
 - [@thomaswolff](https://github.com/thomaswolff) - Primus engine and author
 
 ### 🙌 Thank you
 
-- Thank you to everyone who has provided constructive criticism and useful feedback for this course.
+- Thank you to everyone who has provided constructive and useful feedback for this course.
 
 ### 📝 License
 
-All documentation (including this guide) and source code in this repo are openly available under the [MIT License](/LICENCE).
+All documentation (including this guide) and source code in this repository are released under the [MIT License](/LICENCE).
 
 ## 📖 Table of Contents
 
@@ -129,8 +129,8 @@ All documentation (including this guide) and source code in this repo are openly
   - [Step 1 - Create API](#step-1---create-api)
   - [Step 2 - Create test projects](#step-2---create-test-projects)
   - [Step 3 - Create solution](#step-3---create-solution)
-  - [Step 4 - Define domain model](#step-4---define-domain-model)
-  - [Step 5 - Unit tests for domain model](#step-5---unit-tests-for-domain-model)
+  - [Step 4 - Define a domain model](#step-4---define-domain-model)
+  - [Step 5 - Unit tests for the domain model](#step-5---unit-tests-for-domain-model)
   - [Step 6 - Define API contract](#step-6---define-api-contract)
   - [Step 7 - Implement contract types](#step-7---implement-contract-types)
   - [Step 8 - Setting up the API shell](#step-8---setting-up-the-api-shell)
@@ -141,17 +141,17 @@ All documentation (including this guide) and source code in this repo are openly
 
 ## Steps
 
-Now that you have installed all the tools you need, you are ready to start the course itself!
+Now that you've installed all the necessary tools, you're ready to begin the course!
 
 ### Step 1 - Create API
 
 **Step 1 of 9** - [🔝 Go to top](#-net-school) [⬇ Next step](#step-2---create-test-projects)
 
-In this step, we start with a folder with no code at all, and use the .NET CLI to create our first project `NRK.Dotnetskolen.Api`.
+In this step, we'll begin with an empty folder and use the .NET CLI to create our first project `NRK.Dotnetskolen.Api`.
 
 #### .NET version
 
-Since this guide is written for .NET 9, and you may have multiple .NET versions installed on your machine, we need to instruct the .NET CLI to use .NET 9 when running the commands in the guide. We do this by creating a configuration file `global.json` in the root of the repo with the following content:
+Because this guide targets .NET 9, and you may have multiple .NET versions installed, we need to tell the .NET CLI to use .NET 9 when running the commands in this guide. To do this, create a global.json file in the root of the repository with the following content:
 
 ```json¨
 {
@@ -162,20 +162,20 @@ Since this guide is written for .NET 9, and you may have multiple .NET versions 
 }
 ```
 
-Here we state that we initially want to use version `9.0.0` of the .NET SDK. In addition, we state through `rollForward: latestMinor` that we want the highest available version of .NET 9 on your machine to be used.
+Here we specify that we initially want to use version `9.0.0` of the .NET SDK. Additionally, by setting `rollForward: latestMinor`, we ensure that the highest available version of .NET 9 on your machine is used.
 
 > You can read more about `global.json` here: <https://docs.microsoft.com/en-us/dotnet/core/tools/global-json>
 
 #### .NET projects
 
-To organize code in .NET, you use _projects_. A project is a collection of source code files, and any other resource files, and all the files that are part of the project are referenced in a _project file_. For F# projects, such project files have the file extension `.fsproj`.
+In .NET, code is organized into _projects_. A project is a collection of source code files, and any other resource files, and all the files that are part of the project are referenced in a _project file_. For F# projects, such project files have the file extension `.fsproj`.
 
 When compiling .NET projects, you can choose between two types of output:
 
 - Executable file (_executable_) - a program that can be run
 - Class library (_dynamically linked library_) - a collection of functionality that can be used by other programs
 
-#### Dotnet new
+#### dotnet new
 
 As mentioned in the [introduction](#-procedure), the .NET CLI is a command-line tool designed to develop, build, run, and publish .NET applications. The .NET CLI is run from the command line with the `dotnet` command, and has many subcommands and options. To see them all, you can run the command below, or read more here: <https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet>
 
@@ -245,9 +245,11 @@ Additional commands from bundled tools:
 Run 'dotnet [command] --help' for more information on a command.
 ```
 
-#### Painter
+#### Templates
 
-To create the API project, we will use the `new` command in the .NET CLI. `dotnet new` creates .NET projects, and as the first parameter, the `new` command takes in what kind of template the project you are creating should follow. When you install the .NET SDK, you get a set of predefined project templates for common purposes. To see the templates installed on your machine, you can run `dotnet new --list` like this:
+To create the API project, we'll use the new command in the .NET CLI. The dotnet new command is used to generate .NET projects, with the first parameter specifying the template for the project.
+
+When you install the .NET SDK, it comes with a set of predefined project templates for common use cases. To see the available templates on your machine, run the following command:
 
 ```bash
 dotnet new list
@@ -317,7 +319,9 @@ WPF User Control Library                    wpfusercontrollib           [C#],VB 
 xUnit Test Project                          xunit                       [C#],F#,VB  Test/xUnit/Desktop/Web
 ```
 
-In addition to controlling what type of project you want to create with the `new` command, you have the option to control things like which language you want the project to be created for, and in which folder the project is created. To see all the options you have in `dotnet new`, you can run the following command
+In addition to specifying the type of project you want with the `new`-command, you can also control various options, such as the programming language for the project and the target folder where it will be created.
+
+To view all available options in `dotnet new`, run the following command
 
 ```bash
 dotnet new --help
@@ -380,7 +384,7 @@ Running 'dotnet restore' on src\api\NRK.Dotnetskolen.Api.fsproj...
 Restore succeeded.
 ```
 
-In the command above, we used the `--language` argument to specify that we wanted an F# project. We also used `--output` to specify where we wanted the project to be located relative to where we are running the command from, and `--name` to control the name of the project.
+In the command above, we used the `--language` argument to specify that we wanted an F# project. We also used `--output` to specify where we wanted the project to be located relative to where we are running the command from, and `--name` to specify the name of the project.
 
 > Note that instead of `--language`, `--output` and `--name`, we could have used the abbreviations `-lang`, `-o` and `-n`.
 
@@ -419,7 +423,7 @@ Open `NRK.Dotnetskolen.Api.fsproj` to see the contents of the project file of th
 Here we see that the project:
 
 - Has output type `exe` - the project is compiled into an executable file
-- Must be compiled for .NET 9
+- Is set to be compiled for .NET 9.
 - Consists of one file `Program.fs`
 
 ##### The program file
@@ -431,10 +435,10 @@ To see what the program does, we can open `Program.fs` and look at the code:
 printfn "Hello from F#"
 ```
 
-The template added only one line to `Program.fs` that writes the text string `Hello world from F#` to the output. From other programming languages ​​you may be used to seeing a `main` function or similar, but we don't see that here. The reason for that is that F# uses an implicit entry point that is at the top of the file. Then the code is executed line by line as specified in the file. It is also possible to use explicit entry points in F# programs. Read more about it here: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point>
+The template added only one line to `Program.fs` that outputs the text string `Hello world from F#`. In other programming languages, you may be used to seeing a `main`-function or something similar, but that’s not the case here. This is because F# uses an implicit entry point located at the top of the file, executing code line by line as written. However, F# also supports explicit entry points if needed. Learn more about it here: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/entry-point#implicit-entry-point>
 > The name of the project `NRK.Dotnetskolen.Api.fsproj` follows Microsoft's naming convention for programs and libraries in .NET. To read more about this, and other naming conventions in .NET, you can see here: <https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-assemblies-and-dlls>
 >
-> The folder structure above is intended as a suggestion, and the further steps in the course are based on this. If you use the course as inspiration or guidance to create your own project, you do not have to follow this folder structure. How you structure the folders in your system is up to you, and depends on aspects such as the size of the system, the number of projects, and personal preferences.
+> The folder structure shown above is a suggestion, and the next steps in the course are based on it. However, if you're using this course as inspiration or guidance for your own project, you don’t have to follow this structure exactly. How you organize your folders is entirely up to you and should be based on factors such as system size, the number of projects, and personal preference.
 
 #### Running the API project
 
@@ -461,7 +465,7 @@ Hello world from F#
 
 #### Save changes to Git (optional)
 
-Now that you have completed the first step in the course, it is a good opportunity to save the changes you have made so far in Git.
+Now that you have completed the first step in the course, it is a good opportunity to commit the changes you have made so far in Git.
 
 ##### See changes
 
@@ -481,11 +485,11 @@ Untracked files:
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
-In the output above, we see that Git has detected that a folder `src` and its contents have been created, but Git is not currently monitoring these (the files are "untracked").
+In the output above, we see that Git has detected that a folder `src` and its contents have been created, but Git is not currently tracking these (the files are "untracked").
 
 ##### Add changes to Git
 
-To have Git monitor the files we have created, and then see the status in Git, you can run the following commands:
+To have Git track the files we have created, and then see the status in Git, you can run the following commands:
 
 ```bash
 git add .
@@ -500,7 +504,7 @@ Changes to be committed:
         new file:   src/api/Program.fs
 ```
 
-Now Git is monitoring the files.
+Now Git is tracking the files.
 
 ##### Save the changes
 
@@ -541,27 +545,27 @@ Date: Fri Apr 16 13:43:40 2021 +0200
 If you want to see the expected state of the repo after performing the various steps in the course, you can check out the branch with the corresponding name as the section you want to look at. For example, if you want to see how the repo looks after the first step, you can check out the branch `step-1` like this:
 
 ```bash
-git checkout steg-1
+git checkout step-1
 ```
 
 ```bash
-Switched to branch 'steg-1'
+Switched to branch 'step-1'
 ```
 
 ### Step 2 - Creating Test Projects
 
 **Step 2 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-1---create-api) [⬇ Next step](#step-3---create-solution)
 
-Tests are an important part of system development because they help us verify that the system works as it should. When writing tests for code, we often operate with two types of tests:
+Tests are an important part of system development because they help us verify that the system works as intended. When writing tests for code, we often operate with two types of tests:
 
 - Unit tests
 - Integration tests
 
-Unit tests verify that small, isolated pieces of code work as they should. Preferably one function at a time. In this course, we will use unit tests to verify validation rules in our domain.
+Unit tests ensure that small, isolated pieces of code works as intended, typically testing one function at a time. In this course, we’ll use unit tests to validate the validation rules within our domain.
 
-Integration tests verify that larger parts of the system are working as they should, and can even cover interactions with other systems. In this course, we will use integration tests to verify that the web API behaves according to the [contract we define in step 6](#step-6---define-api-contract).
+Integration tests, on the other hand, verify that larger parts of the system work as expected, including interactions with external systems. Here, we’ll use integration tests to confirm that the web API behaves according to the [contract we define in step 6](#step-6---define-api-contract).
 
-#### Dotnet new
+#### dotnet new
 
 In this step we will create two test projects
 
@@ -638,7 +642,7 @@ Open the file `NRK.Dotnetskolen.UnitTests.fsproj`:
 
 In the project file, we can see that the unit test project:
 
-- Must be compiled for .NET 9
+- Is set to be compiled for .NET 9.
 - Contains two source code files
   - `Tests.fs`
   - `Program.fs`
@@ -646,7 +650,7 @@ In the project file, we can see that the unit test project:
   - `coverlet.collector` - library to get code coverage statistics for projects <https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=windows>
   - `Microsoft.NET.Test.Sdk` - Package for building .NET test projects
   - `xunit` - Library for writing unit tests
-  - `xunit.runner.visualstudio` - Pakke for å kjøre Xunit-tester i "Test explorer" i Visual Studio <https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019>
+  - `xunit.runner.visualstudio` - Library for running Xunit tests in "Test explorer" in Visual Studio <https://docs.microsoft.com/en-us/visualstudio/test/run-unit-tests-with-test-explorer?view=vs-2019>
 
 ##### The test file
 
@@ -671,7 +675,7 @@ At the top of the file, an F# module `Tests` is defined. In addition, the module
 
 The difference between these is explained in more detail in the [unit testing step](#step-5---unit-testing-for-domain-model).
 
-> Note that ``` ``<variable name with spaces>`` ``` is used to allow a variable name that contains spaces. This way you can have a function name that describes the test and is at the same time human-readable.
+> Note that ``` ``<variable name with spaces>`` ``` allows variable names to contain spaces. This enables you to write function names that clearly describe the test while remaining human-readable.".
 
 ##### Running the unit test project
 
@@ -780,14 +784,14 @@ Build succeeded in 4,6s
 
 **Step 3 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-2---create-test-projects) [⬇ Next step](#step-4---define-domain-model)
 
-As it stands now, we have three projects that are independent of each other. Other than being in the same folder, there is nothing that connects them. In order to be able to do operations such as adding common packages and running all the tests for our system, we can link the projects together in one and the same solution (_solution_). Having all the projects in one and the same solution also gives the advantage of being able to open all the projects together in an IDE.
+As it stands now, we have three projects that are independent of each other. Other than being in the same folder, there is nothing that connects them. In order to be able to do operations such as adding shared packages and running all the tests for our system, we can link the projects together in one and the same _solution_. Having all the projects in one and the same solution also gives the advantage of being able to open all the projects together in an IDE.
 
 #### Dotnet sln
 
 To create a solution with `dotnet` you can run the following command:
 
 ```bash
-dotnet new sln -n Dotnet School
+dotnet new sln -n Dotnetskolen
 ```
 
 ```bash
@@ -837,7 +841,7 @@ EndGlobal
 
 To add references to the projects you have created you can run the following commands
 
-##### Add API Project
+##### Add the API Project
 
 ```bash
 dotnet sln add src/api/NRK.Dotnetskolen.Api.fsproj
@@ -847,7 +851,7 @@ dotnet sln add src/api/NRK.Dotnetskolen.Api.fsproj
 Project `src\api\NRK.Dotnetskolen.Api.fsproj` added to the solution.
 ```
 
-##### Adding unit test project
+##### Adding the Unit Test project
 
 ```bash
 dotnet sln add test/unit/NRK.Dotnetskolen.UnitTests.fsproj
@@ -857,7 +861,7 @@ dotnet sln add test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 Project `test\unit\NRK.Dotnetskolen.UnitTests.fsproj` added to the solution.
 ```
 
-##### Adding Integration Test Project
+##### Adding the Integration Test Project
 
 ```bash
 dotnet sln add test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
@@ -926,18 +930,18 @@ The image below shows how the "Solution explorer" in Visual Studio displays the 
 
 **Step 4 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-3---create-solution) [⬇ Next step](#step-5---unit-tests-for-domain-model)
 
-We are going to create an API to retrieve a simplified electronic program guide (EPG) for various channels on NRK TV. The idea is that this API could provide the data basis for a program guide - e.g. the one shown here: <https://info.nrk.no/presse/tvguide/>
+We are going to create an API to retrieve a simplified electronic program guide (EPG) for various channels on NRK TV. The idea is that the API could deliver the data basis for a program guide - e.g the one shown here: <https://info.nrk.no/presse/tvguide/>
 
 > The model we use for EPG in this course is simplified compared to [the one used in the PS API](https://webapp-ps-granitt-api-prod-we.azurewebsites.net/swagger/ui/index#/Epg), and is used as an example only.
 
-An EPG can be seen as a list of broadcasts, and for our example in this course, a broadcast contains the following fields:
+An EPG can be seen as a list of transmissions, and for our example in this course, a transmission contains the following fields:
 
 - Title - The title of the program. Must be between 5 and 100 characters (inclusive), and can only consist of uppercase and lowercase letters, numbers, and some special characters: `, . : - !`
-- Channel - The channel the broadcast is on. In our case, possible channels are limited to NRK1 and NRK2, and must be written in capital letters.
-- Start date and time - date and time when the broadcast starts.
-- End date and time - date and time when the broadcast ends. Must be after the start date and time.
+- Channel - The channel broadcasting the transmission. In our case, possible channels are limited to NRK1 and NRK2, and must be written in capital letters.
+- Start date and time - date and time when the transmission starts.
+- End date and time - date and time when the transmission ends. Must be after the start date and time.
 
-#### Domenemodell i F#
+#### Domain model in F#
 
 Now that we have specified our domain, we can model it in F#. Start by creating a new file `Domain.fs` under `src/api`:
 
@@ -963,30 +967,30 @@ module Domain =
 
     open System
 
-    type Sending = {
+    type Transmission = {
         Title: string
         Channel: string
-        Start time: DateTimeOffset
-        End time: DateTimeOffset
+        StartTime: DateTimeOffset
+        EndTime: DateTimeOffset
     }
 
-    type Epg = Sending list
+    type Epg = Transmission list
 ```
 
 Above we define an F# module `Domain` in the namespace `NRK.Dotnetskolen`. In the `Domain` module we define our domain model, which consists of two types:
 
-- `Broadcast` - models a single item in the EPG, and contains the fields defined in the previous section
+- `Transmission` - models a single item in the EPG, and contains the fields defined in the previous section
   - Title
   - Channel
-  - Start time
-  - End time
-- `EPG` - a list of broadcasts
+  - StartTime
+  - EndTime
+- `Epg` - a list of transmissions
 
 We also opened the `System` module to access the `DateTimeOffset` type.
 
 > Notice the indentation on the lines after `module Domain =`. This indentation is required by F# for the code to compile correctly.
 
-Include `Domain.fs` in the api project by adding `<Compile Include="Domain.fs" />` in `src/api/NRK.Dotnetskolen.Api.fsproj` as shown below:
+Include `Domain.fs` in the API project by adding `<Compile Include="Domain.fs" />` in `src/api/NRK.Dotnetskolen.Api.fsproj` as shown below:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -1018,16 +1022,16 @@ open NRK.Dotnetskolen.Domain
 
 let epg = [
     {
-        Title = "Daily Review"
+        Title = "Dagsrevyen"
         Channel = "NRK1"
-        Start time = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
-        End time = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
+        StartTime = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+        EndTime = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
     }
 ]
 printfn "%A" epg
 ```
 
-Here we create a variable `epg` which is a list of broadcasts, as we defined in `Domain.fs`.
+Here we create a variable `epg` which is a list of transmissions, as we defined in `Domain.fs`.
 
 Run the API project again with the following command, and see that the `epg` value is written to the terminal.
 
@@ -1036,19 +1040,19 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 ```
 
 ```bash
-[{ Title = "Daily Review"
+[{ Title = "Dagsrevyen"
    Channel = "NRK1"
-   Start time = 16.04.2021 19:00:00 +02:00
-   End time = 16.04.2021 19:30:00 +02:00 }]
+   StartTime = 16.04.2021 19:00:00 +02:00
+   EndTime = 16.04.2021 19:30:00 +02:00 }]
 ```
 
 > Note that some people have reported problems with error messages in Rider after adding the line `open NRK.Dotnetskolen.Domain`. If you experience the same thing, you can right-click on the "Solution" node in Rider, and click "Unload" followed by "Reload". This should hopefully fix the problem.
 
-### Step 5 - Unit tests for domain model
+### Step 5 - Unit tests for the domain model
 
 **Step 5 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-4---define-domain-model) [⬇ Next step](#step-6---define-api-contract)
 
-The domain model introduced in [previous step](#step-4---define-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of broadcasts, and what fields each broadcast contains). In this step, we will implement the validation rules in F#, and verify that we have implemented them correctly using unit tests.
+The domain model introduced in [previous step](#step-4---define-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of transmissions, and what fields each transmission contains). In this step, we will implement the validation rules in F#, and verify that we have implemented them correctly using unit tests.
 
 #### Rules in our domain
 
@@ -1060,7 +1064,7 @@ We want to verify the following rules from our domain:
 - Channel
   - `NRK1` or `NRK2`.
   - Only capital letters are allowed.
-- Broadcast time
+- Transmission time
   - End time must be after start time
 
 #### Title
@@ -1069,7 +1073,7 @@ Let's start by verifying that we are implementing the title validation rules cor
 
 ##### Unit tests
 
-Since the title has length constraints, it is important to test the boundary cases of the length. In addition, it is important to test that only valid characters are allowed. Replace the existing test in `Tests.fs` in the unit test project with the tests below.
+Since the title has length constraints, it's important to test boundary cases for length. Additionally, we need to ensure that only valid characters are allowed. Replace the existing test in `Tests.fs` within the unit test project with the tests below.
 
 ```f#
 module Tests
@@ -1083,7 +1087,7 @@ open Xunit
 let ``isTitleValid valid title returns true`` (title: string) =
     let isTitleValid = isTitleValid title
 
-    Assert.True isTittelValid
+    Assert.True isTitleValid
 
 [<Theory>]
 [<InlineData("abcd")>]
@@ -1095,7 +1099,7 @@ let ``isTitleValid invalid title returns false`` (title: string) =
     Assert.False isTitleValid
 ```
 
-Here we have defined two unit tests that both test the `isTitleValid` function. The first test verifies that `isTitleValid` returns `true` when the title _is_ valid, while the second verifies the opposite case. In xUnit, you annotate test functions with either `[<Fact>]` or `[<Theory>]`. Test functions annotated with `[<Fact>]` will run once without any input parameters, while in test functions annotated with `[<Theory>]` you can take in parameters, and annotate the test function with `[<InlineData>]` to pass in given input parameters. Then the test function will be run once _per_ annotation with `[<InlineData>]`.
+Here we have defined two unit tests that both test the `isTitleValid` function. The first test verifies that `isTitleValid` returns `true` when the title _is_ valid, while the second verifies the opposite case. In xUnit, you annotate test functions with either `[<Fact>]` or `[<Theory>]`. Test functions annotated with `[<Fact>]` will run once without any input parameters, while in test functions annotated with `[<Theory>]` you can use input parameters, and annotate the test function with `[<InlineData>]` to pass in given input parameters. Then the test function will be run once _per_ annotation with `[<InlineData>]`.
 
 If you try to run the tests, you will see that the test project does not compile because we neither have a reference to the API project (where our domain is defined) nor have we defined the `isTitleValid` function yet.
 
@@ -1107,8 +1111,8 @@ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj [11:56:17]
 Restore complete (0,4s)
   NRK.Dotnetskolen.UnitTests failed with 2 error(s) (2,0s)
-    C:\Dev\github.com\nrkno\dotnetskolen\test\unit\Tests.fs(9,25): error FS0039: The value or constructor 'isTittelValid' is not defined.
-    C:\Dev\github.com\nrkno\dotnetskolen\test\unit\Tests.fs(18,25): error FS0039: The value or constructor 'isTittelValid' is not defined.
+    C:\Dev\github.com\nrkno\dotnetskolen\test\unit\Tests.fs(9,25): error FS0039: The value or constructor 'isTitleValid' is not defined.
+    C:\Dev\github.com\nrkno\dotnetskolen\test\unit\Tests.fs(18,25): error FS0039: The value or constructor 'isTitleValid' is not defined.
 
 Build failed with 2 error(s) in 3,0s
 ```
@@ -1125,7 +1129,7 @@ Then paste the following code at the end of the file:
 
 ```f#
     let isTitleValid (title: string) : bool =
-        let tittelRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+        let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
         titleRegex.IsMatch(title)
 ```
 
@@ -1149,7 +1153,7 @@ dotnet add ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj reference ./src/api/NRK
 Reference `..\..\src\api\NRK.Dotnetskolen.Api.fsproj` added to the project.
 ```
 
-You can see the effect of the command above by opening `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`:
+You can see the output of the command above by opening `test/unit/NRK.Dotnetskolen.UnitTests.fsproj`:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -1212,7 +1216,7 @@ Test summary: total: 6; failed: 0; succeeded: 6; skipped: 0; duration: 3,1s
 Build succeeded in 10,2s
 ```
 
-> Notice that the test report shows that six tests were run. So far, we have only defined two tests. This illustrates that `xUnit` runs tests once per annotation with `[<InlineData>]`.
+> Notice that the test report shows that six tests were run. So far, we have only defined two tests. This illustrates that `xUnit` runs tests once per `[<InlineData>]` annotation.
 
 #### Channel
 
@@ -1226,7 +1230,7 @@ To test the channel validation rule, we need one positive test per valid channel
 [<Theory>]
 [<InlineData("NRK1")>]
 [<InlineData("NRK2")>]
-let ``isKanalValid valid kanal returns true`` (kanal: string) =
+let ``isChannelValid valid channel returns true`` (kanal: string) =
     let isChannelValid = isChannelValid channel
 
     Assert.True isChannelValid
@@ -1234,22 +1238,22 @@ let ``isKanalValid valid kanal returns true`` (kanal: string) =
 [<Theory>]
 [<InlineData("nrk1")>]
 [<InlineData("NRK3")>]
-let ``isKanalValid invalid kanal returns false`` (kanal: string) =
+let ``isChannelValid invalid channel returns false`` (kanal: string) =
     let isChannelValid = isChannelValid channel
 
     Assert.False isChannelValid
 ```
 
-##### Implementation of isKanalValid
+##### Implementation of isChannelValid
 
 Before we run the tests again, we define the shell for `isChannelValid` in `Domain.fs`:
 
 ```f#
-    let isKanalValid (kanal: string) : bool =
+    let isChannelValid (channel: string) : bool =
     // Implementation here
 ```
 
-☑️ Implement `isKanalValid` so that the unit tests pass.
+☑️ Implement `isKanalValid` in order to make the unit tests pass.
 
 ```bash
 dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
@@ -1270,23 +1274,23 @@ Test summary: total: 10; failed: 0; succeeded: 10; skipped: 0; duration: 1,1s
 Build succeeded in 6,7s
 ```
 
-#### Broadcast times
+#### Transmission times
 
 The last thing we need to validate in our domain is that the end time is after the start time.
 
 ##### Unit tests
 
-Below is one unit test for validating send times in `Tests.fs`:
+Below is one unit test for validating transmission times in `Tests.fs`:
 
 ```f#
 [<Fact>]
-let ``areStartAndSluttidspunktValid start before end returns true`` () =
+let ``areStartTimeAndEndTimeValid start before end returns true`` () =
     easy start time = DateTimeOffset.Now
-    easy endtime = starttime.AddMinutes 30.
+    easy endTime = startTime.AddMinutes 30.
 
-    let areStartAndEndTimeValid = areStartAndEndTimeValid starttime endtime
+    let areStartTimeAndEndTimeValid = areStartTimeAndEndTimeValid starttime endtime
 
-    Assert.True areStartAndEndTimeValid
+    Assert.True areStartTimeAndEndTimeValid
 ```
 
 Note that you also need to add the following `open` statement to `Tests.fs` for `DateTimeOffset.Now` from the code snippet above to work:
@@ -1297,18 +1301,18 @@ open System
 
 ☑️ Add more unit tests you think are necessary to verify that the start and end time validation is correct.
 
-> Note that here we use the `[<Fact>]` attribute instead of `[<Theory>]`. The `[<InlineData>]` attribute that is used with the `[<Theory>]` attribute requires values ​​that are constant at compile time. Since we are using `DateTimeOffset` objects (which are not constant at compile time) as input to `areStartAndEndTimeValid`, we therefore use the `[<Fact>]` attribute.
+> Note that here we use the `[<Fact>]` attribute instead of `[<Theory>]`. The `[<InlineData>]` attribute that is used with the `[<Theory>]` attribute requires values ​​that are constant at compile time. Since we are using `DateTimeOffset` objects (which are not constant at compile time) as input to `areStartTimeAndEndTimeValid`, we therefore use the `[<Fact>]` attribute.
 
-##### Implementation of areStartAndEndTimeValid
+##### Implementation of areStartTimeAndEndTimeValid
 
-The function to validate the send times must check if the end time is greater than the start time. Paste the shell of `areStartAndEndTimeValid` into `Domain.fs`:
+The function to validate the send times must check if the end time is greater than the start time. Paste the shell of `areStartTimeAndEndTimeValid` into `Domain.fs`:
 
 ```f#
-    let areStartAndEndTimeValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
+    let areStartTimeAndEndTimeValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
     // Implementation here
 ```
 
-☑️ Implement `areStartAndEndTimeValid` and make the unit tests pass.
+☑️ Implement `areStartTimeAndEndTimeValid` and make the unit tests pass.
 
 ```bash
 dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
@@ -1329,26 +1333,26 @@ Test summary: total: 13; failed: 0; succeeded: 13; skipped: 0; duration: 1,1s
 Build succeeded in 6,6s
 ```
 
-#### Validate a shipment
+#### Validate a transmission
 
-Now that we have functions to validate the various fields in a submission, we can create a function that validates an entire submission.
+Now that we have functions to validate the various fields of a transmission, we can create a function that validates an entire transmission.
 
 ##### Unit tests
 
-Since we have written unit tests for the validation functions of the various parts of a submission, the unit tests for validating the entire submission can be quite simple.
+Since we have written unit tests for the validation functions of the various parts of a transmission, the unit tests for validating the entire transmission can be quite simple.
 
-☑️ Write one positive test for a valid send, and one negative test for an invalid send in `Tests.fs` that assumes there is a function `isSendingValid` in `Domain.fs`
+☑️ Write one positive test for a valid transmission, and one negative test for an invalid transmission in `Tests.fs` that assumes there is a function `isTransmissionValid` in `Domain.fs`
 
-##### Implementation of isSendingValid
+##### Implementation of isTransmissionValid
 
-Add the following shell for `isSendingValid` in `Domain.fs`:
+Add the following shell for `isTransmissionValid` in `Domain.fs`:
 
 ```f#
-    let isSendingValid (sending: Sending) : bool =
+    let isTransmissionValid (transmission: Transmission) : bool =
     // Implementation here
 ```
 
-☑️ Implement `isSendingValid`, and make the unit tests pass:
+☑️ Implement `isTransmissionValid`, and make the unit tests pass:
 
 ```bash
 dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
@@ -1369,7 +1373,7 @@ Test summary: total: 15; failed: 0; succeeded: 15; skipped: 0; duration: 1,2s
 Build succeeded in 7,2s
 ```
 
-> Note that the domain model, as implemented in [step 4](#step-4---define-domain-model) and [step 5](#step-5---unit-tests-for-domain-model), has a weakness in that it is possible to create a `Sending` value that is invalid. We have implemented `isSendingValid`, but there is nothing that prevents us from creating a `Sending` value without using `isSendingValid`. In the extra task in [step 10](#step-10---follow-principles-in-domain-driven-design) an alternative approach that uses principles from [domain-driven design](https://en.wikipedia.org/wiki/Domain-driven_design) is presented. The remaining steps in this course up to and including step 10 will be based on the domain model as defined here in [step 4](#step-4---define-domain-model) and [step 5](#step-5---unit-tests-for-domain-model) in order not to introduce too many principles at once, and to keep the focus on what the course is intended for. If you wish, you can move on to [step 10](#step-10---follow-principles-in-domain-driven-design) now to see how it is done there. Remember that step 11 is written with the assumption that you have completed the course up to and including step 10 first.
+> Note that the domain model, as implemented in [step 4](#step-4---define-domain-model) and [step 5](#step-5---unit-tests-for-domain-model), has a weakness in that it is possible to create a `Transmission` value that is invalid. We have implemented `isTransmissionValid`, but there is nothing that prevents us from creating a `Transmission` value without using `isTransmissionValid`. In the extra task in [step 10](#step-10---follow-principles-in-domain-driven-design) an alternative approach that uses principles from [domain-driven design](https://en.wikipedia.org/wiki/Domain-driven_design) is presented. The remaining steps in this course up to and including step 10 will be based on the domain model as defined here in [step 4](#step-4---define-domain-model) and [step 5](#step-5---unit-tests-for-domain-model). This approach helps avoid introducing too many concepts at once and keeps the focus on the course’s core objectives. If you wish, you can move on to [step 10](#step-10---follow-principles-in-domain-driven-design) now to see how it is done there. Remember that step 11 is written with the assumption that you have completed the course up to and including step 10.
 
 ### Step 6 - Define API Contract
 
