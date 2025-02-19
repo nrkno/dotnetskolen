@@ -1390,7 +1390,7 @@ To limit the scope of our API, we should have only one operation in it:
 
 #### Responses
 
-The response to this operation will consist of two lists of broadcasts, one for each channel in our domain, where each broadcast has:
+The response to this operation will consist of two lists of transmissions, one for each channel in our domain, where each transmission has:
 
 - Title - text string that follows the rules defined in [our domain model](#step-4---define-domain-model).
 - Start date and time - text string that follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
@@ -1408,13 +1408,13 @@ Before we define the actual contract of the API in an OpenAPI specification, we 
         "nrk1": {
             "type": "array",
             "items": {
-                "$ref": "#/components/schemas/Sending"
+                "$ref": "#/components/schemas/Transmission"
             }
         },
         "nrk2": {
             "type": "array",
             "items": {
-                "$ref": "#/components/schemas/Sending"
+                "$ref": "#/components/schemas/Transmission"
             }
         }
     },
@@ -1430,7 +1430,7 @@ Before we define the actual contract of the API in an OpenAPI specification, we 
                 "example": "Dagsrevyen",
                 "description": "Programtittel"
             },
-            "Sending": {
+            "Transmission": {
                 "type": "object",
                 "properties": {
                     "tittel": {
@@ -1439,12 +1439,12 @@ Before we define the actual contract of the API in an OpenAPI specification, we 
                     "startTime": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "Start date and time of the broadcast."
+                        "description": "Start date and time of the transmission."
                     },
                     "endTime": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "The end date and time of the broadcast. Is always greater than the start date and time of the broadcast."
+                        "description": "The end date and time of the transmission. Is always greater than the start date and time of the transmission."
                     }
                 },
                 "required": [
@@ -1458,7 +1458,7 @@ Before we define the actual contract of the API in an OpenAPI specification, we 
 }
 ```
 
-Here we see that the response consists of an object with two fields: `nrk1` and `nrk2`, both of which are a list of the broadcasts on the respective channels. Each broadcast contains a title, as well as a start and end time. Each of the fields are text strings that follow the validation rules we have defined in our domain. `Title` has `pattern` similar to the regular expression we used in `isTitleValid` in `Domain.fs`. `Starttime` and `Endtime` have `format: "date-time"`, which follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
+Here we see that the response consists of an object with two fields: `nrk1` and `nrk2`, both of which are a list of the transmissions on the respective channels. Each transmission contains a title, as well as a start and end time. Each of the fields are text strings that follow the validation rules we have defined in our domain. `Title` has `pattern` similar to the regular expression we used in `isTitleValid` in `Domain.fs`. `Starttime` and `Endtime` have `format: "date-time"`, which follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 
 For now, we won't be doing anything more with the JSON schema than having it as documentation for our API. Create a new folder `docs` in your root folder with a new file `epg.schema.json` where you paste the JSON schema above. You should now have the following folder hierarchy:
 
@@ -1668,7 +1668,7 @@ Finally, we add an ID for the operation, and a textual description of it.
                     }
                 },
                 "operationId": "hentEpgPåDato",
-                "description": "Gets EPG for NRK1 and NRK 2 on the given date. Returns 400 if date is invalid. The list of broadcasts for a channel is empty if there are no broadcasts on the given day."
+                "description": "Gets EPG for NRK1 and NRK 2 on the given date. Returns 400 if date is invalid. The list of transmissions for a channel is empty if there are no transmissions on the given day."
             }
         }
     }
@@ -1719,13 +1719,13 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
                                         "nrk1": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Sending"
+                                                "$ref": "#/components/schemas/Transmission"
                                             }
                                         },
                                         "nrk2": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Sending"
+                                                "$ref": "#/components/schemas/Transmission"
                                             }
                                         }
                                     },
@@ -1751,7 +1751,7 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
                     }
                 },
                 "operationId": "hentEpgPåDato",
-                "description": "Gets EPG for NRK1 and NRK 2 on the given date. Returns 400 if date is invalid. The list of broadcasts for a channel is empty if there are no broadcasts on the given day."
+                "description": "Gets EPG for NRK1 and NRK 2 on the given date. Returns 400 if date is invalid. The list of transmissions for a channel is empty if there are no transmissions on the given day."
             }
         }
     },
@@ -1763,7 +1763,7 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
                 "example": "Dagsrevyen",
                 "description": "Programtittel"
             },
-            "Sending": {
+            "Transmission": {
                 "type": "object",
                 "properties": {
                     "tittel": {
@@ -1772,12 +1772,12 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
                     "startTime": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "Start date and time of the broadcast."
+                        "description": "Start date and time of the transmission."
                     },
                     "endTime": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "The end date and time of the broadcast. Is always greater than the start date and time of the broadcast."
+                        "description": "The end date and time of the transmission. Is always greater than the start date and time of the transmission."
                     }
                 },
                 "required": [
@@ -1829,15 +1829,15 @@ namespace NRK.Dotnetskolen
 
 module Dto =
 
-  type SendingDto = {
+  type TransmissionDto = {
       Title: string
       StartTime: string
       EndTime: string
   }
 
   type EpgDto = {
-    Nrk1: SendingDto list
-    Nrk2: SendingDto list
+    Nrk1: TransmissionDto list
+    Nrk2: TransmissionDto list
   }
 ```
 
@@ -2391,7 +2391,7 @@ If we look at the API contract we defined in [step 6](#step-6---definere-api-kon
                     }
                 }
                 ...
-                "description": "Gets EPG for NRK1 and NRK 2 on the given date. Returns 400 if date is invalid. The list of broadcasts for a channel is empty if there are no broadcasts on the given day."
+                "description": "Gets EPG for NRK1 and NRK 2 on the given date. Returns 400 if date is invalid. The list of transmissions for a channel is empty if there are no transmissions on the given day."
             }
         }
     }
@@ -2709,7 +2709,7 @@ The part of the application that is responsible for satisfying all the dependenc
 
 ##### Get EPG
 
-The next step in implementing the API now is to retrieve the EPG for the validated date. Since retrieving broadcasts for a given date can be implemented in several ways (calling a web service, querying a database, retrieving from a file), we use the IoC principle, and say that this is a function we need to get into `epgHandler`. We define this function as `getEpgForDate: DateOnly -> Epg` where `Epg` is the type from our domain model. Extend `epgHandler` in `HttpHandlers.fs` with this dependency as shown below:
+The next step in implementing the API now is to retrieve the EPG for the validated date. Since retrieving transmissions for a given date can be implemented in several ways (calling a web service, querying a database, retrieving from a file), we use the IoC principle, and say that this is a function we need to get into `epgHandler`. We define this function as `getEpgForDate: DateOnly -> Epg` where `Epg` is the type from our domain model. Extend `epgHandler` in `HttpHandlers.fs` with this dependency as shown below:
 
 ```f#
 open NRK.Dotnetskolen.Domain
@@ -2723,7 +2723,7 @@ let epgHandler (getEpgForDate: DateOnly -> Epg) (dateAsString: string) =
     | None -> Results.BadRequest("Invalid date")
 ```
 
-Now we can call `getEpgForDate` with the validated date to get all the broadcasts for the given date as shown below:
+Now we can call `getEpgForDate` with the validated date to get all the transmissions for the given date as shown below:
 
 ```f#
 let epgHandler (getEpgForDate: DateOnly -> Epg) (dateAsString: string) =
@@ -2750,8 +2750,8 @@ let fromDomain (domain: Domain.Epg) : EpgDto =
 > 💡Tips!
 >
 > - To convert a `DateTimeOffset` to a `string` in the correct format, you can use `ToString("o")` on a `DateTimeOffset` value like this: `let dateTimeOffsetAsString = myDateTimeOffset.ToString("o")`
-> - Remember that the `EpgDto` type has two fields: one for `Nrk1` and one for `Nrk2`, and that the broadcasts in the `Epg` type must be filtered before being put in the two fields. The `List.filter` function can be used to filter elements in a list.
-> - If you have a list of sendings for a given channel, you can use `List.map` to map a `Sending` value to a `SendingDto` value.
+> - Remember that the `EpgDto` type has two fields: one for `Nrk1` and one for `Nrk2`, and that the transmissions in the `Epg` type must be filtered before being put in the two fields. The `List.filter` function can be used to filter elements in a list.
+> - If you have a list of sendings for a given channel, you can use `List.map` to map a `Transmission` value to a `TransmissionDto` value.
 
 Now that we have implemented the `fromDomain` function, we can use it in `epgHandler`. Add the following `open` statement, and use `fromDomain` in `epgHandler` in `HttpHandlers.fs` like this:
 
@@ -2863,24 +2863,24 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 Let's move on to implementing `getEpgForDate` in `Services.fs`.
 
-The task of `getEpgForDate` is to filter broadcasts on the given date, but where should it get the broadcasts from? In a similar way to what we did in the `epgHandler` function in `HttpHandlers`, we can say here that we want to delegate the responsibility of actually retrieving broadcasts to someone else. We can do this by including a function `getAlleSendinger: () -> Epg` in `getEpgForDate`:
+The task of `getEpgForDate` is to filter transmissions on the given date, but where should it get the transmissions from? In a similar way to what we did in the `epgHandler` function in `HttpHandlers`, we can say here that we want to delegate the responsibility of actually retrieving transmissions to someone else. We can do this by including a function `getAllTransmissions: () -> Epg` in `getEpgForDate`:
 
 ```f#
-let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateOnly) : Epg =
-    let allSends = getAllSends()
+let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateOnly) : Epg =
+    let allTransmissions = getAllTransmissions()
 ```
 
-☑️ Complete the implementation for `getEpgForDate` and ensure that the Epg value returned only has broadcasts starting on the given date `date`.
+☑️ Complete the implementation for `getEpgForDate` and ensure that the Epg value returned only has transmissions starting on the given date `date`.
 
 > 💡Tips!
 >
-> - `List.filter` can be helpful for filtering the shipments from `getAlleSendinger`
+> - `List.filter` can be helpful for filtering the shipments from `getAllTransmissions`
 > - `DateTimeOffset` has a property `Date` that retrieves the date component of the `DateTimeOffset` value
 > - `DateOnly` has a function `FromDateTime` that takes in a `DateTime` and returns a `DateOnly`
 
-###### Implement getAllShipments
+###### Implement getAllTransmissions
 
-Now we can decide where to get the shipments from. Should we get them from a web service, database, file? The `getAllShipments` function hides this implementation detail from the rest of our code. For our example in this course, it is sufficient to define shipments in a separate file `DataAccess.fs` and implement `getAllShipments` there.
+Now we can decide where to get the shipments from. Should we get them from a web service, database, file? The `getAllTransmissions` function hides this implementation detail from the rest of our code. For our example in this course, it is sufficient to define shipments in a separate file `DataAccess.fs` and implement `getAllTransmissions` there.
 
 Create `DataAccess.fs` in `src/api`:
 
@@ -2917,7 +2917,7 @@ Remember to add `DataAccess.fs` to the project file of the API project:
 </Project>
 ```
 
-We pretend that we are retrieving our broadcasts from a database, and therefore implement our own types that represent how the broadcasts and the EPG are stored in the database:
+We pretend that we are retrieving our transmissions from a database, and therefore implement our own types that represent how the transmissions and the EPG are stored in the database:
 
 ```f#
 namespace NRK.Dotnetskolen.Api
@@ -2926,17 +2926,17 @@ module DataAccess =
 
     open System
 
-    type SendingEntity = {
+    type TransmissionEntity = {
         Title: string
         Channel: string
         StartTime: string
         EndTime: string
     }
 
-    type EpgEntity = SendingEntity list
+    type EpgEntity = TransmissionEntity list
 ```
 
-Then we can define some broadcasts in a separate list we call `database`:
+Then we can define some transmissions in a separate list we call `database`:
 
 ```f#
 let database =
@@ -2973,15 +2973,15 @@ let getAllShows () : Epg =
   // Implementation here
 ```
 
-Note that the `getAlleSendinger` function should return a value of type `Epg` from the `Domain` module.
+Note that the `getAllTransmissions` function should return a value of type `Epg` from the `Domain` module.
 
-☑️ Implement the `getAlleSendinger` function.
+☑️ Implement the `getAllTransmissions` function.
 
-> Tip: it may be a good idea to write one or more functions that map a `SendingEntity` value to a `Sending` value and an `EpgEntity` value to an `Epg` value. Remember to validate whether the `Epg` value is valid afterwards. We cannot guarantee the data quality of the database.
+> Tip: it may be a good idea to write one or more functions that map a `TransmissionEntity` value to a `Transmission` value and an `EpgEntity` value to an `Epg` value. Remember to validate whether the `Epg` value is valid afterwards. We cannot guarantee the data quality of the database.
 
 ###### Registering dependencies
 
-Since we introduced `getAlleSendinger` as a dependency to `getEpgForDate`, we need to change `createWebApplication` so that `getEpgForDate` gets this dependency.
+Since we introduced `getAllTransmissions` as a dependency to `getEpgForDate`, we need to change `createWebApplication` so that `getEpgForDate` gets this dependency.
 
 Add the following `open` statement, and expand the call to `app.MapGet("/epg/{date}"` in `createWebApplication` in `Program.fs` in the web API project like this:
 
@@ -2993,11 +2993,11 @@ open NRK.Dotnetskolen.Api.DataAccess
 let createWebApplication (builder: WebApplicationBuilder) =
     let app = builder.Build()
     app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
-    app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAlleSendinger) date)) |> ignore
+    app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAllTransmissions) date)) |> ignore
     app
 ```
 
-Note that above we have called `getEpgForDate` with `getAlleSendinger`, and got a new function in return that takes in a `DateOnly` and returns an `Epg` value. Passing in a subset of the parameters to a function, and getting a function in return that takes in the remaining parameters is called "partial application". You can read more about "partial application" of functions in F# here: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments>
+Note that above we have called `getEpgForDate` with `getAllTransmissions`, and got a new function in return that takes in a `DateOnly` and returns an `Epg` value. Passing in a subset of the parameters to a function, and getting a function in return that takes in the remaining parameters is called "partial application". You can read more about "partial application" of functions in F# here: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments>
 
 Run the API with the following command, go to <http://localhost:5000/epg/2021-04-12>, and see what you get in return.
 
@@ -3009,7 +3009,7 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 One problem with our integration tests as they are now is that we have no control over the dependencies of the application while running the integration tests. More specifically, we used the actual data access to the web API when we ran the tests. In a real system, the data would not be hardcoded in the web API, but rather stored in a database or similar. To avoid being dependent on a database when running the integration tests, we can change the host we use in the integration tests to use a data store we specify in the tests instead of using the data store the web API is configured to use.
 
-##### Implement mock of getAlleSendinger
+##### Implement mock of getAllTransmissions
 
 Let's implement our own `getAllShipments` function in the integration test project, and have our API use it instead.
 
@@ -3052,7 +3052,7 @@ Remember to add `Mock.fs` to the project file of the integration test project:
 </Project>
 ```
 
-Paste the following code into `Mock.fs` where we hardcode some broadcasts that always have today's date:
+Paste the following code into `Mock.fs` where we hardcode some transmissions that always have today's date:
 
 ```f#
 namespace NRK.Dotnetskolen.IntegrationTests
@@ -3078,7 +3078,7 @@ module Mock =
                 StartTime = now.AddDays(-10.)
                 EndTime = now.AddDays(-10.).AddMinutes(30.)
             }
-            // Today's broadcasts
+            // Today's transmissions
             {
                 Title = "Test Program"
                 Channel = "NRK1"
@@ -3107,9 +3107,9 @@ module Mock =
         ]
 ```
 
-##### Use mock of getAlleSendinger
+##### Use mock of getAllTransmissions
 
-Now we have our own implementation of `getAlleSendinger` that we want to use only when the integration tests are running. How do we do that? Let's take a closer look at what `Program.fs` in the API project looks like:
+Now we have our own implementation of `getAllTransmissions` that we want to use only when the integration tests are running. How do we do that? Let's take a closer look at what `Program.fs` in the API project looks like:
 
 ```f#
 namespace NRK.Dotnetskolen.Api
@@ -3129,7 +3129,7 @@ module Program =
     let createWebApplication (builder: WebApplicationBuilder) =
         let app = builder.Build()
         app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
-        app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAlleSendinger) date)) |> ignore
+        app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler (getEpgForDate getAllTransmissions) date)) |> ignore
         app
 
     let builder = createWebApplicationBuilder()
@@ -3137,7 +3137,7 @@ module Program =
     app.Run()
 ```
 
-Here we see that `epgHandler` takes in `getEpgForDate` "partially applied" with `getAlleSendinger` as the first parameter. `getEpgForDate` and `getAlleSendinger` here are taken from the `Services` and `DataAccess` modules in the API project, respectively, but we want to send our own implementations of these in the integration tests so that we have control over the dependencies of the API when running the integration tests. Remember that the `runWithTestClient` function in `Tests.fs` in the integration test project calls the `createWebApplication` function from `Program.fs` in the API project. If we had extended the `createWebApplication` function to take in `getEpgForDate` as a separate parameter, we could send one implementation of the function from the API, and another implementation from the integration tests. Let's do that.
+Here we see that `epgHandler` takes in `getEpgForDate` "partially applied" with `getAllTransmissions` as the first parameter. `getEpgForDate` and `getAllTransmissions` here are taken from the `Services` and `DataAccess` modules in the API project, respectively, but we want to send our own implementations of these in the integration tests so that we have control over the dependencies of the API when running the integration tests. Remember that the `runWithTestClient` function in `Tests.fs` in the integration test project calls the `createWebApplication` function from `Program.fs` in the API project. If we had extended the `createWebApplication` function to take in `getEpgForDate` as a separate parameter, we could send one implementation of the function from the API, and another implementation from the integration tests. Let's do that.
 
 Add the following `open` statement, and extend the `createWebApplication` function in `Program.fs` in the API project with a parameter to `getEpgForDate`, and pass this to `epgHandler` like this:
 
@@ -3153,10 +3153,10 @@ let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateOn
     app
 ```
 
-Then send `getEpgForDate` from the `Services` module "partially applied" with `getAlleSendinger` from the `DataAccess` module as the second parameter to `createWebApplication`, like this:
+Then send `getEpgForDate` from the `Services` module "partially applied" with `getAllTransmissions` from the `DataAccess` module as the second parameter to `createWebApplication`, like this:
 
 ```f#
-let app = createWebApplication builder (getEpgForDate getAlleSendinger)
+let app = createWebApplication builder (getEpgForDate getAllTransmissions)
 ```
 
 `Program.fs` in the API project should now look like this:
@@ -3184,21 +3184,21 @@ module Program =
         app
 
     let builder = createWebApplicationBuilder()
-    let app = createWebApplication builder (getEpgForDate getAlleSendinger)
+    let app = createWebApplication builder (getEpgForDate getAllTransmissions)
     app.Run()
 ```
 
-Now that we can control the implementation of `getEpgForDate` from outside the `createWebApplication` function, we can create a separate `getEpgForDate` in the integration test project that uses the mock implementation of `getAlleSendinger`. Start by opening the `Services` module from the API project, and the `Mock` module from the integration test project in `Tests.fs` in the integration test project, like this:
+Now that we can control the implementation of `getEpgForDate` from outside the `createWebApplication` function, we can create a separate `getEpgForDate` in the integration test project that uses the mock implementation of `getAllTransmissions`. Start by opening the `Services` module from the API project, and the `Mock` module from the integration test project in `Tests.fs` in the integration test project, like this:
 
 ```f#
 open NRK.Dotnetskolen.Api.Services
 open NRK.Dotnetskolen.IntegrationTests.Mock
 ```
 
-Then change the call to `createWebApplication` from `runWithTestClient` in `Tests.fs` in the integration test project to send with a "partially applied" version of `getEpgForDate` from `Services` with `getAlleSendinger` from the `Mock` module like this:
+Then change the call to `createWebApplication` from `runWithTestClient` in `Tests.fs` in the integration test project to send with a "partially applied" version of `getEpgForDate` from `Services` with `getAllTransmissions` from the `Mock` module like this:
 
 ```f#
-use app = createWebApplication builder (getEpgForDate getAlleSendinger)
+use app = createWebApplication builder (getEpgForDate getAllTransmissions)
 ```
 
 The entire `runWithTestClient` function should now look like this:
@@ -3209,7 +3209,7 @@ let runWithTestClient (test: HttpClient -> Task<unit>) =
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
-        use app = createWebApplication builder (getEpgForDate getAlleSendinger)
+        use app = createWebApplication builder (getEpgForDate getAllTransmissions)
         do! app.StartAsync()
 
         let testClient = app.GetTestClient()
@@ -3235,9 +3235,9 @@ You have now implemented a web API in F#, with unit and integration tests, API d
 
 #### Step 10 - Follow principles of domain-driven design
 
-The implementation of the domain model as we did in [step 4](#step-4---define-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model) has a weakness: there is no guarantee that the values ​​we create for `Sending` and `Epg` are valid. Only the `epgEntityToDomain` function in `DataAccess.fs` calls `isSendingValid` when sendings are retrieved. There is no guarantee that all creations of `Sending` and `Epg` values ​​come through `epgEntityToDomain`. In this step, we will see how we can change our domain model so that `Sending` and `Epg` values ​​cannot be created without them being valid.
+The implementation of the domain model as we did in [step 4](#step-4---define-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model) has a weakness: there is no guarantee that the values ​​we create for `Transmission` and `Epg` are valid. Only the `epgEntityToDomain` function in `DataAccess.fs` calls `isTransmissionValid` when transmissions are retrieved. There is no guarantee that all creations of `Transmission` and `Epg` values ​​come through `epgEntityToDomain`. In this step, we will see how we can change our domain model so that `Transmission` and `Epg` values ​​cannot be created without them being valid.
 
-In [step 4](#step-4---definere-domainemodel) we modeled the title and channel as `string`, and the start and end times as `DateTimeOffset`. Apart from the fields having these types, there is nothing in our `Sending` type that says what rules apply to them. However, we can do something about that.
+In [step 4](#step-4---definere-domainemodel) we modeled the title and channel as `string`, and the start and end times as `DateTimeOffset`. Apart from the fields having these types, there is nothing in our `Transmission` type that says what rules apply to them. However, we can do something about that.
 
 ##### Title
 
@@ -3245,7 +3245,7 @@ Let's take title as an example. If we create a separate type for title `Title`, 
 
 ###### Create your own type
 
-Add the code below to `Domain.fs`, between the `open` statements and `type Sending`.
+Add the code below to `Domain.fs`, between the `open` statements and `type Transmission`.
 
 ```f#
 type Title = private Title of string
@@ -3274,7 +3274,7 @@ Here we see that we have defined title as a separate type `Title`, which is a "s
 Now that we have created a separate type for the title of a submission, we can use it in our `Submission` type in `Domain.fs`:
 
 ```f#
-type Sending = {
+type Transmission = {
     Title: Title
     Channel: string
     StartTime: DateTimeOffset
@@ -3286,7 +3286,7 @@ Here we see that instead of using `string` for title, we use the new type we hav
 
 ###### Fix compilation errors
 
-If we try to compile our API project now, it will fail because we have changed the type of the `Title` field in our `Sending` type. Let's fix the compilation errors.
+If we try to compile our API project now, it will fail because we have changed the type of the `Title` field in our `Transmission` type. Let's fix the compilation errors.
 
 ```bash
 dotnet build ./src/api/NRK.Dotnetskolen.Api.fsproj
@@ -3299,82 +3299,82 @@ Build FAILED.
 ...
 ```
 
-The first thing that fails is the `isSendingValid` function in `Domain.fs`:
+The first thing that fails is the `isTransmissionValid` function in `Domain.fs`:
 
 ```f#
-let isSendingValid (sending: Sending) : bool =
-    (isTitleValid sending.Title) &&
-    (isChannelValid sending.Channel) &&
-    (areStartAndEndTimeValid sending.StartTime sending.EndTime)
+let isTransmissionValid (transmission: Transmission) : bool =
+    (isTitleValid transmission.Title) &&
+    (isChannelValid transmission.Channel) &&
+    (areStartAndEndTimeValid transmission.StartTime transmission.EndTime)
 ```
 
-Here we call `isTitlevalid` with `sending.Title`. Since `isTitleValid` takes an argument of type `string`, and `sending.Title` now has the type `Title`, the type check fails. Because we have made the constructor for `Title` private, the only way to create a `Title` value is to use the `create` function in the `Title` module. Since the `create` function only returns a `Title` value if the given title is valid, we know that the `Title` field in a `Sending` value must be valid. Thus, we can remove the check for whether the title is valid in `isSendingValid`, like this:
+Here we call `isTitlevalid` with `transmission.Title`. Since `isTitleValid` takes an argument of type `string`, and `transmission.Title` now has the type `Title`, the type check fails. Because we have made the constructor for `Title` private, the only way to create a `Title` value is to use the `create` function in the `Title` module. Since the `create` function only returns a `Title` value if the given title is valid, we know that the `Title` field in a `Transmission` value must be valid. Thus, we can remove the check for whether the title is valid in `isTransmissionValid`, like this:
 
 ```f#
-let isSendingValid (sending: Sending) : bool =
-    (isChannelValid sending.Channel) &&
-    (areStartAndEndTimeValid sending.StartTime sending.EndTime)
+let isTransmissionValid (transmission: Transmission) : bool =
+    (isChannelValid transmission.Channel) &&
+    (areStartAndEndTimeValid transmission.StartTime transmission.EndTime)
 ```
 
-The next thing that fails is the creation of a `Sending` value in `DataAccess.fs`. Below is the implementation of the function that maps `SendingEntity` to `Sending` taken from [the proposed solution for chapter 9](https://github.com/nrkno/dotnetskolen/blob/steg-9/src/api/DataAccess.fs#L39-L45).
+The next thing that fails is the creation of a `Transmission` value in `DataAccess.fs`. Below is the implementation of the function that maps `TransmissionEntity` to `Transmission` taken from [the proposed solution for chapter 9](https://github.com/nrkno/dotnetskolen/blob/steg-9/src/api/DataAccess.fs#L39-L45).
 
 ```f#
-let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
+let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transmission =
     {
-        Sending.Title = sendingEntity.Title
-        Kanal = sendingEntity.Kanal
-        StartTime = DateTimeOffset.Parse(sendingEntity.StartTime)
-        EndTime = DateTimeOffset.Parse(sendingEntity.EndTime)
+        Transmission.Title = transmissionEntity.Title
+        Channel = transmissionEntity.Channel
+        StartTime = DateTimeOffset.Parse(transmissionEntity.StartTime)
+        EndTime = DateTimeOffset.Parse(transmissionEntity.EndTime)
     }
 ```
 
-Here we are trying to set `Sending.Title` directly to the `Title` field from the `SendingEntity` value. Since the `Title` field in the `SendingEntity` type is `string`, and `Sending.Title` is of type `Title`, the type check fails. To fix this, we need to call the `Title.create` function with `SendingEntity`'s `Title` as input, like this:
+Here we are trying to set `Transmission.Title` directly to the `Title` field from the `TransmissionEntity` value. Since the `Title` field in the `TransmissionEntity` type is `string`, and `Transmission.Title` is of type `Title`, the type check fails. To fix this, we need to call the `Title.create` function with `TransmissionEntity`'s `Title` as input, like this:
 
 ```f#
-let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
+let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transmission =
     {
-        Sending.Title = (Title.create sendingEntity.Title).Value
-        Kanal = sendingEntity.Kanal
-        StartTime = DateTimeOffset.Parse(sendingEntity.StartTime)
-        EndTime = DateTimeOffset.Parse(sendingEntity.EndTime)
+        Transmission.Title = (Title.create transmissionEntity.Title).Value
+        Channel = transmissionEntity.Channel
+        StartTime = DateTimeOffset.Parse(transmissionEntity.StartTime)
+        EndTime = DateTimeOffset.Parse(transmissionEntity.EndTime)
     }
 ```
 
 Since `Title.create` returns a `Title option`, we need to call the `.Value` function on the return value of `Title.create` to get the `Title` value. Note that if the given title is invalid, the call to `.Value` will throw a `System.NullReferenceException`.
 
-The next thing that fails is the retrieval of the `Title` value from `Sending` in the `fromDomain` function in `Dto.fs`. Below is the `fromDomain` function as implemented in [the proposed solution for step 9](https://github.com/nrkno/dotnetskolen/blob/steg-9/src/api/Dto.fs#L16-L28).
+The next thing that fails is the retrieval of the `Title` value from `Transmission` in the `fromDomain` function in `Dto.fs`. Below is the `fromDomain` function as implemented in [the proposed solution for step 9](https://github.com/nrkno/dotnetskolen/blob/steg-9/src/api/Dto.fs#L16-L28).
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
     let mapSendsForChannel (channel : string) =
         domain
-            |> List.filter (fun s -> s.Kanal = kanal)
+            |> List.filter (fun s -> s.Channel = channel)
             |> List.map (fun s -> {
                 Title = s.Title
                 StartTime = s.StartTime.ToString("o")
                 EndTime = s.EndTime.ToString("o")
             })
     {
-        Nrk1 = mapSendingerForKanal "NRK1"
-        Nrk2 = mapSendingerForKanal "NRK2"
+        Nrk1 = mapTransmissionsForChannel "NRK1"
+        Nrk2 = mapTransmissionsForChannel "NRK2"
     }
 ```
 
-Here we are trying to set the `Title` value of the `SendingDto` type to a `Title` value, but since `SendingDto.Title` is a `string` the type check fails. To extract the inner `string` value of a `Title` value, we can call `Title.value` with the `Title` value as input, like this:
+Here we are trying to set the `Title` value of the `TransmissionDto` type to a `Title` value, but since `TransmissionDto.Title` is a `string` the type check fails. To extract the inner `string` value of a `Title` value, we can call `Title.value` with the `Title` value as input, like this:
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
     let mapSendsForChannel (channel : string) =
         domain
-            |> List.filter (fun s -> s.Kanal = kanal)
+            |> List.filter (fun s -> s.Channel = channel)
             |> List.map (fun s -> {
                 Title = Domain.Title.value s.Title
                 StartTime = s.StartTime.ToString("o")
                 EndTime = s.EndTime.ToString("o")
             })
     {
-        Nrk1 = mapSendingerForKanal "NRK1"
-        Nrk2 = mapSendingerForKanal "NRK2"
+        Nrk1 = mapTransmissionsForChannel "NRK1"
+        Nrk2 = mapTransmissionsForChannel "NRK2"
     }
 ```
 
@@ -3402,31 +3402,31 @@ Build FAILED.
 ...
 ```
 
-The first thing we need to fix is ​​the creation of `Sending` values ​​in `Tests.fs` in the unit test project. Here we need to do the same thing we did in `DataAccess.fs`, and call the `Title.create` function to create `Title` values ​​in the `Sending` type.
+The first thing we need to fix is ​​the creation of `Transmission` values ​​in `Tests.fs` in the unit test project. Here we need to do the same thing we did in `DataAccess.fs`, and call the `Title.create` function to create `Title` values ​​in the `Transmission` type.
 
 ☑️ Fix the compilation errors in `Tests.fs` in the unit test project in the same way we did for `DataAccess.fs`.
 
-The creation of `Sending` values ​​in `Mock.fs` in the integration test project fails for the same reason as above.
+The creation of `Transmission` values ​​in `Mock.fs` in the integration test project fails for the same reason as above.
 
 ☑️ Fix the compilation errors in the same way.
 
 ##### Channel
 
-Now that we have seen how we can implement a separate type for the `Title` field in the `Sending` type, we can move on to following the same pattern for channel as well.
+Now that we have seen how we can implement a separate type for the `Title` field in the `Transmission` type, we can move on to following the same pattern for channel as well.
 
 ☑️ Follow the same pattern for channel as we did for title. Keep the following points in mind:
 
 - Create your own type for `Channel` in `Domain.fs` with private constructor
 - Create your own module for `Channel` in `Domain.fs` with `create` and `value` functions
-- Move `isKanalValid` function between the type and the module for `Kanal`
-- Use the new `Channel` type in the `Sending` type in `Domain.fs`
+- Move `isChannelValid` function between the type and the module for `Channel`
+- Use the new `Channel` type in the `Transmission` type in `Domain.fs`
 - Fix compilation error in API project:
-  - Remove check for channel in `isSendingValid` function in `Domain.fs`
-  - Creation of `Channel` values ​​in `sendingEntityToDomain` function in `DataAccess.fs`
+  - Remove check for channel in `isTransmissionValid` function in `Domain.fs`
+  - Creation of `Channel` values ​​in `transmissionEntityToDomain` function in `DataAccess.fs`
   - Retrieving `Channel` values ​​in the `fromDomain` function in `Dto.fs`
 - Fix compilation errors in the test projects:
-  - Creation of `Sending` values ​​in `Tests.fs` in the unit test project
-  - Creation of `Sending` values ​​in `Mock.fs` in the integration test project
+  - Creation of `Transmission` values ​​in `Tests.fs` in the unit test project
+  - Creation of `Transmission` values ​​in `Mock.fs` in the integration test project
 
 ##### Start and end time
 
@@ -3460,7 +3460,7 @@ Here we have defined a collection type `AirTime`, which contains both start and 
 
 ###### Using AirTime in Transmission
 
-Now that we have created a separate type for the start and end times of a broadcast, we can use them in our `Broadcast` type:
+Now that we have created a separate type for the start and end times of a transmission, we can use them in our `Transmission` type:
 
 ```f#
 type Transmission = {
@@ -3470,16 +3470,16 @@ type Transmission = {
 }
 ```
 
-Here we see that we use `SendingTime` instead of `DateTimeOffset` for the start and end time. Note that `Sending` does not have a private constructor. This is not necessary since all fields in the `Sending` type must be created through their `create` functions. Thus, a `Sending` value will always be valid. As a convenience for those who will use the `Sending` type, we can still create a `create` function in a separate `Sending` module, so that it is easier to create a `Sending` value without calling the `create` functions in the module that corresponds to the type of each field.
+Here we see that we use `AirTime` instead of `DateTimeOffset` for the start and end time. Note that `Transmission` does not have a private constructor. This is not necessary since all fields in the `Transmission` type must be created through their `create` functions. Thus, a `Transmission` value will always be valid. As a convenience for those who will use the `Transmission` type, we can still create a `create` function in a separate `Transmission` module, so that it is easier to create a `Transmission` value without calling the `create` functions in the module that corresponds to the type of each field.
 
 ```f#
-module Sending =
-    let create (title: string) (channel: string) (startTime: DateTimeOffset) (endTime: DateTimeOffset) : Sending option =
+module Transmission =
+    let create (title: string) (channel: string) (startTime: DateTimeOffset) (endTime: DateTimeOffset) : Transmission option =
         let title = Title.create title
         let channel = Channel.createchannel
         let airTime = AirTime.create starttime endtime
 
-        if tittel.IsNone || kanal.IsNone || sendeTidspunkt.IsNone then
+        if tittel.IsNone || channel.IsNone || sendeTidspunkt.IsNone then
             None
         else
             Some {
@@ -3489,7 +3489,7 @@ module Sending =
             }
 ```
 
-Above we see the `Sending` module with the `create` function that takes in values ​​for all the fields in a `Sending` value. The `create` function of `Sending` calls the `create` function of each of the types it consists of, and returns a `Sending` value only if all the values ​​were successfully created.
+Above we see the `Transmission` module with the `create` function that takes in values ​​for all the fields in a `Transmission` value. The `create` function of `Transmission` calls the `create` function of each of the types it consists of, and returns a `Transmission` value only if all the values ​​were successfully created.
 
 To summarize, `Domain.fs` now looks like this:
 
@@ -3517,14 +3517,14 @@ module Domain =
 
         let value(Title title) = title
 
-    type Kanal = private Kanal of string
+    type Channel = private Channel of string
 
-    let isKanalValid (kanal: string) : bool =
-        List.contains kanal ["NRK1"; "NRK2"]
+    let isChannelValid (channel: string) : bool =
+        List.contains channel ["NRK1"; "NRK2"]
 
     module Channel =
-        let create (kanal: string) : Kanal option =
-            if isKanalValid kanal then
+        let create (channel: string) : Channel option =
+            if isChannelValid channel then
                 Channel channel
                 |> Some
             else
@@ -3551,24 +3551,24 @@ module Domain =
             else
                 None
 
-        easy starttime(airTime: AirTime) = airTime.StartTime
-        easy endtime(airTime: AirTime) = airTime.EndTime
+        let starttime(airTime: AirTime) = airTime.StartTime
+        let endtime(airTime: AirTime) = airTime.EndTime
 
-    type Sending = {
+    type Transmission = {
         Title: Title
         Channel: Channel
-        Broadcast time: Broadcast time
+        AirTime: AirTime
     }
 
-    type Epg = Sending list
+    type Epg = Transmission list
 
-    module Sending =
-        let create (title: string) (channel: string) (startTime: DateTimeOffset) (endTime: DateTimeOffset) : Sending option =
+    module Transmission =
+        let create (title: string) (channel: string) (startTime: DateTimeOffset) (endTime: DateTimeOffset) : Transmission option =
             let title = Title.create title
-            let channel = Channel.createchannel
+            let channel = Channel.create channel
             let airTime = AirTime.create starttime endtime
 
-            if tittel.IsNone || kanal.IsNone || sendeTidspunkt.IsNone then
+            if tittel.IsNone || channel.IsNone || sendeTidspunkt.IsNone then
                 None
             else
                 Some {
@@ -3578,9 +3578,9 @@ module Domain =
                 }
 ```
 
-Note that the `isSendingValid` function has been removed, as the `Sending.create` function has taken over its responsibility.
+Note that the `isTransmissionValid` function has been removed, as the `Transmission.create` function has taken over its responsibility.
 
-###### Fix sendingEntityToDomain
+###### Fix transmissionEntityToDomain
 
 If you try to build the solution now, you will see that it fails:
 
@@ -3593,61 +3593,61 @@ Build FAILED.
 ...
 ```
 
-Let's start with the `sendingEntityToDomain` function in `DataAccess.fs`:
+Let's start with the `transmissionEntityToDomain` function in `DataAccess.fs`:
 
 ```f#
-let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
+let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transmission =
     {
-        Sending.Title = (Title.create s.Title).Value
-        Kanal = sendingEntity.Kanal
-        StartTime = DateTimeOffset.Parse(sendingEntity.StartTime)
-        EndTime = DateTimeOffset.Parse(sendingEntity.EndTime)
+        Transmission.Title = (Title.create s.Title).Value
+        Channel = transmissionEntity.Channel
+        StartTime = DateTimeOffset.Parse(transmissionEntity.StartTime)
+        EndTime = DateTimeOffset.Parse(transmissionEntity.EndTime)
     }
 ```
 
-Here we are trying to set `Start Time` and `End Time` directly, but these have now been moved into the `Send Time` field. We could have used the `AirTime.create` function to solve this in a similar way as for `Title` and `Channel`, but since we have introduced the `Sending.create` function which calls the `create` function for all the new types for us, we can instead use it, like this:
+Here we are trying to set `StartTime` and `EndTime` directly, but these have now been moved into the `AirTime` field. We could have used the `AirTime.create` function to solve this in a similar way as for `Title` and `Channel`, but since we have introduced the `Transmission.create` function which calls the `create` function for all the new types for us, we can instead use it, like this:
 
 ```f#
-let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending option =
-    Sending.create sendingEntity.Title sendingEntity.Channel (DateTimeOffset.Parse(sendingEntity.StartTime)) (DateTimeOffset.Parse(sendingEntity.EndTime))
+let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transmission option =
+    Transmission.create transmissionEntity.Title transmissionEntity.Channel (DateTimeOffset.Parse(transmissionEntity.StartTime)) (DateTimeOffset.Parse(transmissionEntity.EndTime))
 
 let epgEntityToDomain (epgEntity: EpgEntity) : Epg =
     epgEntity
-    |> List.map sendingEntityToDomain
+    |> List.map transmissionEntityToDomain
     |> List.filter (fun s -> s.IsSome)
     |> List.map (fun s -> s.Value)
 ```
 
-Above we call `sendingEntityToDomain` for each sending in `EpgEntity` that we get into `epgEntityToDomain`. `sendingEntityToDomain` in turn calls `Sending.create`. Remember that the `Sending.create` function returns a `Sending option`, so `sendingEntityToDomain` will return `None` for invalid `SendingEntity` values. To filter out these we can call `List.filter (fun e -> e.IsSome)` followed by `List.map (fun s -> s.Value)` to extract the `Sending` value itself from the `Sending option`. Alternatively, you can call `List.choose id` like this:
+Above we call `transmissionEntityToDomain` for each transmission in `EpgEntity` that we get into `epgEntityToDomain`. `transmissionEntityToDomain` in turn calls `Transmission.create`. Remember that the `Transmission.create` function returns a `Transmission option`, so `transmissionEntityToDomain` will return `None` for invalid `TransmissionEntity` values. To filter out these we can call `List.filter (fun e -> e.IsSome)` followed by `List.map (fun s -> s.Value)` to extract the `Transmission` value itself from the `Transmission option`. Alternatively, you can call `List.choose id` like this:
 
 ```f#
 let epgEntityToDomain (epgEntity: EpgEntity) : Epg =
     epgEntity
-    |> List.map sendingEntityToDomain
+    |> List.map transmissionEntityToDomain
     |> List.choose id
 ```
 
 > `List.choose` takes a function `f`, and returns a list with the internal values ​​of the entries in the list where `f` returns `Some`. `ìd` is a built-in function in F# that returns what it is given. By combining `List.choose` with the `id` function, we achieve the same thing as we did with `List.filter (fun s -> s.IsSome)` and `List.map (fun s -> s.Value)` one after the other.
 
-Also notice that in the code above we removed `List.filter (fun d -> isSendingValid d)`, thereby moving the responsibility for validating a `Sending` value from the `sendingEntityToDomain` function in `DataAccess.fs` to the `Sending.create` function in `Domain.fs`.
+Also notice that in the code above we removed `List.filter (fun d -> isTransmissionValid d)`, thereby moving the responsibility for validating a `Transmission` value from the `transmissionEntityToDomain` function in `DataAccess.fs` to the `Transmission.create` function in `Domain.fs`.
 
 ###### Fix fromDomain
 
-The `fromDomain` function in `Dto.fs` also fails as it cannot extract the `StartTime` and `EndTime` values ​​in a `Sending` value as it expects.
+The `fromDomain` function in `Dto.fs` also fails as it cannot extract the `StartTime` and `EndTime` values ​​in a `Transmission` value as it expects.
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
     let mapSendsForChannel (channel : string) =
         domain
-            |> List.filter (fun s -> (Domain.Kanal.value s.Kanal) = kanal)
+            |> List.filter (fun s -> (Domain.Channel.value s.Channel) = channel)
             |> List.map (fun s -> {
                 Title = Domain.Title.value s.Title
                 StartTime = s.StartTime.ToString("o")
                 EndTime = s.EndTime.ToString("o")
             })
     {
-        Nrk1 = mapSendingerForKanal "NRK1"
-        Nrk2 = mapSendingerForKanal "NRK2"
+        Nrk1 = mapTransmissionsForChannel "NRK1"
+        Nrk2 = mapTransmissionsForChannel "NRK2"
     }
 ```
 
@@ -3659,32 +3659,32 @@ open Domain
 let fromDomain (domain: Domain.Epg): EpgDto =
     let mapSendsForChannel (channel: string) =
         domain
-        |> List.filter (fun s -> Kanal.value s.Kanal = kanal)
+        |> List.filter (fun s -> Channel.value s.Channel = channel)
         |> List.map (fun s ->
             { Title = Title.value s.Title
               StartTime = (AirTime.startTime s.AirTime).ToString("o")
               EndTime = (AirTime.endTime s.AirTime).ToString("o") })
 
-    { Nrk1 = mapSendingerForKanal "NRK1"
-      Nrk2 = mapSendingerForKanal "NRK2" }
+    { Nrk1 = mapTransmissionsForChannel "NRK1"
+      Nrk2 = mapTransmissionsForChannel "NRK2" }
 ```
 
 We retrieve the start and end times by calling `AirTime.startTime` and `AirTime.endTime` respectively with `s.AirTime` as input.
 
 ###### Fix getEpgForDate
 
-In the `getEpgForDate` function in `Services.fs` we filter broadcasts based on date:
+In the `getEpgForDate` function in `Services.fs` we filter transmissions based on date:
 
 ```f#
-let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateOnly) : Epg =
+let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateOnly) : Epg =
   getAllSenders()
   |> List.filter (fun s -> s.Starttidspunkt.Date.Date = date.Date)
 ```
 
-As we have introduced a new way to retrieve the startTime from a broadcast, we need to update `getEpgForDate` to reflect this:
+As we have introduced a new way to retrieve the startTime from a transmission, we need to update `getEpgForDate` to reflect this:
 
 ```f#
-let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateOnly) : Epg =
+let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateOnly) : Epg =
     getAllSenders()
     |> List.filter (fun s -> (Sendetidspunkt.starttidspunkt s.Sendetidspunkt).Date.Date = date.Date)
 ```
@@ -3693,33 +3693,33 @@ Instead of retrieving the start time directly, we call `AirTime.startTime` with 
 
 ###### Fix unit tests
 
-In the unit test project, we have tests for the `isSendingValid` function that we had in `Domain.fs`. Since the `Sending.create` function has taken over the responsibility of `isSendingValid`, we need to rewrite the tests to use the `Sending.create` function instead:
+In the unit test project, we have tests for the `isTransmissionValid` function that we had in `Domain.fs`. Since the `Transmission.create` function has taken over the responsibility of `isTransmissionValid`, we need to rewrite the tests to use the `Transmission.create` function instead:
 
 ```f#
 [<Fact>]
-let ``Sending.create valid sending returns Some`` () =
+let ``Transmission.create valid transmission returns Some`` () =
     let now = DateTimeOffset.Now
-    let sending = Sending.create "Dagsrevyen" "NRK1" now (now.AddMinutes 30.)
+    let transmission = Transmission.create "Dagsrevyen" "NRK1" now (now.AddMinutes 30.)
 
-    match sending with
+    match transmission with
     | Some t ->
         Assert.Equal("Daily Review", Title.value t.Title)
-        Assert.Equal("NRK1", Kanal.value t.Kanal)
+        Assert.Equal("NRK1", Channel.value t.Channel)
         Assert.Equal(now, AirTime.startTime t.AirTime)
         Assert.Equal(now.AddMinutes 30., AirTime.EndTime t.AirTime)
     | None -> Assert.True false
 
 [<Fact>]
-let ``Sending.create invalid sending returns None`` () =
+let ``Transmission.create invalid transmission returns None`` () =
     let now = DateTimeOffset.Now
-    let sending = Sending.create "@$%&/" "nrk3" now (now.AddMinutes 30.)
+    let transmission = Transmission.create "@$%&/" "nrk3" now (now.AddMinutes 30.)
 
-    Assert.True sending.IsNone
+    Assert.True transmission.IsNone
 ```
 
 ###### Fix integration tests
 
-In the `Mock` module of the integration test project, we created `Sending` values ​​to control data access during integration tests. Now that we have a dedicated function to create `Sending` values, `Sending.create`, we can use it instead of creating `Sending` values ​​directly, like this:
+In the `Mock` module of the integration test project, we created `Transmission` values ​​to control data access during integration tests. Now that we have a dedicated function to create `Transmission` values, `Transmission.create`, we can use it instead of creating `Transmission` values ​​directly, like this:
 
 ```f#
 let getAllShows () : Epg =
@@ -3728,14 +3728,14 @@ let getAllShows () : Epg =
   let future = now.AddDays(10.)
   [
       // Transmissions back in time
-      (Sending.create "Testprogram" "NRK1" past (past.AddMinutes(30.))).Value
-      (Sending.create "Testprogram" "NRK2" past (past.AddMinutes(30.))).Value
-      // Today's broadcasts
-      (Sending.create "Testprogram" "NRK1" now (now.AddMinutes(30.))).Value
-      (Sending.create "Testprogram" "NRK2" now (now.AddMinutes(30.))).Value
+      (Transmission.create "Testprogram" "NRK1" past (past.AddMinutes(30.))).Value
+      (Transmission.create "Testprogram" "NRK2" past (past.AddMinutes(30.))).Value
+      // Today's transmissions
+      (Transmission.create "Testprogram" "NRK1" now (now.AddMinutes(30.))).Value
+      (Transmission.create "Testprogram" "NRK2" now (now.AddMinutes(30.))).Value
       // Forward shipments
-      (Sending.create "Testprogram" "NRK1" future (future.AddMinutes(30.))).Value
-      (Sending.create "Testprogram" "NRK2" future (future.AddMinutes(30.))).Value
+      (Transmission.create "Testprogram" "NRK1" future (future.AddMinutes(30.))).Value
+      (Transmission.create "Testprogram" "NRK2" future (future.AddMinutes(30.))).Value
   ]
 ```
 
