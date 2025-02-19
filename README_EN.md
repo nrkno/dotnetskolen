@@ -30,9 +30,9 @@ We recommend following this guide [on GitHub](https://github.com/nrkno/dotnetsko
 
 ### 🚀 Get started
 
-To do this course, you need [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet), a text editor, and a terminal. Once you have this, go to [Step 1 - Create API](#steg-1---opprette-api) and follow the instructions. For alternative starting points, see [alternative starting points](https://github.com/nrkno/dotnetskolen#-alternative-startpunkter).
+To do this course, you need [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet), a text editor, and a terminal. Once you have this, go to [Step 1 - Create API](#step-1---create-api) and follow the instructions. For alternative starting points, see [alternative starting points](#📍-alternative-starting-points).
 
-> The course provides step-by-step guidance, including commands you can run in the terminal and reference implementations of code you can copy. However, in some sections, the code implementation is intentionally omitted to encourage you to implement it yourself. These sections are marked with ☑️. Read more about how to see the complete solution for each step [here](#see-solutions).
+> The course provides step-by-step guidance, including commands you can run in the terminal and reference implementations of code you can copy. However, in some sections, the code implementation is intentionally omitted to encourage you to implement it yourself. These sections are marked with ☑️. Read more about how to see the complete solution for each step [here](#see-solution-suggestions).
 
 > If you need more details about how to set up your computer to do the course, see [Details about setting up your computer](/docs/detaljer-oppsett.md).
 
@@ -42,7 +42,7 @@ To do this course, you need [.NET 9 SDK](https://dotnet.microsoft.com/download/d
 
 #### 📍 Alternative starting points
 
-This workshop covers a variety of topics, and completing all the steps may take some time. Fortunately, example solutions are available for each step, allowing you to start at any point by checking out the branch with the solution for the previous step and continuing from there. Read more about how to [clone this repo](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-opspett.md#-lokalt-opspett-av-koden-valgfritt) and [check out the solution suggestions](https://github.com/nrkno/dotnetskolen#se-l%C3%B8sningsforslag).
+This workshop covers a variety of topics, and completing all the steps may take some time. Fortunately, example solutions are available for each step, allowing you to start at any point by checking out the branch with the solution for the previous step and continuing from there. Read more about how to [clone this repo](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-opspett.md#-lokalt-opspett-av-koden-valgfritt) and [check out the solution suggestions](#see-solution-suggestions).
 
 Below are some recommended alternative starting points, depending on which topics you want to explore further.
 
@@ -60,8 +60,8 @@ If you want to learn how to use the .NET CLI to create projects and solutions, f
 
 To learn more about domain modeling in F# and writing unit tests, follow these steps:
 
-- [Step 4 - Define a domain model](#step-4---define-domain-model)
-- [Step 5 - Unit tests for the domain model](#step-5---unit-tests-for-domain-model)
+- [Step 4 - Define the domain model](#step-4---define-the-domain-model)
+- [Step 5 - Unit tests for the domain model](#step-5---unit-tests-for-the-domain-model)
 
 ##### API Contracts
 
@@ -129,8 +129,8 @@ All documentation (including this guide) and source code in this repository are 
   - [Step 1 - Create API](#step-1---create-api)
   - [Step 2 - Create test projects](#step-2---create-test-projects)
   - [Step 3 - Create solution](#step-3---create-solution)
-  - [Step 4 - Define a domain model](#step-4---define-domain-model)
-  - [Step 5 - Unit tests for the domain model](#step-5---unit-tests-for-domain-model)
+  - [Step 4 - Define a domain model](#step-4---define-the-domain-model)
+  - [Step 5 - Unit tests for the domain model](#step-5---unit-tests-for-the-domain-model)
   - [Step 6 - Define API contract](#step-6---define-api-contract)
   - [Step 7 - Implement contract types](#step-7---implement-contract-types)
   - [Step 8 - Setting up the API shell](#step-8---setting-up-the-api-shell)
@@ -145,7 +145,7 @@ Now that you've installed all the necessary tools, you're ready to begin the cou
 
 ### Step 1 - Create API
 
-**Step 1 of 9** - [🔝 Go to top](#-net-school) [⬇ Next step](#step-2---create-test-projects)
+**Step 1 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬇ Next step](#step-2---create-test-projects)
 
 In this step, we'll begin with an empty folder and use the .NET CLI to create our first project `NRK.Dotnetskolen.Api`.
 
@@ -552,9 +552,9 @@ git checkout step-1
 Switched to branch 'step-1'
 ```
 
-### Step 2 - Creating Test Projects
+### Step 2 - Create test projects
 
-**Step 2 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-1---create-api) [⬇ Next step](#step-3---create-solution)
+**Step 2 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-1---create-api) [⬇ Next step](#step-3---create-solution)
 
 Tests are an important part of system development because they help us verify that the system works as intended. When writing tests for code, we often operate with two types of tests:
 
@@ -782,7 +782,7 @@ Build succeeded in 4,6s
 
 ### Step 3 - Create solution
 
-**Step 3 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-2---create-test-projects) [⬇ Next step](#step-4---define-domain-model)
+**Step 3 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-2---create-test-projects) [⬇ Next step](#step-4---define-the-domain-model)
 
 As it stands now, we have three projects that are independent of each other. Other than being in the same folder, there is nothing that connects them. In order to be able to do operations such as adding shared packages and running all the tests for our system, we can link the projects together in one and the same _solution_. Having all the projects in one and the same solution also gives the advantage of being able to open all the projects together in an IDE.
 
@@ -926,9 +926,9 @@ The image below shows how the "Solution explorer" in Visual Studio displays the 
 
 ![Solution explorer in Visual Studio](./docs/illustrations/solution-explorer.png)
 
-### Step 4 - Define domain model
+### Step 4 - Define the domain model
 
-**Step 4 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-3---create-solution) [⬇ Next step](#step-5---unit-tests-for-domain-model)
+**Step 4 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-3---create-solution) [⬇ Next step](#step-5---unit-tests-for-the-domain-model)
 
 We are going to create an API to retrieve a simplified electronic program guide (EPG) for various channels on NRK TV. The idea is that the API could deliver the data basis for a program guide - e.g the one shown here: <https://info.nrk.no/presse/tvguide/>
 
@@ -1050,7 +1050,7 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 ### Step 5 - Unit tests for the domain model
 
-**Step 5 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-4---define-domain-model) [⬇ Next step](#step-6---define-api-contract)
+**Step 5 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-4---define-the-domain-model) [⬇ Next step](#step-6---define-api-contract)
 
 The domain model introduced in [previous step](#step-4---define-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of transmissions, and what fields each transmission contains). In this step, we will implement the validation rules in F#, and verify that we have implemented them correctly using unit tests.
 
@@ -1377,7 +1377,7 @@ Build succeeded in 7,2s
 
 ### Step 6 - Define API Contract
 
-**Step 6 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-5---unit-tests-for-domain-model) [⬇ Next step](#step-7---implement-contract-types)
+**Step 6 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-5---unit-tests-for-domain-model) [⬇ Next step](#step-7---implement-contract-types)
 
 To document what operations and responses our API offers, we will create an API contract. In NRK TV and NRK Radio, we define API contracts using OpenAPI (<https://www.openapis.org/>).
 
@@ -1794,7 +1794,7 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
 
 ### Step 7 - Implement contract types
 
-**Step 7 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-6---define-api-contract) [⬇ Next step](#step-8---set-up-shell-for-api)
+**Step 7 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-6---define-api-contract) [⬇ Next step](#step-8---setting-up-the-shell-for-the-api)
 
 In [step-4](#step-4---define-domain-model) we defined our domain model as an F# type. The domain model represents the EPG as we conceptually think of it, both in terms of structure and rules for valid states. API contracts are not necessarily one-to-one with domain models.
 
@@ -1861,7 +1861,7 @@ Just like when we [created the domain model](#step-4---define-domain-model), we 
 
 ### Step 8 - Setting up the shell for the API
 
-**Step 8 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-7---implement-contract-types) [⬇ Next step](#step-9---implement-web-api)
+**Step 8 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-7---implement-contract-types) [⬇ Next step](#step-9---implement-web-api)
 
 In this step, we will set up a shell for the web API, and verify that we are reaching the API by writing an integration test. Before we start coding, we will look at a few relevant concepts in .NET.
 
@@ -2317,9 +2317,9 @@ Build succeeded in 8,9s
 
 ### Step 9 - Implement Web API
 
-**Step 9 of 9** - [🔝 Go to top](#-net-school) [⬆ Previous step](#step-8---set-up-shell-for-api)
+**Step 9 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-8---setting-up-the-shell-for-the-api)
 
-In [previous step](#step-8---set-up-shell-for-api) we created a shell for the web API by adding a `ping` endpoint with an associated integration test. In this step, we will extend the web API with an endpoint to retrieve EPG. In addition, we will write integration tests to verify that the implementation of the web API is in accordance with our Open API documentation. We use a test-driven approach by writing an integration test that fails, and then making changes to the API so that the test passes. We continue in this way until we have fully implemented our API.
+In [previous step](#step-8---setting-up-the-shell-for-the-api) we created a shell for the web API by adding a `ping` endpoint with an associated integration test. In this step, we will extend the web API with an endpoint to retrieve EPG. In addition, we will write integration tests to verify that the implementation of the web API is in accordance with our Open API documentation. We use a test-driven approach by writing an integration test that fails, and then making changes to the API so that the test passes. We continue in this way until we have fully implemented our API.
 
 #### Test 1 - Verify that the endpoint exists
 
