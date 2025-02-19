@@ -2484,7 +2484,7 @@ The new test we added fails because the API does not validate the given date. Le
 The anonymous function that handles HTTP GET requests to `/epg/{date}` doesn't provide much value as it stands. Let's move on to implementing the operation as defined in our API contract. Overall, we want the function to do the following:
 
 1. Validate the date provided in the URL, and return `400 Bad Request` if it is invalid
-2. Retrieve shipments for the specified date
+2. Retrieve transmissions for the specified date
 3. Return EPG in JSON format that complies with our API contract
 
 ###### Move HttpHandler to its own module
@@ -2874,13 +2874,13 @@ let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateOnly) : Epg =
 
 > 💡Tips!
 >
-> - `List.filter` can be helpful for filtering the shipments from `getAllTransmissions`
+> - `List.filter` can be helpful for filtering the transmissions from `getAllTransmissions`
 > - `DateTimeOffset` has a property `Date` that retrieves the date component of the `DateTimeOffset` value
 > - `DateOnly` has a function `FromDateTime` that takes in a `DateTime` and returns a `DateOnly`
 
 ###### Implement getAllTransmissions
 
-Now we can decide where to get the shipments from. Should we get them from a web service, database, file? The `getAllTransmissions` function hides this implementation detail from the rest of our code. For our example in this course, it is sufficient to define shipments in a separate file `DataAccess.fs` and implement `getAllTransmissions` there.
+Now we can decide where to get the transmissions from. Should we get them from a web service, database, file? The `getAllTransmissions` function hides this implementation detail from the rest of our code. For our example in this course, it is sufficient to define transmissions in a separate file `DataAccess.fs` and implement `getAllTransmissions` there.
 
 Create `DataAccess.fs` in `src/api`:
 
@@ -3091,7 +3091,7 @@ module Mock =
                 StartTime = now
                 EndTime = now.AddMinutes(30.)
             }
-            // Forward shipments
+            // Forward transmissions
             {
                 Title = "Test Program"
                 Channel = "NRK1"
@@ -3269,7 +3269,7 @@ Here we see that we have defined title as a separate type `Title`, which is a "s
 
 > Note that the `isTitleValid` function above is the same as before, just that it has switched places. You can remove the `isTitleValid` function that was previously defined in `Domain.fs`.
 
-###### Update shipment
+###### Update transmission
 
 Now that we have created a separate type for the title of a submission, we can use it in our `Submission` type in `Domain.fs`:
 
@@ -3733,7 +3733,7 @@ let getAllShows () : Epg =
       // Today's transmissions
       (Transmission.create "Testprogram" "NRK1" now (now.AddMinutes(30.))).Value
       (Transmission.create "Testprogram" "NRK2" now (now.AddMinutes(30.))).Value
-      // Forward shipments
+      // Forward transmissions
       (Transmission.create "Testprogram" "NRK1" future (future.AddMinutes(30.))).Value
       (Transmission.create "Testprogram" "NRK2" future (future.AddMinutes(30.))).Value
   ]
