@@ -10,7 +10,7 @@ This course will guide you step by step through the process of setting up and im
 - Adding NuGet packages
 - Setting up tests
 
-As an example application, we will build a web API in F# to retrieve the electronic program guide (EPG) for NRK TV, along with related unit and integration tests. The idea is that the API could deliver the data basis for a program guide - e.g the one shown here: <https://info.nrk.no/presse/tvguide/>
+As an example application, we will build a web API in F# to retrieve the electronic program guide (EPG) for NRK TV, along with related unit and integration tests. The idea is that the API could deliver the data for a program guide - e.g the one shown here: <https://info.nrk.no/presse/tvguide/>
 
 > A secondary goal of this repository is that the completed example application (available in the [ferdig-branch](https://github.com/nrkno/dotnetskolen/tree/ferdig)) can serve as a boilerplate repository when setting up a new .NET project.
 
@@ -30,7 +30,7 @@ We recommend following this guide [on GitHub](https://github.com/nrkno/dotnetsko
 
 ### 🚀 Get started
 
-To do this course, you need [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet), a text editor, and a terminal. Once you have this, go to [Step 1 - Create API](#step-1---create-api) and follow the instructions. For alternative starting points, see [alternative starting points](#📍-alternative-starting-points).
+To do this course, you need [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet), a text editor, and a terminal. Once you have this, go to [Step 1 - Create API](#step-1---create-api) and follow the instructions. For alternative starting points, see [alternative starting points](#-alternative-starting-points).
 
 > The course provides step-by-step guidance, including commands you can run in the terminal and reference implementations of code you can copy. However, in some sections, the code implementation is intentionally omitted to encourage you to implement it yourself. These sections are marked with ☑️. Read more about how to see the complete solution for each step [here](#see-solution-suggestions).
 
@@ -42,7 +42,7 @@ To do this course, you need [.NET 9 SDK](https://dotnet.microsoft.com/download/d
 
 #### 📍 Alternative starting points
 
-This workshop covers a variety of topics, and completing all the steps may take some time. Fortunately, example solutions are available for each step, allowing you to start at any point by checking out the branch with the solution for the previous step and continuing from there. Read more about how to [clone this repo](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-opspett.md#-lokalt-opspett-av-koden-valgfritt) and [check out the solution suggestions](#see-solution-suggestions).
+This workshop covers a variety of topics, and completing all the steps may take some time. Fortunately, solution suggestions are available for each step, allowing you to start at any point by checking out the branch with the solution for the previous step and continuing from there. Read more about how to [clone this repo](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) and [check out the solution suggestions](#see-solution-suggestions).
 
 Below are some recommended alternative starting points, depending on which topics you want to explore further.
 
@@ -135,7 +135,8 @@ All documentation (including this guide) and source code in this repository are 
   - [Step 7 - Implement contract types](#step-7---implement-contract-types)
   - [Step 8 - Setting up the API shell](#step-8---setting-up-the-api-shell)
   - [Step 9 - Implement web API](#step-9---implement-web-api)
-- [Extra tasks](#extra tasks)
+
+- [Extra tasks](#extra-tasks)
   - [Step 10 - Follow principles of domain-driven design](#step-10---follow-principles-of-domain-driven-design)
   - [Step 11 - Graphical representation of OpenAPI documentation](#step-11---graphic-presentation-of-openapi-documentation)
 
@@ -145,7 +146,7 @@ Now that you've installed all the necessary tools, you're ready to begin the cou
 
 ### Step 1 - Create API
 
-**Step 1 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬇ Next step](#step-2---create-test-projects)
+**Step 1 of 9** - [🔝 Go to top](#-school-of-net) [⬇ Next step](#step-2---create-test-projects)
 
 In this step, we'll begin with an empty folder and use the .NET CLI to create our first project `NRK.Dotnetskolen.Api`.
 
@@ -177,7 +178,7 @@ When compiling .NET projects, you can choose between two types of output:
 
 #### dotnet new
 
-As mentioned in the [introduction](#-procedure), the .NET CLI is a command-line tool designed to develop, build, run, and publish .NET applications. The .NET CLI is run from the command line with the `dotnet` command, and has many subcommands and options. To see them all, you can run the command below, or read more here: <https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet>
+As mentioned in the [introduction](#-approach), the .NET CLI is a command-line tool designed to develop, build, run, and publish .NET applications. The .NET CLI is run from the command line with the `dotnet` command, and has many subcommands and options. To see them all, you can run the command below, or read more here: <https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet>
 
 ```bash
 dotnet --help
@@ -247,7 +248,7 @@ Run 'dotnet [command] --help' for more information on a command.
 
 #### Templates
 
-To create the API project, we'll use the new command in the .NET CLI. The dotnet new command is used to generate .NET projects, with the first parameter specifying the template for the project.
+To create the API project, we'll use the new command in the .NET CLI. The `dotnet new` command is used to generate .NET projects, with the first parameter specifying the template for the project.
 
 When you install the .NET SDK, it comes with a set of predefined project templates for common use cases. To see the available templates on your machine, run the following command:
 
@@ -319,7 +320,7 @@ WPF User Control Library                    wpfusercontrollib           [C#],VB 
 xUnit Test Project                          xunit                       [C#],F#,VB  Test/xUnit/Desktop/Web
 ```
 
-In addition to specifying the type of project you want with the `new`-command, you can also control various options, such as the programming language for the project and the target folder where it will be created.
+In addition to specifying the type of project you want with the `new` command, you can also control various options, such as the programming language for the project and the target folder where it will be created.
 
 To view all available options in `dotnet new`, run the following command
 
@@ -366,7 +367,7 @@ Commands:
 
 #### Creating the API project
 
-As you can see from the templates listed above, there is a built-in template for web API called `webapi`. To get started quickly with a project, or to see how a default .NET API is set up, you can use `webapi` as a template. However, we will create our API from scratch using the `console` template to learn as much as possible about the various components.
+As you can see from the templates listed above, there is a built-in template for web API called `webapi`. To get started quickly with a project, or to see how a standard .NET API is set up, you can use `webapi` as a template. However, we will create our API from scratch using the `console` template to learn as much as possible about the various components.
 
 Run the following command to create the API project
 
@@ -465,11 +466,11 @@ Hello world from F#
 
 #### Save changes to Git (optional)
 
-Now that you have completed the first step in the course, it is a good opportunity to commit the changes you have made so far in Git.
+Now that you have completed the first step in the course, it is a good time to commit the changes you have made so far in Git.
 
 ##### See changes
 
-Given that you followed the guide to [set up the code locally](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-opspet.md#-lokalt-opspet-av-koden-valgfritt) before you started coding, you can run the following command to see what changes have been made to the repo:
+Given that you followed the guide to [set up the code locally](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) before you started coding, you can run the following command to see what changes have been made to the repo:
 
 ```bash
 git status
@@ -554,7 +555,7 @@ Switched to branch 'step-1'
 
 ### Step 2 - Create test projects
 
-**Step 2 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-1---create-api) [⬇ Next step](#step-3---create-solution)
+**Step 2 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-1---create-api) [⬇ Next step](#step-3---create-solution)
 
 Tests are an important part of system development because they help us verify that the system works as intended. When writing tests for code, we often operate with two types of tests:
 
@@ -580,7 +581,7 @@ To create the test projects, we will again use the `dotnet new` command, but thi
 
 In this course we will use xUnit. This choice is somewhat arbitrary as all of the frameworks above will suffice for our purpose, which is to show how to set up test projects and get started writing tests. If you want to know more about the different testing frameworks, you can read more about them here: <https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools>
 
-#### Creating unit test project
+#### Creating the unit test project
 
 Run the following command to create the unit test project
 
@@ -720,9 +721,9 @@ Test summary: total: 1; failed: 0; succeeded: 1; skipped: 0; duration: 1,7s
 Build succeeded in 2,9s
 ```
 
-#### Create Integration Test Project
+#### Creating the integration test project
 
-To create the integration test project, you can run the same command as when you [created the unit test project](#create-unit-test-project), but replace `Unit` with `Integration` in the test project name, as shown below:
+To create the integration test project, you can run the same command as when you [created the unit test project](#creating-the-unit-test-project), but replace `Unit` with `Integration` in the test project name, as shown below:
 
 ```bash
 dotnet new xunit -lang F# -o test/integration -n NRK.Dotnetskolen.IntegrationTests
@@ -756,9 +757,9 @@ test
     └── Tests.fs
 ```
 
-For now, the project and test files for the integration test project are exactly the same as those for the unit test project (except for the project name). The difference between unit and integration tests becomes clearer when we write the tests in [step 5](#step-5---unit-tests-for-domain-model) and [step 9](#step-9---implement-web-api), respectively.
+For now, the project and test files for the integration test project are exactly the same as those for the unit test project (except for the project name). The difference between unit and integration tests becomes clearer when we write the tests in [step 5](#step-5---unit-tests-for-the-domain-model) and [step 9](#step-9---implement-web-api), respectively.
 
-##### Running integration tests
+##### Running the integration tests
 
 To run the tests in the integration test project, you can use the following command
 
@@ -782,11 +783,11 @@ Build succeeded in 4,6s
 
 ### Step 3 - Create solution
 
-**Step 3 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-2---create-test-projects) [⬇ Next step](#step-4---define-the-domain-model)
+**Step 3 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-2---create-test-projects) [⬇ Next step](#step-4---define-the-domain-model)
 
-As it stands now, we have three projects that are independent of each other. Other than being in the same folder, there is nothing that connects them. In order to be able to do operations such as adding shared packages and running all the tests for our system, we can link the projects together in one and the same _solution_. Having all the projects in one and the same solution also gives the advantage of being able to open all the projects together in an IDE.
+As it stands now, we have three projects that are independent of each other. Other than being in the same folder, there is nothing that connects them. In order to be able to do operations such as adding shared packages and running all the tests for our system, we can link the projects together in a _solution_. Having all the projects in a solution gives the advantage of being able to open all the projects together in an IDE.
 
-#### Dotnet sln
+#### dotnet sln
 
 To create a solution with `dotnet` you can run the following command:
 
@@ -837,7 +838,7 @@ EndGlobal
 
 ```
 
-#### Adding projects to solution
+#### Adding projects to the solution
 
 To add references to the projects you have created you can run the following commands
 
@@ -851,7 +852,7 @@ dotnet sln add src/api/NRK.Dotnetskolen.Api.fsproj
 Project `src\api\NRK.Dotnetskolen.Api.fsproj` added to the solution.
 ```
 
-##### Adding the Unit Test project
+##### Add the unit test project
 
 ```bash
 dotnet sln add test/unit/NRK.Dotnetskolen.UnitTests.fsproj
@@ -861,7 +862,7 @@ dotnet sln add test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 Project `test\unit\NRK.Dotnetskolen.UnitTests.fsproj` added to the solution.
 ```
 
-##### Adding the Integration Test Project
+##### Add the integration test project
 
 ```bash
 dotnet sln add test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
@@ -928,11 +929,11 @@ The image below shows how the "Solution explorer" in Visual Studio displays the 
 
 ### Step 4 - Define the domain model
 
-**Step 4 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-3---create-solution) [⬇ Next step](#step-5---unit-tests-for-the-domain-model)
+**Step 4 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-3---create-solution) [⬇ Next step](#step-5---unit-tests-for-the-domain-model)
 
-We are going to create an API to retrieve a simplified electronic program guide (EPG) for various channels on NRK TV. The idea is that the API could deliver the data basis for a program guide - e.g the one shown here: <https://info.nrk.no/presse/tvguide/>
+We are going to create an API to retrieve a simplified electronic program guide (EPG) for various channels on NRK TV. The idea is that the API could deliver the data for a program guide - e.g the one shown here: <https://info.nrk.no/presse/tvguide/>
 
-> The model we use for EPG in this course is simplified compared to [the one used in the PS API](https://webapp-ps-granitt-api-prod-we.azurewebsites.net/swagger/ui/index#/Epg), and is used as an example only.
+> The model we use for the EPG in this course is simplified compared to [the one used in the PS API](https://webapp-ps-granitt-api-prod-we.azurewebsites.net/swagger/ui/index#/Epg), and is used as an example only.
 
 An EPG can be seen as a list of transmissions, and for our example in this course, a transmission contains the following fields:
 
@@ -1050,7 +1051,7 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 ### Step 5 - Unit tests for the domain model
 
-**Step 5 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-4---define-the-domain-model) [⬇ Next step](#step-6---define-api-contract)
+**Step 5 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-4---define-the-domain-model) [⬇ Next step](#step-6---define-api-contract)
 
 The domain model introduced in [previous step](#step-4---define-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of transmissions, and what fields each transmission contains). In this step, we will implement the validation rules in F#, and verify that we have implemented them correctly using unit tests.
 
@@ -1141,7 +1142,7 @@ The regular expression lists which characters are valid in a group (the characte
 
 Additionally, `{5,100}` specifies that we allow 5-100 of the characters in the group above.
 
-##### Adding project reference
+##### Adding the API project reference
 
 In order for the unit test project to access the function we just defined in `Domain.fs`, we need to add a project reference to the API project in the unit test project. We can do this using the .NET CLI with the following command:
 
@@ -1230,7 +1231,7 @@ To test the channel validation rule, we need one positive test per valid channel
 [<Theory>]
 [<InlineData("NRK1")>]
 [<InlineData("NRK2")>]
-let ``isChannelValid valid channel returns true`` (kanal: string) =
+let ``isChannelValid valid channel returns true`` (channel: string) =
     let isChannelValid = isChannelValid channel
 
     Assert.True isChannelValid
@@ -1238,7 +1239,7 @@ let ``isChannelValid valid channel returns true`` (kanal: string) =
 [<Theory>]
 [<InlineData("nrk1")>]
 [<InlineData("NRK3")>]
-let ``isChannelValid invalid channel returns false`` (kanal: string) =
+let ``isChannelValid invalid channel returns false`` (channel: string) =
     let isChannelValid = isChannelValid channel
 
     Assert.False isChannelValid
@@ -1253,7 +1254,7 @@ Before we run the tests again, we define the shell for `isChannelValid` in `Doma
     // Implementation here
 ```
 
-☑️ Implement `isKanalValid` in order to make the unit tests pass.
+☑️ Implement `isChannelValid` in order to make the unit tests pass.
 
 ```bash
 dotnet test ./test/unit/NRK.Dotnetskolen.UnitTests.fsproj
@@ -1285,8 +1286,8 @@ Below is one unit test for validating transmission times in `Tests.fs`:
 ```f#
 [<Fact>]
 let ``areStartTimeAndEndTimeValid start before end returns true`` () =
-    easy start time = DateTimeOffset.Now
-    easy endTime = startTime.AddMinutes 30.
+    let startTime = DateTimeOffset.Now
+    let endTime = startTime.AddMinutes 30.
 
     let areStartTimeAndEndTimeValid = areStartTimeAndEndTimeValid starttime endtime
 
@@ -1305,7 +1306,7 @@ open System
 
 ##### Implementation of areStartTimeAndEndTimeValid
 
-The function to validate the send times must check if the end time is greater than the start time. Paste the shell of `areStartTimeAndEndTimeValid` into `Domain.fs`:
+The function to validate the transmission times must check if the end time is greater than the start time. Paste the shell of `areStartTimeAndEndTimeValid` into `Domain.fs`:
 
 ```f#
     let areStartTimeAndEndTimeValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
@@ -1373,11 +1374,11 @@ Test summary: total: 15; failed: 0; succeeded: 15; skipped: 0; duration: 1,2s
 Build succeeded in 7,2s
 ```
 
-> Note that the domain model, as implemented in [step 4](#step-4---define-domain-model) and [step 5](#step-5---unit-tests-for-domain-model), has a weakness in that it is possible to create a `Transmission` value that is invalid. We have implemented `isTransmissionValid`, but there is nothing that prevents us from creating a `Transmission` value without using `isTransmissionValid`. In the extra task in [step 10](#step-10---follow-principles-in-domain-driven-design) an alternative approach that uses principles from [domain-driven design](https://en.wikipedia.org/wiki/Domain-driven_design) is presented. The remaining steps in this course up to and including step 10 will be based on the domain model as defined here in [step 4](#step-4---define-domain-model) and [step 5](#step-5---unit-tests-for-domain-model). This approach helps avoid introducing too many concepts at once and keeps the focus on the course’s core objectives. If you wish, you can move on to [step 10](#step-10---follow-principles-in-domain-driven-design) now to see how it is done there. Remember that step 11 is written with the assumption that you have completed the course up to and including step 10.
+> Note that the domain model, as implemented in [step 4](#step-4---define-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model), has a weakness in that it is possible to create a `Transmission` value that is invalid. We have implemented `isTransmissionValid`, but there is nothing that prevents us from creating a `Transmission` value without using `isTransmissionValid`. In the extra task in [step 10](#step-10---follow-principles-in-domain-driven-design) an alternative approach that uses principles from [domain-driven design](https://en.wikipedia.org/wiki/Domain-driven_design) is presented. The remaining steps in this course up to and including step 10 will be based on the domain model as defined here in [step 4](#step-4---define-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model). This approach helps us to avoid introducing too many concepts at once and keeps the focus on the course’s core objectives. If you wish, you can move on to [step 10](#step-10---follow-principles-in-domain-driven-design) now to see how it is done there. Remember that step 11 is written with the assumption that you have completed the course up to and including step 10.
 
 ### Step 6 - Define API Contract
 
-**Step 6 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-5---unit-tests-for-domain-model) [⬇ Next step](#step-7---implement-contract-types)
+**Step 6 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-5---unit-tests-for-domain-model) [⬇ Next step](#step-7---implement-contract-types)
 
 To document what operations and responses our API offers, we will create an API contract. In NRK TV and NRK Radio, we define API contracts using OpenAPI (<https://www.openapis.org/>).
 
@@ -1794,7 +1795,7 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
 
 ### Step 7 - Implement contract types
 
-**Step 7 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-6---define-api-contract) [⬇ Next step](#step-8---setting-up-the-shell-for-the-api)
+**Step 7 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-6---define-api-contract) [⬇ Next step](#step-8---setting-up-the-shell-for-the-api)
 
 In [step-4](#step-4---define-domain-model) we defined our domain model as an F# type. The domain model represents the EPG as we conceptually think of it, both in terms of structure and rules for valid states. API contracts are not necessarily one-to-one with domain models.
 
@@ -1861,13 +1862,13 @@ Just like when we [created the domain model](#step-4---define-domain-model), we 
 
 ### Step 8 - Setting up the shell for the API
 
-**Step 8 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-7---implement-contract-types) [⬇ Next step](#step-9---implement-web-api)
+**Step 8 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-7---implement-contract-types) [⬇ Next step](#step-9---implement-web-api)
 
-In this step, we will set up a shell for the web API, and verify that we are reaching the API by writing an integration test. Before we start coding, we will look at a few relevant concepts in .NET.
+In this step, we'll set up a shell for the web API and verify its accessibility with an integration test.  Before coding, we'll review some relevant .NET concepts.
 
 #### Project types
 
-Starting with .NET Core, .NET operates with different SDK project types depending on the type of application you want to develop. The different project types give you access to different functionality related to compiling and publishing the projects. When we created the API and test projects, we got projects with the basic project type `.NET SDK`. Since in this step we are dependent on functionality found in the `.NET Web SDK`, we will change the project types to the API and integration test projects.
+Starting with .NET Core, .NET uses different SDK project types depending on the application you're developing. These project types provide varying functionality for compiling and publishing.  Our API and test projects were initially created with the basic `.NET SDK`.  Since this step requires functionality from the `.NET Web SDK`, we'll change the project types accordingly.
 
 Open the file `src/api/NRK.Dotnetskolen.Api.fsproj`, and change the `Sdk` attribute on the `Project` element from `Microsoft.NET.Sdk` to `Microsoft.NET.Sdk.Web`:
 
@@ -1963,11 +1964,11 @@ info: Microsoft.Hosting.Lifetime[0]
 
 ##### Middleware pipeline
 
-Microsoft has created a framework for web applications in .NET, ASP.NET (ASP stands for "active server pages"). Web applications in ASP.NET are configurable and modular, and by configuring the modules in it, you have control over how HTTP requests are processed from the moment they arrive at the server until the HTTP response is sent back to the client. The modules in this context are called middleware (or "middleware" in English), and they are connected in a linked list where the HTTP request is processed successively by the middleware in the list. This linked list is referred to as the "middleware pipeline".
+Microsoft's web application framework for .NET is called ASP.NET (Active Server Pages). ASP.NET applications are modular and configurable, giving you fine-grained control over how HTTP requests are handled. This control is achieved through middleware: modules that process HTTP requests from arrival at the server to sending the response back to the client.  These middleware components are arranged in a sequence called the *middleware pipeline*, where each component processes the request in turn.
 
 > You can see an illustration of how middleware is connected in ASP.NET here: <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-9.0#create-a-middleware-pipeline-with-webapplication>
 
-All middlewares basically have the opportunity to process the HTTP request both before and after the next middleware in the list processes it, and can thus help influence the response that is sent back to the client. Every middleware is responsible for calling the next middleware. In this way, a middleware can also stop further processing of the request. An example of such a middleware is authentication, where the request is not sent further in the pipeline if it is not sufficiently authenticated. Because of this short circuit, authentication is early in the list of middlewares.
+Middleware components in the pipeline can process an HTTP request both before and after the subsequent middleware. This allows each component to influence the final response.  Each middleware is responsible for invoking the next one in the pipeline.  However, a middleware can also choose to short-circuit the pipeline and prevent further processing.  A common example is authentication middleware: if a request isn't properly authenticated, this middleware can stop the request from proceeding further.  This is why authentication middleware is typically positioned early in the pipeline.
 
 The host we created in the previous section is a starting point for any application. It can be, for example, a background service or a web application. Since we are going to create a web API, we will continue by adapting the host to become a web server. Microsoft has created a special function for this purpose: `WebApplication.CreateBuilder`. This is similar to `Host.CreateDefaultBuilder` that we used earlier in the section on [host](#host), only that the host it creates is a web server that has the ability to configure a "middleware pipeline". To create a web application instead of a generic application, open `Microsoft.AspNetCore.Builder`, and replace the line `Host.CreateDefaultBuilder().Build().Run()` with `WebApplication.CreateBuilder().Build().Run()` so that `Program.fs` in the API project now looks like this:
 
@@ -1999,9 +2000,9 @@ From the log entry above, we see that our host is now listening for HTTP request
 
 #### Ping
 
-Now that we've become familiar with some basic concepts in .NET applications, we can start putting together our own web API. To do that, we need a middleware pipeline that can process the HTTP requests coming into our API.
+Now that we're familiar with some fundamental .NET concepts, let's start building our web API. A key component is the middleware pipeline, which handles incoming HTTP requests.
 
-In .NET 6, Microsoft introduced "minimal APIs" which are a set of methods that make it easier to get started defining the behavior of a host. For web applications, Microsoft has created "minimal APIs" which make it easy to add functions to the "middleware pipeline" of a web application that handles incoming HTTP requests for a given path. We can use this to create a "ping" endpoint.
+.NET 6 introduced *minimal APIs*, simplifying the process of defining application behavior.  For web applications, these minimal APIs provide a streamlined way to add request-handling functions to the middleware pipeline for specific paths. We'll use this approach to create a "ping" endpoint.
 
 Open `Program.fs` in the API project, and replace the contents of the file with the code below:
 
@@ -2014,14 +2015,14 @@ app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
 app.Run()
 ```
 
-Here we have stored the `WebApplication` object, which `WebApplication.CreateBuilder().Build()` returns, in a separate variable `app`. We have done this to gain access to the "minimal API" methods that Microsoft has defined for `WebApplication`. Furthermore, we have used one of them, namely `MapGet`, which takes two arguments:
+We've stored the `WebApplication` object, returned by `WebApplication.CreateBuilder().Build()`, in the `app` variable. This gives us access to the *minimal API* methods provided by `WebApplication`. We're using one of these methods, `MapGet`, which takes two arguments:
 
-1. A text string specifying which path in the URL leads to this function. In this case `ping`.
-2. A function with no parameters that returns a text string. In this case `pong`.
+1.  The URL path that triggers this function (e.g., `"ping"`).
+2.  The function to execute when that path is accessed (in this case, a function that returns the string `"pong"`).
 
-> Note that as the second parameter to `MapGet` we have specified `Func<string>(fun () -> "pong")` which is not strictly a function. `Func` is .NET's way of creating a `Delegate`. Delegates are .NET's way of wrapping function calls as objects. Since the "Minimal APIs" are written to work for any programming language in .NET, Microsoft has had to choose a model that is suitable for both the object-oriented programming paradigm as well as the functional programming paradigm. Thus, `MapGet` strictly takes a `Delegate` object as the second parameter, and the way to create a `Delegate` object in F# is by calling `Func`'s constructor. In the constructor of `Func` we pass in the anonymous F# function `fun () -> "pong"`. The `<string>` part of `Func<string>` defines the type of the return value of the anonymous function. Since the anonymous function does not take any parameters, nothing more is specified in `Func<string>` for that. If the anonymous function had taken a parameter of type `int`, the call to `Func` would have looked like this: `Func<int, string>`. You can read more about delegates in F# here: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/delegates>
+> Note that as the second parameter to `MapGet` we have specified `Func<string>(fun () -> "pong")` which is not strictly a function. `Func` is .NET's way of creating a `Delegate`. Delegates are .NET's way of wrapping function calls as objects. Since the *minimal APIs* are written to work for any programming language in .NET, Microsoft has had to choose a model that is suitable for both the object-oriented programming paradigm as well as the functional programming paradigm. Thus, `MapGet` strictly takes a `Delegate` object as the second parameter, and the way to create a `Delegate` object in F# is by calling `Func`'s constructor. In the constructor of `Func` we pass in the anonymous F# function `fun () -> "pong"`. The `<string>` part of `Func<string>` defines the type of the return value of the anonymous function. Since the anonymous function does not take any parameters, nothing more is specified in `Func<string>` for that. If the anonymous function had taken a parameter of type `int`, the call to `Func` would have looked like this: `Func<int, string>`. You can read more about delegates in F# here: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/delegates>
 >
-> Du kan lese mer om "minimal APIs" her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-9.0>
+> You can read more about *minimal APIs* here: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-9.0>
 
 ##### Running the API
 
@@ -2317,7 +2318,7 @@ Build succeeded in 8,9s
 
 ### Step 9 - Implement Web API
 
-**Step 9 of 9** - [🔝 Go to top](#🏫-school-of-net) [⬆ Previous step](#step-8---setting-up-the-shell-for-the-api)
+**Step 9 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-8---setting-up-the-shell-for-the-api)
 
 In [previous step](#step-8---setting-up-the-shell-for-the-api) we created a shell for the web API by adding a `ping` endpoint with an associated integration test. In this step, we will extend the web API with an endpoint to retrieve EPG. In addition, we will write integration tests to verify that the implementation of the web API is in accordance with our Open API documentation. We use a test-driven approach by writing an integration test that fails, and then making changes to the API so that the test passes. We continue in this way until we have fully implemented our API.
 
@@ -3234,7 +3235,7 @@ You have now implemented a web API in F#, with unit and integration tests, API d
 
 #### Step 10 - Follow principles of domain-driven design
 
-The implementation of the domain model as we did in [step 4](#step-4---define-domain-model) and [step 5](#step-5---unit-tests-for-domain-model) has a weakness: there is no guarantee that the values ​​we create for `Sending` and `Epg` are valid. Only the `epgEntityToDomain` function in `DataAccess.fs` calls `isSendingValid` when sendings are retrieved. There is no guarantee that all creations of `Sending` and `Epg` values ​​come through `epgEntityToDomain`. In this step, we will see how we can change our domain model so that `Sending` and `Epg` values ​​cannot be created without them being valid.
+The implementation of the domain model as we did in [step 4](#step-4---define-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model) has a weakness: there is no guarantee that the values ​​we create for `Sending` and `Epg` are valid. Only the `epgEntityToDomain` function in `DataAccess.fs` calls `isSendingValid` when sendings are retrieved. There is no guarantee that all creations of `Sending` and `Epg` values ​​come through `epgEntityToDomain`. In this step, we will see how we can change our domain model so that `Sending` and `Epg` values ​​cannot be created without them being valid.
 
 In [step 4](#step-4---definere-domainemodel) we modeled the title and channel as `string`, and the start and end times as `DateTimeOffset`. Apart from the fields having these types, there is nothing in our `Sending` type that says what rules apply to them. However, we can do something about that.
 
