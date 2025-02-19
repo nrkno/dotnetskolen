@@ -939,7 +939,7 @@ An EPG can be seen as a list of transmissions, and for our example in this cours
 
 - Title - The title of the program. Must be between 5 and 100 characters (inclusive), and can only consist of uppercase and lowercase letters, numbers, and some special characters: `, . : - !`
 - Channel - The channel broadcasting the transmission. In our case, possible channels are limited to NRK1 and NRK2, and must be written in capital letters.
-- Start date and time - date and time when the transmission starts.
+- Start date and time - date and time when the transmission starts to air.
 - End date and time - date and time when the transmission ends. Must be after the start date and time.
 
 #### Domain model in F#
@@ -1065,7 +1065,7 @@ We want to verify the following rules from our domain:
 - Channel
   - `NRK1` or `NRK2`.
   - Only capital letters are allowed.
-- Transmission time
+- Air time
   - End time must be after start time
 
 #### Title
@@ -1275,13 +1275,13 @@ Test summary: total: 10; failed: 0; succeeded: 10; skipped: 0; duration: 1,1s
 Build succeeded in 6,7s
 ```
 
-#### Transmission times
+#### Air time
 
 The last thing we need to validate in our domain is that the end time is after the start time.
 
 ##### Unit tests
 
-Below is one unit test for validating transmission times in `Tests.fs`:
+Below is one unit test for validating the air time in `Tests.fs`:
 
 ```f#
 [<Fact>]
@@ -1306,7 +1306,7 @@ open System
 
 ##### Implementation of areStartTimeAndEndTimeValid
 
-The function to validate the transmission times must check if the end time is greater than the start time. Paste the shell of `areStartTimeAndEndTimeValid` into `Domain.fs`:
+The function to validate the air time must check if the end time is greater than the start time. Paste the shell of `areStartTimeAndEndTimeValid` into `Domain.fs`:
 
 ```f#
     let areStartTimeAndEndTimeValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
@@ -1436,12 +1436,12 @@ Before we define the actual contract of the API in an OpenAPI specification, we 
                     "tittel": {
                         "$ref": "#/components/schemas/Tittel"
                     },
-                    "start time": {
+                    "startTime": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Start date and time of the broadcast."
                     },
-                    "end time": {
+                    "endTime": {
                         "type": "string",
                         "format": "date-time",
                         "description": "The end date and time of the broadcast. Is always greater than the start date and time of the broadcast."
@@ -1449,8 +1449,8 @@ Before we define the actual contract of the API in an OpenAPI specification, we 
                 },
                 "required": [
                     "tittel",
-                    "start time",
-                    "end time"
+                    "startTime",
+                    "endTime"
                 ]
             }
         }
@@ -1769,12 +1769,12 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
                     "tittel": {
                         "$ref": "#/components/schemas/Tittel"
                     },
-                    "start time": {
+                    "startTime": {
                         "type": "string",
                         "format": "date-time",
                         "description": "Start date and time of the broadcast."
                     },
-                    "end time": {
+                    "endTime": {
                         "type": "string",
                         "format": "date-time",
                         "description": "The end date and time of the broadcast. Is always greater than the start date and time of the broadcast."
@@ -1782,8 +1782,8 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
                 },
                 "required": [
                     "tittel",
-                    "start time",
-                    "end time"
+                    "startTime",
+                    "endTime"
                 ]
             }
         }
@@ -1831,8 +1831,8 @@ module Dto =
 
   type SendingDto = {
       Title: string
-      Start time: string
-      End time: string
+      StartTime: string
+      EndTime: string
   }
 
   type EpgDto = {
@@ -2929,8 +2929,8 @@ module DataAccess =
     type SendingEntity = {
         Title: string
         Channel: string
-        Start time: string
-        End time: string
+        StartTime: string
+        EndTime: string
     }
 
     type EpgEntity = SendingEntity list
@@ -2944,20 +2944,20 @@ let database =
         {
             Title = "Test Program"
             Channel = "NRK1"
-            Start time = "2021-04-12T13:00:00Z"
-            End time = "2021-04-12T13:30:00Z"
+            StartTime = "2021-04-12T13:00:00Z"
+            EndTime = "2021-04-12T13:30:00Z"
         }
         {
             Title = "Test Program"
             Channel = "NRK2"
-            Start time = "2021-04-12T14:00:00Z"
-            End time = "2021-04-12T15:00:00Z"
+            StartTime = "2021-04-12T14:00:00Z"
+            EndTime = "2021-04-12T15:00:00Z"
         }
         {
             Title = "Test Program"
             Channel = "NRK3"
-            Start time = "2021-04-12T14:00:00Z"
-            End time = "2021-04-12T16:30:00Z"
+            StartTime = "2021-04-12T14:00:00Z"
+            EndTime = "2021-04-12T16:30:00Z"
         }
     ]
 ```
@@ -3069,40 +3069,40 @@ module Mock =
             {
                 Title = "Test Program"
                 Channel = "NRK1"
-                Start time = now.AddDays(-10.)
-                End time = now.AddDays(-10.).AddMinutes(30.)
+                StartTime = now.AddDays(-10.)
+                EndTime = now.AddDays(-10.).AddMinutes(30.)
             }
             {
                 Title = "Test Program"
                 Channel = "NRK2"
-                Start time = now.AddDays(-10.)
-                End time = now.AddDays(-10.).AddMinutes(30.)
+                StartTime = now.AddDays(-10.)
+                EndTime = now.AddDays(-10.).AddMinutes(30.)
             }
             // Today's broadcasts
             {
                 Title = "Test Program"
                 Channel = "NRK1"
-                Start time = now
-                End time = now.AddMinutes(30.)
+                StartTime = now
+                EndTime = now.AddMinutes(30.)
             }
             {
                 Title = "Test Program"
                 Channel = "NRK2"
-                Start time = now
-                End time = now.AddMinutes(30.)
+                StartTime = now
+                EndTime = now.AddMinutes(30.)
             }
             // Forward shipments
             {
                 Title = "Test Program"
                 Channel = "NRK1"
-                Start time = now.AddDays(10.)
-                End time = now.AddDays(10.).AddMinutes(30.)
+                StartTime = now.AddDays(10.)
+                EndTime = now.AddDays(10.).AddMinutes(30.)
             }
             {
                 Title = "Test Program"
                 Channel = "NRK2"
-                Start time = now.AddDays(10.)
-                End time = now.AddDays(10.).AddMinutes(30.)
+                StartTime = now.AddDays(10.)
+                EndTime = now.AddDays(10.).AddMinutes(30.)
             }
         ]
 ```
@@ -3277,8 +3277,8 @@ Now that we have created a separate type for the title of a submission, we can u
 type Sending = {
     Title: Title
     Channel: string
-    Start time: DateTimeOffset
-    End time: DateTimeOffset
+    StartTime: DateTimeOffset
+    EndTime: DateTimeOffset
 }
 ```
 
@@ -3323,8 +3323,8 @@ let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
     {
         Sending.Title = sendingEntity.Title
         Kanal = sendingEntity.Kanal
-        Start time = DateTimeOffset.Parse(sendingEntity.Start time)
-        End time = DateTimeOffset.Parse(sendingEntity.End time)
+        StartTime = DateTimeOffset.Parse(sendingEntity.StartTime)
+        EndTime = DateTimeOffset.Parse(sendingEntity.EndTime)
     }
 ```
 
@@ -3335,8 +3335,8 @@ let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
     {
         Sending.Title = (Title.create sendingEntity.Title).Value
         Kanal = sendingEntity.Kanal
-        Start time = DateTimeOffset.Parse(sendingEntity.Start time)
-        End time = DateTimeOffset.Parse(sendingEntity.End time)
+        StartTime = DateTimeOffset.Parse(sendingEntity.StartTime)
+        EndTime = DateTimeOffset.Parse(sendingEntity.EndTime)
     }
 ```
 
@@ -3351,8 +3351,8 @@ let fromDomain (domain : Domain.Epg) : EpgDto =
             |> List.filter (fun s -> s.Kanal = kanal)
             |> List.map (fun s -> {
                 Title = s.Title
-                Start time = s.Start time.ToString("o")
-                End time = s.End time.ToString("o")
+                StartTime = s.StartTime.ToString("o")
+                EndTime = s.EndTime.ToString("o")
             })
     {
         Nrk1 = mapSendingerForKanal "NRK1"
@@ -3369,8 +3369,8 @@ let fromDomain (domain : Domain.Epg) : EpgDto =
             |> List.filter (fun s -> s.Kanal = kanal)
             |> List.map (fun s -> {
                 Title = Domain.Title.value s.Title
-                Start time = s.Start time.ToString("o")
-                End time = s.End time.ToString("o")
+                StartTime = s.StartTime.ToString("o")
+                EndTime = s.EndTime.ToString("o")
             })
     {
         Nrk1 = mapSendingerForKanal "NRK1"
@@ -3433,40 +3433,40 @@ Now that we have seen how we can implement a separate type for the `Title` field
 We can follow the same principles as for title and channel for start and end times as well, but since you can't tell if the start and end times are valid unless you have both, we need to create a type that has both fields:
 
 ```f#
-type SendTime = private {
-        Start time: DateTimeOffset
-        End time: DateTimeOffset
+type AirTime = private {
+        StartTime: DateTimeOffset
+        EndTime: DateTimeOffset
     }
 
   let areStartAndEndTimeValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
-      start time < end time
+      startTime < endTime
 
-  module Send time =
-      let create (start time: DateTimeOffset) (end time: DateTimeOffset) : Send time option =
+  module AirTime =
+      let create (startTime: DateTimeOffset) (endTime: DateTimeOffset) : AirTime option =
           if areStartAndEndTimeValid starttime endtime then
               {
-                  Start time = start time
-                  End time = end time
+                  StartTime = startTime
+                  EndTime = endTime
               }
               |> Some
           else
               None
 
-      easy starttime(sendTime: SendTime) = sendTime.StartTime
-      easy endtime(sendTime: SendTime) = sendTime.EndTime
+      let startTime(airTime: AirTime) = airTime.StartTime
+      let endTime(airTime: AirTime) = airTime.EndTime
 ```
 
-Here we have defined a collection type `SendTime`, which contains both start and end times. Notice that the `create` function takes in both of these, and uses the `areStartAndEndTimeValid` function to check whether they are valid against each other, before creating a `SendTime` value. Notice that we have not created a `value` function here, but instead created a `starttime` and an `endtime` function, both of which take in a `SendTime` value, and return the respective value from the `SendTime` value.
+Here we have defined a collection type `AirTime`, which contains both start and end times. Notice that the `create` function takes in both of these, and uses the `areStartAndEndTimeValid` function to check whether they are valid against each other, before creating a `AirTime` value. Notice that we have not created a `value` function here, but instead created a `starttime` and an `endtime` function, both of which take in a `AirTime` value, and return the respective value from the `AirTime` value.
 
-###### Using Send Time in Sending
+###### Using AirTime in Transmission
 
 Now that we have created a separate type for the start and end times of a broadcast, we can use them in our `Broadcast` type:
 
 ```f#
-type Sending = {
+type Transmission = {
     Title: Title
     Channel: Channel
-    Broadcast time: Broadcast time
+    AirTime: AirTime
 }
 ```
 
@@ -3474,10 +3474,10 @@ Here we see that we use `SendingTime` instead of `DateTimeOffset` for the start 
 
 ```f#
 module Sending =
-    let create (title: string) (channel: string) (start time: DateTimeOffset) (end time: DateTimeOffset) : Sending option =
+    let create (title: string) (channel: string) (startTime: DateTimeOffset) (endTime: DateTimeOffset) : Sending option =
         let title = Title.create title
         let channel = Channel.createchannel
-        let sendTime = SendTime.create starttime endtime
+        let airTime = AirTime.create starttime endtime
 
         if tittel.IsNone || kanal.IsNone || sendeTidspunkt.IsNone then
             None
@@ -3485,7 +3485,7 @@ module Sending =
             Some {
                 Title = title.Value
                 Channel = channel.Value
-                SendTime = sendeTime.Value
+                AirTime = sendeTime.Value
             }
 ```
 
@@ -3532,27 +3532,27 @@ module Domain =
 
         let value (Channel channel) = channel
 
-    type SendTime = private {
-        Start time: DateTimeOffset
-        End time: DateTimeOffset
+    type AirTime = private {
+        StartTime: DateTimeOffset
+        EndTime: DateTimeOffset
     }
 
     let areStartAndEndTimeValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
-        start time < end time
+        startTime < endTime
 
-    module Send time =
-        let create (start time: DateTimeOffset) (end time: DateTimeOffset) : Send time option =
+    module AirTime =
+        let create (startTime: DateTimeOffset) (endTime: DateTimeOffset) : AirTime option =
             if areStartAndEndTimeValid starttime endtime then
                 {
-                    Start time = start time
-                    End time = end time
+                    StartTime = startTime
+                    EndTime = endTime
                 }
                 |> Some
             else
                 None
 
-        easy starttime(sendTime: SendTime) = sendTime.StartTime
-        easy endtime(sendTime: SendTime) = sendTime.EndTime
+        easy starttime(airTime: AirTime) = airTime.StartTime
+        easy endtime(airTime: AirTime) = airTime.EndTime
 
     type Sending = {
         Title: Title
@@ -3563,10 +3563,10 @@ module Domain =
     type Epg = Sending list
 
     module Sending =
-        let create (title: string) (channel: string) (start time: DateTimeOffset) (end time: DateTimeOffset) : Sending option =
+        let create (title: string) (channel: string) (startTime: DateTimeOffset) (endTime: DateTimeOffset) : Sending option =
             let title = Title.create title
             let channel = Channel.createchannel
-            let sendTime = SendTime.create starttime endtime
+            let airTime = AirTime.create starttime endtime
 
             if tittel.IsNone || kanal.IsNone || sendeTidspunkt.IsNone then
                 None
@@ -3574,7 +3574,7 @@ module Domain =
                 Some {
                     Title = title.Value
                     Channel = channel.Value
-                    SendTime = sendeTime.Value
+                    AirTime = sendeTime.Value
                 }
 ```
 
@@ -3600,12 +3600,12 @@ let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending =
     {
         Sending.Title = (Title.create s.Title).Value
         Kanal = sendingEntity.Kanal
-        Start time = DateTimeOffset.Parse(sendingEntity.Start time)
-        End time = DateTimeOffset.Parse(sendingEntity.End time)
+        StartTime = DateTimeOffset.Parse(sendingEntity.StartTime)
+        EndTime = DateTimeOffset.Parse(sendingEntity.EndTime)
     }
 ```
 
-Here we are trying to set `Start Time` and `End Time` directly, but these have now been moved into the `Send Time` field. We could have used the `SendTime.create` function to solve this in a similar way as for `Title` and `Channel`, but since we have introduced the `Sending.create` function which calls the `create` function for all the new types for us, we can instead use it, like this:
+Here we are trying to set `Start Time` and `End Time` directly, but these have now been moved into the `Send Time` field. We could have used the `AirTime.create` function to solve this in a similar way as for `Title` and `Channel`, but since we have introduced the `Sending.create` function which calls the `create` function for all the new types for us, we can instead use it, like this:
 
 ```f#
 let sendingEntityToDomain (sendingEntity: SendingEntity) : Sending option =
@@ -3642,8 +3642,8 @@ let fromDomain (domain : Domain.Epg) : EpgDto =
             |> List.filter (fun s -> (Domain.Kanal.value s.Kanal) = kanal)
             |> List.map (fun s -> {
                 Title = Domain.Title.value s.Title
-                Start time = s.Start time.ToString("o")
-                End time = s.End time.ToString("o")
+                StartTime = s.StartTime.ToString("o")
+                EndTime = s.EndTime.ToString("o")
             })
     {
         Nrk1 = mapSendingerForKanal "NRK1"
@@ -3651,7 +3651,7 @@ let fromDomain (domain : Domain.Epg) : EpgDto =
     }
 ```
 
-The start and end times are now stored in a composite type `SendTime`, so retrieving the start and end times will not work. However, we can use the functions we defined earlier in this step to retrieve the internal values ​​of `SendTime` like this:
+The start and end times are now stored in a composite type `AirTime`, so retrieving the start and end times will not work. However, we can use the functions we defined earlier in this step to retrieve the internal values ​​of `AirTime` like this:
 
 ```f#
 open Domain
@@ -3662,14 +3662,14 @@ let fromDomain (domain: Domain.Epg): EpgDto =
         |> List.filter (fun s -> Kanal.value s.Kanal = kanal)
         |> List.map (fun s ->
             { Title = Title.value s.Title
-              Start time = (Send time.start time s.Send time).ToString("o")
-              End time = (Send time.end time s.Send time).ToString("o") })
+              StartTime = (AirTime.startTime s.AirTime).ToString("o")
+              EndTime = (AirTime.endTime s.AirTime).ToString("o") })
 
     { Nrk1 = mapSendingerForKanal "NRK1"
       Nrk2 = mapSendingerForKanal "NRK2" }
 ```
 
-We retrieve the start and end times by calling `SendTime.startTime` and `SendTime.endTime` respectively with `s.SendTime` as input.
+We retrieve the start and end times by calling `AirTime.startTime` and `AirTime.endTime` respectively with `s.AirTime` as input.
 
 ###### Fix getEpgForDate
 
@@ -3681,7 +3681,7 @@ let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateOnly) : Epg =
   |> List.filter (fun s -> s.Starttidspunkt.Date.Date = date.Date)
 ```
 
-As we have introduced a new way to retrieve the start time from a broadcast, we need to update `getEpgForDate` to reflect this:
+As we have introduced a new way to retrieve the startTime from a broadcast, we need to update `getEpgForDate` to reflect this:
 
 ```f#
 let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateOnly) : Epg =
@@ -3689,7 +3689,7 @@ let getEpgForDate (getAlleSendinger : unit -> Epg) (date : DateOnly) : Epg =
     |> List.filter (fun s -> (Sendetidspunkt.starttidspunkt s.Sendetidspunkt).Date.Date = date.Date)
 ```
 
-Instead of retrieving the start time directly, we call `SendTime.startTime` with `s.SendTime` as input.
+Instead of retrieving the start time directly, we call `AirTime.startTime` with `s.AirTime` as input.
 
 ###### Fix unit tests
 
@@ -3705,8 +3705,8 @@ let ``Sending.create valid sending returns Some`` () =
     | Some t ->
         Assert.Equal("Daily Review", Title.value t.Title)
         Assert.Equal("NRK1", Kanal.value t.Kanal)
-        Assert.Equal(now, SendTime.startTime t.SendTime)
-        Assert.Equal(now.AddMinutes 30., SendTime.EndTime t.SendTime)
+        Assert.Equal(now, AirTime.startTime t.AirTime)
+        Assert.Equal(now.AddMinutes 30., AirTime.EndTime t.AirTime)
     | None -> Assert.True false
 
 [<Fact>]
