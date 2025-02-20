@@ -926,7 +926,7 @@ EndGlobal
 
 The image below shows how the "Solution explorer" in Visual Studio displays the solution.
 
-![Solution explorer in Visual Studio](./docs/illustrations/solution-explorer.png)
+![Solution explorer in Visual Studio](./docs/illustrasjoner/solution-explorer.png)
 
 ### Step 4 - Defining the domain model
 
@@ -3744,7 +3744,7 @@ let getAllTransmissions () : Epg =
 
 In [step 6](#step-6---define-api-contract) we introduced the OpenAPI contract for our API, and placed it in the `/docs` folder. Currently, the documentation is only available to those who have access to the code repository. To make the contract publically available, we have to publish it somewhere. In this step, we will look at how we can make the OpenAPI contract available as a separate web page in the API using [ReDoc](https://github.com/Redocly/redoc). With ReDoc we can copy an [HTML page from their documentation](https://github.com/Redocly/redoc#tldr) and paste a reference to our OpenAPI documentation, and we will get a nice graphical representation of our API, as shown below:
 
-![redoc](./docs/illustrations/redoc.png)
+![redoc](./docs/illustrasjoner/redoc.png)
 
 In short, these are the steps we will take to create our own ReDoc page in our API:
 
@@ -3886,4 +3886,4 @@ Here we call the `UseStaticFiles` function, which ensures that static files are 
 
 If you now start the web API with `dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj`, and open <http://localhost:5000/openapi.html> you should see something similar to the screenshot below:
 
-![redoc](./docs/illustrations/redoc.png)
+![redoc](./docs/illustrasjoner/redoc.png)
