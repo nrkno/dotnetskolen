@@ -75,7 +75,7 @@ If you're interested in documenting your API with OpenAPI and modeling contract 
 
 If you are interested in .NET 9's hosting model, Minimal API, and how you can test your API with integration tests, follow these steps:
 
-- [Step 8 - Setting up the API shell](#step-8---setting-up-the-api-shell)
+- [Step 8 - Setting up the shell for the API](#step-8---setting-up-the-shell-for-the-api)
 - [Step 9 - Implement web API](#step-9---implement-web-api)
 
 ##### Additional tasks
