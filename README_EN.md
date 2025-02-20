@@ -1381,11 +1381,11 @@ Build succeeded in 7,2s
 
 **Step 6 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-5---unit-tests-for-the-domain-model) [⬇ Next step](#step-7---implement-contract-types)
 
-To document what operations and responses our API offers, we will create an API contract. In NRK TV and NRK Radio, we define API contracts using OpenAPI (<https://www.openapis.org/>).
+To document which operations and responses our API offers, we will create an API contract. In NRK TV and NRK Radio, we define API contracts using OpenAPI (<https://www.openapis.org/>).
 
 #### Operations
 
-To limit the scope of our API, we should have only one operation in it:
+To limit the scope of our API, we are only going to have one operation in it:
 
 - Retrieve EPG on a given date
 
@@ -1393,7 +1393,7 @@ To limit the scope of our API, we should have only one operation in it:
 
 The response to this operation will consist of two lists of transmissions, one for each channel in our domain, where each transmission has:
 
-- Title - text string that follows the rules defined in [our domain model](#step-4---define-domain-model).
+- Title - text string that follows the rules defined in [our domain model](#step-4---define-the-domain-model).
 - Start date and time - text string that follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 - End date and time - text string that follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Guaranteed to be greater than the start date and time.
 
@@ -1425,17 +1425,17 @@ Before we define the actual contract of the API in an OpenAPI specification, we 
     ],
     "components": {
         "schemas": {
-            "Tittel": {
+            "Title": {
                 "type": "string",
                 "pattern": "^[\\p{L}0-9\\.,-:!]{5,100}$",
                 "example": "Dagsrevyen",
-                "description": "Programtittel"
+                "description": "Program title"
             },
             "Transmission": {
                 "type": "object",
                 "properties": {
                     "tittel": {
-                        "$ref": "#/components/schemas/Tittel"
+                        "$ref": "#/components/schemas/Title"
                     },
                     "startTime": {
                         "type": "string",
@@ -1449,7 +1449,7 @@ Before we define the actual contract of the API in an OpenAPI specification, we 
                     }
                 },
                 "required": [
-                    "tittel",
+                    "title",
                     "startTime",
                     "endTime"
                 ]
@@ -1459,9 +1459,9 @@ Before we define the actual contract of the API in an OpenAPI specification, we 
 }
 ```
 
-Here we see that the response consists of an object with two fields: `nrk1` and `nrk2`, both of which are a list of the transmissions on the respective channels. Each transmission contains a title, as well as a start and end time. Each of the fields are text strings that follow the validation rules we have defined in our domain. `Title` has `pattern` similar to the regular expression we used in `isTitleValid` in `Domain.fs`. `Starttime` and `Endtime` have `format: "date-time"`, which follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
+Above we can see that the response consists of an object with two properties: `nrk1` and `nrk2`, both of which are a list of the transmissions on the respective channel. Each transmission contains a title, as well as a start and end time. Each of the fields are text strings that follow the validation rules we have defined in our domain. `Title` has `pattern` similar to the regular expression we used in `isTitleValid` in `Domain.fs`. `StartTime` and `EndTime` have `format: "date-time"`, which follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 
-For now, we won't be doing anything more with the JSON schema than having it as documentation for our API. Create a new folder `docs` in your root folder with a new file `epg.schema.json` where you paste the JSON schema above. You should now have the following folder hierarchy:
+For now, we'll leave the JSON schema there, serving as documentation of our API. Create a new folder `docs` in your root folder with a new file `epg.schema.json` where you paste the JSON schema above. You should now have the following folder hierarchy:
 
 ```txt
 └── .config
@@ -1501,7 +1501,7 @@ Paste the following JSON into `openapi.json`:
     "openapi": "3.0.0",
     "info": {
         "title": "Dotnetskolen EPG-API",
-        "description": "API to retrieve EPG for the channels NRK1 and NRK2 in NRKTV",
+        "description": "API to retrieve EPG for the channels NRK1 and NRK2 in NRK TV",
         "version": "0.0.1"
     }
 }
@@ -1518,7 +1518,7 @@ Here we specify which version of OpenAPI we are using, and some metadata about o
         "version": "0.0.1"
     },
     "paths": {
-        "/epg/{dato}": {
+        "/epg/{date}": {
             "get": {
             }
         }
@@ -1537,13 +1537,13 @@ Here we have specified that our API exposes the URL `/epg/{date}` for HTTP `GET`
         "version": "0.0.1"
     },
     "paths": {
-        "/epg/{dato}": {
+        "/epg/{date}": {
             "get": {
                 "parameters": [
                     {
-                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
+                        "description": "Date as per [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6), e.g. 2021-11-15.",
                         "in": "path",
-                        "name": "dato",
+                        "name": "date",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -1575,13 +1575,13 @@ Now we can add what responses the endpoint has: `200 OK` with EPG or `400 Bad Re
         "version": "0.0.1"
     },
     "paths": {
-        "/epg/{dato}": {
+        "/epg/{date}": {
             "get": {
                 "parameters": [
                     {
-                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
+                        "description": "Date as per [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6), e.g. 2021-11-15.",
                         "in": "path",
-                        "name": "dato",
+                        "name": "date",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -1606,7 +1606,7 @@ Now we can add what responses the endpoint has: `200 OK` with EPG or `400 Bad Re
                             "text/plain": {
                                 "schema": {
                                     "type": "string",
-                                    "example": "\"Ugyldig dato\""
+                                    "example": "\"Invalid date\""
                                 }
                             }
                         },
@@ -1630,13 +1630,13 @@ Finally, we add an ID for the operation, and a textual description of it.
         "version": "0.0.1"
     },
     "paths": {
-        "/epg/{dato}": {
+        "/epg/{date}": {
             "get": {
                 "parameters": [
                     {
-                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
+                        "description": "Date as per [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6), e.g. 2021-11-15.",
                         "in": "path",
-                        "name": "dato",
+                        "name": "date",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -1661,14 +1661,14 @@ Finally, we add an ID for the operation, and a textual description of it.
                             "text/plain": {
                                 "schema": {
                                     "type": "string",
-                                    "example": "\"Ugyldig dato\""
+                                    "example": "\"Invalid date\""
                                 }
                             }
                         },
                         "description": "Bad Request"
                     }
                 },
-                "operationId": "hentEpgPåDato",
+                "operationId": "getEpgForDate",
                 "description": "Gets EPG for NRK1 and NRK 2 on the given date. Returns 400 if date is invalid. The list of transmissions for a channel is empty if there are no transmissions on the given day."
             }
         }
@@ -1678,11 +1678,11 @@ Finally, we add an ID for the operation, and a textual description of it.
 
 > The contract above is validated using <https://editor.swagger.io/>
 >
-> Note that in the OpenAPI contract above we use version `3.0.0` of OpenAPI. In this version there is no full support for JSON Schema. Therefore, you cannot use all features in JSON Schema in the OpenAPI contract. However, our contract only uses features in JSON Schema that are supported. `OpenAPI 3.1.0` was released on February 16, 2021, which _has_ full support for all features in JSON Schema. However, it will take some time before there is support for this in tooling such as `ReDoc` (used in [step 11](#step-11---graphic-presentation-of-openapi-documentation)) `WebGUI` and linting. Thanks to [@laat](https://github.com/laat) for pointing it out.
+> Note that in the OpenAPI contract above we use version `3.0.0` of OpenAPI. In this version there is no full support for JSON Schema. Therefore, you cannot use all features in JSON Schema in the OpenAPI contract. However, our contract only uses features in JSON Schema that are supported. `OpenAPI 3.1.0` was released on February 16, 2021, which _has_ full support for all features in JSON Schema. However, it will take some time before there is support for this in tooling such as `ReDoc` (used in [step 11](#step-11---graphical-representation-of-openapi-documentation)) `WebGUI` and linting. Thanks to [@laat](https://github.com/laat) for pointing it out.
 
 #### Graphical representation of the Open API contract
 
-In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look at how to set up a graphical representation of the OpenAPI documentation as a separate HTML page in the API. Note that this assumes that you have completed steps 1-10 first. If you want to see a graphical representation now, you can paste the code below at <https://editor.swagger.io/>.
+In [step 11](#step-11---graphical-representation-of-openapi-documentation) we look at how to set up a graphical representation of the OpenAPI documentation as a separate HTML page in the API. Note that this assumes that you have completed steps 1-10 first. If you want to see a graphical representation now, you can paste the code below at <https://editor.swagger.io/>.
 
 > Just press "OK" if you are asked to convert from JSON to YAML.
 
@@ -1695,13 +1695,13 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
         "version": "0.0.1"
     },
     "paths": {
-        "/epg/{dato}": {
+        "/epg/{date}": {
             "get": {
                 "parameters": [
                     {
-                        "description": "Dato slik den er definert i [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Eksempel: 2021-11-15.",
+                        "description": "Date as per [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6), e.g. 2021-11-15.",
                         "in": "path",
-                        "name": "dato",
+                        "name": "date",
                         "required": true,
                         "schema": {
                             "type": "string",
@@ -1744,31 +1744,31 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
                             "text/plain": {
                                 "schema": {
                                     "type": "string",
-                                    "example": "\"Ugyldig dato\""
+                                    "example": "\"Invalid date\""
                                 }
                             }
                         },
                         "description": "Bad Request"
                     }
                 },
-                "operationId": "hentEpgPåDato",
+                "operationId": "getEpgForDate",
                 "description": "Gets EPG for NRK1 and NRK 2 on the given date. Returns 400 if date is invalid. The list of transmissions for a channel is empty if there are no transmissions on the given day."
             }
         }
     },
     "components": {
         "schemas": {
-            "Tittel": {
+            "Title": {
                 "type": "string",
                 "pattern": "^[\\p{L}0-9\\.,-:!]{5,100}$",
                 "example": "Dagsrevyen",
-                "description": "Programtittel"
+                "description": "Program title"
             },
             "Transmission": {
                 "type": "object",
                 "properties": {
                     "tittel": {
-                        "$ref": "#/components/schemas/Tittel"
+                        "$ref": "#/components/schemas/Title"
                     },
                     "startTime": {
                         "type": "string",
@@ -1782,7 +1782,7 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
                     }
                 },
                 "required": [
-                    "tittel",
+                    "title",
                     "startTime",
                     "endTime"
                 ]
@@ -1798,7 +1798,7 @@ In [step 11](#step-11---graphic-representation-of-openapi-documentation) we look
 
 **Step 7 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-6---define-api-contract) [⬇ Next step](#step-8---setting-up-the-shell-for-the-api)
 
-In [step-4](#step-4---define-domain-model) we defined our domain model as an F# type. The domain model represents the EPG as we conceptually think of it, both in terms of structure and rules for valid states. API contracts are not necessarily one-to-one with domain models.
+In [step-4](#step-4---define-the-domain-model) we defined our domain model as an F# type. The domain model represents the EPG as we conceptually think of it, both in terms of structure and rules for valid states. API contracts are not necessarily one-to-one with domain models.
 
 1. First, the structure of the types in the API may be different than in the domain model. We see this in our case where the domain model has all submissions, across channels, in one list, while the API contract has one list of submissions per channel.
 2. Additionally, we are limited to representing data with text in the API since HTTP is a text-based protocol. For example, we use a `DateTimeOffset` to represent start and end times in our domain model, while we use `string` in our OpenAPI contract.
@@ -1842,7 +1842,7 @@ module Dto =
   }
 ```
 
-Just like when we [created the domain model](#step-4---define-domain-model), we need to add `Dto.fs` to the API project's project file:
+Just like when we [created the domain model](#step-4---define-the-domain-model), we need to add `Dto.fs` to the API project's project file:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -3238,7 +3238,7 @@ You have now implemented a web API in F#, with unit and integration tests, API d
 
 The implementation of the domain model as we did in [step 4](#step-4---define-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model) has a weakness: there is no guarantee that the values ​​we create for `Transmission` and `Epg` are valid. Only the `epgEntityToDomain` function in `DataAccess.fs` calls `isTransmissionValid` when transmissions are retrieved. There is no guarantee that all creations of `Transmission` and `Epg` values ​​come through `epgEntityToDomain`. In this step, we will see how we can change our domain model so that `Transmission` and `Epg` values ​​cannot be created without them being valid.
 
-In [step 4](#step-4---definere-domainemodel) we modeled the title and channel as `string`, and the start and end times as `DateTimeOffset`. Apart from the fields having these types, there is nothing in our `Transmission` type that says what rules apply to them. However, we can do something about that.
+In [step 4](#step-4---define-the-domain-model) we modeled the title and channel as `string`, and the start and end times as `DateTimeOffset`. Apart from the fields having these types, there is nothing in our `Transmission` type that says what rules apply to them. However, we can do something about that.
 
 ##### Title
 
