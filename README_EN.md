@@ -2321,11 +2321,11 @@ Build succeeded in 8,9s
 
 **Step 9 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-8---outlining-the-web-api)
 
-In [previous step](#step-8---outlining-the-web-api) we created an outline for the web API by adding a `ping` endpoint with an associated integration test. In this step, we will extend the web API with an endpoint to retrieve EPG. In addition, we will write integration tests to verify that the implementation of the web API is in accordance with our Open API documentation. We use a test-driven approach by writing an integration test that fails, and then making changes to the API so that the test passes. We continue in this way until we have fully implemented our API.
+In [previous step](#step-8---outlining-the-web-api) we created an outline for the web API by adding a `ping` endpoint with a corresponding integration test. In this step, we will extend the web API with an endpoint to retrieve an EPG. In addition, we will write integration tests to verify that the implementation of the web API adheres to our Open API documentation. We use a test-driven approach by writing an integration test that fails, and then making changes to the API so that the test passes. We continue in this way until we have fully implemented our API.
 
 #### Test 1 - Verify that the endpoint exists
 
-In the first integration test, we will send a request to our API that retrieves the EPG for today, and validate that we get a 200 OK back. Start by adding the following "open" statement before `open System.Net.Http` in the `Tests.fs` file in the integration test project.
+In the first integration test, we will send a request to our API that retrieves the EPG for today, and validate that we get a 200 OK response back. Start by adding the following "open" statement before `open System.Net.Http` in the `Tests.fs` file in the integration test project.
 
 ```f#
 open System
@@ -2373,12 +2373,12 @@ As we can see above, the test currently fails as the web API returns `404 (Not F
 
 ##### Define route from API contract
 
-If we look at the API contract we defined in [step 6](#step-6---definere-api-kontrakt) it contains one operation `/epg/{dato}` which returns `200 OK` with the current EPG if everything is OK, and `400 Bad Request` if it fails to parse the date:
+If we look at the API contract we defined in [step 6](#step-6---define-api-contract) it contains one operation `/epg/{date}` which returns `200 OK` with the current EPG if everything is OK, and `400 Bad Request` if it fails to parse the date:
 
 ```json
 ...
     "paths": {
-        "/epg/{dato}": {
+        "/epg/{date}": {
             "get": {
                 ...
                 "responses": {
@@ -2414,7 +2414,7 @@ We can use this when defining the operation in our `WebApplication` object. Exte
         app
 ```
 
-Here we specify that we want to run the anonymous function `fun date -> date)` for HTTP `GET` requests to the URL `epg/{date}`, where `{date}` matches the text string provided in the URL after `/epg/`.
+Here we specify that we want to run the anonymous function `fun date -> date` for HTTP `GET` requests to the URL `epg/{date}`, where `{date}` matches the text string provided in the URL after `/epg/`.
 
 > Notice the use of delegates here as well through `Func<string, string>(fun date -> date)`. Here we see that our delegate takes in a parameter of type `string`, and returns a value of type `string`.
 
@@ -2482,11 +2482,11 @@ The new test we added fails because the API does not validate the given date. Le
 
 ##### Implement HTTP Handler for /epg/{date}
 
-The anonymous function that handles HTTP GET requests to `/epg/{date}` doesn't provide much value as it stands. Let's move on to implementing the operation as defined in our API contract. Overall, we want the function to do the following:
+Right now, the anonymous function that handles HTTP GET requests for `/epg/{date}` doesn't do much. Let's move on by implementing the operation as defined in our API contract. Overall, we want the function to do the following:
 
 1. Validate the date provided in the URL, and return `400 Bad Request` if it is invalid
 2. Retrieve transmissions for the specified date
-3. Return EPG in JSON format that complies with our API contract
+3. Return EPG in JSON format that adheres to our API contract
 
 ###### Move HttpHandler to its own module
 
@@ -2532,7 +2532,7 @@ module HttpHandlers =
         dateAsString
 ```
 
-Here we create a module `HttpHandlers` in the namespace `NRK.Dotnetskolen.Api`. In the module we have a function `epgHandler`, which takes in a text string, and for now the function returns the same text string. The return value of `epgHandler` is currently the same as the anonymous function we had in `Program.fs`, but now we have the opportunity to extend it without the code in `Program.fs` becoming confusing.
+Here we create a module `HttpHandlers` in the namespace `NRK.Dotnetskolen.Api`. In the module we have a function `epgHandler`, which takes a text string as input, and for now the function returns the same text string. The return value of `epgHandler` is currently the same as the anonymous function we had in `Program.fs`, but now we are in a better position to extend it and at the same time keeping the code in `Program.fs` readable.
 
 Open the `HttpHandlers` module in `Program.fs` and call the `epgHandler` function instead of the anonymous function we had:
 
@@ -2565,7 +2565,7 @@ let parseAsDate (dateAsString : string) : DateOnly option =
     | _ -> None
 ```
 
-The `parseAsDate` function attempts to parse the text string it receives as a parameter into a date in the format `yyyy-MM-dd` and returns a `DateOnly option` value indicating whether it was successful or not. `parseAsDate` uses the `DateOnly.ParseExact` function from the Microsoft base library. `DateOnly.ParseExact` throws an `Exception` if the given `string` value does not match the given format. Therefore, we have a `try/with` block around the call to the function, returning `None` (no value) if `DateOnly.ParseExact` throws an `Exception`, and `Some date` if the function call is successful.
+The `parseAsDate` function tries to parse the given text string in the format `yyyy-MM-dd` as a date and returns a `DateOnly option` value indicating whether it was successful or not. `parseAsDate` uses the `DateOnly.ParseExact` function from the Microsoft base library. `DateOnly.ParseExact` throws an `Exception` if the given `string` value does not match the given format. Therefore, we have a `try/with` block around the call to the function, returning `None` (no value) if `DateOnly.ParseExact` throws an `Exception`, and `Some date` if the function call is successful.
 
 Now we can use the `parseAsDate` function in `epgHandler` to return `400 Bad Request` if the date is invalid. Add the following `open` statement, and change the implementation of `epgHandler` as follows:
 
@@ -2582,7 +2582,7 @@ let epgHandler (dateAsString: string) =
 
 Here we use a `match` statement in F# that compares the result of calling `parseAsDate dateAsString` with `Some date` (in case the date was successfully parsed as a date in the format we specified in `parseAsDate`) or `None` otherwise. If the date was successfully parsed as a date we return `Results.Ok(date)` which sets the status code to `200 OK` and returns the date. Otherwise we return `Results.BadRequest("Invalid date")` which sets the status code to `400 Bad Request` and returns the text `Invalid date`.
 
-Since we have now changed the return type of `epgHandler` from `string` to `IResult` (collective interface for `Ok` and `BadRequest`, among others), we must also change the type of the delegate in `MapGet("/epg/{date}"`. Open `Microsoft.AspNetCore.Http`, and change the type of the delegate like this:
+Since we have now changed the return type of `epgHandler` from `string` to `IResult` (base interface for `Ok` and `BadRequest`, among others), we must also change the type of the delegate in `MapGet("/epg/{date}"`. Open `Microsoft.AspNetCore.Http`, and change the type of the delegate like this:
 
 ```f#
 open Microsoft.AspNetCore.Http
@@ -2600,7 +2600,7 @@ Restart the API and see what happens if you go to <http://localhost:5000/epg/202
 dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
 ```
 
-What we now get back is ASP.NET's serialization of the parsed date object.
+The response is ASP.NET's serialization of the parsed date object.
 
 ##### See that the test passes
 
@@ -2620,7 +2620,7 @@ In the final test, we will verify that the response the API provides follows the
 
 ##### JsonSchema.Net
 
-To validate that the response from the web API is in accordance with the OpenAPI contract, we will use the NuGet package `JsonSchema.Net`. Install this package by running the following command from your root directory:
+To validate that the response from the web API adheres to the OpenAPI contract, we will use the NuGet package `JsonSchema.Net`. Install this package by running the following command from your root directory:
 
 ```bash
 dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj package JsonSchema.Net
@@ -2628,7 +2628,7 @@ dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj package J
 
 ##### JSON Schema for API contract
 
-To verify that the response from our API follows the defined contract, we need to include the JsonSchema for our response in the integration test project. We can do this by adding the following to the end of the same `ItemGroup` as `Program.fs` and `Tests.fs` in the integration test project project file:
+To verify that the response from our API adheres to the defined contract, we need to include the JsonSchema for our response in the integration test project. We can do this by adding the following to the end of the same `ItemGroup` as `Program.fs` and `Tests.fs` in the integration test project project file:
 
 ```xml
 <Content Include="../../docs/epg.schema.json">
@@ -2694,9 +2694,9 @@ The test fails. Let's finish implementing the API.
 
 ##### Dependency injection
 
-Before we continue coding, let's take a quick look at a widely used principle in software development: "Inversion of control" (IoC). In short, inversion of control means that you leave control over the implementation of the dependencies you have in your code outside of where you need the dependency. This way, you can change what implements the dependency you have, and you can more easily unit test your code because you can submit fictitious implementations of the dependencies.
+Before we continue coding, let's take a quick look at a widely used principle in software development: "Inversion of control" (IoC). In short, inversion of control involves clearly stating your dependencies, and let them be provided to you by the means of functions or objects, and let the implementation of your dependencies be transparent to you. This way, you can change over time how your dependency is implemented, and you can more easily unit test your code because you can provide mocked implementations of your dependencies.
 
-An example of this is if you have a function `isLoginValid` to validate username and password coming from a login form, you need to retrieve the entity that corresponds to the given username from the user database. By including a separate function `getUser` in `ValidateLogin`, you have given control over how `getUser` is implemented to outside of the `ValidateLogin` function.
+Let's look at an example: if you have a function `isLoginValid` to validate username and password coming from a login form, you need to retrieve the entity that corresponds to the given username from the user database. By including a separate function `getUser` in `ValidateLogin`, you have left control over how `getUser` is implemented to the caller of the `ValidateLogin` function.
 
 ```f#
 let isLoginValid (getUser: string -> UserEntity) (username: string) (password: string) : bool ->
@@ -2704,13 +2704,13 @@ let isLoginValid (getUser: string -> UserEntity) (username: string) (password: s
 
 One way to achieve IoC is to use "dependency injection" (DI). In this case, you inject the necessary dependencies into the different parts of your code from the outside. If a function `A` has dependencies on the functions `B` and `C`, and `B` and `C` have dependencies on the functions `D` and `E`, respectively, you must have implementations for `B`, `C`, `D` and `E` in order to call function `A`. These dependencies form a dependency tree, and if you are going to call a function at the top of the tree, you must have implementations of all the internal nodes and all the leaf nodes in the dependency tree. For each top-level function (such as `A`) you have in your application, you will have a dependency tree.
 
-The part of the application that is responsible for satisfying all the dependencies of all top-level functions in the application is called the "composition root".
+The part of the application that is responsible for satisfying all the dependencies of all top-level functions in the application is often called the "composition root".
 
-> Du kan lese mer om "dependency injection" her: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-9.0>
+> You can read more about "dependency injection" here: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-9.0>
 
 ##### Get EPG
 
-The next step in implementing the API now is to retrieve the EPG for the validated date. Since retrieving transmissions for a given date can be implemented in several ways (calling a web service, querying a database, retrieving from a file), we use the IoC principle, and say that this is a function we need to get into `epgHandler`. We define this function as `getEpgForDate: DateOnly -> Epg` where `Epg` is the type from our domain model. Extend `epgHandler` in `HttpHandlers.fs` with this dependency as shown below:
+The next step in implementing the API is to retrieve the EPG for the validated date. Since retrieving transmissions for a given date can be implemented in several ways (calling a web service, querying a database, retrieving from a file), we use the IoC principle, and say that this is a function we need as input to `epgHandler`. We define this function as `getEpgForDate: DateOnly -> Epg` where `Epg` is the type from our domain model. Extend `epgHandler` in `HttpHandlers.fs` with this dependency as shown below:
 
 ```f#
 open NRK.Dotnetskolen.Domain
@@ -2748,7 +2748,7 @@ let fromDomain (domain: Domain.Epg) : EpgDto =
 
 ☑️ Implement the `fromDomain` function.
 
-> 💡Tips!
+> 💡Tip!
 >
 > - To convert a `DateTimeOffset` to a `string` in the correct format, you can use `ToString("o")` on a `DateTimeOffset` value like this: `let dateTimeOffsetAsString = myDateTimeOffset.ToString("o")`
 > - Remember that the `EpgDto` type has two fields: one for `Nrk1` and one for `Nrk2`, and that the transmissions in the `Epg` type must be filtered before being put in the two fields. The `List.filter` function can be used to filter elements in a list.
@@ -2864,7 +2864,7 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 Let's move on to implementing `getEpgForDate` in `Services.fs`.
 
-The task of `getEpgForDate` is to filter transmissions on the given date, but where should it get the transmissions from? In a similar way to what we did in the `epgHandler` function in `HttpHandlers`, we can say here that we want to delegate the responsibility of actually retrieving transmissions to someone else. We can do this by including a function `getAllTransmissions: () -> Epg` in `getEpgForDate`:
+`getEpgForDate` should filter transmissions on the given date, but where should it get the transmissions from? As we did in the `epgHandler` function in `HttpHandlers`, we can delegate the responsibility of actually retrieving transmissions to another piece of code. We can do this by including a function `getAllTransmissions: () -> Epg` in `getEpgForDate`:
 
 ```f#
 let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateOnly) : Epg =
@@ -2873,7 +2873,7 @@ let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateOnly) : Epg =
 
 ☑️ Complete the implementation for `getEpgForDate` and ensure that the Epg value returned only has transmissions starting on the given date `date`.
 
-> 💡Tips!
+> 💡Tip!
 >
 > - `List.filter` can be helpful for filtering the transmissions from `getAllTransmissions`
 > - `DateTimeOffset` has a property `Date` that retrieves the date component of the `DateTimeOffset` value
@@ -2963,14 +2963,14 @@ let database =
     ]
 ```
 
-Now we can implement the `getAllShipments` function by adding the following `open` statement, and the `getAllShipments` function at the end of `DataAccess.fs`:
+Now we can implement the `getAllTransmissions` function by adding the following `open` statement, and the `getAllTransmissions` function at the end of `DataAccess.fs`:
 
 ```f#
 open NRK.Dotnetskolen.Domain
 ```
 
 ```f#
-let getAllShows () : Epg =
+let getAllTransmissions () : Epg =
   // Implementation here
 ```
 
@@ -3000,7 +3000,7 @@ let createWebApplication (builder: WebApplicationBuilder) =
 
 Note that above we have called `getEpgForDate` with `getAllTransmissions`, and got a new function in return that takes in a `DateOnly` and returns an `Epg` value. Passing in a subset of the parameters to a function, and getting a function in return that takes in the remaining parameters is called "partial application". You can read more about "partial application" of functions in F# here: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments>
 
-Run the API with the following command, go to <http://localhost:5000/epg/2021-04-12>, and see what you get in return.
+Run the API with the following command, go to <http://localhost:5000/epg/2021-04-12>, and see what it returns.
 
 ```bash
 dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
@@ -3008,11 +3008,11 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 #### Using your own dependencies in integration tests
 
-One problem with our integration tests as they are now is that we have no control over the dependencies of the application while running the integration tests. More specifically, we used the actual data access to the web API when we ran the tests. In a real system, the data would not be hardcoded in the web API, but rather stored in a database or similar. To avoid being dependent on a database when running the integration tests, we can change the host we use in the integration tests to use a data store we specify in the tests instead of using the data store the web API is configured to use.
+One problem with the current state of our integration tests is that we have no control over the dependencies of the application while running the integration tests. More specifically, we used the web APIs actual data access while running the tests. In an actual system, the data would not be hardcoded in the web API, but rather stored in a database or somthing similar. To avoid being dependent on a database when running the integration tests, we can change the host we use in the integration tests to use a data store we specify in the tests instead of using the data store the web API is configured to use.
 
 ##### Implement mock of getAllTransmissions
 
-Let's implement our own `getAllShipments` function in the integration test project, and have our API use it instead.
+Let's implement our own `getAllTransmissions` function in the integration test project, and have our API use it instead.
 
 Create the file `Mock.fs` in the `/test/integration` folder:
 
@@ -3092,7 +3092,7 @@ module Mock =
                 StartTime = now
                 EndTime = now.AddMinutes(30.)
             }
-            // Forward transmissions
+            // Future transmissions
             {
                 Title = "Test Program"
                 Channel = "NRK1"
@@ -3138,7 +3138,7 @@ module Program =
     app.Run()
 ```
 
-Here we see that `epgHandler` takes in `getEpgForDate` "partially applied" with `getAllTransmissions` as the first parameter. `getEpgForDate` and `getAllTransmissions` here are taken from the `Services` and `DataAccess` modules in the API project, respectively, but we want to send our own implementations of these in the integration tests so that we have control over the dependencies of the API when running the integration tests. Remember that the `runWithTestClient` function in `Tests.fs` in the integration test project calls the `createWebApplication` function from `Program.fs` in the API project. If we had extended the `createWebApplication` function to take in `getEpgForDate` as a separate parameter, we could send one implementation of the function from the API, and another implementation from the integration tests. Let's do that.
+Above, we can see that `epgHandler` retrieves `getEpgForDate` "partially applied" with `getAllTransmissions` as the first parameter. Here, `getEpgForDate` and `getAllTransmissions` are from the `Services` and `DataAccess` modules in the API project, respectively, but we want to send our own implementations of these in the integration tests so that we have control over the dependencies of the API when running the integration tests. Remember that the `runWithTestClient` function in `Tests.fs` in the integration test project calls the `createWebApplication` function from `Program.fs` in the API project. If we had extended the `createWebApplication` function to take in `getEpgForDate` as a separate parameter, we could send one implementation of the function from the API, and another implementation from the integration tests. Let's do that.
 
 Add the following `open` statement, and extend the `createWebApplication` function in `Program.fs` in the API project with a parameter to `getEpgForDate`, and pass this to `epgHandler` like this:
 
@@ -3149,7 +3149,7 @@ open NRK.Dotnetskolen.Domain
 ```bash
 let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateOnly -> Epg) =
     let app = builder.Build()
-    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+    app.MapGet("/ping", Func<string>(fun () -> "pong"))) |> ignore
     app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
     app
 ```
@@ -3189,7 +3189,7 @@ module Program =
     app.Run()
 ```
 
-Now that we can control the implementation of `getEpgForDate` from outside the `createWebApplication` function, we can create a separate `getEpgForDate` in the integration test project that uses the mock implementation of `getAllTransmissions`. Start by opening the `Services` module from the API project, and the `Mock` module from the integration test project in `Tests.fs` in the integration test project, like this:
+Now that we can control the implementation of `getEpgForDate` from outside of the `createWebApplication` function, we can create a separate `getEpgForDate` function in the integration test project that uses the mock implementation of `getAllTransmissions`. Start by opening the `Services` module from the API project, and the `Mock` module from the integration test project in `Tests.fs` in the integration test project, like this:
 
 ```f#
 open NRK.Dotnetskolen.Api.Services
