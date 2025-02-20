@@ -1865,11 +1865,11 @@ Just like when we [created the domain model](#step-4---defining-the-domain-model
 
 **Step 8 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-7---implement-contract-types) [⬇ Next step](#step-9---implement-web-api)
 
-In this step, we'll set up a shell for the web API and verify its accessibility with an integration test.  Before coding, we'll review some relevant .NET concepts.
+In this step, we'll set up a shell for the web API and verify that it exists with an integration test. However, before we start coding, we'll review some relevant .NET concepts.
 
 #### Project types
 
-Starting with .NET Core, .NET uses different SDK project types depending on the application you're developing. These project types provide varying functionality for compiling and publishing.  Our API and test projects were initially created with the basic `.NET SDK`.  Since this step requires functionality from the `.NET Web SDK`, we'll change the project types accordingly.
+Starting with .NET Core, .NET uses different SDK project types depending on the application you're developing. These project types provide verious functionality for compiling and publishing. Our API and test projects were initially created with the basic `.NET SDK` project type. Since this step requires functionality from the `.NET Web SDK`, we'll change the project types accordingly.
 
 Open the file `src/api/NRK.Dotnetskolen.Api.fsproj`, and change the `Sdk` attribute on the `Project` element from `Microsoft.NET.Sdk` to `Microsoft.NET.Sdk.Web`:
 
@@ -1925,7 +1925,7 @@ open Microsoft.Extensions.Hosting
 Host.CreateDefaultBuilder().Build().Run()
 ```
 
-Here we open `Microsoft.Extensions.Hosting` to access `CreateDefaultBuilder`. `CreateDefaultBuilder` comes from the Microsoft library, and takes care of reading configuration, setting up basic logging, and setting the file path to the application's resource files (also called the "content root").
+Above we open `Microsoft.Extensions.Hosting` to access `CreateDefaultBuilder`. `CreateDefaultBuilder` comes from the Microsoft base class library, and takes care of reading configuration, setting up basic logging, and setting the file path to the application's resource files (also called the "content root").
 
 Finally, we build our host, and start it like this `Host.CreateDefaultBuilder().Build().Run()`.
 
@@ -1948,7 +1948,7 @@ info: Microsoft.Hosting.Lifetime[0]
 
 For now, our host is not doing anything. It just starts, and runs until we terminate it by pressing `Ctrl+C` in the terminal. However, in the output above, we see three `info` log entries that have been written by the host. This illustrates that `CreateDefaultBuilder` has set up console logging. The log entries tell us that the application has started, that the environment is `Production`, and what the file path to the `content root` is.
 
-Press `Ctrl+C` to stop the cough:
+Press `Ctrl+C` to stop the host:
 
 ```bash
 // Press `Ctrl+C`
@@ -1961,15 +1961,15 @@ info: Microsoft.Hosting.Lifetime[0]
 
 > `Production` is the default environment in .NET unless otherwise specified. You can read more about environments in .NET here: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/environments?view=aspnetcore-9.0>
 >
-> You can read more about the `Host` concept and what it entails here: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-9.0>
+> You can read more about the `Host` concept here: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-9.0>
 
 ##### Middleware pipeline
 
-Microsoft's web application framework for .NET is called ASP.NET (Active Server Pages). ASP.NET applications are modular and configurable, giving you fine-grained control over how HTTP requests are handled. This control is achieved through middleware: modules that process HTTP requests from arrival at the server to sending the response back to the client.  These middleware components are arranged in a sequence called the *middleware pipeline*, where each component processes the request in turn.
+Microsoft's web application framework for .NET is called ASP.NET (Active Server Pages). ASP.NET applications are modular and configurable, giving you fine-grained control over how HTTP requests are handled. This control is achieved through middleware: modules that process HTTP requests. These middleware components are arranged in a sequence called the _middleware pipeline_, where each component processes the request in turn.
 
 > You can see an illustration of how middleware is connected in ASP.NET here: <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-9.0#create-a-middleware-pipeline-with-webapplication>
 
-Middleware components in the pipeline can process an HTTP request both before and after the subsequent middleware. This allows each component to influence the final response.  Each middleware is responsible for invoking the next one in the pipeline.  However, a middleware can also choose to short-circuit the pipeline and prevent further processing.  A common example is authentication middleware: if a request isn't properly authenticated, this middleware can stop the request from proceeding further.  This is why authentication middleware is typically positioned early in the pipeline.
+Middleware components in the pipeline can process an HTTP request both before and after the subsequent middleware. This allows each component to contribute to the final response. Each middleware is responsible for invoking the next one in the pipeline. However, a middleware can also choose to short-circuit the pipeline and prevent further processing. A common example is authentication middleware: if a request isn't authenticated, this middleware can stop the request from proceeding further. This is why authentication middleware is typically positioned early in the pipeline.
 
 The host we created in the previous section is a starting point for any application. It can be, for example, a background service or a web application. Since we are going to create a web API, we will continue by adapting the host to become a web server. Microsoft has created a special function for this purpose: `WebApplication.CreateBuilder`. This is similar to `Host.CreateDefaultBuilder` that we used earlier in the section on [host](#host), only that the host it creates is a web server that has the ability to configure a "middleware pipeline". To create a web application instead of a generic application, open `Microsoft.AspNetCore.Builder`, and replace the line `Host.CreateDefaultBuilder().Build().Run()` with `WebApplication.CreateBuilder().Build().Run()` so that `Program.fs` in the API project now looks like this:
 
@@ -2003,7 +2003,7 @@ From the log entry above, we see that our host is now listening for HTTP request
 
 Now that we're familiar with some fundamental .NET concepts, let's start building our web API. A key component is the middleware pipeline, which handles incoming HTTP requests.
 
-.NET 6 introduced *minimal APIs*, simplifying the process of defining application behavior.  For web applications, these minimal APIs provide a streamlined way to add request-handling functions to the middleware pipeline for specific paths. We'll use this approach to create a "ping" endpoint.
+.NET 6 introduced _minimal APIs_, simplifying the process of defining application behavior. For web applications, these minimal APIs provide a streamlined way to add request-handling functions to the middleware pipeline for specific paths. We'll use this approach to create a "ping" endpoint.
 
 Open `Program.fs` in the API project, and replace the contents of the file with the code below:
 
@@ -2016,14 +2016,14 @@ app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
 app.Run()
 ```
 
-We've stored the `WebApplication` object, returned by `WebApplication.CreateBuilder().Build()`, in the `app` variable. This gives us access to the *minimal API* methods provided by `WebApplication`. We're using one of these methods, `MapGet`, which takes two arguments:
+We've stored the `WebApplication` object, returned by `WebApplication.CreateBuilder().Build()`, in the `app` variable. This gives us access to the _minimal API_ methods provided by `WebApplication`. We're using one of these methods, `MapGet`, which takes two arguments:
 
-1.  The URL path that triggers this function (e.g., `"ping"`).
-2.  The function to execute when that path is accessed (in this case, a function that returns the string `"pong"`).
+1. The URL path that triggers this function (e.g., `"ping"`).
+2. The function to execute when that path is accessed (in this case, a function that returns the string `"pong"`).
 
-> Note that as the second parameter to `MapGet` we have specified `Func<string>(fun () -> "pong")` which is not strictly a function. `Func` is .NET's way of creating a `Delegate`. Delegates are .NET's way of wrapping function calls as objects. Since the *minimal APIs* are written to work for any programming language in .NET, Microsoft has had to choose a model that is suitable for both the object-oriented programming paradigm as well as the functional programming paradigm. Thus, `MapGet` strictly takes a `Delegate` object as the second parameter, and the way to create a `Delegate` object in F# is by calling `Func`'s constructor. In the constructor of `Func` we pass in the anonymous F# function `fun () -> "pong"`. The `<string>` part of `Func<string>` defines the type of the return value of the anonymous function. Since the anonymous function does not take any parameters, nothing more is specified in `Func<string>` for that. If the anonymous function had taken a parameter of type `int`, the call to `Func` would have looked like this: `Func<int, string>`. You can read more about delegates in F# here: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/delegates>
+> Note that as the second parameter to `MapGet` we have specified `Func<string>(fun () -> "pong")` which is not strictly a function. `Func` is .NET's way of creating a `Delegate`. Delegates are .NET's way of wrapping function calls as objects. Since the _minimal APIs_ are written to work for any programming language in .NET, Microsoft had to choose a model that is suitable for both the object-oriented programming paradigm as well as the functional programming paradigm. Thus, `MapGet` strictly takes a `Delegate` object as the second parameter, and the way to create a `Delegate` object in F# is by calling `Func`'s constructor. In the constructor of `Func` we pass in the anonymous F# function `fun () -> "pong"`. The `<string>` part of `Func<string>` defines the type of the return value of the anonymous function. Since the anonymous function does not take any parameters, nothing more is specified in `Func<string>`. If the anonymous function had taken a parameter of type `int`, the call to `Func` would have looked like this: `Func<int, string>`. You can read more about delegates in F# here: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/delegates>
 >
-> You can read more about *minimal APIs* here: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-9.0>
+> You can read more about _minimal APIs_ here: <https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-9.0>
 
 ##### Running the API
 
@@ -2056,11 +2056,11 @@ Before we continue implementing the web API, we'll set up an integration test th
 2. Send requests to this test server
 3. Verify that the test server responds with the values ​​we expect
 
-Since we provide our entire web API as input to the test server, the responses we receive are similar to those the web API responds with in a deployed environment, and thus we can be confident that the API fulfills the contract we have defined even when it is deployed.
+Since we provide our entire web API as input to the test server, the responses we receive are equivalent to the ones that the web API responds with in a deployed environment, and thus we can be confident that the API adheres to the contract we have defined even when it is deployed.
 
 > The web server we will run in the integration tests is documented here: <https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.testhost.testserver?view=aspnetcore-9.0>
 >
-> The inspiration for writing the integration tests in the way described above comes from [a course](https://github.com/erikly/FagkveldTesthost/tree/CompleteWithTestHost) that [@erikly](https://github.com/erikly) has arranged.
+> The inspiration for writing the integration tests in the way described above comes from [a workshop](https://github.com/erikly/FagkveldTesthost/tree/CompleteWithTestHost) that [@erikly](https://github.com/erikly) made.
 >
 > A similar method is also described in this article written by Microsoft: <https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-9.0>. However, the article relies on concepts from object-oriented programming, and since this course focuses on F# and functional programming, it has been chosen to write the integration tests with a more functional approach.
 
@@ -2092,7 +2092,7 @@ dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj reference
 
 ###### WebApplicationBuilder
 
-In order to create a test server that represents our API when we run the tests, we need to configure our API to use a test server, but only when we actually run the tests, and not when the API is running otherwise. To achieve this, we need to call a function on the `WebApplicationBuilder` object (which we create in the `main` function in `Program.fs` in the API project) when we set up the test server in the tests.
+In order to create a test server that represents our API when we run the tests, we need to configure our API to use a test server. However, we only want to use the test server when running the tests, and not when the API is actually running. To achieve this, we need to call a function on the `WebApplicationBuilder` object (which we create in the `main` function in `Program.fs` in the API project) when we set up the test server in the tests.
 
 Remember that `Program.fs` in the API project now looks like this:
 
@@ -2146,7 +2146,7 @@ Using the `createWebApplication` function from the integration test project, we 
 
 ###### Namespace and module
 
-To be able to reference the two new functions we created in the API project, `createWebApplicationBuilder` and `createWebApplication`, from the integration test project, we need to put them in a separate module, like this:
+In order to be able to reference the two new functions we created in the API project, `createWebApplicationBuilder` and `createWebApplication`, from the integration test project, we need to put them in a separate module, like this:
 
 ```f#
 namespace NRK.Dotnetskolen.Api
@@ -2218,7 +2218,7 @@ module Tests
 
 ###### Open namespaces
 
-Next, we open the namespaces we depend on:
+Next, we open the namespaces we're depending on:
 
 ```f#
 open System.Net.Http
@@ -2236,7 +2236,7 @@ open NRK.Dotnetskolen.Api.Program
 
 ###### Function to call test with test HTTP client
 
-Next, we define a function `runWithTestClient`. The purpose of this function is to collect the code that configures the test server and retrieves the `HttpClient` object that can send HTTP requests to it.
+Next, we define a function `runWithTestClient`. The purpose of this function is to group the code that configures the test server and retrieves the `HttpClient` object that can send HTTP requests to it.
 
 ```f#
 let runWithTestClient (test: HttpClient -> Task<unit>) =
@@ -2260,7 +2260,7 @@ Furthermore, `runWithTestClient` retrieves an `HttpClient` object from the `WebA
 
 Finally, `runWithTestClient` calls the `test` function and passes `testClient` as a parameter.
 
-> Note that `runWithTestClient` creates a `task` "computation expression" (`task {...}`). With such blocks we can start .NET tasks, which allow us to run code asynchronously. F# has two types of "computation expressions" for running asynchronous code: `async` and `task`. `async` came first, and is still the most common to use, while `task` came in F# 6, included in .NET 6. You can read more about "computation expressions", `async` and `task` here:
+> Note that `runWithTestClient` creates a `task` "computation expression" (`task {...}`). With `task` blocks we can start .NET tasks, which allow us to run code asynchronously. F# has two types of "computation expressions" for running asynchronous code: `async` and `task`. `async` arrived first, and is still the one most commonly used, while `task` came in F# 6, included in .NET 6. You can read more about "computation expressions", `async` and `task` here:
 >
 > - <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/computation-expressions>
 > - <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/async-expressions>
