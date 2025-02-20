@@ -84,7 +84,7 @@ For even more challenges, check out these tasks:
 
 - [Extra tasks](#extra tasks)
   - [Step 10 - Follow principles of domain-driven design](#step-10---follow-principles-of-domain-driven-design)
-  - [Step 11 - Graphical representation of OpenAPI documentation](#step-11---graphic-presentation-of-openapi-documentation)
+  - [Step 11 - Graphical representation of OpenAPI documentation](#step-11---graphical-representation-of-openapi-documentation)
 
 ### ❓ Questions
 
@@ -94,7 +94,7 @@ Do you have questions about the course? Feel free to start a thread under "Discu
 
 ### 💡 Tips and Tricks
 
-Useful [tips and tricks can be found here](/docs/tips-og-triks.md)
+Useful [tips and tricks can be found here](/docs/en/tips-and-tricks.md)
 
 ### 🔗 Useful links
 
@@ -114,7 +114,7 @@ Do you have feedback on the course? Please create a thread for it here:
 ### 👩👨 Contributors
 
 - [@heidisu](https://github.com/heidisu) - Idea and quality assurance
-- [@thomaswolff](https://github.com/thomaswolff) - Primus engine and author
+- [@thomaswolff](https://github.com/thomaswolff) - Author
 
 ### 🙌 Thank you
 
@@ -126,7 +126,7 @@ All documentation (including this guide) and source code in this repository are 
 
 ## 📖 Table of Contents
 
-- [Step](#step)
+- [Steps](#steps)
   - [Step 1 - Create API](#step-1---create-api)
   - [Step 2 - Create test projects](#step-2---create-test-projects)
   - [Step 3 - Create solution](#step-3---create-solution)
@@ -134,12 +134,12 @@ All documentation (including this guide) and source code in this repository are 
   - [Step 5 - Unit tests for the domain model](#step-5---unit-tests-for-the-domain-model)
   - [Step 6 - Define API contract](#step-6---define-api-contract)
   - [Step 7 - Implement contract types](#step-7---implement-contract-types)
-  - [Step 8 - Setting up the API shell](#step-8---setting-up-the-api-shell)
+  - [Step 8 - Setting up the shell for the API](#step-8---setting-up-the-shell-for-the-api)
   - [Step 9 - Implement web API](#step-9---implement-web-api)
 
 - [Extra tasks](#extra-tasks)
   - [Step 10 - Follow principles of domain-driven design](#step-10---follow-principles-of-domain-driven-design)
-  - [Step 11 - Graphical representation of OpenAPI documentation](#step-11---graphic-presentation-of-openapi-documentation)
+  - [Step 11 - Graphical representation of OpenAPI documentation](#step-11---graphical-representation-of-openapi-documentation)
 
 ## Steps
 
