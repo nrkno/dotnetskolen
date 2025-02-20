@@ -34,15 +34,16 @@ To do this course, you need [.NET 9 SDK](https://dotnet.microsoft.com/download/d
 
 > The course provides step-by-step guidance, including commands you can run in the terminal and reference implementations of code you can copy. However, in some sections, the code implementation is intentionally omitted to encourage you to implement it yourself. These sections are marked with ☑️. Read more about how to see the complete solution for each step [here](#see-solution-suggestions).
 
-> If you need more details about how to set up your computer to do the course, see [Details about setting up your computer](/docs/detaljer-oppsett.md).
+> If you need more details about how to set up your computer to do the course, see [Details about setting up your computer](/docs/en/setup-details.md).
 
 > If you are completely new to .NET, it may be helpful to start by reading:
-> - [What is .NET](/docs/hva-er-dotnet_EN.md)
-> - [What is F#](/docs/hva-er-fsharp_EN.md)
+>
+> - [What is .NET](/docs/en/what-is-dotnet.md)
+> - [What is F#](/docs/en/what-is--fsharp.md)
 
 #### 📍 Alternative starting points
 
-This workshop covers a variety of topics, and completing all the steps may take some time. Fortunately, solution suggestions are available for each step, allowing you to start at any point by checking out the branch with the solution for the previous step and continuing from there. Read more about how to [clone this repo](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) and [check out the solution suggestions](#see-solution-suggestions).
+This workshop covers a variety of topics, and completing all the steps may take some time. Fortunately, solution suggestions are available for each step, allowing you to start at any point by checking out the branch with the solution for the previous step and continuing from there. Read more about how to [clone this repo](https://github.com/nrkno/dotnetskolen/blob/nnug/docs/en/setup-details.md#-local-setup-of-the-code-optional) and [check out the solution suggestions](#see-solution-suggestions).
 
 Below are some recommended alternative starting points, depending on which topics you want to explore further.
 
