@@ -3742,7 +3742,7 @@ let getAllTransmissions () : Epg =
 
 #### Step 11 - Graphical representation of OpenAPI documentation
 
-In [step 6](#step-6---definere-api-kontrakt) we introduced the OpenAPI contract for our API, and placed it in the `/docs` folder. For now, the documentation is only available to those who have access to the code repo. In order for those who will integrate with the API to be able to see the contract, it is nice if it is published somewhere. In this step, we will see how we can make the OpenAPI contract available as a separate web page in the API using [ReDoc](https://github.com/Redocly/redoc). With ReDoc we can copy an [HTML page from their documentation](https://github.com/Redocly/redoc#tldr) and paste a reference to our OpenAPI documentation, and we will get a nice graphical representation of our API, as shown below:
+In [step 6](#step-6---define-api-contract) we introduced the OpenAPI contract for our API, and placed it in the `/docs` folder. Currently, the documentation is only available to those who have access to the code repository. To make the contract publically available, we have to publish it somewhere. In this step, we will look at how we can make the OpenAPI contract available as a separate web page in the API using [ReDoc](https://github.com/Redocly/redoc). With ReDoc we can copy an [HTML page from their documentation](https://github.com/Redocly/redoc#tldr) and paste a reference to our OpenAPI documentation, and we will get a nice graphical representation of our API, as shown below:
 
 ![redoc](./docs/illustrations/redoc.png)
 
@@ -3754,7 +3754,7 @@ In short, these are the steps we will take to create our own ReDoc page in our A
 
 ##### Moving API documentation
 
-In [step 6](#step-6---definere-api-kontrakt) we put the documentation for our API in the `docs` folder. Since we will now expose it on the internet through our API, we need to put it somewhere that is accessible to the web server. Therefore, create a new folder `wwwroot` with a new folder `documentation` in `src/api` like this:
+In [step 6](#step-6---define-api-contract) we put the documentation for our API in the `docs` folder. Since we will now expose it on the internet through our API, we need to put it somewhere that is accessible to the web server. Therefore, create a new folder `wwwroot` with a new folder `documentation` in `src/api` like this:
 
 ```txt
 ...
@@ -3869,7 +3869,7 @@ Notice that the line that starts with `<redoc spec-url=` (near the bottom of the
 
 ##### Serve static files
 
-By default, the web application as we have it configured now cannot serve static files (such as `openapi.html` that we just created). In order to serve static files, we need to add a separate `middleware` to the `middleware pipeline` of our web API that does just that. To add this `middleware`, we call `app.UseStaticFiles()` on the `WebApplication` object that we create in the `createWebApplication` function in `Program.fs` of our API project, like this:
+By default, the web application as we currently have configured it cannot serve static files (such as `openapi.html` that we just created). In order to serve static files, we need to add a separate `middleware` to the `middleware pipeline` of our web API that does just that. To add this `middleware`, we call `app.UseStaticFiles()` on the `WebApplication` object that we create in the `createWebApplication` function in `Program.fs` of our API project, like this:
 
 ```f#
 let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateOnly -> Epg) =
