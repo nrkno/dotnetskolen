@@ -61,7 +61,7 @@ If you want to learn how to use the .NET CLI to create projects and solutions, f
 
 To learn more about domain modeling in F# and writing unit tests, follow these steps:
 
-- [Step 4 - Define the domain model](#step-4---define-the-domain-model)
+- [Step 4 - Define the domain model](#step-4---defining-the-domain-model)
 - [Step 5 - Unit tests for the domain model](#step-5---unit-tests-for-the-domain-model)
 
 ##### API Contracts
@@ -130,7 +130,7 @@ All documentation (including this guide) and source code in this repository are 
   - [Step 1 - Create API](#step-1---create-api)
   - [Step 2 - Create test projects](#step-2---create-test-projects)
   - [Step 3 - Create solution](#step-3---create-solution)
-  - [Step 4 - Define a domain model](#step-4---define-the-domain-model)
+  - [Step 4 - Define a domain model](#step-4---defining-the-domain-model)
   - [Step 5 - Unit tests for the domain model](#step-5---unit-tests-for-the-domain-model)
   - [Step 6 - Define API contract](#step-6---define-api-contract)
   - [Step 7 - Implement contract types](#step-7---implement-contract-types)
@@ -784,7 +784,7 @@ Build succeeded in 4,6s
 
 ### Step 3 - Create solution
 
-**Step 3 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-2---create-test-projects) [⬇ Next step](#step-4---define-the-domain-model)
+**Step 3 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-2---create-test-projects) [⬇ Next step](#step-4---defining-the-domain-model)
 
 Right now, we have three projects that are independent of each other. Other than being in the same folder, there is nothing that connects them. In order to be able to do operations such as adding shared packages and running all the tests for our system, we can link the projects together in a _solution_. Having all the projects in a solution gives the advantage of being able to open all the projects together in an IDE.
 
@@ -928,7 +928,7 @@ The image below shows how the "Solution explorer" in Visual Studio displays the 
 
 ![Solution explorer in Visual Studio](./docs/illustrations/solution-explorer.png)
 
-### Step 4 - Define the domain model
+### Step 4 - Defining the domain model
 
 **Step 4 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-3---create-solution) [⬇ Next step](#step-5---unit-tests-for-the-domain-model)
 
@@ -1052,9 +1052,9 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 ### Step 5 - Unit tests for the domain model
 
-**Step 5 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-4---define-the-domain-model) [⬇ Next step](#step-6---define-api-contract)
+**Step 5 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-4---defining-the-domain-model) [⬇ Next step](#step-6---define-api-contract)
 
-The domain model introduced in [previous step](#step-4---define-the-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of transmissions, and what fields each transmission contains). In this step, we will implement the validation rules in F#, and verify that we have implemented them correctly using unit tests.
+The domain model introduced in [previous step](#step-4---defining-the-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of transmissions, and what fields each transmission contains). In this step, we will implement the validation rules in F#, and verify that we have implemented them correctly using unit tests.
 
 #### Rules in our domain
 
@@ -1375,7 +1375,7 @@ Test summary: total: 15; failed: 0; succeeded: 15; skipped: 0; duration: 1,2s
 Build succeeded in 7,2s
 ```
 
-> Note that the domain model, as implemented in [step 4](#step-4---define-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model), has a weakness in that it is possible to create a `Transmission` value that is invalid. We have implemented `isTransmissionValid`, but there is nothing that prevents us from creating a `Transmission` value without using `isTransmissionValid`. In the extra task in [step 10](#step-10---follow-principles-of-domain-driven-design) an alternative approach that uses principles from [domain-driven design](https://en.wikipedia.org/wiki/Domain-driven_design) is presented. The remaining steps in this course up to and including step 10 will be based on the domain model as defined here in [step 4](#step-4---define-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model). This approach helps us to avoid introducing too many concepts at once and keeps the focus on the course’s core objectives. If you wish, you can move on to [step 10](#step-10---follow-principles-of-domain-driven-design) now to see how it is done there. Remember that step 11 is written with the assumption that you have completed the course up to and including step 10.
+> Note that the domain model, as implemented in [step 4](#step-4---defining-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model), has a weakness in that it is possible to create a `Transmission` value that is invalid. We have implemented `isTransmissionValid`, but there is nothing that prevents us from creating a `Transmission` value without using `isTransmissionValid`. In the extra task in [step 10](#step-10---follow-principles-of-domain-driven-design) an alternative approach that uses principles from [domain-driven design](https://en.wikipedia.org/wiki/Domain-driven_design) is presented. The remaining steps in this course up to and including step 10 will be based on the domain model as defined here in [step 4](#step-4---defining-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model). This approach helps us to avoid introducing too many concepts at once and keeps the focus on the course’s core objectives. If you wish, you can move on to [step 10](#step-10---follow-principles-of-domain-driven-design) now to see how it is done there. Remember that step 11 is written with the assumption that you have completed the course up to and including step 10.
 
 ### Step 6 - Define API Contract
 
@@ -1393,7 +1393,7 @@ To limit the scope of our API, we are only going to have one operation in it:
 
 The response to this operation will consist of two lists of transmissions, one for each channel in our domain, where each transmission has:
 
-- Title - text string that follows the rules defined in [our domain model](#step-4---define-the-domain-model).
+- Title - text string that follows the rules defined in [our domain model](#step-4---defining-the-domain-model).
 - Start date and time - text string that follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 - End date and time - text string that follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6). Guaranteed to be greater than the start date and time.
 
@@ -1798,7 +1798,7 @@ In [step 11](#step-11---graphical-representation-of-openapi-documentation) we lo
 
 **Step 7 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-6---define-api-contract) [⬇ Next step](#step-8---setting-up-the-shell-for-the-api)
 
-In [step-4](#step-4---define-the-domain-model) we defined our domain model as an F# type. The domain model represents the EPG as we conceptually think of it, both in terms of structure and rules for valid states. API contracts are not necessarily one-to-one with domain models.
+In [step-4](#step-4---defining-the-domain-model) we defined our domain model as an F# type. The domain model represents the EPG as we conceptually think of it, both in terms of structure and rules for valid states. API contracts are not necessarily one-to-one with domain models.
 
 1. First, the structure of the types in the API may be different than in the domain model. We see this in our case where the domain model has all submissions, across channels, in one list, while the API contract has one list of submissions per channel.
 2. Additionally, we are limited to representing data with text in the API since HTTP is a text-based protocol. For example, we use a `DateTimeOffset` to represent start and end times in our domain model, while we use `string` in our OpenAPI contract.
@@ -1842,7 +1842,7 @@ module Dto =
   }
 ```
 
-Just like when we [created the domain model](#step-4---define-the-domain-model), we need to add `Dto.fs` to the API project's project file:
+Just like when we [created the domain model](#step-4---defining-the-domain-model), we need to add `Dto.fs` to the API project's project file:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -3236,9 +3236,9 @@ You have now implemented a web API in F#, with unit and integration tests, API d
 
 #### Step 10 - Follow principles of domain-driven design
 
-The implementation of the domain model as we did in [step 4](#step-4---define-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model) has a weakness: there is no guarantee that the values ​​we create for `Transmission` and `Epg` are valid. Only the `epgEntityToDomain` function in `DataAccess.fs` calls `isTransmissionValid` when transmissions are retrieved. There is no guarantee that all creations of `Transmission` and `Epg` values ​​come through `epgEntityToDomain`. In this step, we will see how we can change our domain model so that `Transmission` and `Epg` values ​​cannot be created without them being valid.
+The implementation of the domain model as we did in [step 4](#step-4---defining-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model) has a weakness: there is no guarantee that the values ​​we create for `Transmission` and `Epg` are valid. Only the `epgEntityToDomain` function in `DataAccess.fs` calls `isTransmissionValid` when transmissions are retrieved. There is no guarantee that all creations of `Transmission` and `Epg` values ​​come through `epgEntityToDomain`. In this step, we will see how we can change our domain model so that `Transmission` and `Epg` values ​​cannot be created without them being valid.
 
-In [step 4](#step-4---define-the-domain-model) we modeled the title and channel as `string`, and the start and end times as `DateTimeOffset`. Apart from the fields having these types, there is nothing in our `Transmission` type that says what rules apply to them. However, we can do something about that.
+In [step 4](#step-4---defining-the-domain-model) we modeled the title and channel as `string`, and the start and end times as `DateTimeOffset`. Apart from the fields having these types, there is nothing in our `Transmission` type that says what rules apply to them. However, we can do something about that.
 
 ##### Title
 
