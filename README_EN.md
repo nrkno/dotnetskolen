@@ -75,8 +75,8 @@ If you're interested in documenting your API with OpenAPI and modeling contract 
 
 If you are interested in .NET 9's hosting model, Minimal API, and how you can test your API with integration tests, follow these steps:
 
-- [Step 8 - Setting up the shell for the API](#step-8---setting-up-the-shell-for-the-api)
-- [Step 9 - Implement web API](#step-9---implement-web-api)
+- [Step 8 - Outlining the web API](#step-8---outlining-the-web-api)
+- [Step 9 - Implementing the web API](#step-9---implementing-the-web-api)
 
 ##### Additional tasks
 
@@ -134,8 +134,8 @@ All documentation (including this guide) and source code in this repository are 
   - [Step 5 - Unit tests for the domain model](#step-5---unit-tests-for-the-domain-model)
   - [Step 6 - Define API contract](#step-6---define-api-contract)
   - [Step 7 - Implement contract types](#step-7---implement-contract-types)
-  - [Step 8 - Setting up the shell for the API](#step-8---setting-up-the-shell-for-the-api)
-  - [Step 9 - Implement web API](#step-9---implement-web-api)
+  - [Step 8 - Outlining the web API](#step-8---outlining-the-web-api)
+  - [Step 9 - Implementing the web API](#step-9---implementing-the-web-api)
 
 - [Extra tasks](#extra-tasks)
   - [Step 10 - Follow principles of domain-driven design](#step-10---follow-principles-of-domain-driven-design)
@@ -758,7 +758,7 @@ test
     └── Tests.fs
 ```
 
-For now, the project and test files for the integration test project are exactly the same as those for the unit test project (except for the project name). The difference between unit and integration tests becomes clearer when we write the tests in [step 5](#step-5---unit-tests-for-the-domain-model) and [step 9](#step-9---implement-web-api), respectively.
+For now, the project and test files for the integration test project are exactly the same as those for the unit test project (except for the project name). The difference between unit and integration tests becomes clearer when we write the tests in [step 5](#step-5---unit-tests-for-the-domain-model) and [step 9](#step-9---implementing-the-web-api), respectively.
 
 ##### Running the integration tests
 
@@ -1248,7 +1248,7 @@ let ``isChannelValid invalid channel returns false`` (channel: string) =
 
 ##### Implementation of isChannelValid
 
-Before we run the tests again, we define the shell for `isChannelValid` in `Domain.fs`:
+Before we run the tests again, we define the outline for `isChannelValid` in `Domain.fs`:
 
 ```f#
     let isChannelValid (channel: string) : bool =
@@ -1307,7 +1307,7 @@ open System
 
 ##### Implementation of areStartTimeAndEndTimeValid
 
-The function to validate the air time must check if the end time is greater than the start time. Paste the shell of `areStartTimeAndEndTimeValid` into `Domain.fs`:
+The function to validate the air time must check if the end time is greater than the start time. Paste the outline of `areStartTimeAndEndTimeValid` into `Domain.fs`:
 
 ```f#
     let areStartTimeAndEndTimeValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
@@ -1347,7 +1347,7 @@ Since we have written unit tests for the validation functions of the various par
 
 ##### Implementation of isTransmissionValid
 
-Add the following shell for `isTransmissionValid` in `Domain.fs`:
+Add the following outline for `isTransmissionValid` in `Domain.fs`:
 
 ```f#
     let isTransmissionValid (transmission: Transmission) : bool =
@@ -1796,7 +1796,7 @@ In [step 11](#step-11---graphical-representation-of-openapi-documentation) we lo
 
 ### Step 7 - Implement contract types
 
-**Step 7 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-6---define-api-contract) [⬇ Next step](#step-8---setting-up-the-shell-for-the-api)
+**Step 7 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-6---define-api-contract) [⬇ Next step](#step-8---outlining-the-web-api)
 
 In [step-4](#step-4---defining-the-domain-model) we defined our domain model as an F# type. The domain model represents the EPG as we conceptually think of it, both in terms of structure and rules for valid states. API contracts are not necessarily one-to-one with domain models.
 
@@ -1861,11 +1861,11 @@ Just like when we [created the domain model](#step-4---defining-the-domain-model
 </Project>
 ```
 
-### Step 8 - Setting up the shell for the API
+### Step 8 - Outlining the web API
 
-**Step 8 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-7---implement-contract-types) [⬇ Next step](#step-9---implement-web-api)
+**Step 8 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-7---implement-contract-types) [⬇ Next step](#step-9---implementing-the-web-api)
 
-In this step, we'll set up a shell for the web API and verify that it exists with an integration test. However, before we start coding, we'll review some relevant .NET concepts.
+In this step, we'll outline the web API and verify that it exists with an integration test. However, before we start coding, we'll review some relevant .NET concepts.
 
 #### Project types
 
@@ -1911,7 +1911,7 @@ Repeat the step above for `test/integration/NRK.Dotnetskolen.IntegrationTests.fs
 
 #### The .NET model
 
-Before we set up the shell for the web API, let's look at some basic concepts used in .NET to create applications.
+Before we outline the web API, let's look at some basic concepts used in .NET to create applications.
 
 ##### Host
 
@@ -2317,11 +2317,11 @@ Test summary: total: 1; failed: 0; succeeded: 1; skipped: 0; duration: 1,3s
 Build succeeded in 8,9s
 ```
 
-### Step 9 - Implement Web API
+### Step 9 - Implementing the Web API
 
-**Step 9 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-8---setting-up-the-shell-for-the-api)
+**Step 9 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-8---outlining-the-web-api)
 
-In [previous step](#step-8---setting-up-the-shell-for-the-api) we created a shell for the web API by adding a `ping` endpoint with an associated integration test. In this step, we will extend the web API with an endpoint to retrieve EPG. In addition, we will write integration tests to verify that the implementation of the web API is in accordance with our Open API documentation. We use a test-driven approach by writing an integration test that fails, and then making changes to the API so that the test passes. We continue in this way until we have fully implemented our API.
+In [previous step](#step-8---outlining-the-web-api) we created an outline for the web API by adding a `ping` endpoint with an associated integration test. In this step, we will extend the web API with an endpoint to retrieve EPG. In addition, we will write integration tests to verify that the implementation of the web API is in accordance with our Open API documentation. We use a test-driven approach by writing an integration test that fails, and then making changes to the API so that the test passes. We continue in this way until we have fully implemented our API.
 
 #### Test 1 - Verify that the endpoint exists
 
