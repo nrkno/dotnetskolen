@@ -1800,7 +1800,7 @@ In [step 11](#step-11---graphical-representation-of-openapi-documentation) we lo
 
 In [step-4](#step-4---defining-the-domain-model) we defined our domain model as an F# type. The domain model represents the EPG as we conceptually think of it, both in terms of structure and rules for valid states. API contracts are not necessarily one-to-one with domain models.
 
-1. First, the structure of the types in the API may be different than in the domain model. We see this in our case where the domain model has all submissions, across channels, in one list, while the API contract has one list of submissions per channel.
+1. First, the structure of the types in the API may be different than in the domain model. We see this in our case where the domain model has all transmissions, across channels, in one list, while the API contract has one list of transmissions per channel.
 2. Additionally, we are limited to representing data with text in the API since HTTP is a text-based protocol. For example, we use a `DateTimeOffset` to represent start and end times in our domain model, while we use `string` in our OpenAPI contract.
 
 In order for us to translate the domain model to the OpenAPI contract, we will introduce a separate F# type that reflects the types in our OpenAPI contract. In general, types that represent our data as we communicate with other systems are called "data transfer objects", or "DTO".
@@ -3063,7 +3063,7 @@ module Mock =
     open System
     open NRK.Dotnetskolen.Domain
 
-    let getAllShows () : Epg =
+    let getAllTransmissions () : Epg =
         let now = DateTimeOffset.Now
         [
             // Transmissions back in time
@@ -3232,17 +3232,17 @@ Congratulations! 🎉
 
 You have now implemented a web API in F#, with unit and integration tests, API documentation in OpenAPI, and done it all using the .NET CLI.
 
-### Extra tasks
+### Additional steps
 
 #### Step 10 - Follow principles of domain-driven design
 
-The implementation of the domain model as we did in [step 4](#step-4---defining-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model) has a weakness: there is no guarantee that the values ​​we create for `Transmission` and `Epg` are valid. Only the `epgEntityToDomain` function in `DataAccess.fs` calls `isTransmissionValid` when transmissions are retrieved. There is no guarantee that all creations of `Transmission` and `Epg` values ​​come through `epgEntityToDomain`. In this step, we will see how we can change our domain model so that `Transmission` and `Epg` values ​​cannot be created without them being valid.
+Our domain model from [step 4](#step-4---defining-the-domain-model) and [step 5](#step-5---unit-tests-for-the-domain-model) has a weakness: we have no guarantee that the values ​​we create for `Transmission` and `Epg` actually are valid. It is only the `epgEntityToDomain` function in `DataAccess.fs` that calls `isTransmissionValid` when transmissions are retrieved. There is no guarantee that all instantiations of `Transmission` and `Epg` are run through `epgEntityToDomain`. In this step, we will see how we can change our domain model so that `Transmission` and `Epg` values can only be created if valid.
 
-In [step 4](#step-4---defining-the-domain-model) we modeled the title and channel as `string`, and the start and end times as `DateTimeOffset`. Apart from the fields having these types, there is nothing in our `Transmission` type that says what rules apply to them. However, we can do something about that.
+In [step 4](#step-4---defining-the-domain-model) we modelled the title and channel as `string` values, and the start and end times as `DateTimeOffset` values. Apart from the properties having these types, there is nothing in our `Transmission` type that enforces our domain logic. Let's change that.
 
 ##### Title
 
-Let's take title as an example. If we create a separate type for title `Title`, and set the constructor to `private`, no one can create a `Title` value directly. To make it possible to create `Title` values, we can create a module with the same name as our type, `Title`, with a `create` function in it. The `create` function takes in title as a `string`, validates whether it is valid, and returns a `Title option` depending on whether the title is valid or not. If the title is valid, the `create` function returns `Some(Title title)`, where `title` is the `string` value passed to `create`, `Title` is the constructor of the `Title` type, and `Some` is one of the constructors of `option` values. However, if the title is invalid, the `create` function returns `None`. In the same way that we depend on the `create` function to create `Title` values, we also depend on having a function to retrieve the inner value of a title, the `string` value itself. To do that, we create a `value` function. Let's see what it looks like in code.
+Let's take the property `Title` as an example. If we create a separate type for title `Title`, and set the constructor to `private`, no one can create a `Title` value directly. To create `Title` values, we can create a module with the same name as our type, `Title`, containing a `create` function. The `create` function takes in title as a `string`, validates whether ot not it is valid, and returns a `Title option` depending on whether the title is valid or not. If the title is valid, the `create` function returns `Some(Title title)`, where `title` is the `string` value passed to `create`, `Title` is the constructor of the `Title` type, and `Some` is one of the constructors of `option` values. However, if the title is invalid, the `create` function returns `None`. In the same way that we depend on the `create` function to create `Title` values, we also depend on having a function to retrieve the inner value of a title, the `string` value itself. To do that, we create a `value` function. Let's see what it looks like in code.
 
 ###### Create your own type
 
@@ -3266,13 +3266,13 @@ module Title =
     let value(Title title) = title
 ```
 
-Here we see that we have defined title as a separate type `Title`, which is a "single case union" type with a private constructor. Next we have the `isTitleValid` function as we defined it in [step 5](#step-5---unit-tests-for-domain-model). Finally we have the `Title` module with the `create` and `value` functions.
+Above, we see that we have defined title as a separate type `Title`, which is a "single case union" type with a private constructor. Next we have the `isTitleValid` function as we defined it in [step 5](#step-5---unit-tests-for-the-domain-model). Finally we have the `Title` module with the `create` and `value` functions.
 
-> Note that the `isTitleValid` function above is the same as before, just that it has switched places. You can remove the `isTitleValid` function that was previously defined in `Domain.fs`.
+> Note that the `isTitleValid` function above is the same as before, only that it has switched places. You can remove the `isTitleValid` function that was previously defined in `Domain.fs`.
 
 ###### Update transmission
 
-Now that we have created a separate type for the title of a submission, we can use it in our `Submission` type in `Domain.fs`:
+Now that we have created a separate type for the title of a transmissions, we can use it in our `Transmission` type in `Domain.fs`:
 
 ```f#
 type Transmission = {
@@ -3329,7 +3329,7 @@ let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transm
     }
 ```
 
-Here we are trying to set `Transmission.Title` directly to the `Title` field from the `TransmissionEntity` value. Since the `Title` field in the `TransmissionEntity` type is `string`, and `Transmission.Title` is of type `Title`, the type check fails. To fix this, we need to call the `Title.create` function with `TransmissionEntity`'s `Title` as input, like this:
+Here we are trying to set `Transmission.Title` to the `Title` property from the `TransmissionEntity` value. Since the `Title` field in the `TransmissionEntity` type is `string`, and `Transmission.Title` is of type `Title`, the type check fails. To fix this, we need to call the `Title.create` function with `TransmissionEntity`'s `Title` as input, like this:
 
 ```f#
 let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transmission =
@@ -3457,7 +3457,7 @@ type AirTime = private {
       let endTime(airTime: AirTime) = airTime.EndTime
 ```
 
-Here we have defined a collection type `AirTime`, which contains both start and end times. Notice that the `create` function takes in both of these, and uses the `areStartAndEndTimeValid` function to check whether they are valid against each other, before creating a `AirTime` value. Notice that we have not created a `value` function here, but instead created a `starttime` and an `endtime` function, both of which take in a `AirTime` value, and return the respective value from the `AirTime` value.
+Here we have defined a sum type `AirTime`, which contains both start and end times. Notice that the `create` function takes in both of these, and uses the `areStartAndEndTimeValid` function to check whether they are valid or not, before creating a `AirTime` value. Notice that we have not created a `value` function here, but instead created a `startTime` and an `endTime` function, both of which take in a `AirTime` value, and return the respective value from the `AirTime` value.
 
 ###### Using AirTime in Transmission
 
@@ -3480,13 +3480,13 @@ module Transmission =
         let channel = Channel.createchannel
         let airTime = AirTime.create starttime endtime
 
-        if tittel.IsNone || channel.IsNone || sendeTidspunkt.IsNone then
+        if title.IsNone || chanchannelnel.IsNone || airTime.IsNone then
             None
         else
             Some {
                 Title = title.Value
                 Channel = channel.Value
-                AirTime = sendeTime.Value
+                AirTime = airTime.Value
             }
 ```
 
@@ -3569,13 +3569,13 @@ module Domain =
             let channel = Channel.create channel
             let airTime = AirTime.create starttime endtime
 
-            if tittel.IsNone || channel.IsNone || sendeTidspunkt.IsNone then
+            if title.IsNone || channel.IsNone || airTime.IsNone then
                 None
             else
                 Some {
                     Title = title.Value
                     Channel = channel.Value
-                    AirTime = sendeTime.Value
+                    AirTime = airTime.Value
                 }
 ```
 
@@ -3606,7 +3606,7 @@ let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transm
     }
 ```
 
-Here we are trying to set `StartTime` and `EndTime` directly, but these have now been moved into the `AirTime` field. We could have used the `AirTime.create` function to solve this in a similar way as for `Title` and `Channel`, but since we have introduced the `Transmission.create` function which calls the `create` function for all the new types for us, we can instead use it, like this:
+Here we are trying to set `StartTime` and `EndTime` directly, but these have now been moved into the `AirTime` property. We could have used the `AirTime.create` function to solve this in a similar way as for `Title` and `Channel`, but since we have introduced the `Transmission.create` function which calls the `create` function for all the new types for us, we can instead use it, like this:
 
 ```f#
 let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transmission option =
@@ -3628,7 +3628,7 @@ let epgEntityToDomain (epgEntity: EpgEntity) : Epg =
     |> List.choose id
 ```
 
-> `List.choose` takes a function `f`, and returns a list with the internal values ​​of the entries in the list where `f` returns `Some`. `ìd` is a built-in function in F# that returns what it is given. By combining `List.choose` with the `id` function, we achieve the same thing as we did with `List.filter (fun s -> s.IsSome)` and `List.map (fun s -> s.Value)` one after the other.
+> `List.choose` takes a function `f`, and returns a list with the internal values ​​of the entries in the list where `f` returns `Some`. `id` is a built-in function in F# that returns whatever is given as input. By combining `List.choose` with the `id` function, we achieve the same thing as we did with `List.filter (fun s -> s.IsSome)` and `List.map (fun s -> s.Value)` one after the other.
 
 Also notice that in the code above we removed `List.filter (fun d -> isTransmissionValid d)`, thereby moving the responsibility for validating a `Transmission` value from the `transmissionEntityToDomain` function in `DataAccess.fs` to the `Transmission.create` function in `Domain.fs`.
 
@@ -3652,7 +3652,7 @@ let fromDomain (domain : Domain.Epg) : EpgDto =
     }
 ```
 
-The start and end times are now stored in a composite type `AirTime`, so retrieving the start and end times will not work. However, we can use the functions we defined earlier in this step to retrieve the internal values ​​of `AirTime` like this:
+The start and end times are now stored in the sum type `AirTime`, so retrieving the start and end times will not work. However, we can use the functions we defined earlier in this step to retrieve the internal values ​​of `AirTime` like this:
 
 ```f#
 open Domain
@@ -3678,7 +3678,7 @@ In the `getEpgForDate` function in `Services.fs` we filter transmissions based o
 
 ```f#
 let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateOnly) : Epg =
-  getAllSenders()
+  getAllTransmissions()
   |> List.filter (fun s -> s.Starttidspunkt.Date.Date = date.Date)
 ```
 
@@ -3686,8 +3686,8 @@ As we have introduced a new way to retrieve the startTime from a transmission, w
 
 ```f#
 let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateOnly) : Epg =
-    getAllSenders()
-    |> List.filter (fun s -> (Sendetidspunkt.starttidspunkt s.Sendetidspunkt).Date.Date = date.Date)
+    getAllTransmissions()
+    |> List.filter (fun s -> (AirTime.startTime s.AirTime).Date.Date = date.Date)
 ```
 
 Instead of retrieving the start time directly, we call `AirTime.startTime` with `s.AirTime` as input.
@@ -3704,7 +3704,7 @@ let ``Transmission.create valid transmission returns Some`` () =
 
     match transmission with
     | Some t ->
-        Assert.Equal("Daily Review", Title.value t.Title)
+        Assert.Equal("Dagsrevyen", Title.value t.Title)
         Assert.Equal("NRK1", Channel.value t.Channel)
         Assert.Equal(now, AirTime.startTime t.AirTime)
         Assert.Equal(now.AddMinutes 30., AirTime.EndTime t.AirTime)
@@ -3723,7 +3723,7 @@ let ``Transmission.create invalid transmission returns None`` () =
 In the `Mock` module of the integration test project, we created `Transmission` values ​​to control data access during integration tests. Now that we have a dedicated function to create `Transmission` values, `Transmission.create`, we can use it instead of creating `Transmission` values ​​directly, like this:
 
 ```f#
-let getAllShows () : Epg =
+let getAllTransmissions () : Epg =
   let now = DateTimeOffset.Now
   let past = now.AddDays(-10.)
   let future = now.AddDays(10.)
