@@ -249,7 +249,7 @@ Run 'dotnet [command] --help' for more information on a command.
 
 #### Templates
 
-To create the API project, we'll use the new command in the .NET CLI. The `dotnet new` command is used to generate .NET projects, with the first parameter specifying the template for the project.
+To create the API project, we'll use the `new` command in the .NET CLI. The `dotnet new` command is used to generate .NET projects, with the first parameter specifying the template for the project.
 
 When you install the .NET SDK, it comes with a set of predefined project templates for common use cases. To see the available templates on your machine, run the following command:
 
@@ -471,7 +471,7 @@ Now that you have completed the first step in the course, it is a good time to c
 
 ##### See changes
 
-Given that you followed the guide to [set up the code locally](https://github.com/nrkno/dotnetskolen/blob/main/docs/detaljer-oppsett.md#-lokalt-oppsett-av-koden-valgfritt) before you started coding, you can run the following command to see what changes have been made to the repo:
+Given that you followed the guide to [set up the code locally](https://github.com/nrkno/dotnetskolen/blob/nnug/docs/en/setup-details.md#-local-setup-of-the-code-optional) before you started coding, you can run the following command to see what changes have been made to the repo:
 
 ```bash
 git status
@@ -675,7 +675,7 @@ At the top of the file, an F# module `Tests` is defined. In addition, the module
 - `[<Fact>]`
 - `[<Theory>]`
 
-The difference between these is explained in more detail in the [unit testing step](#step-5---unit-testing-for-domain-model).
+The difference between these is explained in more detail in the [unit testing step](#step-5---unit-tests-for-the-domain-model).
 
 > Note that ``` ``<variable name with spaces>`` ``` allows variable names to contain spaces. This enables you to write function names that clearly describe the test while remaining human-readable.".
 
@@ -786,7 +786,7 @@ Build succeeded in 4,6s
 
 **Step 3 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-2---create-test-projects) [⬇ Next step](#step-4---define-the-domain-model)
 
-As it stands now, we have three projects that are independent of each other. Other than being in the same folder, there is nothing that connects them. In order to be able to do operations such as adding shared packages and running all the tests for our system, we can link the projects together in a _solution_. Having all the projects in a solution gives the advantage of being able to open all the projects together in an IDE.
+Right now, we have three projects that are independent of each other. Other than being in the same folder, there is nothing that connects them. In order to be able to do operations such as adding shared packages and running all the tests for our system, we can link the projects together in a _solution_. Having all the projects in a solution gives the advantage of being able to open all the projects together in an IDE.
 
 #### dotnet sln
 
@@ -939,7 +939,7 @@ We are going to create an API to retrieve a simplified electronic program guide 
 An EPG can be seen as a list of transmissions, and for our example in this course, a transmission contains the following fields:
 
 - Title - The title of the program. Must be between 5 and 100 characters (inclusive), and can only consist of uppercase and lowercase letters, numbers, and some special characters: `, . : - !`
-- Channel - The channel broadcasting the transmission. In our case, possible channels are limited to NRK1 and NRK2, and must be written in capital letters.
+- Channel - The channel that the transmission is broadcasted on. In our case, possible channels are limited to NRK1 and NRK2, and must be written in capital letters.
 - Start date and time - date and time when the transmission starts to air.
 - End date and time - date and time when the transmission ends. Must be after the start date and time.
 
@@ -1054,7 +1054,7 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 **Step 5 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-4---define-the-domain-model) [⬇ Next step](#step-6---define-api-contract)
 
-The domain model introduced in [previous step](#step-4---define-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of transmissions, and what fields each transmission contains). In this step, we will implement the validation rules in F#, and verify that we have implemented them correctly using unit tests.
+The domain model introduced in [previous step](#step-4---define-the-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of transmissions, and what fields each transmission contains). In this step, we will implement the validation rules in F#, and verify that we have implemented them correctly using unit tests.
 
 #### Rules in our domain
 
