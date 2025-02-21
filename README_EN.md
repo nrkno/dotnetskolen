@@ -21,9 +21,9 @@ We will use the [.NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/) 
 The overall structure of our solution will be as follows:
 
 ```txt
-└── docs  (contract for the web API)  
-└── src   (code for the web API)  
-└── test  (code for unit and integration tests)  
+└── docs  (contract for the web API)
+└── src   (code for the web API)
+└── test  (code for unit and integration tests)
 ```
 
 We recommend following this guide [on GitHub](https://github.com/nrkno/dotnetskolen), as the GitHub view supports embedded links and provides a table of contents that remains visible in the top left while browsing the guide.
@@ -82,9 +82,8 @@ If you are interested in .NET 9's hosting model, Minimal API, and how you can te
 
 For even more challenges, check out these tasks:
 
-- [Extra tasks](#extra tasks)
-  - [Step 10 - Follow principles of domain-driven design](#step-10---follow-principles-of-domain-driven-design)
-  - [Step 11 - Graphical representation of OpenAPI documentation](#step-11---graphical-representation-of-openapi-documentation)
+- [Step 10 - Follow principles of domain-driven design](#step-10---follow-principles-of-domain-driven-design)
+- [Step 11 - Graphical representation of OpenAPI documentation](#step-11---graphic-presentation-of-openapi-documentation)
 
 ### ❓ Questions
 
@@ -3232,7 +3231,7 @@ Congratulations! 🎉
 
 You have now implemented a web API in F#, with unit and integration tests, API documentation in OpenAPI, and done it all using the .NET CLI.
 
-### Additional steps
+### Additional tasks
 
 #### Step 10 - Follow principles of domain-driven design
 
