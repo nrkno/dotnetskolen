@@ -257,67 +257,60 @@ dotnet new list
 ```
 
 ```bash
-These templates matched your input:
+These templates matched your input: 
 
-Template Name                               Short Name                  Language    Tags
-------------------------------------------  --------------------------  ----------  -------------------------------------------------------
-.NET Aspire App Host                        aspire-apphost              [C#]        Common/.NET Aspire/Cloud
-.NET Aspire Empty App                       aspire                      [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service
-.NET Aspire Service Defaults                aspire-servicedefaults      [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service
-.NET Aspire Starter App                     aspire-starter              [C#]        Common/.NET Aspire/Blazor/Web/Web API/API/Service/Cloud
-.NET Aspire Test Project (MSTest)           aspire-mstest               [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service/Test
-.NET Aspire Test Project (NUnit)            aspire-nunit                [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service/Test
-.NET Aspire Test Project (xUnit)            aspire-xunit                [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service/Test
-API Controller                              apicontroller               [C#]        Web/ASP.NET
-ASP.NET Core Empty                          web                         [C#],F#     Web/Empty
-ASP.NET Core gRPC Service                   grpc                        [C#]        Web/gRPC/API/Service
-ASP.NET Core Web API                        webapi                      [C#],F#     Web/WebAPI/Web API/API/Service
-ASP.NET Core Web API (native AOT)           webapiaot                   [C#]        Web/Web API/API/Service
-ASP.NET Core Web App (Model-View-Contro...  mvc                         [C#],F#     Web/MVC
-ASP.NET Core Web App (Razor Pages)          webapp,razor                [C#]        Web/MVC/Razor Pages
-ASP.NET Core with Angular                   angular                     [C#]        Web/MVC/SPA
-ASP.NET Core with React.js                  react                       [C#]        Web/MVC/SPA
-ASP.NET Core with React.js and Redux        reactredux                  [C#]        Web/MVC/SPA
-Blazor Server App                           blazorserver                [C#]        Web/Blazor
-Blazor Server App Empty                     blazorserver-empty          [C#]        Web/Blazor/Empty
-Blazor Web App                              blazor                      [C#]        Web/Blazor/WebAssembly
-Blazor WebAssembly App Empty                blazorwasm-empty            [C#]        Web/Blazor/WebAssembly/PWA/Empty
-Blazor WebAssembly Standalone App           blazorwasm                  [C#]        Web/Blazor/WebAssembly/PWA
-Class Library                               classlib                    [C#],F#,VB  Common/Library
-Console App                                 console                     [C#],F#,VB  Common/Console
-dotnet gitignore file                       gitignore,.gitignore                    Config
-Dotnet local tool manifest file             tool-manifest                           Config
-EditorConfig file                           editorconfig,.editorconfig              Config
-global.json file                            globaljson,global.json                  Config
-MSBuild Directory.Build.props file          buildprops                              MSBuild/props
-MSBuild Directory.Build.targets file        buildtargets                            MSBuild/props
-MSBuild Directory.Packages.props file       packagesprops                           MSBuild/packages/props/CPM
-MSTest Playwright Test Project              mstest-playwright           [C#]        Test/MSTest/Playwright/Desktop/Web
-MSTest Test Class                           mstest-class                [C#],F#,VB  Test/MSTest
-MSTest Test Project                         mstest                      [C#],F#,VB  Test/MSTest/Desktop/Web
-MVC Controller                              mvccontroller               [C#]        Web/ASP.NET
-MVC ViewImports                             viewimports                 [C#]        Web/ASP.NET
-MVC ViewStart viewstart [C#] Web/ASP.NET
-NuGet Config                                nugetconfig,nuget.config                Config
-NUnit 3 Test Item                           nunit-test                  [C#],F#,VB  Test/NUnit
-NUnit 3 Test Project                        nunit                       [C#],F#,VB  Test/NUnit/Desktop/Web
-NUnit Playwright Test Project               nunit-playwright            [C#]        Test/NUnit/Playwright/Desktop/Web
-Protocol Buffer File                        proto                                   Web/gRPC
-Razor Class Library                         razorclasslib               [C#]        Web/Razor/Library/Razor Class Library
-Razor Component                             razorcomponent              [C#]        Web/ASP.NET
-Razor Page                                  page                        [C#]        Web/ASP.NET
-Razor View                                  view                        [C#]        Web/ASP.NET
-Solution File                               sln,solution                            Solution
-Web Config                                  webconfig                               Config
-Windows Forms App                           winforms                    [C#],VB     Common/WinForms
-Windows Forms Class Library                 winformslib                 [C#],VB     Common/WinForms
-Windows Forms Control Library               winformscontrollib          [C#],VB     Common/WinForms
-Worker Service                              worker                      [C#],F#     Common/Worker/Web
-WPF Application                             wpf                         [C#],VB     Common/WPF
-WPF Class Library                           wpflib                      [C#],VB     Common/WPF
-WPF Custom Control Library                  wpfcustomcontrollib         [C#],VB     Common/WPF
-WPF User Control Library                    wpfusercontrollib           [C#],VB     Common/WPF
-xUnit Test Project                          xunit                       [C#],F#,VB  Test/xUnit/Desktop/Web
+Template Name                                 Short Name                  Language    Tags
+--------------------------------------------  --------------------------  ----------  -------------------------------------
+API Controller                                apicontroller               [C#]        Web/ASP.NET
+ASP.NET Core Empty                            web                         [C#],F#     Web/Empty
+ASP.NET Core gRPC Service                     grpc                        [C#]        Web/gRPC/API/Service
+ASP.NET Core Web API                          webapi                      [C#],F#     Web/WebAPI/Web API/API/Service       
+ASP.NET Core Web API (native AOT)             webapiaot                   [C#]        Web/Web API/API/Service
+ASP.NET Core Web App (Model-View-Controller)  mvc                         [C#],F#     Web/MVC
+ASP.NET Core Web App (Razor Pages)            webapp,razor                [C#]        Web/MVC/Razor Pages
+ASP.NET Core with Angular                     angular                     [C#]        Web/MVC/SPA
+ASP.NET Core with React.js                    react                       [C#]        Web/MVC/SPA
+ASP.NET Core with React.js and Redux          reactredux                  [C#]        Web/MVC/SPA
+Blazor Server App                             blazorserver                [C#]        Web/Blazor
+Blazor Server App Empty                       blazorserver-empty          [C#]        Web/Blazor/Empty
+Blazor Web App                                blazor                      [C#]        Web/Blazor/WebAssembly
+Blazor WebAssembly App Empty                  blazorwasm-empty            [C#]        Web/Blazor/WebAssembly/PWA/Empty
+Blazor WebAssembly Standalone App             blazorwasm                  [C#]        Web/Blazor/WebAssembly/PWA
+Class Library                                 classlib                    [C#],F#,VB  Common/Library
+Console App                                   console                     [C#],F#,VB  Common/Console
+dotnet gitignore file                         gitignore,.gitignore                    Config
+Dotnet local tool manifest file               tool-manifest                           Config
+EditorConfig file                             editorconfig,.editorconfig              Config
+global.json file                              globaljson,global.json                  Config
+MSBuild Directory.Build.props file            buildprops                              MSBuild/props
+MSBuild Directory.Build.targets file          buildtargets                            MSBuild/props
+MSBuild Directory.Packages.props file         packagesprops                           MSBuild/packages/props/CPM
+MSTest Playwright Test Project                mstest-playwright           [C#]        Test/MSTest/Playwright
+MSTest Test Class                             mstest-class                [C#],F#,VB  Test/MSTest
+MSTest Test Project                           mstest                      [C#],F#,VB  Test/MSTest
+MVC Controller                                mvccontroller               [C#]        Web/ASP.NET
+MVC ViewImports                               viewimports                 [C#]        Web/ASP.NET
+MVC ViewStart                                 viewstart                   [C#]        Web/ASP.NET
+NuGet Config                                  nugetconfig,nuget.config                Config
+NUnit 3 Test Item                             nunit-test                  [C#],F#,VB  Test/NUnit
+NUnit 3 Test Project                          nunit                       [C#],F#,VB  Test/NUnit
+NUnit Playwright Test Project                 nunit-playwright            [C#]        Test/NUnit/Playwright
+Protocol Buffer File                          proto                                   Web/gRPC
+Razor Class Library                           razorclasslib               [C#]        Web/Razor/Library/Razor Class Library
+Razor Component                               razorcomponent              [C#]        Web/ASP.NET
+Razor Page                                    page                        [C#]        Web/ASP.NET
+Razor View                                    view                        [C#]        Web/ASP.NET
+Solution File                                 sln,solution                            Solution
+Web Config                                    webconfig                               Config
+Windows Forms App                             winforms                    [C#],VB     Common/WinForms
+Windows Forms Class Library                   winformslib                 [C#],VB     Common/WinForms
+Windows Forms Control Library                 winformscontrollib          [C#],VB     Common/WinForms
+Worker Service                                worker                      [C#],F#     Common/Worker/Web
+WPF Application                               wpf                         [C#],VB     Common/WPF
+WPF Class Library                             wpflib                      [C#],VB     Common/WPF
+WPF Custom Control Library                    wpfcustomcontrollib         [C#],VB     Common/WPF
+WPF User Control Library                      wpfusercontrollib           [C#],VB     Common/WPF
+xUnit Test Project                            xunit                       [C#],F#,VB  Test/xUnit
 ```
 
 In addition to specifying the type of project you want with the `new` command, you can also control various options, such as the programming language for the project and the target folder where it will be created.
@@ -379,9 +372,7 @@ dotnet new console --language F# --output src/api --name NRK.Dotnetskolen.Api
 The template "Console App" was created successfully.
 
 Processing post-creation actions...
-Running 'dotnet restore' on src\api\NRK.Dotnetskolen.Api.fsproj...
-  Determining projects to restore...
-  Restored C:\Dev\nrkno@github.com\dotnetskolen\src\api\NRK.Dotnetskolen.Api.fsproj (in 101 ms).
+Restoring  C:\Dev\nrkno@github.com\dotnetskolen\src\api\NRK.Dotnetskolen.Api.fsproj:
 Restore succeeded.
 ```
 
@@ -543,14 +534,14 @@ Date: Fri Apr 16 13:43:40 2021 +0200
 
 #### See solution suggestions
 
-If you want to see the expected state of the repo after performing the various steps in the course, you can check out the branch with the corresponding name as the section you want to look at. For example, if you want to see how the repo looks after the first step, you can check out the branch `step-1` like this:
+If you want to see the expected state of the repo after performing the various steps in the course, you can check out the branch with the corresponding name as the section you want to look at. For example, if you want to see how the repo looks after the first step, you can check out the branch `en/step-1` like this:
 
 ```bash
-git checkout step-1
+git checkout en/step-1
 ```
 
 ```bash
-Switched to branch 'step-1'
+Switched to branch 'en/step-1'
 ```
 
 ### Step 2 - Create test projects
@@ -562,7 +553,7 @@ Tests are an important part of system development because they help us verify th
 - Unit tests
 - Integration tests
 
-Unit tests ensure that small, isolated pieces of code works as intended, typically testing one function at a time. In this course, we’ll use unit tests to validate the validation rules within our domain.
+Unit tests ensure that small, isolated pieces of code work as intended, typically testing one function at a time. In this course, we’ll use unit tests to validate the validation rules within our domain.
 
 Integration tests, on the other hand, verify that larger parts of the system work as expected, including interactions with external systems. Here, we’ll use integration tests to confirm that the web API behaves according to the [contract we define in step 6](#step-6---define-api-contract).
 
@@ -579,7 +570,7 @@ To create the test projects, we will again use the `dotnet new` command, but thi
 - nUnit
 - MSTest
 
-In this course we will use xUnit. This choice is somewhat arbitrary as all of the frameworks above will suffice for our purpose, which is to show how to set up test projects and get started writing tests. If you want to know more about the different testing frameworks, you can read more about them here: <https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools>
+In this course we will use xUnit. This choice is somewhat arbitrary as all of the frameworks above will suffice for our purpose, namely to show how to set up test projects and get started writing tests. If you want to know more about the different testing frameworks, you can read more about them here: <https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools>
 
 #### Creating the unit test project
 
@@ -593,9 +584,7 @@ dotnet new xunit -lang F# -o test/unit -n NRK.Dotnetskolen.UnitTests
 The template "xUnit Test Project" was created successfully.
 
 Processing post-creation actions...
-Running 'dotnet restore' on test/unit/NRK.Dotnetskolen.UnitTests.fsproj...
-  Determining projects to restore...
-  Restored C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj (in 1.31 sec).
+Restoring C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj:
 Restore succeeded.
 ```
 
@@ -733,9 +722,7 @@ dotnet new xunit -lang F# -o test/integration -n NRK.Dotnetskolen.IntegrationTes
 The template "xUnit Test Project" was created successfully.
 
 Processing post-creation actions...
-Running 'dotnet restore' on test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj...
-  Determining projects to restore...
-  Restored C:\Dev\nrkno@github.com\dotnetskolen\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj (in 580 ms).
+Restoring C:\dev\dotnetskolen\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj:
 Restore succeeded.
 ```
 
@@ -747,12 +734,12 @@ src
     └── NRK.Dotnetskolen.Api.fsproj
     └── Program.fs
 test
-└── unit
-    └── NRK.Dotnetskolen.UnitTests.fsproj
-    └── Program.fs
-    └── Tests.fs
 └── integration
     └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
     └── Program.fs
     └── Tests.fs
 ```
@@ -807,12 +794,12 @@ src
     └── NRK.Dotnetskolen.Api.fsproj
     └── Program.fs
 test
-└── unit
-    └── NRK.Dotnetskolen.UnitTests.fsproj
-    └── Program.fs
-    └── Tests.fs
 └── integration
     └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
     └── Program.fs
     └── Tests.fs
 └── Dotnetskolen.sln
@@ -931,7 +918,7 @@ The image below shows how the "Solution explorer" in Visual Studio displays the 
 
 **Step 4 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-3---create-solution) [⬇ Next step](#step-5---unit-tests-for-the-domain-model)
 
-We are going to create an API to retrieve a simplified electronic program guide (EPG) for various channels on NRK TV. The idea is that the API could deliver the data for a program guide - e.g the one shown here: <https://info.nrk.no/presse/tvguide/>
+We are going to create an API to retrieve a simplified electronic program guide (EPG) for various channels on NRK TV. The idea is that the API could deliver the data for a program guide - e.g. the one shown here: <https://info.nrk.no/presse/tvguide/>
 
 > The model we use for the EPG in this course is simplified compared to [the one used in the PS API](https://webapp-ps-granitt-api-prod-we.azurewebsites.net/swagger/ui/index#/Epg), and is used as an example only.
 
@@ -1053,11 +1040,11 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 **Step 5 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-4---defining-the-domain-model) [⬇ Next step](#step-6---define-api-contract)
 
-The domain model introduced in [previous step](#step-4---defining-the-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of transmissions, and what fields each transmission contains). In this step, we will implement the validation rules in F#, and verify that we have implemented them correctly using unit tests.
+The domain model introduced in [the previous step](#step-4---defining-the-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of transmissions, and what fields each transmission contains). In this step, we will implement the validation rules in F#, and verify with unit tests that we have implemented them correctly.
 
 #### Rules in our domain
 
-We want to verify the following rules from our domain:
+We want to ensure the following rules in our domain:
 
 - Title
   - Must consist of 5-100 characters (inclusive)
@@ -1084,7 +1071,7 @@ open Xunit
 [<Theory>]
 [<InlineData("abc12")>]
 [<InlineData(".,-:!")>]
-[<InlineData("ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ")>]
+[<InlineData("ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ")>]
 let ``isTitleValid valid title returns true`` (title: string) =
     let isTitleValid = isTitleValid title
 
@@ -1093,7 +1080,7 @@ let ``isTitleValid valid title returns true`` (title: string) =
 [<Theory>]
 [<InlineData("abcd")>]
 [<InlineData("@$%&/")>]
-[<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
+[<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
 let ``isTitleValid invalid title returns false`` (title: string) =
     let isTitleValid = isTitleValid title
 
@@ -1289,7 +1276,7 @@ let ``areStartTimeAndEndTimeValid start before end returns true`` () =
     let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes 30.
 
-    let areStartTimeAndEndTimeValid = areStartTimeAndEndTimeValid starttime endtime
+    let areStartTimeAndEndTimeValid = areStartTimeAndEndTimeValid startTime endTime
 
     Assert.True areStartTimeAndEndTimeValid
 ```
