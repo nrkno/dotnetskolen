@@ -21,7 +21,7 @@ We will use the [.NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/) 
 The overall structure of our solution will be as follows:
 
 ```txt
-└── docs  (contract for the web API)
+└── schema  (contract for the web API)
 └── src   (code for the web API)
 └── test  (code for unit and integration tests)
 ```
@@ -934,8 +934,6 @@ An EPG can be seen as a list of transmissions, and for our example in this cours
 Now that we have specified our domain, we can model it in F#. Start by creating a new file `Domain.fs` under `src/api`:
 
 ```txt
-└── .config
-    └── ...
 src
 └── api
     └── Domain.fs
@@ -1371,13 +1369,13 @@ To document which operations and responses our API offers, we will create an API
 
 #### Operations
 
-To limit the scope of our API, we are only going to have one operation in it:
+To limit the scope of our API, we are only going to have one operation:
 
 - Retrieve EPG on a given date
 
 #### Responses
 
-The response to this operation will consist of two lists of transmissions, one for each channel in our domain, where each transmission has:
+The response of this operation will consist of two lists of transmissions, one for each channel in our domain, where each transmission has:
 
 - Title - text string that follows the rules defined in [our domain model](#step-4---defining-the-domain-model).
 - Start date and time - text string that follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
@@ -1447,12 +1445,10 @@ Before we define the actual contract of the API in an OpenAPI specification, we 
 
 Above we can see that the response consists of an object with two properties: `nrk1` and `nrk2`, both of which are a list of the transmissions on the respective channel. Each transmission contains a title, as well as a start and end time. Each of the fields are text strings that follow the validation rules we have defined in our domain. `Title` has `pattern` similar to the regular expression we used in `isTitleValid` in `Domain.fs`. `StartTime` and `EndTime` have `format: "date-time"`, which follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 
-For now, we'll leave the JSON schema there, serving as documentation of our API. Create a new folder `docs` in your root folder with a new file `epg.schema.json` where you paste the JSON schema above. You should now have the following folder hierarchy:
+For now, we'll leave the JSON schema there, serving as documentation of our API. Create a new folder `schema` in your root folder with a new file `epg.schema.json` where you paste the JSON schema above. You should now have the following folder hierarchy:
 
 ```txt
-└── .config
-    └── ...
-└── docs
+└── schema
     └── epg.schema.json
 └── src
     └── ...
@@ -1463,17 +1459,15 @@ For now, we'll leave the JSON schema there, serving as documentation of our API.
 
 #### OpenAPI contract
 
-Now that we have the format of the content of our response, we can define the Open API specification for our API. Let's start by creating a new file `openapi.json` in the `docs` folder. You should now have the following folder hierarchy:
+Now that we have the format of the content of our response, we can define the Open API specification for our API. Let's start by creating a new file `openapi.json` in the `schema` folder. You should now have the following folder hierarchy:
 
 ```txt
-└── .config
-    └── ...
-└── docs
+└── schema
     └── epg.schema.json
     └── openapi.json
 └── src
     └── ...
-test
+└── test
     └── ...
 └── Dotnetskolen.sln
 ```
@@ -1789,15 +1783,13 @@ In [step-4](#step-4---defining-the-domain-model) we defined our domain model as 
 1. First, the structure of the types in the API may be different than in the domain model. We see this in our case where the domain model has all transmissions, across channels, in one list, while the API contract has one list of transmissions per channel.
 2. Additionally, we are limited to representing data with text in the API since HTTP is a text-based protocol. For example, we use a `DateTimeOffset` to represent start and end times in our domain model, while we use `string` in our OpenAPI contract.
 
-In order for us to translate the domain model to the OpenAPI contract, we will introduce a separate F# type that reflects the types in our OpenAPI contract. In general, types that represent our data as we communicate with other systems are called "data transfer objects", or "DTO".
+In order for us to translate the domain model to the OpenAPI contract, we will introduce separate F# types that reflects the types in our OpenAPI contract. In general, types that represent our data as we communicate with other systems are called "data transfer objects", or "DTO".
 
 Start by creating a file `Dto.fs` in the `src/api` folder:
 
 ```txt
-└── .config
-    └── ...
-└── docs
-    └── ...
+schema
+└── ...
 src
 └── api
     └── Domain.fs
@@ -1806,7 +1798,7 @@ src
     └── Program.fs
 test
 └── ...
-└── Dotnetskolen.sln
+Dotnetskolen.sln
 ```
 
 Paste the content below into `Dto.fs`:
@@ -1855,7 +1847,7 @@ In this step, we'll outline the web API and verify that it exists with an integr
 
 #### Project types
 
-Starting with .NET Core, .NET uses different SDK project types depending on the application you're developing. These project types provide verious functionality for compiling and publishing. Our API and test projects were initially created with the basic `.NET SDK` project type. Since this step requires functionality from the `.NET Web SDK`, we'll change the project types accordingly.
+Starting with .NET Core, .NET uses different SDK project types depending on the application you're developing. These project types provide various functionality for compiling and publishing. Our API and test projects were initially created with the basic `.NET SDK` project type. Since this step requires functionality from the `.NET Web SDK`, we'll change the project types accordingly.
 
 Open the file `src/api/NRK.Dotnetskolen.Api.fsproj`, and change the `Sdk` attribute on the `Project` element from `Microsoft.NET.Sdk` to `Microsoft.NET.Sdk.Web`:
 
@@ -1876,7 +1868,7 @@ Open the file `src/api/NRK.Dotnetskolen.Api.fsproj`, and change the `Sdk` attrib
 </Project>
 ```
 
-Repeat the step above for `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` to change the SDK project type to the integration test project:
+Repeat the step above for `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` to change the SDK project type of the integration test project:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -2307,7 +2299,7 @@ Build succeeded in 8,9s
 
 **Step 9 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-8---outlining-the-web-api)
 
-In [previous step](#step-8---outlining-the-web-api) we created an outline for the web API by adding a `ping` endpoint with a corresponding integration test. In this step, we will extend the web API with an endpoint to retrieve an EPG. In addition, we will write integration tests to verify that the implementation of the web API adheres to our Open API documentation. We use a test-driven approach by writing an integration test that fails, and then making changes to the API so that the test passes. We continue in this way until we have fully implemented our API.
+In the [previous step](#step-8---outlining-the-web-api) we created an outline for the web API by adding a `ping` endpoint with a corresponding integration test. In this step, we will extend the web API with an endpoint to retrieve an EPG. In addition, we will write integration tests to verify that the implementation of the web API adheres to our Open API documentation. We use a test-driven approach by writing an integration test that fails, and then making changes to the API so that the test passes. We continue in this way until we have fully implemented our API.
 
 #### Test 1 - Verify that the endpoint exists
 
@@ -2464,7 +2456,7 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 Test summary: total: 3; failed: 1; succeeded: 2; skipped: 0; duration: 1,3s
 ```
 
-The new test we added fails because the API does not validate the given date. Let's change the implementation of the web API so that the test passes.
+The new test we added fails because the API does not validate the given date. Let's change the implementation of the web API so the test passes.
 
 ##### Implement HTTP Handler for /epg/{date}
 
@@ -2518,7 +2510,7 @@ module HttpHandlers =
         dateAsString
 ```
 
-Here we create a module `HttpHandlers` in the namespace `NRK.Dotnetskolen.Api`. In the module we have a function `epgHandler`, which takes a text string as input, and for now the function returns the same text string. The return value of `epgHandler` is currently the same as the anonymous function we had in `Program.fs`, but now we are in a better position to extend it and at the same time keeping the code in `Program.fs` readable.
+Here we create a module `HttpHandlers` in the namespace `NRK.Dotnetskolen.Api`. In the module we have a function `epgHandler`, which takes a text string as input, and for now the function returns the same text string. The return value of `epgHandler` is currently the same as the anonymous function we had in `Program.fs`, but now we are in a better position to extend it and at the same time keep the code in `Program.fs` readable.
 
 Open the `HttpHandlers` module in `Program.fs` and call the `epgHandler` function instead of the anonymous function we had:
 
@@ -2580,7 +2572,7 @@ app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler date)) |>
 
 ##### Running the API
 
-Restart the API and see what happens if you go to <http://localhost:5000/epg/2021-01-01> in your browser.
+Restart the API and see what happens if you go to <http://localhost:5000/epg/2025-01-01> in your browser.
 
 ```bash
 dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
@@ -2602,7 +2594,7 @@ Test summary: total: 3; failed: 0; succeeded: 3; skipped: 0; duration: 1,3s
 
 #### Test 3 - Verify format of EPG response
 
-In the final test, we will verify that the response the API provides follows the format we have specified in our OpenAPI contract.
+In the final test, we will verify that the response from the API follows the format we have specified in our OpenAPI contract.
 
 ##### JsonSchema.Net
 
@@ -2617,7 +2609,7 @@ dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj package J
 To verify that the response from our API adheres to the defined contract, we need to include the JsonSchema for our response in the integration test project. We can do this by adding the following to the end of the same `ItemGroup` as `Program.fs` and `Tests.fs` in the integration test project project file:
 
 ```xml
-<Content Include="../../docs/epg.schema.json">
+<Content Include="../../schema/epg.schema.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 </Content>
 ```
@@ -2831,9 +2823,7 @@ For now, we just return an empty list so we can see how we can use `getEpgForDat
 Add the following `open` statement to `Program.fs` in the API project:
 
 ```f#
-...
 open NRK.Dotnetskolen.Api.Services
-...
 ```
 
 Then submit `getEpgForDate` from `NRK.Dotnetskolen.Api.Services` to `epgHandler` in the `createWebApplication` function in `Program.fs` in the API project like this:
@@ -2842,7 +2832,7 @@ Then submit `getEpgForDate` from `NRK.Dotnetskolen.Api.Services` to `epgHandler`
 app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
 ```
 
-Run the web API with the following command, and go to <http://localhost:5000/epg/2021-04-23> to see what the API returns.
+Run the web API with the following command, and go to <http://localhost:5000/epg/2025-02-26> to see what the API returns.
 
 ```bash
 dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
@@ -2929,22 +2919,22 @@ Then we can define some transmissions in a separate list we call `database`:
 let database =
     [
         {
-            Title = "Test Program"
+            Title = "TestProgram"
             Channel = "NRK1"
-            StartTime = "2021-04-12T13:00:00Z"
-            EndTime = "2021-04-12T13:30:00Z"
+            StartTime = "2025-02-26T13:00:00Z"
+            EndTime = "2025-02-26T13:30:00Z"
         }
         {
-            Title = "Test Program"
+            Title = "TestProgram"
             Channel = "NRK2"
-            StartTime = "2021-04-12T14:00:00Z"
-            EndTime = "2021-04-12T15:00:00Z"
+            StartTime = "2025-02-26T14:00:00Z"
+            EndTime = "2025-02-26T15:00:00Z"
         }
         {
-            Title = "Test Program"
+            Title = "TestProgram"
             Channel = "NRK3"
-            StartTime = "2021-04-12T14:00:00Z"
-            EndTime = "2021-04-12T16:30:00Z"
+            StartTime = "2025-02-26T14:00:00Z"
+            EndTime = "2025-02-26T16:30:00Z"
         }
     ]
 ```
@@ -2986,7 +2976,7 @@ let createWebApplication (builder: WebApplicationBuilder) =
 
 Note that above we have called `getEpgForDate` with `getAllTransmissions`, and got a new function in return that takes in a `DateOnly` and returns an `Epg` value. Passing in a subset of the parameters to a function, and getting a function in return that takes in the remaining parameters is called "partial application". You can read more about "partial application" of functions in F# here: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments>
 
-Run the API with the following command, go to <http://localhost:5000/epg/2021-04-12>, and see what it returns.
+Run the API with the following command, go to <http://localhost:5000/epg/2025-02-26>, and see what it returns.
 
 ```bash
 dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
@@ -2998,7 +2988,7 @@ One problem with the current state of our integration tests is that we have no c
 
 ##### Implement mock of getAllTransmissions
 
-Let's implement our own `getAllTransmissions` function in the integration test project, and have our API use it instead.
+Let's implement our own `getAllTransmissions` function in the integration test project, and have our API use that instead.
 
 Create the file `Mock.fs` in the `/test/integration` folder:
 
@@ -3029,7 +3019,7 @@ Remember to add `Mock.fs` to the project file of the integration test project:
     <Compile Include="Mock.fs" />
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
-    <Content Include="../../docs/epg.schema.json">
+    <Content Include="../../schema/epg.schema.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -3054,39 +3044,39 @@ module Mock =
         [
             // Transmissions back in time
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK1"
                 StartTime = now.AddDays(-10.)
                 EndTime = now.AddDays(-10.).AddMinutes(30.)
             }
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK2"
                 StartTime = now.AddDays(-10.)
                 EndTime = now.AddDays(-10.).AddMinutes(30.)
             }
             // Today's transmissions
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK1"
                 StartTime = now
                 EndTime = now.AddMinutes(30.)
             }
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK2"
                 StartTime = now
                 EndTime = now.AddMinutes(30.)
             }
             // Future transmissions
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK1"
                 StartTime = now.AddDays(10.)
                 EndTime = now.AddDays(10.).AddMinutes(30.)
             }
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK2"
                 StartTime = now.AddDays(10.)
                 EndTime = now.AddDays(10.).AddMinutes(30.)
@@ -3135,7 +3125,7 @@ open NRK.Dotnetskolen.Domain
 ```bash
 let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateOnly -> Epg) =
     let app = builder.Build()
-    app.MapGet("/ping", Func<string>(fun () -> "pong"))) |> ignore
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
     app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
     app
 ```
@@ -3728,23 +3718,23 @@ let getAllTransmissions () : Epg =
 
 #### Step 11 - Graphical representation of OpenAPI documentation
 
-In [step 6](#step-6---define-api-contract) we introduced the OpenAPI contract for our API, and placed it in the `/docs` folder. Currently, the documentation is only available to those who have access to the code repository. To make the contract publically available, we have to publish it somewhere. In this step, we will look at how we can make the OpenAPI contract available as a separate web page in the API using [ReDoc](https://github.com/Redocly/redoc). With ReDoc we can copy an [HTML page from their documentation](https://github.com/Redocly/redoc#tldr) and paste a reference to our OpenAPI documentation, and we will get a nice graphical representation of our API, as shown below:
+In [step 6](#step-6---define-api-contract) we introduced the OpenAPI contract for our API, and placed it in the `/schema` folder. Currently, the documentation is only available to those who have access to the code repository. To make the contract publically available, we have to publish it somewhere. In this step, we will look at how we can make the OpenAPI contract available as a separate web page in the API using [ReDoc](https://github.com/Redocly/redoc). With ReDoc we can copy an [HTML page from their documentation](https://github.com/Redocly/redoc#tldr) and paste a reference to our OpenAPI documentation, and we will get a nice graphical representation of our API, as shown below:
 
 ![redoc](./docs/illustrasjoner/redoc.png)
 
 In short, these are the steps we will take to create our own ReDoc page in our API:
 
-1. Move `docs/epg.schema.json` and `docs/openapi.json` to `src/api/wwwroot/documentation`
+1. Move `schema/epg.schema.json` and `schema/openapi.json` to `src/api/wwwroot/documentation`
 2. Create HTML file `openapi.html` in `src/api/wwwroot` with content from [ReDoc documentation](https://redocly.com/docs/redoc/deployment/html#use-redoc-in-html), and change the reference to the OpenAPI document in `openapi.html`
 3. Configure the web API to serve static files
 
 ##### Moving API documentation
 
-In [step 6](#step-6---define-api-contract) we put the documentation for our API in the `docs` folder. Since we will now expose it on the internet through our API, we need to put it somewhere that is accessible to the web server. Therefore, create a new folder `wwwroot` with a new folder `documentation` in `src/api` like this:
+In [step 6](#step-6---define-api-contract) we put the documentation for our API in the `schema` folder. Since we will now expose it on the internet through our API, we need to put it somewhere that is accessible to the web server. Therefore, create a new folder `wwwroot` with a new folder `documentation` in `src/api` like this:
 
 ```txt
 ...
-└── docs
+└── schema
     └── epg.schema.json
     └── openapi.json
 └── src
@@ -3754,11 +3744,11 @@ In [step 6](#step-6---define-api-contract) we put the documentation for our API 
 ...
 ```
 
-Then move the files `epg.schema.json` and `openapi.json` from `docs` to `src/api/wwwroot/documentation`:
+Then move the files `epg.schema.json` and `openapi.json` from `schema` to `src/api/wwwroot/documentation`:
 
 ```txt
 ...
-└── docs
+└── schema
 └── src
     └── api
         └── wwwroot
@@ -3768,7 +3758,7 @@ Then move the files `epg.schema.json` and `openapi.json` from `docs` to `src/api
 ...
 ```
 
-Finally, you can delete the `docs` folder:
+Finally, you can delete the `schema` folder:
 
 ```txt
 ...
