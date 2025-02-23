@@ -1,0 +1,55 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+        "nrk1": {
+            "type": "array",
+            "items": {
+                "$ref": "#/components/schemas/Transmission"
+            }
+        },
+        "nrk2": {
+            "type": "array",
+            "items": {
+                "$ref": "#/components/schemas/Transmission"
+            }
+        }
+    },
+    "required": [
+        "nrk1",
+        "nrk2"
+    ],
+    "components": {
+        "schemas": {
+            "Title": {
+                "type": "string",
+                "pattern": "^[\\p{L}0-9\\.,-:!]{5,100}$",
+                "example": "Dagsrevyen",
+                "description": "Program title"
+            },
+            "Transmission": {
+                "type": "object",
+                "properties": {
+                    "tittel": {
+                        "$ref": "#/components/schemas/Title"
+                    },
+                    "startTime": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Start date and time of the transmission."
+                    },
+                    "endTime": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The end date and time of the transmission. Is always greater than the start date and time of the transmission."
+                    }
+                },
+                "required": [
+                    "title",
+                    "startTime",
+                    "endTime"
+                ]
+            }
+        }
+    }
+}

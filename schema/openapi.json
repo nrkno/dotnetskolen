@@ -1,0 +1,52 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dotnetskolen EPG-API",
+        "description": "API to retrieve EPG for the channels NRK1 and NRK2 in NRKTV",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/epg/{date}": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Date as per [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6), e.g. 2021-11-15.",
+                        "in": "path",
+                        "name": "date",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2021-11-15"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "./epg.schema.json"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    },
+                    "400": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "\"Invalid date\""
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    }
+                },
+                "operationId": "getEpgForDate",
+                "description": "Gets EPG for NRK1 and NRK 2 on the given date. Returns 400 if date is invalid. The list of transmissions for a channel is empty if there are no transmissions on the given day."
+            }
+        }
+    }
+}
