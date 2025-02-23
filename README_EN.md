@@ -21,7 +21,7 @@ We will use the [.NET CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/) 
 The overall structure of our solution will be as follows:
 
 ```txt
-└── docs  (contract for the web API)
+└── schema  (contract for the web API)
 └── src   (code for the web API)
 └── test  (code for unit and integration tests)
 ```
@@ -257,67 +257,60 @@ dotnet new list
 ```
 
 ```bash
-These templates matched your input:
+These templates matched your input: 
 
-Template Name                               Short Name                  Language    Tags
-------------------------------------------  --------------------------  ----------  -------------------------------------------------------
-.NET Aspire App Host                        aspire-apphost              [C#]        Common/.NET Aspire/Cloud
-.NET Aspire Empty App                       aspire                      [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service
-.NET Aspire Service Defaults                aspire-servicedefaults      [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service
-.NET Aspire Starter App                     aspire-starter              [C#]        Common/.NET Aspire/Blazor/Web/Web API/API/Service/Cloud
-.NET Aspire Test Project (MSTest)           aspire-mstest               [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service/Test
-.NET Aspire Test Project (NUnit)            aspire-nunit                [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service/Test
-.NET Aspire Test Project (xUnit)            aspire-xunit                [C#]        Common/.NET Aspire/Cloud/Web/Web API/API/Service/Test
-API Controller                              apicontroller               [C#]        Web/ASP.NET
-ASP.NET Core Empty                          web                         [C#],F#     Web/Empty
-ASP.NET Core gRPC Service                   grpc                        [C#]        Web/gRPC/API/Service
-ASP.NET Core Web API                        webapi                      [C#],F#     Web/WebAPI/Web API/API/Service
-ASP.NET Core Web API (native AOT)           webapiaot                   [C#]        Web/Web API/API/Service
-ASP.NET Core Web App (Model-View-Contro...  mvc                         [C#],F#     Web/MVC
-ASP.NET Core Web App (Razor Pages)          webapp,razor                [C#]        Web/MVC/Razor Pages
-ASP.NET Core with Angular                   angular                     [C#]        Web/MVC/SPA
-ASP.NET Core with React.js                  react                       [C#]        Web/MVC/SPA
-ASP.NET Core with React.js and Redux        reactredux                  [C#]        Web/MVC/SPA
-Blazor Server App                           blazorserver                [C#]        Web/Blazor
-Blazor Server App Empty                     blazorserver-empty          [C#]        Web/Blazor/Empty
-Blazor Web App                              blazor                      [C#]        Web/Blazor/WebAssembly
-Blazor WebAssembly App Empty                blazorwasm-empty            [C#]        Web/Blazor/WebAssembly/PWA/Empty
-Blazor WebAssembly Standalone App           blazorwasm                  [C#]        Web/Blazor/WebAssembly/PWA
-Class Library                               classlib                    [C#],F#,VB  Common/Library
-Console App                                 console                     [C#],F#,VB  Common/Console
-dotnet gitignore file                       gitignore,.gitignore                    Config
-Dotnet local tool manifest file             tool-manifest                           Config
-EditorConfig file                           editorconfig,.editorconfig              Config
-global.json file                            globaljson,global.json                  Config
-MSBuild Directory.Build.props file          buildprops                              MSBuild/props
-MSBuild Directory.Build.targets file        buildtargets                            MSBuild/props
-MSBuild Directory.Packages.props file       packagesprops                           MSBuild/packages/props/CPM
-MSTest Playwright Test Project              mstest-playwright           [C#]        Test/MSTest/Playwright/Desktop/Web
-MSTest Test Class                           mstest-class                [C#],F#,VB  Test/MSTest
-MSTest Test Project                         mstest                      [C#],F#,VB  Test/MSTest/Desktop/Web
-MVC Controller                              mvccontroller               [C#]        Web/ASP.NET
-MVC ViewImports                             viewimports                 [C#]        Web/ASP.NET
-MVC ViewStart viewstart [C#] Web/ASP.NET
-NuGet Config                                nugetconfig,nuget.config                Config
-NUnit 3 Test Item                           nunit-test                  [C#],F#,VB  Test/NUnit
-NUnit 3 Test Project                        nunit                       [C#],F#,VB  Test/NUnit/Desktop/Web
-NUnit Playwright Test Project               nunit-playwright            [C#]        Test/NUnit/Playwright/Desktop/Web
-Protocol Buffer File                        proto                                   Web/gRPC
-Razor Class Library                         razorclasslib               [C#]        Web/Razor/Library/Razor Class Library
-Razor Component                             razorcomponent              [C#]        Web/ASP.NET
-Razor Page                                  page                        [C#]        Web/ASP.NET
-Razor View                                  view                        [C#]        Web/ASP.NET
-Solution File                               sln,solution                            Solution
-Web Config                                  webconfig                               Config
-Windows Forms App                           winforms                    [C#],VB     Common/WinForms
-Windows Forms Class Library                 winformslib                 [C#],VB     Common/WinForms
-Windows Forms Control Library               winformscontrollib          [C#],VB     Common/WinForms
-Worker Service                              worker                      [C#],F#     Common/Worker/Web
-WPF Application                             wpf                         [C#],VB     Common/WPF
-WPF Class Library                           wpflib                      [C#],VB     Common/WPF
-WPF Custom Control Library                  wpfcustomcontrollib         [C#],VB     Common/WPF
-WPF User Control Library                    wpfusercontrollib           [C#],VB     Common/WPF
-xUnit Test Project                          xunit                       [C#],F#,VB  Test/xUnit/Desktop/Web
+Template Name                                 Short Name                  Language    Tags
+--------------------------------------------  --------------------------  ----------  -------------------------------------
+API Controller                                apicontroller               [C#]        Web/ASP.NET
+ASP.NET Core Empty                            web                         [C#],F#     Web/Empty
+ASP.NET Core gRPC Service                     grpc                        [C#]        Web/gRPC/API/Service
+ASP.NET Core Web API                          webapi                      [C#],F#     Web/WebAPI/Web API/API/Service       
+ASP.NET Core Web API (native AOT)             webapiaot                   [C#]        Web/Web API/API/Service
+ASP.NET Core Web App (Model-View-Controller)  mvc                         [C#],F#     Web/MVC
+ASP.NET Core Web App (Razor Pages)            webapp,razor                [C#]        Web/MVC/Razor Pages
+ASP.NET Core with Angular                     angular                     [C#]        Web/MVC/SPA
+ASP.NET Core with React.js                    react                       [C#]        Web/MVC/SPA
+ASP.NET Core with React.js and Redux          reactredux                  [C#]        Web/MVC/SPA
+Blazor Server App                             blazorserver                [C#]        Web/Blazor
+Blazor Server App Empty                       blazorserver-empty          [C#]        Web/Blazor/Empty
+Blazor Web App                                blazor                      [C#]        Web/Blazor/WebAssembly
+Blazor WebAssembly App Empty                  blazorwasm-empty            [C#]        Web/Blazor/WebAssembly/PWA/Empty
+Blazor WebAssembly Standalone App             blazorwasm                  [C#]        Web/Blazor/WebAssembly/PWA
+Class Library                                 classlib                    [C#],F#,VB  Common/Library
+Console App                                   console                     [C#],F#,VB  Common/Console
+dotnet gitignore file                         gitignore,.gitignore                    Config
+Dotnet local tool manifest file               tool-manifest                           Config
+EditorConfig file                             editorconfig,.editorconfig              Config
+global.json file                              globaljson,global.json                  Config
+MSBuild Directory.Build.props file            buildprops                              MSBuild/props
+MSBuild Directory.Build.targets file          buildtargets                            MSBuild/props
+MSBuild Directory.Packages.props file         packagesprops                           MSBuild/packages/props/CPM
+MSTest Playwright Test Project                mstest-playwright           [C#]        Test/MSTest/Playwright
+MSTest Test Class                             mstest-class                [C#],F#,VB  Test/MSTest
+MSTest Test Project                           mstest                      [C#],F#,VB  Test/MSTest
+MVC Controller                                mvccontroller               [C#]        Web/ASP.NET
+MVC ViewImports                               viewimports                 [C#]        Web/ASP.NET
+MVC ViewStart                                 viewstart                   [C#]        Web/ASP.NET
+NuGet Config                                  nugetconfig,nuget.config                Config
+NUnit 3 Test Item                             nunit-test                  [C#],F#,VB  Test/NUnit
+NUnit 3 Test Project                          nunit                       [C#],F#,VB  Test/NUnit
+NUnit Playwright Test Project                 nunit-playwright            [C#]        Test/NUnit/Playwright
+Protocol Buffer File                          proto                                   Web/gRPC
+Razor Class Library                           razorclasslib               [C#]        Web/Razor/Library/Razor Class Library
+Razor Component                               razorcomponent              [C#]        Web/ASP.NET
+Razor Page                                    page                        [C#]        Web/ASP.NET
+Razor View                                    view                        [C#]        Web/ASP.NET
+Solution File                                 sln,solution                            Solution
+Web Config                                    webconfig                               Config
+Windows Forms App                             winforms                    [C#],VB     Common/WinForms
+Windows Forms Class Library                   winformslib                 [C#],VB     Common/WinForms
+Windows Forms Control Library                 winformscontrollib          [C#],VB     Common/WinForms
+Worker Service                                worker                      [C#],F#     Common/Worker/Web
+WPF Application                               wpf                         [C#],VB     Common/WPF
+WPF Class Library                             wpflib                      [C#],VB     Common/WPF
+WPF Custom Control Library                    wpfcustomcontrollib         [C#],VB     Common/WPF
+WPF User Control Library                      wpfusercontrollib           [C#],VB     Common/WPF
+xUnit Test Project                            xunit                       [C#],F#,VB  Test/xUnit
 ```
 
 In addition to specifying the type of project you want with the `new` command, you can also control various options, such as the programming language for the project and the target folder where it will be created.
@@ -379,9 +372,7 @@ dotnet new console --language F# --output src/api --name NRK.Dotnetskolen.Api
 The template "Console App" was created successfully.
 
 Processing post-creation actions...
-Running 'dotnet restore' on src\api\NRK.Dotnetskolen.Api.fsproj...
-  Determining projects to restore...
-  Restored C:\Dev\nrkno@github.com\dotnetskolen\src\api\NRK.Dotnetskolen.Api.fsproj (in 101 ms).
+Restoring  C:\Dev\nrkno@github.com\dotnetskolen\src\api\NRK.Dotnetskolen.Api.fsproj:
 Restore succeeded.
 ```
 
@@ -543,14 +534,14 @@ Date: Fri Apr 16 13:43:40 2021 +0200
 
 #### See solution suggestions
 
-If you want to see the expected state of the repo after performing the various steps in the course, you can check out the branch with the corresponding name as the section you want to look at. For example, if you want to see how the repo looks after the first step, you can check out the branch `step-1` like this:
+If you want to see the expected state of the repo after performing the various steps in the course, you can check out the branch with the corresponding name as the section you want to look at. For example, if you want to see how the repo looks after the first step, you can check out the branch `en/step-1` like this:
 
 ```bash
-git checkout step-1
+git checkout en/step-1
 ```
 
 ```bash
-Switched to branch 'step-1'
+Switched to branch 'en/step-1'
 ```
 
 ### Step 2 - Create test projects
@@ -562,7 +553,7 @@ Tests are an important part of system development because they help us verify th
 - Unit tests
 - Integration tests
 
-Unit tests ensure that small, isolated pieces of code works as intended, typically testing one function at a time. In this course, we’ll use unit tests to validate the validation rules within our domain.
+Unit tests ensure that small, isolated pieces of code work as intended, typically testing one function at a time. In this course, we’ll use unit tests to validate the validation rules within our domain.
 
 Integration tests, on the other hand, verify that larger parts of the system work as expected, including interactions with external systems. Here, we’ll use integration tests to confirm that the web API behaves according to the [contract we define in step 6](#step-6---define-api-contract).
 
@@ -579,7 +570,7 @@ To create the test projects, we will again use the `dotnet new` command, but thi
 - nUnit
 - MSTest
 
-In this course we will use xUnit. This choice is somewhat arbitrary as all of the frameworks above will suffice for our purpose, which is to show how to set up test projects and get started writing tests. If you want to know more about the different testing frameworks, you can read more about them here: <https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools>
+In this course we will use xUnit. This choice is somewhat arbitrary as all of the frameworks above will suffice for our purpose, namely to show how to set up test projects and get started writing tests. If you want to know more about the different testing frameworks, you can read more about them here: <https://docs.microsoft.com/en-us/dotnet/core/testing/#testing-tools>
 
 #### Creating the unit test project
 
@@ -593,9 +584,7 @@ dotnet new xunit -lang F# -o test/unit -n NRK.Dotnetskolen.UnitTests
 The template "xUnit Test Project" was created successfully.
 
 Processing post-creation actions...
-Running 'dotnet restore' on test/unit/NRK.Dotnetskolen.UnitTests.fsproj...
-  Determining projects to restore...
-  Restored C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj (in 1.31 sec).
+Restoring C:\Dev\nrkno@github.com\dotnetskolen\test\unit\NRK.Dotnetskolen.UnitTests.fsproj:
 Restore succeeded.
 ```
 
@@ -733,9 +722,7 @@ dotnet new xunit -lang F# -o test/integration -n NRK.Dotnetskolen.IntegrationTes
 The template "xUnit Test Project" was created successfully.
 
 Processing post-creation actions...
-Running 'dotnet restore' on test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj...
-  Determining projects to restore...
-  Restored C:\Dev\nrkno@github.com\dotnetskolen\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj (in 580 ms).
+Restoring C:\dev\dotnetskolen\test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj:
 Restore succeeded.
 ```
 
@@ -747,12 +734,12 @@ src
     └── NRK.Dotnetskolen.Api.fsproj
     └── Program.fs
 test
-└── unit
-    └── NRK.Dotnetskolen.UnitTests.fsproj
-    └── Program.fs
-    └── Tests.fs
 └── integration
     └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
     └── Program.fs
     └── Tests.fs
 ```
@@ -807,12 +794,12 @@ src
     └── NRK.Dotnetskolen.Api.fsproj
     └── Program.fs
 test
-└── unit
-    └── NRK.Dotnetskolen.UnitTests.fsproj
-    └── Program.fs
-    └── Tests.fs
 └── integration
     └── NRK.Dotnetskolen.IntegrationTests.fsproj
+    └── Program.fs
+    └── Tests.fs
+└── unit
+    └── NRK.Dotnetskolen.UnitTests.fsproj
     └── Program.fs
     └── Tests.fs
 └── Dotnetskolen.sln
@@ -931,7 +918,7 @@ The image below shows how the "Solution explorer" in Visual Studio displays the 
 
 **Step 4 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-3---create-solution) [⬇ Next step](#step-5---unit-tests-for-the-domain-model)
 
-We are going to create an API to retrieve a simplified electronic program guide (EPG) for various channels on NRK TV. The idea is that the API could deliver the data for a program guide - e.g the one shown here: <https://info.nrk.no/presse/tvguide/>
+We are going to create an API to retrieve a simplified electronic program guide (EPG) for various channels on NRK TV. The idea is that the API could deliver the data for a program guide - e.g. the one shown here: <https://info.nrk.no/presse/tvguide/>
 
 > The model we use for the EPG in this course is simplified compared to [the one used in the PS API](https://webapp-ps-granitt-api-prod-we.azurewebsites.net/swagger/ui/index#/Epg), and is used as an example only.
 
@@ -947,8 +934,6 @@ An EPG can be seen as a list of transmissions, and for our example in this cours
 Now that we have specified our domain, we can model it in F#. Start by creating a new file `Domain.fs` under `src/api`:
 
 ```txt
-└── .config
-    └── ...
 src
 └── api
     └── Domain.fs
@@ -1053,11 +1038,11 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 
 **Step 5 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-4---defining-the-domain-model) [⬇ Next step](#step-6---define-api-contract)
 
-The domain model introduced in [previous step](#step-4---defining-the-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of transmissions, and what fields each transmission contains). In this step, we will implement the validation rules in F#, and verify that we have implemented them correctly using unit tests.
+The domain model introduced in [the previous step](#step-4---defining-the-domain-model) contains both the structure of the EPG, and the validation rules associated with them. So far, we have only modeled the structure of the domain model in F# (that the EPG consists of a list of transmissions, and what fields each transmission contains). In this step, we will implement the validation rules in F#, and verify with unit tests that we have implemented them correctly.
 
 #### Rules in our domain
 
-We want to verify the following rules from our domain:
+We want to ensure the following rules in our domain:
 
 - Title
   - Must consist of 5-100 characters (inclusive)
@@ -1084,7 +1069,7 @@ open Xunit
 [<Theory>]
 [<InlineData("abc12")>]
 [<InlineData(".,-:!")>]
-[<InlineData("ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ")>]
+[<InlineData("ABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJABCDEFGHIJ")>]
 let ``isTitleValid valid title returns true`` (title: string) =
     let isTitleValid = isTitleValid title
 
@@ -1093,7 +1078,7 @@ let ``isTitleValid valid title returns true`` (title: string) =
 [<Theory>]
 [<InlineData("abcd")>]
 [<InlineData("@$%&/")>]
-[<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
+[<InlineData("abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghija")>]
 let ``isTitleValid invalid title returns false`` (title: string) =
     let isTitleValid = isTitleValid title
 
@@ -1289,7 +1274,7 @@ let ``areStartTimeAndEndTimeValid start before end returns true`` () =
     let startTime = DateTimeOffset.Now
     let endTime = startTime.AddMinutes 30.
 
-    let areStartTimeAndEndTimeValid = areStartTimeAndEndTimeValid starttime endtime
+    let areStartTimeAndEndTimeValid = areStartTimeAndEndTimeValid startTime endTime
 
     Assert.True areStartTimeAndEndTimeValid
 ```
@@ -1384,13 +1369,13 @@ To document which operations and responses our API offers, we will create an API
 
 #### Operations
 
-To limit the scope of our API, we are only going to have one operation in it:
+To limit the scope of our API, we are only going to have one operation:
 
 - Retrieve EPG on a given date
 
 #### Responses
 
-The response to this operation will consist of two lists of transmissions, one for each channel in our domain, where each transmission has:
+The response of this operation will consist of two lists of transmissions, one for each channel in our domain, where each transmission has:
 
 - Title - text string that follows the rules defined in [our domain model](#step-4---defining-the-domain-model).
 - Start date and time - text string that follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
@@ -1460,12 +1445,10 @@ Before we define the actual contract of the API in an OpenAPI specification, we 
 
 Above we can see that the response consists of an object with two properties: `nrk1` and `nrk2`, both of which are a list of the transmissions on the respective channel. Each transmission contains a title, as well as a start and end time. Each of the fields are text strings that follow the validation rules we have defined in our domain. `Title` has `pattern` similar to the regular expression we used in `isTitleValid` in `Domain.fs`. `StartTime` and `EndTime` have `format: "date-time"`, which follows the date format in [RFC 3339](https://tools.ietf.org/html/rfc3339#section-5.6).
 
-For now, we'll leave the JSON schema there, serving as documentation of our API. Create a new folder `docs` in your root folder with a new file `epg.schema.json` where you paste the JSON schema above. You should now have the following folder hierarchy:
+For now, we'll leave the JSON schema there, serving as documentation of our API. Create a new folder `schema` in your root folder with a new file `epg.schema.json` where you paste the JSON schema above. You should now have the following folder hierarchy:
 
 ```txt
-└── .config
-    └── ...
-└── docs
+└── schema
     └── epg.schema.json
 └── src
     └── ...
@@ -1476,17 +1459,15 @@ For now, we'll leave the JSON schema there, serving as documentation of our API.
 
 #### OpenAPI contract
 
-Now that we have the format of the content of our response, we can define the Open API specification for our API. Let's start by creating a new file `openapi.json` in the `docs` folder. You should now have the following folder hierarchy:
+Now that we have the format of the content of our response, we can define the Open API specification for our API. Let's start by creating a new file `openapi.json` in the `schema` folder. You should now have the following folder hierarchy:
 
 ```txt
-└── .config
-    └── ...
-└── docs
+└── schema
     └── epg.schema.json
     └── openapi.json
 └── src
     └── ...
-test
+└── test
     └── ...
 └── Dotnetskolen.sln
 ```
@@ -1802,15 +1783,13 @@ In [step-4](#step-4---defining-the-domain-model) we defined our domain model as 
 1. First, the structure of the types in the API may be different than in the domain model. We see this in our case where the domain model has all transmissions, across channels, in one list, while the API contract has one list of transmissions per channel.
 2. Additionally, we are limited to representing data with text in the API since HTTP is a text-based protocol. For example, we use a `DateTimeOffset` to represent start and end times in our domain model, while we use `string` in our OpenAPI contract.
 
-In order for us to translate the domain model to the OpenAPI contract, we will introduce a separate F# type that reflects the types in our OpenAPI contract. In general, types that represent our data as we communicate with other systems are called "data transfer objects", or "DTO".
+In order for us to translate the domain model to the OpenAPI contract, we will introduce separate F# types that reflects the types in our OpenAPI contract. In general, types that represent our data as we communicate with other systems are called "data transfer objects", or "DTO".
 
 Start by creating a file `Dto.fs` in the `src/api` folder:
 
 ```txt
-└── .config
-    └── ...
-└── docs
-    └── ...
+schema
+└── ...
 src
 └── api
     └── Domain.fs
@@ -1819,7 +1798,7 @@ src
     └── Program.fs
 test
 └── ...
-└── Dotnetskolen.sln
+Dotnetskolen.sln
 ```
 
 Paste the content below into `Dto.fs`:
@@ -1868,7 +1847,7 @@ In this step, we'll outline the web API and verify that it exists with an integr
 
 #### Project types
 
-Starting with .NET Core, .NET uses different SDK project types depending on the application you're developing. These project types provide verious functionality for compiling and publishing. Our API and test projects were initially created with the basic `.NET SDK` project type. Since this step requires functionality from the `.NET Web SDK`, we'll change the project types accordingly.
+Starting with .NET Core, .NET uses different SDK project types depending on the application you're developing. These project types provide various functionality for compiling and publishing. Our API and test projects were initially created with the basic `.NET SDK` project type. Since this step requires functionality from the `.NET Web SDK`, we'll change the project types accordingly.
 
 Open the file `src/api/NRK.Dotnetskolen.Api.fsproj`, and change the `Sdk` attribute on the `Project` element from `Microsoft.NET.Sdk` to `Microsoft.NET.Sdk.Web`:
 
@@ -1889,7 +1868,7 @@ Open the file `src/api/NRK.Dotnetskolen.Api.fsproj`, and change the `Sdk` attrib
 </Project>
 ```
 
-Repeat the step above for `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` to change the SDK project type to the integration test project:
+Repeat the step above for `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` to change the SDK project type of the integration test project:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -2320,7 +2299,7 @@ Build succeeded in 8,9s
 
 **Step 9 of 9** - [🔝 Go to top](#-school-of-net) [⬆ Previous step](#step-8---outlining-the-web-api)
 
-In [previous step](#step-8---outlining-the-web-api) we created an outline for the web API by adding a `ping` endpoint with a corresponding integration test. In this step, we will extend the web API with an endpoint to retrieve an EPG. In addition, we will write integration tests to verify that the implementation of the web API adheres to our Open API documentation. We use a test-driven approach by writing an integration test that fails, and then making changes to the API so that the test passes. We continue in this way until we have fully implemented our API.
+In the [previous step](#step-8---outlining-the-web-api) we created an outline for the web API by adding a `ping` endpoint with a corresponding integration test. In this step, we will extend the web API with an endpoint to retrieve an EPG. In addition, we will write integration tests to verify that the implementation of the web API adheres to our Open API documentation. We use a test-driven approach by writing an integration test that fails, and then making changes to the API so that the test passes. We continue in this way until we have fully implemented our API.
 
 #### Test 1 - Verify that the endpoint exists
 
@@ -2477,7 +2456,7 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 Test summary: total: 3; failed: 1; succeeded: 2; skipped: 0; duration: 1,3s
 ```
 
-The new test we added fails because the API does not validate the given date. Let's change the implementation of the web API so that the test passes.
+The new test we added fails because the API does not validate the given date. Let's change the implementation of the web API so the test passes.
 
 ##### Implement HTTP Handler for /epg/{date}
 
@@ -2531,7 +2510,7 @@ module HttpHandlers =
         dateAsString
 ```
 
-Here we create a module `HttpHandlers` in the namespace `NRK.Dotnetskolen.Api`. In the module we have a function `epgHandler`, which takes a text string as input, and for now the function returns the same text string. The return value of `epgHandler` is currently the same as the anonymous function we had in `Program.fs`, but now we are in a better position to extend it and at the same time keeping the code in `Program.fs` readable.
+Here we create a module `HttpHandlers` in the namespace `NRK.Dotnetskolen.Api`. In the module we have a function `epgHandler`, which takes a text string as input, and for now the function returns the same text string. The return value of `epgHandler` is currently the same as the anonymous function we had in `Program.fs`, but now we are in a better position to extend it and at the same time keep the code in `Program.fs` readable.
 
 Open the `HttpHandlers` module in `Program.fs` and call the `epgHandler` function instead of the anonymous function we had:
 
@@ -2593,7 +2572,7 @@ app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler date)) |>
 
 ##### Running the API
 
-Restart the API and see what happens if you go to <http://localhost:5000/epg/2021-01-01> in your browser.
+Restart the API and see what happens if you go to <http://localhost:5000/epg/2025-01-01> in your browser.
 
 ```bash
 dotnet run --project ./src/api/NRK.Dotnetskolen.Api.fsproj
@@ -2615,7 +2594,7 @@ Test summary: total: 3; failed: 0; succeeded: 3; skipped: 0; duration: 1,3s
 
 #### Test 3 - Verify format of EPG response
 
-In the final test, we will verify that the response the API provides follows the format we have specified in our OpenAPI contract.
+In the final test, we will verify that the response from the API follows the format we have specified in our OpenAPI contract.
 
 ##### JsonSchema.Net
 
@@ -2630,7 +2609,7 @@ dotnet add ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj package J
 To verify that the response from our API adheres to the defined contract, we need to include the JsonSchema for our response in the integration test project. We can do this by adding the following to the end of the same `ItemGroup` as `Program.fs` and `Tests.fs` in the integration test project project file:
 
 ```xml
-<Content Include="../../docs/epg.schema.json">
+<Content Include="../../schema/epg.schema.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 </Content>
 ```
@@ -2844,9 +2823,7 @@ For now, we just return an empty list so we can see how we can use `getEpgForDat
 Add the following `open` statement to `Program.fs` in the API project:
 
 ```f#
-...
 open NRK.Dotnetskolen.Api.Services
-...
 ```
 
 Then submit `getEpgForDate` from `NRK.Dotnetskolen.Api.Services` to `epgHandler` in the `createWebApplication` function in `Program.fs` in the API project like this:
@@ -2855,7 +2832,7 @@ Then submit `getEpgForDate` from `NRK.Dotnetskolen.Api.Services` to `epgHandler`
 app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
 ```
 
-Run the web API with the following command, and go to <http://localhost:5000/epg/2021-04-23> to see what the API returns.
+Run the web API with the following command, and go to <http://localhost:5000/epg/2025-02-26> to see what the API returns.
 
 ```bash
 dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
@@ -2942,22 +2919,22 @@ Then we can define some transmissions in a separate list we call `database`:
 let database =
     [
         {
-            Title = "Test Program"
+            Title = "TestProgram"
             Channel = "NRK1"
-            StartTime = "2021-04-12T13:00:00Z"
-            EndTime = "2021-04-12T13:30:00Z"
+            StartTime = "2025-02-26T13:00:00Z"
+            EndTime = "2025-02-26T13:30:00Z"
         }
         {
-            Title = "Test Program"
+            Title = "TestProgram"
             Channel = "NRK2"
-            StartTime = "2021-04-12T14:00:00Z"
-            EndTime = "2021-04-12T15:00:00Z"
+            StartTime = "2025-02-26T14:00:00Z"
+            EndTime = "2025-02-26T15:00:00Z"
         }
         {
-            Title = "Test Program"
+            Title = "TestProgram"
             Channel = "NRK3"
-            StartTime = "2021-04-12T14:00:00Z"
-            EndTime = "2021-04-12T16:30:00Z"
+            StartTime = "2025-02-26T14:00:00Z"
+            EndTime = "2025-02-26T16:30:00Z"
         }
     ]
 ```
@@ -2999,7 +2976,7 @@ let createWebApplication (builder: WebApplicationBuilder) =
 
 Note that above we have called `getEpgForDate` with `getAllTransmissions`, and got a new function in return that takes in a `DateOnly` and returns an `Epg` value. Passing in a subset of the parameters to a function, and getting a function in return that takes in the remaining parameters is called "partial application". You can read more about "partial application" of functions in F# here: <https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/#partial-application-of-arguments>
 
-Run the API with the following command, go to <http://localhost:5000/epg/2021-04-12>, and see what it returns.
+Run the API with the following command, go to <http://localhost:5000/epg/2025-02-26>, and see what it returns.
 
 ```bash
 dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
@@ -3011,7 +2988,7 @@ One problem with the current state of our integration tests is that we have no c
 
 ##### Implement mock of getAllTransmissions
 
-Let's implement our own `getAllTransmissions` function in the integration test project, and have our API use it instead.
+Let's implement our own `getAllTransmissions` function in the integration test project, and have our API use that instead.
 
 Create the file `Mock.fs` in the `/test/integration` folder:
 
@@ -3042,7 +3019,7 @@ Remember to add `Mock.fs` to the project file of the integration test project:
     <Compile Include="Mock.fs" />
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
-    <Content Include="../../docs/epg.schema.json">
+    <Content Include="../../schema/epg.schema.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -3067,39 +3044,39 @@ module Mock =
         [
             // Transmissions back in time
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK1"
                 StartTime = now.AddDays(-10.)
                 EndTime = now.AddDays(-10.).AddMinutes(30.)
             }
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK2"
                 StartTime = now.AddDays(-10.)
                 EndTime = now.AddDays(-10.).AddMinutes(30.)
             }
             // Today's transmissions
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK1"
                 StartTime = now
                 EndTime = now.AddMinutes(30.)
             }
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK2"
                 StartTime = now
                 EndTime = now.AddMinutes(30.)
             }
             // Future transmissions
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK1"
                 StartTime = now.AddDays(10.)
                 EndTime = now.AddDays(10.).AddMinutes(30.)
             }
             {
-                Title = "Test Program"
+                Title = "TestProgram"
                 Channel = "NRK2"
                 StartTime = now.AddDays(10.)
                 EndTime = now.AddDays(10.).AddMinutes(30.)
@@ -3148,7 +3125,7 @@ open NRK.Dotnetskolen.Domain
 ```bash
 let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateOnly -> Epg) =
     let app = builder.Build()
-    app.MapGet("/ping", Func<string>(fun () -> "pong"))) |> ignore
+    app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
     app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
     app
 ```
@@ -3741,23 +3718,23 @@ let getAllTransmissions () : Epg =
 
 #### Step 11 - Graphical representation of OpenAPI documentation
 
-In [step 6](#step-6---define-api-contract) we introduced the OpenAPI contract for our API, and placed it in the `/docs` folder. Currently, the documentation is only available to those who have access to the code repository. To make the contract publically available, we have to publish it somewhere. In this step, we will look at how we can make the OpenAPI contract available as a separate web page in the API using [ReDoc](https://github.com/Redocly/redoc). With ReDoc we can copy an [HTML page from their documentation](https://github.com/Redocly/redoc#tldr) and paste a reference to our OpenAPI documentation, and we will get a nice graphical representation of our API, as shown below:
+In [step 6](#step-6---define-api-contract) we introduced the OpenAPI contract for our API, and placed it in the `/schema` folder. Currently, the documentation is only available to those who have access to the code repository. To make the contract publically available, we have to publish it somewhere. In this step, we will look at how we can make the OpenAPI contract available as a separate web page in the API using [ReDoc](https://github.com/Redocly/redoc). With ReDoc we can copy an [HTML page from their documentation](https://github.com/Redocly/redoc#tldr) and paste a reference to our OpenAPI documentation, and we will get a nice graphical representation of our API, as shown below:
 
 ![redoc](./docs/illustrasjoner/redoc.png)
 
 In short, these are the steps we will take to create our own ReDoc page in our API:
 
-1. Move `docs/epg.schema.json` and `docs/openapi.json` to `src/api/wwwroot/documentation`
+1. Move `schema/epg.schema.json` and `schema/openapi.json` to `src/api/wwwroot/documentation`
 2. Create HTML file `openapi.html` in `src/api/wwwroot` with content from [ReDoc documentation](https://redocly.com/docs/redoc/deployment/html#use-redoc-in-html), and change the reference to the OpenAPI document in `openapi.html`
 3. Configure the web API to serve static files
 
 ##### Moving API documentation
 
-In [step 6](#step-6---define-api-contract) we put the documentation for our API in the `docs` folder. Since we will now expose it on the internet through our API, we need to put it somewhere that is accessible to the web server. Therefore, create a new folder `wwwroot` with a new folder `documentation` in `src/api` like this:
+In [step 6](#step-6---define-api-contract) we put the documentation for our API in the `schema` folder. Since we will now expose it on the internet through our API, we need to put it somewhere that is accessible to the web server. Therefore, create a new folder `wwwroot` with a new folder `documentation` in `src/api` like this:
 
 ```txt
 ...
-└── docs
+└── schema
     └── epg.schema.json
     └── openapi.json
 └── src
@@ -3767,11 +3744,11 @@ In [step 6](#step-6---define-api-contract) we put the documentation for our API 
 ...
 ```
 
-Then move the files `epg.schema.json` and `openapi.json` from `docs` to `src/api/wwwroot/documentation`:
+Then move the files `epg.schema.json` and `openapi.json` from `schema` to `src/api/wwwroot/documentation`:
 
 ```txt
 ...
-└── docs
+└── schema
 └── src
     └── api
         └── wwwroot
@@ -3781,7 +3758,7 @@ Then move the files `epg.schema.json` and `openapi.json` from `docs` to `src/api
 ...
 ```
 
-Finally, you can delete the `docs` folder:
+Finally, you can delete the `schema` folder:
 
 ```txt
 ...
