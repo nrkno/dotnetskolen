@@ -4,6 +4,8 @@ module Program =
 
     open System
     open Microsoft.AspNetCore.Builder
+    open NRK.Dotnetskolen.Api.HttpHandlers
+    open Microsoft.AspNetCore.Http
 
     let createWebApplicationBuilder () =
         WebApplication.CreateBuilder()
@@ -11,6 +13,7 @@ module Program =
     let createWebApplication (builder: WebApplicationBuilder) =
         let app = builder.Build()
         app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
+        app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler date)) |> ignore
         app
 
     let builder = createWebApplicationBuilder()
