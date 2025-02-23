@@ -7,13 +7,17 @@ open System.Threading.Tasks
 open Xunit
 open Microsoft.AspNetCore.TestHost
 open NRK.Dotnetskolen.Api.Program
+open Json.Schema
+open System.Text.Json
+open NRK.Dotnetskolen.Api.Services
+open NRK.Dotnetskolen.IntegrationTests.Mock
 
 let runWithTestClient (test: HttpClient -> Task<unit>) =
     task {
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
 
-        use app = createWebApplication builder
+        use app = createWebApplication builder (getEpgForDate getAllTransmissions)
         do! app.StartAsync()
 
         let testClient = app.GetTestClient()
@@ -48,5 +52,24 @@ let ``Get EPG invalid date returns bad request`` () =
             let url = $"/epg/{invalidDateAsString}"
             let! response = httpClient.GetAsync(url)
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
+        }
+    )
+
+[<Fact>]
+let ``Get EPG today return valid response`` () =
+    runWithTestClient (fun httpClient ->
+        task {
+            let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+            let url = $"/epg/{todayAsString}"
+            let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
+
+            let! response = httpClient.GetAsync(url)
+
+            response.EnsureSuccessStatusCode() |> ignore
+            let! bodyAsString = response.Content.ReadAsStringAsync()
+            let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
+            let isJsonValid = jsonSchema.Evaluate(bodyAsJsonDocument, EvaluationOptions(RequireFormatValidation = true)).IsValid
+
+            Assert.True(isJsonValid)
         }
     )

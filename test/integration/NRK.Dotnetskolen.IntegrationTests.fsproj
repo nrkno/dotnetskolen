@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Mock.fs" />
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
+    <Content Include="../../schema/epg.schema.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

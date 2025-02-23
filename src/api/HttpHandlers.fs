@@ -4,6 +4,8 @@ module HttpHandlers =
     open System
     open System.Globalization
     open Microsoft.AspNetCore.Http
+    open NRK.Dotnetskolen.Domain
+    open NRK.Dotnetskolen.Dto
 
     let parseAsDate (dateAsString : string) : DateOnly option =
         try
@@ -12,7 +14,12 @@ module HttpHandlers =
         with
         | _ -> None
 
-    let epgHandler (dateAsString: string) =
+    let epgHandler (getEpgForDate: DateOnly -> Epg) (dateAsString: string) =
         match parseAsDate dateAsString with
-        | Some date -> Results.Ok date
+        | Some date ->
+            let response = 
+                date
+                |> getEpgForDate
+                |> fromDomain
+            Results.Ok response
         | None -> Results.BadRequest "Invalid date"
