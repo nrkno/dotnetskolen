@@ -3719,7 +3719,7 @@ let getAllTransmissions () : Epg =
 
 #### Step 11 - Graphical representation of OpenAPI documentation
 
-In [step 6](#step-6---define-api-contract) we introduced the OpenAPI contract for our API, and placed it in the `/schema` folder. Currently, the documentation is only available to those who have access to the code repository. To make the contract publically available, we have to publish it somewhere. In this step, we will look at how we can make the OpenAPI contract available as a separate web page in the API using [ReDoc](https://github.com/Redocly/redoc). With ReDoc we can copy an [HTML page from their documentation](https://github.com/Redocly/redoc#tldr) and paste a reference to our OpenAPI documentation, and we will get a nice graphical representation of our API, as shown below:
+In [step 6](#step-6---define-api-contract) we introduced the OpenAPI contract for our API, and placed it in the `/schema` folder. Currently, the documentation is only available to those who have access to the code repository. To make the contract publically available, we have to publish it somewhere. In this step, we will look at how we can make the OpenAPI contract available as a separate web page in the API using [ReDoc](https://github.com/Redocly/redoc). With ReDoc we can copy an [HTML page from their documentation](https://redocly.com/docs/redoc/deployment/html) and paste a reference to our OpenAPI documentation, and we will get a nice graphical representation of our API, as shown below:
 
 ![redoc](./docs/illustrasjoner/redoc.png)
 
@@ -3809,11 +3809,10 @@ Open `openapi.html`, and paste the content shown [in the ReDoc documentation](ht
 ```html
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title>Redoc</title>
     <!-- needed for adaptive design -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
 
@@ -3821,18 +3820,16 @@ Open `openapi.html`, and paste the content shown [in the ReDoc documentation](ht
     Redoc doesn't change outer page styles
     -->
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+      }
     </style>
-</head>
-
-<body>
+  </head>
+  <body>
     <redoc spec-url='http://petstore.swagger.io/v2/swagger.json'></redoc>
     <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"> </script>
-</body>
-
+  </body>
 </html>
 ```
 
