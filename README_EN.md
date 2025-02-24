@@ -12,7 +12,7 @@ This course will guide you step by step through the process of setting up and im
 
 As an example application, we will build a web API in F# to retrieve the electronic program guide (EPG) for NRK TV, along with related unit and integration tests. The idea is that the API could deliver the data for a program guide - e.g the one shown here: <https://info.nrk.no/presse/tvguide/>
 
-> A secondary goal of this repository is that the completed example application (available in the [ferdig-branch](https://github.com/nrkno/dotnetskolen/tree/ferdig)) can serve as a boilerplate repository when setting up a new .NET project.
+> A secondary goal of this repository is that the completed example application (available in the [completed-branch](https://github.com/nrkno/dotnetskolen/tree/en/completed)) can serve as a boilerplate repository when setting up a new .NET project.
 
 ### 💻 Approach
 
@@ -43,7 +43,7 @@ To do this course, you need [.NET 9 SDK](https://dotnet.microsoft.com/download/d
 
 #### 📍 Alternative starting points
 
-This workshop covers a variety of topics, and completing all the steps may take some time. Fortunately, solution suggestions are available for each step, allowing you to start at any point by checking out the branch with the solution for the previous step and continuing from there. Read more about how to [clone this repo](https://github.com/nrkno/dotnetskolen/blob/nnug/docs/en/setup-details.md#-local-setup-of-the-code-optional) and [check out the solution suggestions](#see-solution-suggestions).
+This workshop covers a variety of topics, and completing all the steps may take some time. Fortunately, solution suggestions are available for each step, allowing you to start at any point by checking out the branch with the solution for the previous step and continuing from there. Read more about how to [clone this repo](https://github.com/nrkno/dotnetskolen/blob/main/docs/en/setup-details.md#-local-setup-of-the-code-optional) and [check out the solution suggestions](#see-solution-suggestions).
 
 Below are some recommended alternative starting points, depending on which topics you want to explore further.
 
