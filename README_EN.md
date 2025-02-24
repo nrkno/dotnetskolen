@@ -3293,7 +3293,7 @@ let isTransmissionValid (transmission: Transmission) : bool =
     (areStartTimeAndEndTimeValid transmission.StartTime transmission.EndTime)
 ```
 
-The next thing that fails is the creation of a `Transmission` value in `DataAccess.fs`. Below is the implementation of the function that maps `TransmissionEntity` to `Transmission` taken from [the proposed solution for chapter 9](https://github.com/nrkno/dotnetskolen/blob/steg-9/src/api/DataAccess.fs#L39-L45).
+The next thing that fails is the creation of a `Transmission` value in `DataAccess.fs`. Below is the implementation of the function that maps `TransmissionEntity` to `Transmission` taken from [the proposed solution for chapter 9](https://github.com/nrkno/dotnetskolen/blob/en/step-9/src/api/DataAccess.fs#L40-L46).
 
 ```f#
 let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transmission =
@@ -3319,7 +3319,7 @@ let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transm
 
 Since `Title.create` returns a `Title option`, we need to call the `.Value` function on the return value of `Title.create` to get the `Title` value. Note that if the given title is invalid, the call to `.Value` will throw a `System.NullReferenceException`.
 
-The next thing that fails is the retrieval of the `Title` value from `Transmission` in the `fromDomain` function in `Dto.fs`. Below is the `fromDomain` function as implemented in [the proposed solution for step 9](https://github.com/nrkno/dotnetskolen/blob/steg-9/src/api/Dto.fs#L16-L28).
+The next thing that fails is the retrieval of the `Title` value from `Transmission` in the `fromDomain` function in `Dto.fs`. Below is the `fromDomain` function as implemented in [the proposed solution for step 9](https://github.com/nrkno/dotnetskolen/blob/en/step-9/src/api/Dto.fs#L16-L28).
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
