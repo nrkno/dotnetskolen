@@ -2,7 +2,7 @@
 
 This course assumes that you have some tools installed on your computer. Please review the list below to make sure you have what you need.
 
-> Installing and using Git is optional, but is nice to have if you want to have the guide, and [solution suggestions](https://github.com/nrkno/dotnetskolen#se-l%C3%B8sningsforslag), locally on your computer.
+> Installing and using Git is optional, but is nice to have if you want to have the guide, and [solution suggestions](https://github.com/nrkno/dotnetskolen/blob/main/README_EN.md#see-solution-suggestions), locally on your computer.
 
 ## 🛠️ Tools
 
@@ -82,7 +82,7 @@ Git is a free version control system available for all platforms. If you want to
 
 You can download Git here: [https://git-scm.com/downloads](https://git-scm.com/downloads).
 
-If you are new to Git, it may be helpful to read this article on how to work with changes in a Git repo: [https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository). There are also instructions at the end of the first step](https://github.com/nrkno/dotnetskolen#lagre-endringer-i-git-valgfritt) on how to save changes you make during the course in Git.
+If you are new to Git, it may be helpful to read this article on how to work with changes in a Git repo: [https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository). There are also instructions at the end of the first step](https://github.com/nrkno/dotnetskolen/blob/main/README_EN.md#save-changes-to-git-optional) on how to save changes you make during the course in Git.
 
 ## 💻 Local setup of the code (optional)
 
