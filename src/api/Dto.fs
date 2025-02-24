@@ -1,4 +1,5 @@
 namespace NRK.Dotnetskolen
+open Domain
 
 module Dto =
 
@@ -13,16 +14,18 @@ module Dto =
         Nrk2: TransmissionDto list
     }
 
-    let fromDomain (domain: Domain.Epg) : EpgDto =
-        let transmissionsForChannel channel = 
+    let fromDomain (domain: Domain.Epg): EpgDto =
+        let mapTransmissionsForChannel (channel: string) =
             domain
-            |> List.filter(fun t -> t.Channel = channel)
-            |> List.map (fun (t: Domain.Transmission) -> {
-                Title = t.Title
-                StartTime = t.StartTime.ToString("o")
-                EndTime = t.EndTime.ToString("o")
-            })
-        {
-        Nrk1 = transmissionsForChannel "NRK1"
-        Nrk2 = transmissionsForChannel "NRK2"
+            |> List.filter (fun t -> Channel.value t.Channel = channel)
+            |> List.map (fun t ->
+                { 
+                    Title = Title.value t.Title
+                    StartTime = (AirTime.startTime t.AirTime).ToString("o")
+                    EndTime = (AirTime.endTime t.AirTime).ToString("o")
+                })
+
+        { 
+            Nrk1 = mapTransmissionsForChannel "NRK1"
+            Nrk2 = mapTransmissionsForChannel "NRK2" 
         }

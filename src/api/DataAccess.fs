@@ -37,18 +37,13 @@ module DataAccess =
         ]
     
 
-    let fromTransmissionEntity (transmissionEntity: TransmissionEntity): Transmission = 
-        {
-            Title = transmissionEntity.Title
-            Channel = transmissionEntity.Channel
-            StartTime = DateTimeOffset.Parse(transmissionEntity.StartTime)
-            EndTime = DateTimeOffset.Parse(transmissionEntity.EndTime)
-        }
+    let fromTransmissionEntity (transmissionEntity: TransmissionEntity): Transmission option = 
+        Transmission.create transmissionEntity.Title transmissionEntity.Channel (DateTimeOffset.Parse(transmissionEntity.StartTime)) (DateTimeOffset.Parse(transmissionEntity.EndTime))
 
     let fromEpgEntity (epgEntity: EpgEntity): Epg = 
         epgEntity
-        |> List.map fromTransmissionEntity
-        |> List.filter isTransmissionValid
+        |> List.choose fromTransmissionEntity
+        
     let getAllTransmissions () : Epg =
         database
         |> fromEpgEntity

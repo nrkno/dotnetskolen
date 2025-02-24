@@ -66,25 +66,21 @@ let ``areStartTimeAndEndTimeValid start equal end returns false`` () =
     Assert.False areStartTimeAndEndTimeValid
 
 [<Fact>]
-let ``isTransmissionValid valid transmission returns true`` () =
-    let transmission = 
-        {
-            Title = "Blackshore"
-            Channel = "NRK1"
-            StartTime = DateTimeOffset.Now
-            EndTime = DateTimeOffset.Now.AddHours 2
-        }
-    let isTransmissionValid = isTransmissionValid transmission
-    Assert.True isTransmissionValid
+let ``Transmission.create valid transmission returns Some`` () =
+    let now = DateTimeOffset.Now
+    let transmission = Transmission.create "Blackshore" "NRK1" now (now.AddMinutes 30.)
+
+    match transmission with
+    | Some t ->
+        Assert.Equal("Blackshore", Title.value t.Title)
+        Assert.Equal("NRK1", Channel.value t.Channel)
+        Assert.Equal(now, AirTime.startTime t.AirTime)
+        Assert.Equal(now.AddMinutes 30., AirTime.endTime t.AirTime)
+    | None -> Assert.True false
 
 [<Fact>]
-let ``isTransmissionValid invalid transmission returns false`` () =
-    let transmission = 
-        {
-            Title = "Yes & No"
-            Channel = "nrk3"
-            StartTime = DateTimeOffset.Now
-            EndTime = DateTimeOffset.Now.AddHours -2
-        }
-    let isTransmissionValid = isTransmissionValid transmission
-    Assert.False isTransmissionValid
+let ``Transmission.create invalid transmission returns None`` () =
+    let now = DateTimeOffset.Now
+    let transmission = Transmission.create "@$%&/" "nrk3" now (now.AddMinutes 30.)
+
+    Assert.True transmission.IsNone

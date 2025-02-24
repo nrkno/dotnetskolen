@@ -7,44 +7,16 @@ module Mock =
 
     let getAllTransmissions () : Epg =
         let now = DateTimeOffset.Now
+        let past = now.AddDays(-10.)
+        let future = now.AddDays(10.)
         [
             // Transmissions back in time
-            {
-                Title = "TestProgram"
-                Channel = "NRK1"
-                StartTime = now.AddDays(-10.)
-                EndTime = now.AddDays(-10.).AddMinutes(30.)
-            }
-            {
-                Title = "TestProgram"
-                Channel = "NRK2"
-                StartTime = now.AddDays(-10.)
-                EndTime = now.AddDays(-10.).AddMinutes(30.)
-            }
+            (Transmission.create "TestProgram" "NRK1" past (past.AddMinutes(30.))).Value
+            (Transmission.create "TestProgram" "NRK2" past (past.AddMinutes(30.))).Value
             // Today's transmissions
-            {
-                Title = "TestProgram"
-                Channel = "NRK1"
-                StartTime = now
-                EndTime = now.AddMinutes(30.)
-            }
-            {
-                Title = "TestProgram"
-                Channel = "NRK2"
-                StartTime = now
-                EndTime = now.AddMinutes(30.)
-            }
-            // Future transmissions
-            {
-                Title = "TestProgram"
-                Channel = "NRK1"
-                StartTime = now.AddDays(10.)
-                EndTime = now.AddDays(10.).AddMinutes(30.)
-            }
-            {
-                Title = "TestProgram"
-                Channel = "NRK2"
-                StartTime = now.AddDays(10.)
-                EndTime = now.AddDays(10.).AddMinutes(30.)
-            }
+            (Transmission.create "TestProgram" "NRK1" now (now.AddMinutes(30.))).Value
+            (Transmission.create "TestProgram" "NRK2" now (now.AddMinutes(30.))).Value
+            // Forward transmissions
+            (Transmission.create "TestProgram" "NRK1" future (future.AddMinutes(30.))).Value
+            (Transmission.create "TestProgram" "NRK2" future (future.AddMinutes(30.))).Value
         ]
