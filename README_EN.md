@@ -3228,7 +3228,7 @@ Add the code below to `Domain.fs`, between the `open` statements and `type Trans
 type Title = private Title of string
 
 let isTitleValid (title: string) : bool =
-    let tittelRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+    let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
     titleRegex.IsMatch(title)
 
 module Title =
@@ -3282,7 +3282,7 @@ The first thing that fails is the `isTransmissionValid` function in `Domain.fs`:
 let isTransmissionValid (transmission: Transmission) : bool =
     (isTitleValid transmission.Title) &&
     (isChannelValid transmission.Channel) &&
-    (areStartAndEndTimeValid transmission.StartTime transmission.EndTime)
+    (areStartTimeAndEndTimeValid transmission.StartTime transmission.EndTime)
 ```
 
 Here we call `isTitlevalid` with `transmission.Title`. Since `isTitleValid` takes an argument of type `string`, and `transmission.Title` now has the type `Title`, the type check fails. Because we have made the constructor for `Title` private, the only way to create a `Title` value is to use the `create` function in the `Title` module. Since the `create` function only returns a `Title` value if the given title is valid, we know that the `Title` field in a `Transmission` value must be valid. Thus, we can remove the check for whether the title is valid in `isTransmissionValid`, like this:
@@ -3290,7 +3290,7 @@ Here we call `isTitlevalid` with `transmission.Title`. Since `isTitleValid` take
 ```f#
 let isTransmissionValid (transmission: Transmission) : bool =
     (isChannelValid transmission.Channel) &&
-    (areStartAndEndTimeValid transmission.StartTime transmission.EndTime)
+    (areStartTimeAndEndTimeValid transmission.StartTime transmission.EndTime)
 ```
 
 The next thing that fails is the creation of a `Transmission` value in `DataAccess.fs`. Below is the implementation of the function that maps `TransmissionEntity` to `Transmission` taken from [the proposed solution for chapter 9](https://github.com/nrkno/dotnetskolen/blob/steg-9/src/api/DataAccess.fs#L39-L45).
@@ -3323,13 +3323,13 @@ The next thing that fails is the retrieval of the `Title` value from `Transmissi
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
-    let mapSendsForChannel (channel : string) =
+    let mapTransmissionsForChannel (channel : string) =
         domain
-            |> List.filter (fun s -> s.Channel = channel)
-            |> List.map (fun s -> {
-                Title = s.Title
-                StartTime = s.StartTime.ToString("o")
-                EndTime = s.EndTime.ToString("o")
+            |> List.filter (fun t -> t.Channel = channel)
+            |> List.map (fun t -> {
+                Title = t.Title
+                StartTime = t.StartTime.ToString("o")
+                EndTime = t.EndTime.ToString("o")
             })
     {
         Nrk1 = mapTransmissionsForChannel "NRK1"
@@ -3341,13 +3341,13 @@ Here we are trying to set the `Title` value of the `TransmissionDto` type to a `
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
-    let mapSendsForChannel (channel : string) =
+    let mapTransmissionsForChannel (channel : string) =
         domain
-            |> List.filter (fun s -> s.Channel = channel)
-            |> List.map (fun s -> {
-                Title = Domain.Title.value s.Title
-                StartTime = s.StartTime.ToString("o")
-                EndTime = s.EndTime.ToString("o")
+            |> List.filter (fun t -> t.Channel = channel)
+            |> List.map (fun t -> {
+                Title = Domain.Title.value t.Title
+                StartTime = t.StartTime.ToString("o")
+                EndTime = t.EndTime.ToString("o")
             })
     {
         Nrk1 = mapTransmissionsForChannel "NRK1"
@@ -3415,12 +3415,12 @@ type AirTime = private {
         EndTime: DateTimeOffset
     }
 
-  let areStartAndEndTimeValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
+  let areStartTimeAndEndTimeValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
       startTime < endTime
 
   module AirTime =
       let create (startTime: DateTimeOffset) (endTime: DateTimeOffset) : AirTime option =
-          if areStartAndEndTimeValid starttime endtime then
+          if areStartTimeAndEndTimeValid startTime endTime then
               {
                   StartTime = startTime
                   EndTime = endTime
@@ -3429,11 +3429,11 @@ type AirTime = private {
           else
               None
 
-      let startTime(airTime: AirTime) = airTime.StartTime
-      let endTime(airTime: AirTime) = airTime.EndTime
+      let startTime (airTime: AirTime) = airTime.StartTime
+      let endTime (airTime: AirTime) = airTime.EndTime
 ```
 
-Here we have defined a sum type `AirTime`, which contains both start and end times. Notice that the `create` function takes in both of these, and uses the `areStartAndEndTimeValid` function to check whether they are valid or not, before creating a `AirTime` value. Notice that we have not created a `value` function here, but instead created a `startTime` and an `endTime` function, both of which take in a `AirTime` value, and return the respective value from the `AirTime` value.
+Here we have defined a sum type `AirTime`, which contains both start and end times. Notice that the `create` function takes in both of these, and uses the `areStartTimeAndEndTimeValid` function to check whether they are valid or not, before creating a `AirTime` value. Notice that we have not created a `value` function here, but instead created a `startTime` and an `endTime` function, both of which take in a `AirTime` value, and return the respective value from the `AirTime` value.
 
 ###### Using AirTime in Transmission
 
@@ -3453,10 +3453,10 @@ Here we see that we use `AirTime` instead of `DateTimeOffset` for the start and 
 module Transmission =
     let create (title: string) (channel: string) (startTime: DateTimeOffset) (endTime: DateTimeOffset) : Transmission option =
         let title = Title.create title
-        let channel = Channel.createchannel
-        let airTime = AirTime.create starttime endtime
+        let channel = Channel.create channel
+        let airTime = AirTime.create startTime endTime
 
-        if title.IsNone || chanchannelnel.IsNone || airTime.IsNone then
+        if title.IsNone || channel.IsNone || airTime.IsNone then
             None
         else
             Some {
@@ -3481,7 +3481,7 @@ module Domain =
     type Title = private Title of string
 
     let isTitleValid (title: string) : bool =
-        let tittelRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+        let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
         titleRegex.IsMatch(title)
 
     module Title =
@@ -3514,12 +3514,12 @@ module Domain =
         EndTime: DateTimeOffset
     }
 
-    let areStartAndEndTimeValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
+    let areStartTimeAndEndTimeValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
         startTime < endTime
 
     module AirTime =
         let create (startTime: DateTimeOffset) (endTime: DateTimeOffset) : AirTime option =
-            if areStartAndEndTimeValid starttime endtime then
+            if areStartTimeAndEndTimeValid startTime endTime then
                 {
                     StartTime = startTime
                     EndTime = endTime
@@ -3528,8 +3528,8 @@ module Domain =
             else
                 None
 
-        let starttime(airTime: AirTime) = airTime.StartTime
-        let endtime(airTime: AirTime) = airTime.EndTime
+        let startTime (airTime: AirTime) = airTime.StartTime
+        let endTime (airTime: AirTime) = airTime.EndTime
 
     type Transmission = {
         Title: Title
@@ -3543,7 +3543,7 @@ module Domain =
         let create (title: string) (channel: string) (startTime: DateTimeOffset) (endTime: DateTimeOffset) : Transmission option =
             let title = Title.create title
             let channel = Channel.create channel
-            let airTime = AirTime.create starttime endtime
+            let airTime = AirTime.create startTime endTime
 
             if title.IsNone || channel.IsNone || airTime.IsNone then
                 None
@@ -3575,7 +3575,7 @@ Let's start with the `transmissionEntityToDomain` function in `DataAccess.fs`:
 ```f#
 let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transmission =
     {
-        Transmission.Title = (Title.create s.Title).Value
+        Transmission.Title = (Title.create transmissionEntity.Title).Value
         Channel = transmissionEntity.Channel
         StartTime = DateTimeOffset.Parse(transmissionEntity.StartTime)
         EndTime = DateTimeOffset.Parse(transmissionEntity.EndTime)
@@ -3591,20 +3591,19 @@ let transmissionEntityToDomain (transmissionEntity: TransmissionEntity) : Transm
 let epgEntityToDomain (epgEntity: EpgEntity) : Epg =
     epgEntity
     |> List.map transmissionEntityToDomain
-    |> List.filter (fun s -> s.IsSome)
-    |> List.map (fun s -> s.Value)
+    |> List.filter (fun t -> t.IsSome)
+    |> List.map (fun t -> t.Value)
 ```
 
-Above we call `transmissionEntityToDomain` for each transmission in `EpgEntity` that we get into `epgEntityToDomain`. `transmissionEntityToDomain` in turn calls `Transmission.create`. Remember that the `Transmission.create` function returns a `Transmission option`, so `transmissionEntityToDomain` will return `None` for invalid `TransmissionEntity` values. To filter out these we can call `List.filter (fun e -> e.IsSome)` followed by `List.map (fun s -> s.Value)` to extract the `Transmission` value itself from the `Transmission option`. Alternatively, you can call `List.choose id` like this:
+Above we call `transmissionEntityToDomain` for each transmission in `EpgEntity` that we get into `epgEntityToDomain`. `transmissionEntityToDomain` in turn calls `Transmission.create`. Remember that the `Transmission.create` function returns a `Transmission option`, so `transmissionEntityToDomain` will return `None` for invalid `TransmissionEntity` values. To filter out these we can call `List.filter (fun t -> t.IsSome)` followed by `List.map (fun t -> t.Value)` to extract the `Transmission` value itself from the `Transmission option`. Alternatively, you can call `List.choose id` like this:
 
 ```f#
 let epgEntityToDomain (epgEntity: EpgEntity) : Epg =
     epgEntity
-    |> List.map transmissionEntityToDomain
-    |> List.choose id
+    |> List.choose transmissionEntityToDomain
 ```
 
-> `List.choose` takes a function `f`, and returns a list with the internal values ​​of the entries in the list where `f` returns `Some`. `id` is a built-in function in F# that returns whatever is given as input. By combining `List.choose` with the `id` function, we achieve the same thing as we did with `List.filter (fun s -> s.IsSome)` and `List.map (fun s -> s.Value)` one after the other.
+> `List.choose` takes a function `f`, and returns a list with the internal values ​​of the entries in the list where `f` returns `Some`, so by using `List.choose`, we achieve the same thing as we did with `List.filter (fun t -> t.IsSome)` and `List.map (fun t -> t.Value)` one after the other.
 
 Also notice that in the code above we removed `List.filter (fun d -> isTransmissionValid d)`, thereby moving the responsibility for validating a `Transmission` value from the `transmissionEntityToDomain` function in `DataAccess.fs` to the `Transmission.create` function in `Domain.fs`.
 
@@ -3614,13 +3613,13 @@ The `fromDomain` function in `Dto.fs` also fails as it cannot extract the `Start
 
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
-    let mapSendsForChannel (channel : string) =
+    let mapTransmissionsForChannel (channel : string) =
         domain
-            |> List.filter (fun s -> (Domain.Channel.value s.Channel) = channel)
-            |> List.map (fun s -> {
-                Title = Domain.Title.value s.Title
-                StartTime = s.StartTime.ToString("o")
-                EndTime = s.EndTime.ToString("o")
+            |> List.filter (fun t -> (Domain.Channel.value t.Channel) = channel)
+            |> List.map (fun t -> {
+                Title = Domain.Title.value t.Title
+                StartTime = t.StartTime.ToString("o")
+                EndTime = t.EndTime.ToString("o")
             })
     {
         Nrk1 = mapTransmissionsForChannel "NRK1"
@@ -3634,19 +3633,21 @@ The start and end times are now stored in the sum type `AirTime`, so retrieving 
 open Domain
 ...
 let fromDomain (domain: Domain.Epg): EpgDto =
-    let mapSendsForChannel (channel: string) =
+    let mapTransmissionsForChannel (channel: string) =
         domain
-        |> List.filter (fun s -> Channel.value s.Channel = channel)
-        |> List.map (fun s ->
-            { Title = Title.value s.Title
-              StartTime = (AirTime.startTime s.AirTime).ToString("o")
-              EndTime = (AirTime.endTime s.AirTime).ToString("o") })
+        |> List.filter (fun t -> Domain.Channel.value t.Channel = channel)
+        |> List.map (fun t ->
+            { Title = Title.value t.Title
+              StartTime = (AirTime.startTime t.AirTime).ToString("o")
+              EndTime = (AirTime.endTime t.AirTime).ToString("o") })
 
-    { Nrk1 = mapTransmissionsForChannel "NRK1"
-      Nrk2 = mapTransmissionsForChannel "NRK2" }
+    {
+        Nrk1 = mapTransmissionsForChannel "NRK1"
+        Nrk2 = mapTransmissionsForChannel "NRK2"
+    }
 ```
 
-We retrieve the start and end times by calling `AirTime.startTime` and `AirTime.endTime` respectively with `s.AirTime` as input.
+We retrieve the start and end times by calling `AirTime.startTime` and `AirTime.endTime` respectively with `t.AirTime` as input.
 
 ###### Fix getEpgForDate
 
@@ -3654,8 +3655,8 @@ In the `getEpgForDate` function in `Services.fs` we filter transmissions based o
 
 ```f#
 let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateOnly) : Epg =
-  getAllTransmissions()
-  |> List.filter (fun s -> s.Starttidspunkt.Date.Date = date.Date)
+    getAllTransmissions()
+    |> List.filter(fun t -> DateOnly.FromDateTime t.StartTime.Date = date)
 ```
 
 As we have introduced a new way to retrieve the startTime from a transmission, we need to update `getEpgForDate` to reflect this:
@@ -3663,10 +3664,10 @@ As we have introduced a new way to retrieve the startTime from a transmission, w
 ```f#
 let getEpgForDate (getAllTransmissions : unit -> Epg) (date : DateOnly) : Epg =
     getAllTransmissions()
-    |> List.filter (fun s -> (AirTime.startTime s.AirTime).Date.Date = date.Date)
+    |> List.filter(fun t -> DateOnly.FromDateTime (AirTime.startTime t.AirTime).Date = date)
 ```
 
-Instead of retrieving the start time directly, we call `AirTime.startTime` with `s.AirTime` as input.
+Instead of retrieving the start time directly, we call `AirTime.startTime` with `t.AirTime` as input.
 
 ###### Fix unit tests
 
@@ -3683,7 +3684,7 @@ let ``Transmission.create valid transmission returns Some`` () =
         Assert.Equal("Dagsrevyen", Title.value t.Title)
         Assert.Equal("NRK1", Channel.value t.Channel)
         Assert.Equal(now, AirTime.startTime t.AirTime)
-        Assert.Equal(now.AddMinutes 30., AirTime.EndTime t.AirTime)
+        Assert.Equal(now.AddMinutes 30., AirTime.endTime t.AirTime)
     | None -> Assert.True false
 
 [<Fact>]
