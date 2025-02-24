@@ -1,0 +1,46 @@
+Welcome to Dotnetskolen!
+========================
+
+Introduction
+------------
+### Welcome!
+- We're Heidi, Matias & Teodor 👋
+    - Shutout to Thomas! (By him a beer at TDC 🍻)
+- How did this workshop come about?
+
+### Learning goals
+This F# workshop is a bit different, in that it focuses on illustrating "real world" use of F#, over diving into the intricacies of the F# language. By participating in the workshop, we hope that you'll learn about:
+- How to create .NET APIs with F# and ASP.NET Core.
+- How to structure code with F# modules.
+- How to leverage F# in order to create domain models, and validate data into domain models.
+- How to create unit and integration tests with F#.
+
+### Agenda
+- 16:30 - Introduction to the workshop
+- 16:50 - Workshop start
+- 18:15 - Epilogue
+
+### Where to start?
+The workshop have different [alternative starting points](README_EN.md#-alternative-starting-points). Your free to pick the starting point that best suits your interests, and level of .NET experience.
+
+For beginners, we recommend starting with [Project and solution setup with .NET CLI](README_EN.md#project-and-solution-setup-with-net-cli), and then following each step in sequence.
+
+For more experienced .NET developers, we suggest starting with [Domain Modeling and Unit Tests](README_EN.md#domain-modeling-and-unit-tests).
+
+#### Solution suggestions
+Each step in the workshop, have a corresponding branch, containing a solution suggestion with all code required to complete that step. The branches have the format `en/step-n` or `steg-n`, where n is the step-number, and `en/` indicates that the solution suggestion is written in English.
+
+The solution suggestions can be used in two ways:
+1. If you're stuck working on a given workshop step, you can use the corresponding solution suggestion to guide your work.
+2. If you're starting from one of the later steps in the workshop, you can check out the solution suggestion to the previous step, in order to get a starting point.
+
+Epilogue
+--------
+- Quick question to the room: How did it go?
+    - Did F# leave you with any particular impressions?
+    - Were the steps easy to follow?
+- Stories about starting with F# at work
+    - The one about writing the domain model in F#
+    - The one about writing F# tests
+- Any questions?
+
