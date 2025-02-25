@@ -461,7 +461,7 @@ Now that you have completed the first step in the course, it is a good time to c
 
 ##### See changes
 
-Given that you followed the guide to [set up the code locally](https://github.com/nrkno/dotnetskolen/blob/nnug/docs/en/setup-details.md#-local-setup-of-the-code-optional) before you started coding, you can run the following command to see what changes have been made to the repo:
+Given that you followed the guide to [set up the code locally](https://github.com/nrkno/dotnetskolen/blob/main/docs/en/setup-details.md#-local-setup-of-the-code-optional) before you started coding, you can run the following command to see what changes have been made to the repo:
 
 ```bash
 git status
