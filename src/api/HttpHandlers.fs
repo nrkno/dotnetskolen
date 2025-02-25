@@ -17,7 +17,7 @@ module HttpHandlers =
 
     let epgHandler (getEpgForDate: DateOnly -> Epg) (dateAsString: string) =
         match (parseAsDate dateAsString) with
-        | Some date -> 
+        | Some date ->
             let response =
                 date
                 |> getEpgForDate
