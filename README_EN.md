@@ -83,7 +83,7 @@ If you are interested in .NET 9's hosting model, Minimal API, and how you can te
 For even more challenges, check out these tasks:
 
 - [Step 10 - Follow principles of domain-driven design](#step-10---follow-principles-of-domain-driven-design)
-- [Step 11 - Graphical representation of OpenAPI documentation](#step-11---graphic-presentation-of-openapi-documentation)
+- [Step 11 - Graphical representation of OpenAPI documentation](#step-11---graphical-representation-of-openapi-documentation)
 
 ### ❓ Questions
 
@@ -114,6 +114,8 @@ Do you have feedback on the course? Please create a thread for it here:
 
 - [@heidisu](https://github.com/heidisu) - Idea and quality assurance
 - [@thomaswolff](https://github.com/thomaswolff) - Author
+- [@matiasp](https://github.com/matiasp) - Translation and improvements
+- [@teodor-elstad](https://github.com/teodor-elstad) - Translation and improvements
 
 ### 🙌 Thank you
 

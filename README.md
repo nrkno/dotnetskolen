@@ -114,6 +114,8 @@ Har du tilbakemeldinger til kurset? Opprett gjerne en tråd for det her:
 
 - [@heidisu](https://github.com/heidisu) - Idé og kvalitetssikring
 - [@thomaswolff](https://github.com/thomaswolff) - Primus motor og forfatter
+- [@matiasp](https://github.com/matiasp) - Oversettelse og videreutvikling
+- [@teodor-elstad](https://github.com/teodor-elstad) - Oversettelse og videreutvikling
 
 ### 🙌 Takk
 
