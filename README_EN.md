@@ -259,14 +259,14 @@ dotnet new list
 ```
 
 ```bash
-These templates matched your input: 
+These templates matched your input:
 
 Template Name                                 Short Name                  Language    Tags
 --------------------------------------------  --------------------------  ----------  -------------------------------------
 API Controller                                apicontroller               [C#]        Web/ASP.NET
 ASP.NET Core Empty                            web                         [C#],F#     Web/Empty
 ASP.NET Core gRPC Service                     grpc                        [C#]        Web/gRPC/API/Service
-ASP.NET Core Web API                          webapi                      [C#],F#     Web/WebAPI/Web API/API/Service       
+ASP.NET Core Web API                          webapi                      [C#],F#     Web/WebAPI/Web API/API/Service
 ASP.NET Core Web API (native AOT)             webapiaot                   [C#]        Web/Web API/API/Service
 ASP.NET Core Web App (Model-View-Controller)  mvc                         [C#],F#     Web/MVC
 ASP.NET Core Web App (Razor Pages)            webapp,razor                [C#]        Web/MVC/Razor Pages
@@ -1810,16 +1810,16 @@ namespace NRK.Dotnetskolen
 
 module Dto =
 
-  type TransmissionDto = {
-      Title: string
-      StartTime: string
-      EndTime: string
-  }
+    type TransmissionDto = {
+        Title: string
+        StartTime: string
+        EndTime: string
+    }
 
-  type EpgDto = {
-    Nrk1: TransmissionDto list
-    Nrk2: TransmissionDto list
-  }
+    type EpgDto = {
+        Nrk1: TransmissionDto list
+        Nrk2: TransmissionDto list
+    }
 ```
 
 Just like when we [created the domain model](#step-4---defining-the-domain-model), we need to add `Dto.fs` to the API project's project file:
@@ -1873,17 +1873,26 @@ Open the file `src/api/NRK.Dotnetskolen.Api.fsproj`, and change the `Sdk` attrib
 Repeat the step above for `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` to change the SDK project type of the integration test project:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
 </Project>
 ```
 
@@ -3010,13 +3019,14 @@ test
 Remember to add `Mock.fs` to the project file of the integration test project:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="Mock.fs" />
     <Compile Include="Tests.fs" />
@@ -3025,9 +3035,21 @@ Remember to add `Mock.fs` to the project file of the integration test project:
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="JsonSchema.Net" Version="7.3.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\api\NRK.Dotnetskolen.Api.fsproj" />
   </ItemGroup>
+
 </Project>
 ```
 
