@@ -112,8 +112,8 @@ Do you have feedback on the course? Please create a thread for it here:
 
 ### 👩👨 Contributors
 
-- [@heidisu](https://github.com/heidisu) - Idea and quality assurance
 - [@thomaswolff](https://github.com/thomaswolff) - Author
+- [@heidisu](https://github.com/heidisu) - Idea and quality assurance
 - [@matiasp](https://github.com/matiasp) - Translation and improvements
 - [@teodor-elstad](https://github.com/teodor-elstad) - Translation and improvements
 
