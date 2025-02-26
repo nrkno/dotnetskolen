@@ -3049,7 +3049,7 @@ Husk å legg til `Mock.fs` i prosjektfilen til integrasjonstestprosjektet:
     <Compile Include="Mock.fs" />
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
-    <Content Include="../../schema/epg.schema.json">
+    <Content Include="../../docs/epg.schema.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
