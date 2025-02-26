@@ -961,7 +961,7 @@ Lim inn innholdet under i `Domain.fs`:
 ```f#
 namespace NRK.Dotnetskolen
 
-module Domain = 
+module Domain =
 
     open System
 
@@ -1040,7 +1040,7 @@ dotnet run --project src/api/NRK.Dotnetskolen.Api.fsproj
 ```bash
 [{ Tittel = "Dagsrevyen"
    Kanal = "NRK1"
-   Starttidspunkt = 16.04.2021 19:00:00 +02:00   
+   Starttidspunkt = 16.04.2021 19:00:00 +02:00
    Sluttidspunkt = 16.04.2021 19:30:00 +02:00 }]
 ```
 
@@ -1106,7 +1106,7 @@ dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj
 ```
 
 ```bash
-dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj     [11:56:17] 
+dotnet test test/unit/NRK.Dotnetskolen.UnitTests.fsproj     [11:56:17]
 Restore complete (0,4s)
   NRK.Dotnetskolen.UnitTests failed with 2 error(s) (2,0s)
     C:\Dev\github.com\nrkno\dotnetskolen\test\unit\Tests.fs(9,25): error FS0039: The value or constructor 'isTittelValid' is not defined.
@@ -1826,16 +1826,16 @@ namespace NRK.Dotnetskolen
 
 module Dto =
 
-  type SendingDto = {
-      Tittel: string
-      Starttidspunkt: string
-      Sluttidspunkt: string
-  }
+    type SendingDto = {
+        Tittel: string
+        Starttidspunkt: string
+        Sluttidspunkt: string
+    }
 
-  type EpgDto = {
-    Nrk1: SendingDto list
-    Nrk2: SendingDto list
-  }
+    type EpgDto = {
+        Nrk1: SendingDto list
+        Nrk2: SendingDto list
+    }
 ```
 
 På samme måte som da vi [opprettet domenemodellen](#steg-4---definere-domenemodell), må vi legge til `Dto.fs` i prosjektfilen til API-prosjektet:
@@ -1889,17 +1889,26 @@ Fra og med .NET Core opererer .NET med ulike SDK-prosjekttyper avhengig av hva s
 Gjenta steget over for `test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj` for å endre SDK-prosjekttypen til integrasjonstestprosjektet:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
 </Project>
 ```
 
@@ -1951,7 +1960,7 @@ Trykk `Ctrl+C` for å stoppe hosten:
 ```
 
 ```bash
-info: Microsoft.Hosting.Lifetime[0]  
+info: Microsoft.Hosting.Lifetime[0]
       Application is shutting down...
 ```
 
@@ -2147,7 +2156,7 @@ For å kunne referere til de to nye funksjonene vi lagde i API-prosjektet, `crea
 ```f#
 namespace NRK.Dotnetskolen.Api
 
-module Program = 
+module Program =
 
     open System
     open Microsoft.AspNetCore.Builder
@@ -2180,7 +2189,7 @@ open Xunit
 open Microsoft.AspNetCore.TestHost
 open NRK.Dotnetskolen.Api.Program
 
-let runWithTestClient (test: HttpClient -> Task<unit>) = 
+let runWithTestClient (test: HttpClient -> Task<unit>) =
     task {
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
@@ -2194,7 +2203,7 @@ let runWithTestClient (test: HttpClient -> Task<unit>) =
 
 [<Fact>]
 let ``Get "ping" returns "pong"`` () =
-    runWithTestClient (fun httpClient -> 
+    runWithTestClient (fun httpClient ->
         task {
             let! response = httpClient.GetStringAsync("ping")
             Assert.Equal(response, "pong")
@@ -2235,7 +2244,7 @@ open NRK.Dotnetskolen.Api.Program
 Deretter definerer vi en funksjon `runWithTestClient`. Hensikten med denne funksjonen er å samle koden som konfigurerer testserveren og henter ut `HttpClient`-objektet som kan sende HTTP-forespørsler til denne.
 
 ```f#
-let runWithTestClient (test: HttpClient -> Task<unit>) = 
+let runWithTestClient (test: HttpClient -> Task<unit>) =
     task {
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
@@ -2271,7 +2280,7 @@ Til slutt definerer vi en test `Get "ping" returns "pong"` som kaller `runWithTe
 ```f#
 [<Fact>]
 let ``Get "ping" returns "pong"`` () =
-    runWithTestClient (fun httpClient -> 
+    runWithTestClient (fun httpClient ->
         task {
             let! response = httpClient.GetStringAsync("/ping")
             Assert.Equal(response, "pong")
@@ -2291,20 +2300,20 @@ dotnet test ./test/integration/NRK.Dotnetskolen.IntegrationTests.fsproj
 
 ```bash
 Restore complete (0,5s)
-  NRK.Dotnetskolen.Api succeeded (3,0s) → src\api\bin\Debug\net9.0\NRK.Dotnetskolen.Api.dll 
+  NRK.Dotnetskolen.Api succeeded (3,0s) → src\api\bin\Debug\net9.0\NRK.Dotnetskolen.Api.dll
   NRK.Dotnetskolen.IntegrationTests succeeded (3,3s) → test\integration\bin\Debug\net9.0\NRK.Dotnetskolen.IntegrationTests.dll
-[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.1)      
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 9.0.1)
 [xUnit.net 00:00:00.08]   Discovering: NRK.Dotnetskolen.IntegrationTests
 [xUnit.net 00:00:00.12]   Discovered:  NRK.Dotnetskolen.IntegrationTests
 [xUnit.net 00:00:00.12]   Starting:    NRK.Dotnetskolen.IntegrationTests
 info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
       Request starting HTTP/1.1 GET http://localhost/ping - - -
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /ping => Invoke'    
+      Executing endpoint 'HTTP: GET /ping => Invoke'
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'HTTP: GET /ping => Invoke'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost/ping - 200 - text/plain;+charset=utf-8 
+      Request finished HTTP/1.1 GET http://localhost/ping - 200 - text/plain;+charset=utf-8
 32.9542ms
 [xUnit.net 00:00:00.43]   Finished:    NRK.Dotnetskolen.IntegrationTests
   NRK.Dotnetskolen.IntegrationTests test succeeded (1,4s)
@@ -2332,10 +2341,10 @@ Legg deretter til følgende test etter `ping`-testen i `Tests.fs`-filen:
 ```f#
 [<Fact>]
 let ``Get EPG today returns 200 OK`` () =
-    runWithTestClient (fun httpClient -> 
+    runWithTestClient (fun httpClient ->
         task {
             let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
-            let url = $"/epg/{todayAsString}" 
+            let url = $"/epg/{todayAsString}"
             let! response = httpClient.GetAsync(url)
             response.EnsureSuccessStatusCode() |> ignore
         }
@@ -2445,7 +2454,7 @@ open System.Net
 ```f#
 [<Fact>]
 let ``Get EPG invalid date returns bad request`` () =
-    runWithTestClient (fun httpClient -> 
+    runWithTestClient (fun httpClient ->
         task {
             let invalidDateAsString = "2021-13-32"
             let url = $"/epg/{invalidDateAsString}"
@@ -2644,7 +2653,7 @@ Legg til slutt til følgende test i `Test.fs`-klassen:
 ```f#
 [<Fact>]
 let ``Get EPG today return valid response`` () =
-    runWithTestClient (fun httpClient -> 
+    runWithTestClient (fun httpClient ->
         task {
             let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
             let url = $"/epg/{todayAsString}"
@@ -2656,7 +2665,7 @@ let ``Get EPG today return valid response`` () =
             let! bodyAsString = response.Content.ReadAsStringAsync()
             let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
             let isJsonValid = jsonSchema.Evaluate(bodyAsJsonDocument, EvaluationOptions(RequireFormatValidation = true)).IsValid
-            
+
             Assert.True(isJsonValid)
         }
     )
@@ -2725,7 +2734,7 @@ Nå kan vi kalle `getEpgForDate` med den validerte datoen for å få alle sendin
 ```f#
 let epgHandler (getEpgForDate: DateOnly -> Epg) (dateAsString: string) =
     match (parseAsDate dateAsString) with
-    | Some date -> 
+    | Some date ->
         let epg = getEpgForDate date
         Results.Ok(epg)
     | None -> Results.BadRequest("Invalid date")
@@ -2760,7 +2769,7 @@ open NRK.Dotnetskolen.Dto
 ...
 let epgHandler (getEpgForDate: DateOnly -> Epg) (dateAsString: string) =
     match (parseAsDate dateAsString) with
-    | Some date -> 
+    | Some date ->
         let epg = getEpgForDate date
         let dto = fromDomain epg
         Results.Ok(dto)
@@ -2772,7 +2781,7 @@ Skrevet med `|>`-operatoren i F# ser `epgHandler`-funksjonen slik ut:
 ```f#
 let epgHandler (getEpgForDate: DateOnly -> Epg) (dateAsString: string) =
     match (parseAsDate dateAsString) with
-    | Some date -> 
+    | Some date ->
         let response =
             date
             |> getEpgForDate
@@ -2919,7 +2928,7 @@ Vi later som at vi henter sendingene våre fra en database, og implementerer der
 ```f#
 namespace NRK.Dotnetskolen.Api
 
-module DataAccess = 
+module DataAccess =
 
     open System
 
@@ -2936,7 +2945,7 @@ module DataAccess =
 Deretter kan vi definere noen sendinger i en egen liste vi kaller `database`:
 
 ```f#
-let database = 
+let database =
     [
         {
             Tittel = "Testprogram"
@@ -3028,13 +3037,14 @@ test
 Husk å legg til `Mock.fs` i prosjektfilen til integrasjonstestprosjektet:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="Mock.fs" />
     <Compile Include="Tests.fs" />
@@ -3043,9 +3053,21 @@ Husk å legg til `Mock.fs` i prosjektfilen til integrasjonstestprosjektet:
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="JsonSchema.Net" Version="7.3.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\api\NRK.Dotnetskolen.Api.fsproj" />
   </ItemGroup>
+
 </Project>
 ```
 
@@ -3111,7 +3133,7 @@ Nå har vi en egen implementasjon av `getAlleSendinger` som vi ønsker å bruke 
 ```f#
 namespace NRK.Dotnetskolen.Api
 
-module Program = 
+module Program =
 
     open System
     open Microsoft.AspNetCore.Http
@@ -3161,7 +3183,7 @@ let app = createWebApplication builder (getEpgForDate getAlleSendinger)
 ```f#
 namespace NRK.Dotnetskolen.Api
 
-module Program = 
+module Program =
 
     open System
     open Microsoft.AspNetCore.Http
@@ -3201,7 +3223,7 @@ use app = createWebApplication builder (getEpgForDate getAlleSendinger)
 Hele `runWithTestClient`-funksjonen skal nå se slik ut:
 
 ```f#
-let runWithTestClient (test: HttpClient -> Task<unit>) = 
+let runWithTestClient (test: HttpClient -> Task<unit>) =
     task {
         let builder = createWebApplicationBuilder()
         builder.WebHost.UseTestServer() |> ignore
@@ -3238,7 +3260,7 @@ I [steg 4](#steg-4---definere-domenemodell) modellerte vi tittel og kanal som `s
 
 ##### Tittel
 
-La oss ta tittel som eksempel. Dersom vi oppretter en egen type for tittel `Tittel`, og setter konstruktøren som `private` er det ingen som kan opprette en `Tittel`-verdi direkte. For å gjøre det mulig å opprette `Tittel`-verdier kan vi lage en modul med samme navn som typen vår, `Tittel`, med en `create`-funksjon i. `create`-funksjonen tar inn tittel som en `string`, validerer om den er gyldig, og returnerer en `Tittel option` avhengig av om tittelen er gyldig eller ikke. Dersom tittelen er gyldig returnerer `create`-funksjonen `Some (Tittel tittel)`, hvor `tittel` er `string`-verdien man sender inn til `create`, `Tittel` er konstruktøren til `Tittel`-typen, og `Some` er den ene konstruktøren til `option`-verdier. Dersom tittelen imidlertid er ugyldig returnerer `create`-funksjonen `None`. På tilsvarende måte som man er avhengig av `create`-funksjonen for å opprette `Tittel`-verdier, er vi også avhengig av å ha en funksjon for å hente ut den indre verdien til en tittel, selve `string`-verdien. Til det oppretter vi en `value`-funksjon. La oss se hvordan det ser ut i kode. 
+La oss ta tittel som eksempel. Dersom vi oppretter en egen type for tittel `Tittel`, og setter konstruktøren som `private` er det ingen som kan opprette en `Tittel`-verdi direkte. For å gjøre det mulig å opprette `Tittel`-verdier kan vi lage en modul med samme navn som typen vår, `Tittel`, med en `create`-funksjon i. `create`-funksjonen tar inn tittel som en `string`, validerer om den er gyldig, og returnerer en `Tittel option` avhengig av om tittelen er gyldig eller ikke. Dersom tittelen er gyldig returnerer `create`-funksjonen `Some (Tittel tittel)`, hvor `tittel` er `string`-verdien man sender inn til `create`, `Tittel` er konstruktøren til `Tittel`-typen, og `Some` er den ene konstruktøren til `option`-verdier. Dersom tittelen imidlertid er ugyldig returnerer `create`-funksjonen `None`. På tilsvarende måte som man er avhengig av `create`-funksjonen for å opprette `Tittel`-verdier, er vi også avhengig av å ha en funksjon for å hente ut den indre verdien til en tittel, selve `string`-verdien. Til det oppretter vi en `value`-funksjon. La oss se hvordan det ser ut i kode.
 
 ###### Opprette egen type
 
@@ -3252,7 +3274,7 @@ let isTittelValid (tittel: string) : bool =
     tittelRegex.IsMatch(tittel)
 
 module Tittel =
-    let create (tittel: String) : Tittel option = 
+    let create (tittel: String) : Tittel option =
         if isTittelValid tittel then
             Tittel tittel
             |> Some
@@ -3300,8 +3322,8 @@ Det første som feiler er `isSendingValid`-funksjonen i `Domain.fs`:
 
 ```f#
 let isSendingValid (sending: Sending) : bool =
-    (isTittelValid sending.Tittel) && 
-    (isKanalValid sending.Kanal) && 
+    (isTittelValid sending.Tittel) &&
+    (isKanalValid sending.Kanal) &&
     (areStartAndSluttidspunktValid sending.Starttidspunkt sending.Sluttidspunkt)
 ```
 
@@ -3309,7 +3331,7 @@ Her kaller vi `isTittelvalid` med `sending.Tittel`. Ettersom `isTittelValid` tar
 
 ```f#
 let isSendingValid (sending: Sending) : bool =
-    (isKanalValid sending.Kanal) && 
+    (isKanalValid sending.Kanal) &&
     (areStartAndSluttidspunktValid sending.Starttidspunkt sending.Sluttidspunkt)
 ```
 
@@ -3344,9 +3366,9 @@ Det neste som feiler er uthentingen av `Tittel`-verdien fra `Sending` i `fromDom
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
     let mapSendingerForKanal (kanal : string) =
-        domain 
-            |> List.filter (fun s -> s.Kanal = kanal) 
-            |> List.map (fun s -> { 
+        domain
+            |> List.filter (fun s -> s.Kanal = kanal)
+            |> List.map (fun s -> {
                 Tittel = s.Tittel
                 Starttidspunkt = s.Starttidspunkt.ToString("o")
                 Sluttidspunkt = s.Sluttidspunkt.ToString("o")
@@ -3362,9 +3384,9 @@ Her forsøker vi å sette `Tittel`-verdien til `SendingDto`-typen til en `Tittel
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
     let mapSendingerForKanal (kanal : string) =
-        domain 
-            |> List.filter (fun s -> s.Kanal = kanal) 
-            |> List.map (fun s -> { 
+        domain
+            |> List.filter (fun s -> s.Kanal = kanal)
+            |> List.map (fun s -> {
                 Tittel = Domain.Tittel.value s.Tittel
                 Starttidspunkt = s.Starttidspunkt.ToString("o")
                 Sluttidspunkt = s.Sluttidspunkt.ToString("o")
@@ -3493,7 +3515,7 @@ For å oppsummere ser `Domain.fs` nå slik ut:
 ```f#
 namespace NRK.Dotnetskolen
 
-module Domain = 
+module Domain =
 
     open System
     open System.Text.RegularExpressions
@@ -3505,7 +3527,7 @@ module Domain =
         tittelRegex.IsMatch(tittel)
 
     module Tittel =
-        let create (tittel: String) : Tittel option = 
+        let create (tittel: String) : Tittel option =
             if isTittelValid tittel then
                 Tittel tittel
                 |> Some
@@ -3528,7 +3550,7 @@ module Domain =
                 None
 
         let value (Kanal kanal) = kanal
-    
+
     type Sendetidspunkt = private {
         Starttidspunkt: DateTimeOffset
         Sluttidspunkt: DateTimeOffset
@@ -3635,9 +3657,9 @@ Legg også merke til at i koden over fjernet vi `List.filter (fun d -> isSending
 ```f#
 let fromDomain (domain : Domain.Epg) : EpgDto =
     let mapSendingerForKanal (kanal : string) =
-        domain 
-            |> List.filter (fun s -> (Domain.Kanal.value s.Kanal) = kanal) 
-            |> List.map (fun s -> { 
+        domain
+            |> List.filter (fun s -> (Domain.Kanal.value s.Kanal) = kanal)
+            |> List.map (fun s -> {
                 Tittel = Domain.Tittel.value s.Tittel
                 Starttidspunkt = s.Starttidspunkt.ToString("o")
                 Sluttidspunkt = s.Sluttidspunkt.ToString("o")
